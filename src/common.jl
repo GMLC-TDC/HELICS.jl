@@ -54,7 +54,7 @@ struct helics_message
     original_dest::Cstring
 end
 
-struct helics_error
+mutable struct helics_error
     error_code::Int32
     message::Cstring
 end
@@ -65,10 +65,10 @@ const BOOST_VERSION_LEVEL = 68
 const HELICS_VERSION_MAJOR = 2
 const HELICS_VERSION_MINOR = 0
 const HELICS_VERSION_PATCH = 0
-const HELICS_VERSION = ".0.0-bet"
-const HELICS_VERSION_BUILD = "beta.3"
-const HELICS_VERSION_STRING = "2.0.0-beta.3 (01-02-19)"
-const HELICS_DATE = "01-02-19"
+const HELICS_VERSION = ".0.0-rc1"
+const HELICS_VERSION_BUILD = "rc1"
+const HELICS_VERSION_STRING = "2.0.0-rc1 (01-18-19)"
+const HELICS_DATE = "01-18-19"
 
 @cenum(helics_data_type,
     helics_data_type_string = 0,

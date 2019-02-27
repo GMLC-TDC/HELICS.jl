@@ -1,2 +1,5 @@
-deps/*/libhelicsSharedLib.*
 deps/build.log
+deps/apple/*
+deps/linux/*
+deps/windows/*
+deps/output

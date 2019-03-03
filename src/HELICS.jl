@@ -21,9 +21,9 @@ function __init__()
 end
 
 include("lib.jl")
+include("wrapper.jl")
 
 include("utils.jl")
-include("wrapper.jl")
 
 include("api.jl")
 

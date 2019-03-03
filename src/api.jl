@@ -1,21 +1,44 @@
+import .Utils
+
+for enum_name in [
+                 Lib.helics_iteration_request,
+                 Lib.helics_iteration_result,
+                 Lib.helics_federate_state,
+                 Lib.helics_data_type,
+                 Lib.helics_core_type,
+                 Lib.helics_federate_flags,
+                 Lib.helics_log_levels,
+                 Lib.helics_error_types,
+                 Lib.helics_properties,
+                 Lib.helics_handle_options,
+                 Lib.helics_filter_type,
+                 ]
+    for sym in Lib.CEnum.enum_names(enum_name)
+        s = Symbol(uppercase(String(sym)))
+        eval(:(const $s = Lib.$sym))
+    end
+
+end
+
+
 function helicsFederateRegisterEndpoint(fed::Federate, name::String, kind::String)::Endpoint
-    @invoke_and_check Lib.helicsFederateRegisterEndpoint(fed, name, kind)
+    @Utils.invoke_and_check Lib.helicsFederateRegisterEndpoint(fed, name, kind)
 end
 
 function helicsFederateRegisterGlobalEndpoint(fed::Federate, name::String, kind::String)::Endpoint
-    @invoke_and_check Lib.helicsFederateRegisterGlobalEndpoint(fed, name, kind)
+    @Utils.invoke_and_check Lib.helicsFederateRegisterGlobalEndpoint(fed, name, kind)
 end
 
 function helicsFederateGetEndpoint(fed::Federate, name::String)::Endpoint
-    @invoke_and_check Lib.helicsFederateGetEndpoint(fed, name)
+    @Utils.invoke_and_check Lib.helicsFederateGetEndpoint(fed, name)
 end
 
 function helicsFederateGetEndpointByIndex(fed::Federate, index::Int)::Endpoint
-    @invoke_and_check Lib.helicsFederateGetEndpointByIndex(fed, index)
+    @Utils.invoke_and_check Lib.helicsFederateGetEndpointByIndex(fed, index)
 end
 
 function helicsEndpointSetDefaultDestination(endpoint::Endpoint, dest::String)
-    @invoke_and_check Lib.helicsEndpointSetDefaultDestination(endpoint, dest)
+    @Utils.invoke_and_check Lib.helicsEndpointSetDefaultDestination(endpoint, dest)
 end
 
 function helicsEndpointGetDefaultDestination(endpoint::Endpoint)::String
@@ -25,22 +48,22 @@ end
 function helicsEndpointSendMessageRaw(endpoint::Endpoint, dest::String, data::String)
     inputDataLength = length(data)
     data = pointer(data)
-    @invoke_and_check Lib.helicsEndpointSendMessageRaw(endpoint, dest, data, inputDataLength)
+    @Utils.invoke_and_check Lib.helicsEndpointSendMessageRaw(endpoint, dest, data, inputDataLength)
 end
 
 function helicsEndpointSendEventRaw(endpoint::Endpoint, dest::String, data::String, time)
     inputDataLength = length(data)
     data = pointer(data)
-    @invoke_and_check Lib.helicsEndpointSendEventRaw(endpoint, dest, data, inputDataLength, time)
+    @Utils.invoke_and_check Lib.helicsEndpointSendEventRaw(endpoint, dest, data, inputDataLength, time)
 end
 
 function helicsEndpointSendMessage(endpoint::Endpoint, message::Message)
     msg = Ref(unsafe_wrap(message))
-    @invoke_and_check Lib.helicsEndpointSendMessage(endpoint, msg)
+    @Utils.invoke_and_check Lib.helicsEndpointSendMessage(endpoint, msg)
 end
 
 function helicsEndpointSubscribe(endpoint::Endpoint, key::String)
-    @invoke_and_check Lib.helicsEndpointSubscribe(endpoint, key)
+    @Utils.invoke_and_check Lib.helicsEndpointSubscribe(endpoint, key)
 end
 
 function helicsFederateHasMessage(fed::Federate)::Bool
@@ -84,11 +107,11 @@ function helicsEndpointGetInfo(_end::Endpoint)::String
 end
 
 function helicsEndpointSetInfo(_end::Endpoint, info::String)
-    @invoke_and_check Lib.helicsEndpointSetInfo(_end, info)
+    @Utils.invoke_and_check Lib.helicsEndpointSetInfo(_end, info)
 end
 
 function helicsEndpointSetOption(_end::Endpoint, option::Int, value::Bool)
-    @invoke_and_check Lib.helicsEndpointSetOption(_end, option, value ? 1 : 0)
+    @Utils.invoke_and_check Lib.helicsEndpointSetOption(_end, option, value ? 1 : 0)
 end
 
 function helicsEndpointGetOption(_end::Endpoint, option::Int)::Bool
@@ -96,27 +119,27 @@ function helicsEndpointGetOption(_end::Endpoint, option::Int)::Bool
 end
 
 function helicsFederateRegisterFilter(fed::Federate, kind::Lib.helics_filter_type, name::String)::Filter
-    @invoke_and_check Lib.helicsFederateRegisterFilter(fed, kind, name)
+    @Utils.invoke_and_check Lib.helicsFederateRegisterFilter(fed, kind, name)
 end
 
 function helicsFederateRegisterGlobalFilter(fed::Federate, kind::Lib.helics_filter_type, name::String)::Filter
-    @invoke_and_check Lib.helicsFederateRegisterGlobalFilter(fed, kind, name)
+    @Utils.invoke_and_check Lib.helicsFederateRegisterGlobalFilter(fed, kind, name)
 end
 
 function helicsFederateRegisterCloningFilter(fed::Federate, deliveryEndpoint::String)::Filter
-    @invoke_and_check Lib.helicsFederateRegisterCloningFilter(fed, deliveryEndpoint)
+    @Utils.invoke_and_check Lib.helicsFederateRegisterCloningFilter(fed, deliveryEndpoint)
 end
 
 function helicsFederateRegisterGlobalCloningFilter(fed::Federate, deliveryEndpoint::String)::Filter
-    @invoke_and_check Lib.helicsFederateRegisterGlobalCloningFilter(fed, deliveryEndpoint)
+    @Utils.invoke_and_check Lib.helicsFederateRegisterGlobalCloningFilter(fed, deliveryEndpoint)
 end
 
 function helicsCoreRegisterFilter(core::Core, kind::Lib.helics_filter_type, name::String)::Filter
-    @invoke_and_check Lib.helicsCoreRegisterFilter(core, kind, name)
+    @Utils.invoke_and_check Lib.helicsCoreRegisterFilter(core, kind, name)
 end
 
 function helicsCoreRegisterCloningFilter(core::Core, deliveryEndpoint::String)::Filter
-    @invoke_and_check Lib.helicsCoreRegisterCloningFilter(core, deliveryEndpoint)
+    @Utils.invoke_and_check Lib.helicsCoreRegisterCloningFilter(core, deliveryEndpoint)
 end
 
 function helicsFederateGetFilterCount(fed::Federate)::Int
@@ -124,11 +147,11 @@ function helicsFederateGetFilterCount(fed::Federate)::Int
 end
 
 function helicsFederateGetFilter(fed::Federate, name::String)::Filter
-    @invoke_and_check Lib.helicsFederateGetFilter(fed, name)
+    @Utils.invoke_and_check Lib.helicsFederateGetFilter(fed, name)
 end
 
 function helicsFederateGetFilterByIndex(fed::Federate, index::Int)::Filter
-    @invoke_and_check Lib.helicsFederateGetFilterByIndex(fed, index)
+    @Utils.invoke_and_check Lib.helicsFederateGetFilterByIndex(fed, index)
 end
 
 function helicsFilterGetName(filt::Filter)::String
@@ -136,31 +159,31 @@ function helicsFilterGetName(filt::Filter)::String
 end
 
 function helicsFilterSet(filt::Filter, prop::String, val::Float64)
-    @invoke_and_check Lib.helicsFilterSet(filt, prop, val)
+    @Utils.invoke_and_check Lib.helicsFilterSet(filt, prop, val)
 end
 
 function helicsFilterSetString(filt::Filter, prop::String, val::String)
-    @invoke_and_check Lib.helicsFilterSetString(filt, prop, val)
+    @Utils.invoke_and_check Lib.helicsFilterSetString(filt, prop, val)
 end
 
 function helicsFilterAddDestinationTarget(filt::Filter, dest::String)
-    @invoke_and_check Lib.helicsFilterAddDestinationTarget(filt, dest)
+    @Utils.invoke_and_check Lib.helicsFilterAddDestinationTarget(filt, dest)
 end
 
 function helicsFilterAddSourceTarget(filt::Filter, source::String)
-    @invoke_and_check Lib.helicsFilterAddSourceTarget(filt, source)
+    @Utils.invoke_and_check Lib.helicsFilterAddSourceTarget(filt, source)
 end
 
 function helicsFilterAddDeliveryEndpoint(filt::Filter, deliveryEndpoint::String)
-    @invoke_and_check Lib.helicsFilterAddDeliveryEndpoint(filt, deliveryEndpoint)
+    @Utils.invoke_and_check Lib.helicsFilterAddDeliveryEndpoint(filt, deliveryEndpoint)
 end
 
 function helicsFilterRemoveTarget(filt::Filter, target::String)
-    @invoke_and_check Lib.helicsFilterRemoveTarget(filt, target)
+    @Utils.invoke_and_check Lib.helicsFilterRemoveTarget(filt, target)
 end
 
 function helicsFilterRemoveDeliveryEndpoint(filt::Filter, deliveryEndpoint::String)
-    @invoke_and_check Lib.helicsFilterRemoveDeliveryEndpoint(filt, deliveryEndpoint)
+    @Utils.invoke_and_check Lib.helicsFilterRemoveDeliveryEndpoint(filt, deliveryEndpoint)
 end
 
 function helicsFilterGetInfo(filt::Filter)::String
@@ -168,122 +191,122 @@ function helicsFilterGetInfo(filt::Filter)::String
 end
 
 function helicsFilterSetInfo(filt::Filter, info::String)
-    @invoke_and_check Lib.helicsFilterSetInfo(filt, info)
+    @Utils.invoke_and_check Lib.helicsFilterSetInfo(filt, info)
 end
 
 function helicsFilterSetOption(filt::Filter, option::Int, value::Bool)
-    @invoke_and_check Lib.helicsFilterSetOption(filt, option, value ? 1 : 0)
+    @Utils.invoke_and_check Lib.helicsFilterSetOption(filt, option, value ? 1 : 0)
 end
 
 function helicsFilterGetOption(filt::Filter, option::Int)
-    @invoke_and_check Lib.helicsFilterGetOption(filt, option)
+    @Utils.invoke_and_check Lib.helicsFilterGetOption(filt, option)
 end
 
 function helicsFederateRegisterSubscription(fed::Federate, key::String, units::String="")::Subscription
-    @invoke_and_check Lib.helicsFederateRegisterSubscription(fed, key, units)
+    @Utils.invoke_and_check Lib.helicsFederateRegisterSubscription(fed, key, units)
 end
 
 function helicsFederateRegisterPublication(fed::Federate, key::String, kind::Lib.helics_data_type, units::String="")::Publication
-    @invoke_and_check Lib.helicsFederateRegisterPublication(fed, key, kind, units)
+    @Utils.invoke_and_check Lib.helicsFederateRegisterPublication(fed, key, kind, units)
 end
 
 function helicsFederateRegisterTypePublication(fed::Federate, key::String, kind::String, units::String="")::Publication
-    @invoke_and_check Lib.helicsFederateRegisterTypePublication(fed, key, kind, units)
+    @Utils.invoke_and_check Lib.helicsFederateRegisterTypePublication(fed, key, kind, units)
 end
 
 function helicsFederateRegisterGlobalPublication(fed::Federate, key::String, kind::Lib.helics_data_type, units::String="")::Publication
-    @invoke_and_check Lib.helicsFederateRegisterGlobalPublication(fed, key, kind, units)
+    @Utils.invoke_and_check Lib.helicsFederateRegisterGlobalPublication(fed, key, kind, units)
 end
 
 function helicsFederateRegisterGlobalTypePublication(fed::Federate, key::String, kind::String, units::String="")::Publication
-    @invoke_and_check Lib.helicsFederateRegisterGlobalTypePublication(fed, key, kind, units)
+    @Utils.invoke_and_check Lib.helicsFederateRegisterGlobalTypePublication(fed, key, kind, units)
 end
 
 function helicsFederateRegisterInput(fed::Federate, key::String, kind::String, units::String="")::Input
-    @invoke_and_check Lib.helicsFederateRegisterInput(fed, key, kind, units)
+    @Utils.invoke_and_check Lib.helicsFederateRegisterInput(fed, key, kind, units)
 end
 
 function helicsFederateRegisterTypeInput(fed::Federate, key::String, kind::String, units::String="")::Input
-    @invoke_and_check Lib.helicsFederateRegisterTypeInput(fed, key, kind, units)
+    @Utils.invoke_and_check Lib.helicsFederateRegisterTypeInput(fed, key, kind, units)
 end
 
 function helicsFederateRegisterGlobalInput(fed::Federate, key::String, kind::String, units::String="")::Input
-    @invoke_and_check Lib.helicsFederateRegisterGlobalInput(fed, key, kind, units)
+    @Utils.invoke_and_check Lib.helicsFederateRegisterGlobalInput(fed, key, kind, units)
 end
 
 function helicsFederateRegisterGlobalTypeInput(fed::Federate, key::String, kind::String, units::String="")::Input
-    @invoke_and_check Lib.helicsFederateRegisterGlobalTypeInput(fed, key, kind, units)
+    @Utils.invoke_and_check Lib.helicsFederateRegisterGlobalTypeInput(fed, key, kind, units)
 end
 
 function helicsFederateGetPublication(fed::Federate, key::String)::Publication
-    @invoke_and_check Lib.helicsFederateGetPublication(fed, key)
+    @Utils.invoke_and_check Lib.helicsFederateGetPublication(fed, key)
 end
 
 function helicsFederateGetPublicationByIndex(fed::Federate, index::Int)::Publication
-    @invoke_and_check Lib.helicsFederateGetPublicationByIndex(fed, index)
+    @Utils.invoke_and_check Lib.helicsFederateGetPublicationByIndex(fed, index)
 end
 
 function helicsFederateGetInput(fed::Federate, key::String)::Input
-    @invoke_and_check Lib.helicsFederateGetInput(fed, key)
+    @Utils.invoke_and_check Lib.helicsFederateGetInput(fed, key)
 end
 
 function helicsFederateGetInputByIndex(fed::Federate, index::Int)::Input
-    @invoke_and_check Lib.helicsFederateGetInputByIndex(fed, index)
+    @Utils.invoke_and_check Lib.helicsFederateGetInputByIndex(fed, index)
 end
 
 function helicsFederateGetSubscription(fed::Federate, key::String)::Subscription
-    @invoke_and_check Lib.helicsFederateGetSubscription(fed, key)
+    @Utils.invoke_and_check Lib.helicsFederateGetSubscription(fed, key)
 end
 
 function helicsPublicationPublishRaw(pub::Publication, data)
     inputDataLength = length(data)
     data = pointer(data)
-    @invoke_and_check Lib.helicsPublicationPublishRaw(pub, data, inputDataLength)
+    @Utils.invoke_and_check Lib.helicsPublicationPublishRaw(pub, data, inputDataLength)
 end
 
 function helicsPublicationPublishString(pub::Publication, str::String)
-    @invoke_and_check Lib.helicsPublicationPublishString(pub, str)
+    @Utils.invoke_and_check Lib.helicsPublicationPublishString(pub, str)
 end
 
 function helicsPublicationPublishInteger(pub::Publication, val)
-    @invoke_and_check Lib.helicsPublicationPublishInteger(pub, val)
+    @Utils.invoke_and_check Lib.helicsPublicationPublishInteger(pub, val)
 end
 
 function helicsPublicationPublishBoolean(pub::Publication, val::Bool)
-    @invoke_and_check Lib.helicsPublicationPublishBoolean(pub, val ? 1 : 0)
+    @Utils.invoke_and_check Lib.helicsPublicationPublishBoolean(pub, val ? 1 : 0)
 end
 
 function helicsPublicationPublishDouble(pub::Publication, val::Float64)
-    @invoke_and_check Lib.helicsPublicationPublishDouble(pub, val)
+    @Utils.invoke_and_check Lib.helicsPublicationPublishDouble(pub, val)
 end
 
 function helicsPublicationPublishTime(pub::Publication, val)
-    @invoke_and_check Lib.helicsPublicationPublishTime(pub, val)
+    @Utils.invoke_and_check Lib.helicsPublicationPublishTime(pub, val)
 end
 
 function helicsPublicationPublishChar(pub::Publication, val::Char)
-    @invoke_and_check Lib.helicsPublicationPublishChar(pub, val)
+    @Utils.invoke_and_check Lib.helicsPublicationPublishChar(pub, val)
 end
 
 function helicsPublicationPublishComplex(pub::Publication, c::ComplexF64)
-    @invoke_and_check Lib.helicsPublicationPublishComplex(pub, c.re, c.im)
+    @Utils.invoke_and_check Lib.helicsPublicationPublishComplex(pub, c.re, c.im)
 end
 
 function helicsPublicationPublishVector(pub::Publication, vectorInput)
     vectorLength = length(vectorInput)
-    @invoke_and_check Lib.helicsPublicationPublishVector(pub, vectorInput, vectorLength)
+    @Utils.invoke_and_check Lib.helicsPublicationPublishVector(pub, vectorInput, vectorLength)
 end
 
 function helicsPublicationPublishNamedPoint(pub::Publication, str::String, val::Float64)
-    @invoke_and_check Lib.helicsPublicationPublishNamedPoint(pub, str, val)
+    @Utils.invoke_and_check Lib.helicsPublicationPublishNamedPoint(pub, str, val)
 end
 
 function helicsPublicationAddTarget(pub::Publication, target::String)
-    @invoke_and_check Lib.helicsPublicationAddTarget(pub, target)
+    @Utils.invoke_and_check Lib.helicsPublicationAddTarget(pub, target)
 end
 
 function helicsInputAddTarget(ipt::Input, target::String)
-    @invoke_and_check Lib.helicsInputAddTarget(ipt, target)
+    @Utils.invoke_and_check Lib.helicsInputAddTarget(ipt, target)
 end
 
 function helicsInputGetRawValueSize(ipt::Input)::Int
@@ -291,7 +314,7 @@ function helicsInputGetRawValueSize(ipt::Input)::Int
 end
 
 function helicsInputGetRawValue(ipt::Input, data, maxlen, actualSize)
-    @invoke_and_check Lib.helicsInputGetRawValue(ipt, data, maxlen, actualSize)
+    @Utils.invoke_and_check Lib.helicsInputGetRawValue(ipt, data, maxlen, actualSize)
 end
 
 function helicsInputGetStringSize(ipt::Input)
@@ -302,39 +325,39 @@ function helicsInputGetString(ipt::Input)::String
     maxStringLen = helicsInputGetStringSize(ipt)
     outputString = repeat(" ", maxStringLen + 2)
     actualLength = Ref(maxStringLen)
-    @invoke_and_check Lib.helicsInputGetString(ipt, outputString, maxStringLen, actualLength)
+    @Utils.invoke_and_check Lib.helicsInputGetString(ipt, outputString, maxStringLen, actualLength)
     return outputString[1:(actualLength[]-1)]
 end
 
 function helicsInputGetInteger(ipt::Input)
-    @invoke_and_check Lib.helicsInputGetInteger(ipt)
+    @Utils.invoke_and_check Lib.helicsInputGetInteger(ipt)
 end
 
 function helicsInputGetBoolean(ipt::Input)::Bool
-    r = @invoke_and_check Lib.helicsInputGetBoolean(ipt)
+    r = @Utils.invoke_and_check Lib.helicsInputGetBoolean(ipt)
     return r == 1 ? true : false
 end
 
 function helicsInputGetDouble(ipt::Input)::Float64
-    @invoke_and_check Lib.helicsInputGetDouble(ipt)
+    @Utils.invoke_and_check Lib.helicsInputGetDouble(ipt)
 end
 
 function helicsInputGetTime(ipt::Input)
-    @invoke_and_check Lib.helicsInputGetTime(ipt)
+    @Utils.invoke_and_check Lib.helicsInputGetTime(ipt)
 end
 
 function helicsInputGetChar(ipt::Input)::Char
-    @invoke_and_check Lib.helicsInputGetChar(ipt)
+    @Utils.invoke_and_check Lib.helicsInputGetChar(ipt)
 end
 
 function helicsInputGetComplexObject(ipt::Input)
-    @invoke_and_check Lib.helicsInputGetComplexObject(ipt)
+    @Utils.invoke_and_check Lib.helicsInputGetComplexObject(ipt)
 end
 
 function helicsInputGetComplex(ipt::Input)::ComplexF64
     real = Ref{Float64}(0)
     imag = Ref{Float64}(0)
-    @invoke_and_check Lib.helicsInputGetComplex(ipt, real, imag)
+    @Utils.invoke_and_check Lib.helicsInputGetComplex(ipt, real, imag)
     return real[] + im * imag[]
 end
 
@@ -346,7 +369,7 @@ function helicsInputGetVector(ipt::Input)::Vector{Float64}
     maxlen = Cint(helicsInputGetVectorSize(ipt))
     data = Vector{Float64}(undef, maxlen)
     actualSize = Ref(maxlen)
-    @invoke_and_check Lib.helicsInputGetVector(ipt, data, maxlen, actualSize)
+    @Utils.invoke_and_check Lib.helicsInputGetVector(ipt, data, maxlen, actualSize)
     return data[1:actualSize[]]
 end
 
@@ -355,49 +378,49 @@ function helicsInputGetNamedPoint(ipt::Input)::Tuple{String, Float64}
     outputString = repeat(" ", maxStringLen + 2)
     actualLength = Ref(maxStringLen)
     val = Ref{Float64}(0.0)
-    @invoke_and_check Lib.helicsInputGetNamedPoint(ipt, outputString, maxStringLen, actualLength, val)
+    @Utils.invoke_and_check Lib.helicsInputGetNamedPoint(ipt, outputString, maxStringLen, actualLength, val)
     return outputString[1:(actualLength[]-1)], val[]
 end
 
 function helicsInputSetDefaultRaw(ipt::Input, data, inputDataLength)
-    @invoke_and_check Lib.helicsInputSetDefaultRaw(ipt, data, inputDataLength)
+    @Utils.invoke_and_check Lib.helicsInputSetDefaultRaw(ipt, data, inputDataLength)
 end
 
 function helicsInputSetDefaultString(ipt::Input, str::String)
-    @invoke_and_check Lib.helicsInputSetDefaultString(ipt, str)
+    @Utils.invoke_and_check Lib.helicsInputSetDefaultString(ipt, str)
 end
 
 function helicsInputSetDefaultInteger(ipt::Input, val::Int)
-    @invoke_and_check Lib.helicsInputSetDefaultInteger(ipt, val)
+    @Utils.invoke_and_check Lib.helicsInputSetDefaultInteger(ipt, val)
 end
 
 function helicsInputSetDefaultBoolean(ipt::Input, val::Bool)
-    @invoke_and_check Lib.helicsInputSetDefaultBoolean(ipt, val ? 1 : 0)
+    @Utils.invoke_and_check Lib.helicsInputSetDefaultBoolean(ipt, val ? 1 : 0)
 end
 
 function helicsInputSetDefaultTime(ipt::Input, val)
-    @invoke_and_check Lib.helicsInputSetDefaultTime(ipt, val)
+    @Utils.invoke_and_check Lib.helicsInputSetDefaultTime(ipt, val)
 end
 
 function helicsInputSetDefaultChar(ipt::Input, val::Char)
-    @invoke_and_check Lib.helicsInputSetDefaultChar(ipt, val)
+    @Utils.invoke_and_check Lib.helicsInputSetDefaultChar(ipt, val)
 end
 
 function helicsInputSetDefaultDouble(ipt::Input, val::Float64)
-    @invoke_and_check Lib.helicsInputSetDefaultDouble(ipt, val)
+    @Utils.invoke_and_check Lib.helicsInputSetDefaultDouble(ipt, val)
 end
 
 function helicsInputSetDefaultComplex(ipt::Input, c::ComplexF64)
-    @invoke_and_check Lib.helicsInputSetDefaultComplex(ipt, c.re, c.im)
+    @Utils.invoke_and_check Lib.helicsInputSetDefaultComplex(ipt, c.re, c.im)
 end
 
 function helicsInputSetDefaultVector(ipt::Input, vectorInput::Vector{Float64})
     vectorLength = length(vectorInput)
-    @invoke_and_check Lib.helicsInputSetDefaultVector(ipt, vectorInput, vectorLength)
+    @Utils.invoke_and_check Lib.helicsInputSetDefaultVector(ipt, vectorInput, vectorLength)
 end
 
 function helicsInputSetDefaultNamedPoint(ipt::Input, str::String, val::Float64)
-    @invoke_and_check Lib.helicsInputSetDefaultNamedPoint(ipt, str, val)
+    @Utils.invoke_and_check Lib.helicsInputSetDefaultNamedPoint(ipt, str, val)
 end
 
 function helicsInputGetType(ipt::Input)::String
@@ -437,7 +460,7 @@ function helicsInputGetInfo(inp::Input)::String
 end
 
 function helicsInputSetInfo(inp::Input, info::String)
-    @invoke_and_check Lib.helicsInputSetInfo(inp, info)
+    @Utils.invoke_and_check Lib.helicsInputSetInfo(inp, info)
 end
 
 function helicsPublicationGetInfo(pub::Publication)::String
@@ -445,7 +468,7 @@ function helicsPublicationGetInfo(pub::Publication)::String
 end
 
 function helicsPublicationSetInfo(pub::Publication, info::String)
-    @invoke_and_check Lib.helicsPublicationSetInfo(pub, info)
+    @Utils.invoke_and_check Lib.helicsPublicationSetInfo(pub, info)
 end
 
 function helicsInputGetOption(inp::Input, option::Int)
@@ -453,7 +476,7 @@ function helicsInputGetOption(inp::Input, option::Int)
 end
 
 function helicsInputSetOption(inp::Input, option::Int, value::Bool)
-    @invoke_and_check Lib.helicsInputSetOption(inp, option, value ? 1 : 0)
+    @Utils.invoke_and_check Lib.helicsInputSetOption(inp, option, value ? 1 : 0)
 end
 
 function helicsPublicationGetOption(pub::Publication, option::Int)
@@ -461,7 +484,7 @@ function helicsPublicationGetOption(pub::Publication, option::Int)
 end
 
 function helicsPublicationSetOption(pub::Publication, option::Int, val::Bool)
-    @invoke_and_check Lib.helicsPublicationSetOption(pub, option, val ? 1 : 0)
+    @Utils.invoke_and_check Lib.helicsPublicationSetOption(pub, option, val ? 1 : 0)
 end
 
 function helicsInputIsUpdated(ipt::Input)::Bool
@@ -481,7 +504,7 @@ function helicsFederateGetInputCount(fed::Federate)::Int
 end
 
 function helicsGetVersion()
-    return unsafe_string(Lib.helicsGetVersion())
+    return Lib.helicsGetVersion() |> unsafe_string
 end
 
 function helicsErrorInitialize()
@@ -497,15 +520,15 @@ function helicsIsCoreTypeAvailable(kind::String)::Bool
 end
 
 function helicsCreateCore(kind::String, name::String, initString::String)::Core
-    @invoke_and_check Lib.helicsCreateCore(kind, name, initString)
+    @Utils.invoke_and_check Lib.helicsCreateCore(kind, name, initString)
 end
 
 function helicsCreateCoreFromArgs(kind::String, name::String, argc, argv)::Core
-    @invoke_and_check Lib.helicsCreateCoreFromArgs(kind, name, argc, argv)
+    @Utils.invoke_and_check Lib.helicsCreateCoreFromArgs(kind, name, argc, argv)
 end
 
 function helicsCoreClone(core::Core)::Core
-    @invoke_and_check Lib.helicsCoreClone(core)
+    @Utils.invoke_and_check Lib.helicsCoreClone(core)
 end
 
 function helicsCoreIsValid(core::Core)::Bool
@@ -513,15 +536,15 @@ function helicsCoreIsValid(core::Core)::Bool
 end
 
 function helicsCreateBroker(kind::String, name::String, initString::String)::Broker
-    @invoke_and_check Lib.helicsCreateBroker(kind, name, initString)
+    @Utils.invoke_and_check Lib.helicsCreateBroker(kind, name, initString)
 end
 
 function helicsCreateBrokerFromArgs(kind::String, name::String, argc, argv)
-    @invoke_and_check Lib.helicsCreateBrokerFromArgs(kind, name, argc, argv)
+    @Utils.invoke_and_check Lib.helicsCreateBrokerFromArgs(kind, name, argc, argv)
 end
 
 function helicsBrokerClone(broker::Broker)::Broker
-    @invoke_and_check Lib.helicsBrokerClone(broker)
+    @Utils.invoke_and_check Lib.helicsBrokerClone(broker)
 end
 
 function helicsBrokerIsValid(broker::Broker)::Bool
@@ -533,19 +556,19 @@ function helicsBrokerIsConnected(broker::Broker)::Bool
 end
 
 function helicsBrokerDataLink(broker::Broker, source::String, target::String)
-    @invoke_and_check Lib.helicsBrokerDataLink(broker, source, target)
+    @Utils.invoke_and_check Lib.helicsBrokerDataLink(broker, source, target)
 end
 
 function helicsBrokerAddSourceFilterToEndpoint(broker::Broker, filter, endpoint::Endpoint)
-    @invoke_and_check Lib.helicsBrokerAddSourceFilterToEndpoint(broker, filter, endpoint)
+    @Utils.invoke_and_check Lib.helicsBrokerAddSourceFilterToEndpoint(broker, filter, endpoint)
 end
 
 function helicsBrokerAddDestinationFilterToEndpoint(broker::Broker, filter, endpoint::Endpoint)
-    @invoke_and_check Lib.helicsBrokerAddDestinationFilterToEndpoint(broker, filter, endpoint)
+    @Utils.invoke_and_check Lib.helicsBrokerAddDestinationFilterToEndpoint(broker, filter, endpoint)
 end
 
 function helicsBrokerWaitForDisconnect(broker::Broker, msToWait)
-    @invoke_and_check Lib.helicsBrokerWaitForDisconnect(broker, msToWait)
+    @Utils.invoke_and_check Lib.helicsBrokerWaitForDisconnect(broker, msToWait)
 end
 
 function helicsCoreIsConnected(core::Core)::Bool
@@ -553,15 +576,15 @@ function helicsCoreIsConnected(core::Core)::Bool
 end
 
 function helicsCoreDataLink(core::Core, source::String, target::String)
-    @invoke_and_check Lib.helicsCoreDataLink(core, source, target)
+    @Utils.invoke_and_check Lib.helicsCoreDataLink(core, source, target)
 end
 
 function helicsCoreAddSourceFilterToEndpoint(core::Core, filter, endpoint::Endpoint)
-    @invoke_and_check Lib.helicsCoreAddSourceFilterToEndpoint(core, filter, endpoint)
+    @Utils.invoke_and_check Lib.helicsCoreAddSourceFilterToEndpoint(core, filter, endpoint)
 end
 
 function helicsCoreAddDestinationFilterToEndpoint(core::Core, filter, endpoint::Endpoint)
-    @invoke_and_check Lib.helicsCoreAddDestinationFilterToEndpoint(core, filter, endpoint)
+    @Utils.invoke_and_check Lib.helicsCoreAddDestinationFilterToEndpoint(core, filter, endpoint)
 end
 
 function helicsBrokerGetIdentifier(broker::Broker)::String
@@ -577,19 +600,19 @@ function helicsBrokerGetAddress(broker::Broker)::String
 end
 
 function helicsCoreSetReadyToInit(core::Core)
-    @invoke_and_check Lib.helicsCoreSetReadyToInit(core)
+    @Utils.invoke_and_check Lib.helicsCoreSetReadyToInit(core)
 end
 
 function helicsCoreDisconnect(core::Core)
-    @invoke_and_check Lib.helicsCoreDisconnect(core)
+    @Utils.invoke_and_check Lib.helicsCoreDisconnect(core)
 end
 
 function helicsGetFederateByName(fedName::String)::CombinationFederate
-    @invoke_and_check Lib.helicsGetFederateByName(fedName)
+    @Utils.invoke_and_check Lib.helicsGetFederateByName(fedName)
 end
 
 function helicsBrokerDisconnect(broker::Broker)
-    @invoke_and_check Lib.helicsBrokerDisconnect(broker)
+    @Utils.invoke_and_check Lib.helicsBrokerDisconnect(broker)
 end
 
 function helicsFederateDestroy(fed::Federate)
@@ -613,31 +636,31 @@ function helicsBrokerFree(broker::Broker)
 end
 
 function helicsCreateValueFederate(fedName::String, fi::FederateInfo)::ValueFederate
-    @invoke_and_check Lib.helicsCreateValueFederate(fedName, fi)
+    @Utils.invoke_and_check Lib.helicsCreateValueFederate(fedName, fi)
 end
 
 function helicsCreateValueFederateFromConfig(configFile)::ValueFederate
-    @invoke_and_check Lib.helicsCreateValueFederateFromConfig(configFile)
+    @Utils.invoke_and_check Lib.helicsCreateValueFederateFromConfig(configFile)
 end
 
 function helicsCreateMessageFederate(fedName::String, fi::FederateInfo)::MessageFederate
-    @invoke_and_check Lib.helicsCreateMessageFederate(fedName, fi)
+    @Utils.invoke_and_check Lib.helicsCreateMessageFederate(fedName, fi)
 end
 
 function helicsCreateMessageFederateFromConfig(configFile)::MessageFederate
-    @invoke_and_check Lib.helicsCreateMessageFederateFromConfig(configFile)
+    @Utils.invoke_and_check Lib.helicsCreateMessageFederateFromConfig(configFile)
 end
 
 function helicsCreateCombinationFederate(fedName::String, fi::FederateInfo)::CombinationFederate
-    @invoke_and_check Lib.helicsCreateCombinationFederate(fedName, fi)
+    @Utils.invoke_and_check Lib.helicsCreateCombinationFederate(fedName, fi)
 end
 
 function helicsCreateCombinationFederateFromConfig(configFile)::CombinationFederate
-    @invoke_and_check Lib.helicsCreateCombinationFederateFromConfig(configFile)
+    @Utils.invoke_and_check Lib.helicsCreateCombinationFederateFromConfig(configFile)
 end
 
 function helicsFederateClone(fed::T)::T where T <: Federate
-    @invoke_and_check Lib.helicsFederateClone(fed)
+    @Utils.invoke_and_check Lib.helicsFederateClone(fed)
 end
 
 function helicsCreateFederateInfo()::FederateInfo
@@ -645,11 +668,11 @@ function helicsCreateFederateInfo()::FederateInfo
 end
 
 function helicsFederateInfoClone(fi::FederateInfo)::FederateInfo
-    @invoke_and_check Lib.helicsFederateInfoClone(fi)
+    @Utils.invoke_and_check Lib.helicsFederateInfoClone(fi)
 end
 
 function helicsFederateInfoLoadFromArgs(fi::FederateInfo, argc, argv)
-    @invoke_and_check Lib.helicsFederateInfoLoadFromArgs(fi, argc, argv)
+    @Utils.invoke_and_check Lib.helicsFederateInfoLoadFromArgs(fi, argc, argv)
 end
 
 function helicsFederateInfoFree(fi::FederateInfo)
@@ -661,31 +684,31 @@ function helicsFederateIsValid(fed::Federate)::Bool
 end
 
 function helicsFederateInfoSetCoreName(fi::FederateInfo, corename::String)
-    @invoke_and_check Lib.helicsFederateInfoSetCoreName(fi, corename)
+    @Utils.invoke_and_check Lib.helicsFederateInfoSetCoreName(fi, corename)
 end
 
 function helicsFederateInfoSetCoreInitString(fi::FederateInfo, coreInit::String)
-    @invoke_and_check Lib.helicsFederateInfoSetCoreInitString(fi, coreInit)
+    @Utils.invoke_and_check Lib.helicsFederateInfoSetCoreInitString(fi, coreInit)
 end
 
 function helicsFederateInfoSetCoreType(fi::FederateInfo, coretype::Int)
-    @invoke_and_check Lib.helicsFederateInfoSetCoreType(fi, coretype)
+    @Utils.invoke_and_check Lib.helicsFederateInfoSetCoreType(fi, coretype)
 end
 
 function helicsFederateInfoSetCoreTypeFromString(fi::FederateInfo, coretype::String)
-    @invoke_and_check Lib.helicsFederateInfoSetCoreTypeFromString(fi, coretype)
+    @Utils.invoke_and_check Lib.helicsFederateInfoSetCoreTypeFromString(fi, coretype)
 end
 
 function helicsFederateInfoSetBroker(fi::FederateInfo, broker::Broker)
-    @invoke_and_check Lib.helicsFederateInfoSetBroker(fi, broker)
+    @Utils.invoke_and_check Lib.helicsFederateInfoSetBroker(fi, broker)
 end
 
 function helicsFederateInfoSetBrokerPort(fi::FederateInfo, brokerPort::Int)
-    @invoke_and_check Lib.helicsFederateInfoSetBrokerPort(fi, brokerPort)
+    @Utils.invoke_and_check Lib.helicsFederateInfoSetBrokerPort(fi, brokerPort)
 end
 
 function helicsFederateInfoSetLocalPort(fi::FederateInfo, localPort::Int)
-    @invoke_and_check Lib.helicsFederateInfoSetLocalPort(fi, localPort)
+    @Utils.invoke_and_check Lib.helicsFederateInfoSetLocalPort(fi, localPort)
 end
 
 function helicsGetPropertyIndex(val)
@@ -697,35 +720,35 @@ function helicsGetOptionIndex(val)
 end
 
 function helicsFederateInfoSetFlagOption(fi::FederateInfo, flag::Int, value::Bool)
-    @invoke_and_check Lib.helicsFederateInfoSetFlagOption(fi, flag, value ? 1 : 0)
+    @Utils.invoke_and_check Lib.helicsFederateInfoSetFlagOption(fi, flag, value ? 1 : 0)
 end
 
 function helicsFederateInfoSetSeparator(fi::FederateInfo, separator::Char)
-    @invoke_and_check Lib.helicsFederateInfoSetSeparator(fi, separator)
+    @Utils.invoke_and_check Lib.helicsFederateInfoSetSeparator(fi, separator)
 end
 
 function helicsFederateInfoSetTimeProperty(fi::FederateInfo, timeProperty::Lib.helics_properties, propertyValue)
-    @invoke_and_check Lib.helicsFederateInfoSetTimeProperty(fi, timeProperty, propertyValue)
+    @Utils.invoke_and_check Lib.helicsFederateInfoSetTimeProperty(fi, timeProperty, propertyValue)
 end
 
 function helicsFederateInfoSetIntegerProperty(fi::FederateInfo, intProperty::Lib.helics_properties, propertyValue)
-    @invoke_and_check Lib.helicsFederateInfoSetIntegerProperty(fi, intProperty, propertyValue)
+    @Utils.invoke_and_check Lib.helicsFederateInfoSetIntegerProperty(fi, intProperty, propertyValue)
 end
 
 function helicsFederateRegisterInterfaces(fed::Federate, file)
-    @invoke_and_check Lib.helicsFederateRegisterInterfaces(fed, file)
+    @Utils.invoke_and_check Lib.helicsFederateRegisterInterfaces(fed, file)
 end
 
 function helicsFederateFinalize(fed::Federate)
-    @invoke_and_check Lib.helicsFederateFinalize(fed)
+    @Utils.invoke_and_check Lib.helicsFederateFinalize(fed)
 end
 
 function helicsFederateFinalizeAsync(fed::Federate)
-    @invoke_and_check Lib.helicsFederateFinalizeAsync(fed)
+    @Utils.invoke_and_check Lib.helicsFederateFinalizeAsync(fed)
 end
 
 function helicsFederateFinalizeComplete(fed::Federate)
-    @invoke_and_check Lib.helicsFederateFinalizeComplete(fed)
+    @Utils.invoke_and_check Lib.helicsFederateFinalizeComplete(fed)
 end
 
 function helicsFederateFree(fed::Federate)
@@ -737,80 +760,80 @@ function helicsCloseLibrary()
 end
 
 function helicsFederateEnterInitializingMode(fed::Federate)
-    @invoke_and_check Lib.helicsFederateEnterInitializingMode(fed)
+    @Utils.invoke_and_check Lib.helicsFederateEnterInitializingMode(fed)
 end
 
 function helicsFederateEnterInitializingModeAsync(fed::Federate)
-    @invoke_and_check Lib.helicsFederateEnterInitializingModeAsync(fed)
+    @Utils.invoke_and_check Lib.helicsFederateEnterInitializingModeAsync(fed)
 end
 
 function helicsFederateIsAsyncOperationCompleted(fed::Federate)::Bool
-    r = @invoke_and_check Lib.helicsFederateIsAsyncOperationCompleted(fed)
+    r = @Utils.invoke_and_check Lib.helicsFederateIsAsyncOperationCompleted(fed)
     return r == 1 ? true : false
 end
 
 function helicsFederateEnterInitializingModeComplete(fed::Federate)
-    @invoke_and_check Lib.helicsFederateEnterInitializingModeComplete(fed)
+    @Utils.invoke_and_check Lib.helicsFederateEnterInitializingModeComplete(fed)
 end
 
 function helicsFederateEnterExecutingMode(fed::Federate)
-    @invoke_and_check Lib.helicsFederateEnterExecutingMode(fed)
+    @Utils.invoke_and_check Lib.helicsFederateEnterExecutingMode(fed)
 end
 
 function helicsFederateEnterExecutingModeAsync(fed::Federate)
-    @invoke_and_check Lib.helicsFederateEnterExecutingModeAsync(fed)
+    @Utils.invoke_and_check Lib.helicsFederateEnterExecutingModeAsync(fed)
 end
 
 function helicsFederateEnterExecutingModeComplete(fed::Federate)
-    @invoke_and_check Lib.helicsFederateEnterExecutingModeComplete(fed)
+    @Utils.invoke_and_check Lib.helicsFederateEnterExecutingModeComplete(fed)
 end
 
 function helicsFederateEnterExecutingModeIterative(fed::Federate, iterate)
-    @invoke_and_check Lib.helicsFederateEnterExecutingModeIterative(fed, iterate)
+    @Utils.invoke_and_check Lib.helicsFederateEnterExecutingModeIterative(fed, iterate)
 end
 
 function helicsFederateEnterExecutingModeIterativeAsync(fed::Federate, iterate)
-    @invoke_and_check Lib.helicsFederateEnterExecutingModeIterativeAsync(fed, iterate)
+    @Utils.invoke_and_check Lib.helicsFederateEnterExecutingModeIterativeAsync(fed, iterate)
 end
 
 function helicsFederateEnterExecutingModeIterativeComplete(fed::Federate)
-    @invoke_and_check Lib.helicsFederateEnterExecutingModeIterativeComplete(fed)
+    @Utils.invoke_and_check Lib.helicsFederateEnterExecutingModeIterativeComplete(fed)
 end
 
 function helicsFederateGetState(fed::Federate)::Int
-    @invoke_and_check Lib.helicsFederateGetState(fed)
+    @Utils.invoke_and_check Lib.helicsFederateGetState(fed)
 end
 
 function helicsFederateGetCoreObject(fed::Federate)::Core
-    @invoke_and_check Lib.helicsFederateGetCoreObject(fed)
+    @Utils.invoke_and_check Lib.helicsFederateGetCoreObject(fed)
 end
 
 function helicsFederateRequestTime(fed::Federate, requestTime::Float64)::Float64
-    @invoke_and_check Lib.helicsFederateRequestTime(fed, requestTime)
+    @Utils.invoke_and_check Lib.helicsFederateRequestTime(fed, requestTime)
 end
 
 function helicsFederateRequestNextStep(fed::Federate)
-    @invoke_and_check Lib.helicsFederateRequestNextStep(fed)
+    @Utils.invoke_and_check Lib.helicsFederateRequestNextStep(fed)
 end
 
 function helicsFederateRequestTimeIterative(fed::Federate, requestTime, iterate, outIterate)
-    @invoke_and_check Lib.helicsFederateRequestTimeIterative(fed, requestTime, iterate, outIterate)
+    @Utils.invoke_and_check Lib.helicsFederateRequestTimeIterative(fed, requestTime, iterate, outIterate)
 end
 
 function helicsFederateRequestTimeAsync(fed::Federate, requestTime)
-    @invoke_and_check Lib.helicsFederateRequestTimeAsync(fed, requestTime)
+    @Utils.invoke_and_check Lib.helicsFederateRequestTimeAsync(fed, requestTime)
 end
 
 function helicsFederateRequestTimeComplete(fed::Federate)
-    @invoke_and_check Lib.helicsFederateRequestTimeComplete(fed)
+    @Utils.invoke_and_check Lib.helicsFederateRequestTimeComplete(fed)
 end
 
 function helicsFederateRequestTimeIterativeAsync(fed::Federate, requestTime, iterate)
-    @invoke_and_check Lib.helicsFederateRequestTimeIterativeAsync(fed, requestTime, iterate)
+    @Utils.invoke_and_check Lib.helicsFederateRequestTimeIterativeAsync(fed, requestTime, iterate)
 end
 
 function helicsFederateRequestTimeIterativeComplete(fed::Federate, outIterate)
-    @invoke_and_check Lib.helicsFederateRequestTimeIterativeComplete(fed, outIterate)
+    @Utils.invoke_and_check Lib.helicsFederateRequestTimeIterativeComplete(fed, outIterate)
 end
 
 function helicsFederateGetName(fed::Federate)::String
@@ -818,47 +841,47 @@ function helicsFederateGetName(fed::Federate)::String
 end
 
 function helicsFederateSetTimeProperty(fed::Federate, timeProperty::Lib.helics_properties, time::Float64)
-    @invoke_and_check Lib.helicsFederateSetTimeProperty(fed, timeProperty, time)
+    @Utils.invoke_and_check Lib.helicsFederateSetTimeProperty(fed, timeProperty, time)
 end
 
 function helicsFederateSetFlagOption(fed::Federate, flag::Int, flagValue::Bool)
-    @invoke_and_check Lib.helicsFederateSetFlagOption(fed, flag, flagValue ? 1 : 0)
+    @Utils.invoke_and_check Lib.helicsFederateSetFlagOption(fed, flag, flagValue ? 1 : 0)
 end
 
 function helicsFederateSetSeparator(fed::Federate, separator)
-    @invoke_and_check Lib.helicsFederateSetSeparator(fed, separator)
+    @Utils.invoke_and_check Lib.helicsFederateSetSeparator(fed, separator)
 end
 
 function helicsFederateSetIntegerProperty(fed::Federate, intProperty::Lib.helics_properties, propertyVal)
-    @invoke_and_check Lib.helicsFederateSetIntegerProperty(fed, intProperty, propertyVal)
+    @Utils.invoke_and_check Lib.helicsFederateSetIntegerProperty(fed, intProperty, propertyVal)
 end
 
 function helicsFederateGetTimeProperty(fed::Federate, timeProperty::Lib.helics_properties)
-    @invoke_and_check Lib.helicsFederateGetTimeProperty(fed, timeProperty)
+    @Utils.invoke_and_check Lib.helicsFederateGetTimeProperty(fed, timeProperty)
 end
 
 function helicsFederateGetFlagOption(fed::Federate, flag::Int)::Bool
-    @invoke_and_check Lib.helicsFederateGetFlagOption(fed, flag)
+    @Utils.invoke_and_check Lib.helicsFederateGetFlagOption(fed, flag)
 end
 
 function helicsFederateGetIntegerProperty(fed::Federate, intProperty::Lib.helics_properties)
-    @invoke_and_check Lib.helicsFederateGetIntegerProperty(fed, intProperty)
+    @Utils.invoke_and_check Lib.helicsFederateGetIntegerProperty(fed, intProperty)
 end
 
 function helicsFederateGetCurrentTime(fed::Federate)
-    @invoke_and_check Lib.helicsFederateGetCurrentTime(fed)
+    @Utils.invoke_and_check Lib.helicsFederateGetCurrentTime(fed)
 end
 
 function helicsFederateSetGlobal(fed::Federate, valueName, value)
-    @invoke_and_check Lib.helicsFederateSetGlobal(fed, valueName, value)
+    @Utils.invoke_and_check Lib.helicsFederateSetGlobal(fed, valueName, value)
 end
 
 function helicsCoreSetGlobal(core::Core, valueName, value)
-    @invoke_and_check Lib.helicsCoreSetGlobal(core, valueName, value)
+    @Utils.invoke_and_check Lib.helicsCoreSetGlobal(core, valueName, value)
 end
 
 function helicsBrokerSetGlobal(broker::Broker, valueName, value)
-    @invoke_and_check Lib.helicsBrokerSetGlobal(broker, valueName, value)
+    @Utils.invoke_and_check Lib.helicsBrokerSetGlobal(broker, valueName, value)
 end
 
 function helicsCreateQuery(target::String, query::String)::Query
@@ -866,26 +889,26 @@ function helicsCreateQuery(target::String, query::String)::Query
 end
 
 function helicsQueryExecute(query::Query, fed::Federate)::String
-    r = @invoke_and_check Lib.helicsQueryExecute(query, fed)
+    r = @Utils.invoke_and_check Lib.helicsQueryExecute(query, fed)
     return r |> unsafe_string
 end
 
 function helicsQueryCoreExecute(query::Query, core::Core)::String
-    r = @invoke_and_check Lib.helicsQueryCoreExecute(query, core)
+    r = @Utils.invoke_and_check Lib.helicsQueryCoreExecute(query, core)
     return r |> unsafe_string
 end
 
 function helicsQueryBrokerExecute(query::Query, broker::Broker)::String
-    r = @invoke_and_check Lib.helicsQueryBrokerExecute(query, broker)
+    r = @Utils.invoke_and_check Lib.helicsQueryBrokerExecute(query, broker)
     return r |> unsafe_string
 end
 
 function helicsQueryExecuteAsync(query::Query, fed::Federate)
-    @invoke_and_check Lib.helicsQueryExecuteAsync(query, fed)
+    @Utils.invoke_and_check Lib.helicsQueryExecuteAsync(query, fed)
 end
 
 function helicsQueryExecuteComplete(query::Query)::String
-    r = @invoke_and_check Lib.helicsQueryExecuteComplete(query)
+    r = @Utils.invoke_and_check Lib.helicsQueryExecuteComplete(query)
     return r |> unsafe_string
 end
 
@@ -902,14 +925,14 @@ function helicsCleanupLibrary()
 end
 
 function helicsBrokerAddLoggingCallback(broker::Broker, logger)
-    @invoke_and_check Lib.helicsBrokerAddLoggingCallback(broker, logger)
+    @Utils.invoke_and_check Lib.helicsBrokerAddLoggingCallback(broker, logger)
 end
 
 function helicsCoreAddLoggingCallback(core::Core, logger)
-    @invoke_and_check Lib.helicsCoreAddLoggingCallback(core, logger)
+    @Utils.invoke_and_check Lib.helicsCoreAddLoggingCallback(core, logger)
 end
 
 function helicsFederateAddLoggingCallback(fed::Federate, logger)
-    @invoke_and_check Lib.helicsFederateAddLoggingCallback(fed, logger)
+    @Utils.invoke_and_check Lib.helicsFederateAddLoggingCallback(fed, logger)
 end
 

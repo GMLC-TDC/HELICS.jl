@@ -75,4 +75,3 @@ function unsafe_wrap(msg::Message)::Lib.helics_message
                       )
 end
 
-

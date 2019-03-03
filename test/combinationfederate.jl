@@ -1,3 +1,5 @@
+include("init.jl")
+
 open("testconfig.json", "w") do f
 
     write(f, """{

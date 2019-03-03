@@ -1,3 +1,4 @@
+include("init.jl")
 
 @testset "ValueFederate Creation" begin
     broker = createBroker()

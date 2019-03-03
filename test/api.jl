@@ -1,4 +1,4 @@
-
+include("init.jl")
 
 @testset "Broker API tests" begin
 

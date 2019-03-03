@@ -1,3 +1,5 @@
+include("init.jl")
+
 @testset "Query federate tests"  begin
 
     broker = createBroker(2)
@@ -13,13 +15,12 @@
 
     core = h.helicsFederateGetCoreObject(vFed1)
 
-    # TODO: hangs on MacOS
-    # q1 = h.helicsCreateQuery("Testfed0", "publications")
-    # res = h.helicsQueryCoreExecute(q1, core)
-    # @test res == "[pub1;Testfed0/pub2]"
+    q1 = h.helicsCreateQuery("Testfed0", "publications")
+    res = h.helicsQueryCoreExecute(q1, core)
+    @test res == "[pub1;Testfed0/pub2]"
     # res = h.helicsQueryExecute(q1, vFed2)
     # @test res == "[pub1;Testfed0/pub2]"
-    # h.helicsQueryFree(q1)
+    h.helicsQueryFree(q1)
 
     # q1 = h.helicsCreateQuery("Testfed1", "isinit")
     # res = h.helicsQueryExecute(q1, vFed1)

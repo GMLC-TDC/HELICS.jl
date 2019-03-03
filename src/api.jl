@@ -781,7 +781,7 @@ function helicsFederateGetState(fed::Federate)::Int
     @invoke_and_check Lib.helicsFederateGetState(fed)
 end
 
-function helicsFederateGetCoreObject(fed::Federate)
+function helicsFederateGetCoreObject(fed::Federate)::Core
     @invoke_and_check Lib.helicsFederateGetCoreObject(fed)
 end
 
@@ -865,24 +865,28 @@ function helicsCreateQuery(target::String, query::String)::Query
     Lib.helicsCreateQuery(target, query)
 end
 
-function helicsQueryExecute(query::Query, fed::Federate)
-    @invoke_and_check Lib.helicsQueryExecute(query, fed)
+function helicsQueryExecute(query::Query, fed::Federate)::String
+    r = @invoke_and_check Lib.helicsQueryExecute(query, fed)
+    return r |> unsafe_string
 end
 
-function helicsQueryCoreExecute(query::Query, core::Core)
-    @invoke_and_check Lib.helicsQueryCoreExecute(query, core)
+function helicsQueryCoreExecute(query::Query, core::Core)::String
+    r = @invoke_and_check Lib.helicsQueryCoreExecute(query, core)
+    return r |> unsafe_string
 end
 
-function helicsQueryBrokerExecute(query::Query, broker::Broker)
-    @invoke_and_check Lib.helicsQueryBrokerExecute(query, broker)
+function helicsQueryBrokerExecute(query::Query, broker::Broker)::String
+    r = @invoke_and_check Lib.helicsQueryBrokerExecute(query, broker)
+    return r |> unsafe_string
 end
 
 function helicsQueryExecuteAsync(query::Query, fed::Federate)
     @invoke_and_check Lib.helicsQueryExecuteAsync(query, fed)
 end
 
-function helicsQueryExecuteComplete(query::Query)
-    @invoke_and_check Lib.helicsQueryExecuteComplete(query)
+function helicsQueryExecuteComplete(query::Query)::String
+    r = @invoke_and_check Lib.helicsQueryExecuteComplete(query)
+    return r |> unsafe_string
 end
 
 function helicsQueryIsCompleted(query::Query)::Bool

@@ -155,24 +155,9 @@ open("testconfig.json", "w") do f
 
 end
 
-function createBroker(core_type="zmq", number_of_federates=1)
-
-    initstring = "$number_of_federates --name=mainbroker"
-
-    broker = h.helicsCreateBroker(core_type, "", initstring)
-
-    isconnected = h.helicsBrokerIsConnected(broker)
-
-    @test isconnected == true
-
-    return broker
-
-end
-
-
 @testset "Combination Federate" begin
 
-    broker = createBroker("zmq", 1);
+    broker = createBroker();
 
     cfed = h.helicsCreateCombinationFederateFromConfig("testconfig.json");
 

@@ -1,80 +1,15 @@
 
-function createValueFederate(start_broker=true)
-
-    initstring = "-f 1 --name=mainbroker --loglevel=0"
-    fedinitstring = "--broker=mainbroker --federates=1 --tick=0"
-    deltat = 0.01
-
-    if start_broker
-        @test_throws h.HelicsErrorInvalidArgument broker = h.helicsCreateBroker("mq", "", initstring)
-
-        broker = h.helicsCreateBroker("zmq", "", initstring)
-        @test broker isa h.Broker
-
-        @test h.helicsBrokerIsConnected(broker) == true
-    else
-        broker = nothing
-    end
-
-    # Create Federate Info object that describes the federate properties
-    fedinfo = h.helicsCreateFederateInfo()
-    @test fedinfo isa h.FederateInfo
-
-    # # Set Federate name
-    h.helicsFederateInfoSetCoreName(fedinfo, "TestA Core")
-
-    # # Set core type from string
-    h.helicsFederateInfoSetCoreTypeFromString(fedinfo, "zmq")
-
-    # # Federate init string
-    h.helicsFederateInfoSetCoreInitString(fedinfo, fedinitstring)
-
-    # # Set the message interval (timedelta) for federate. Note th#
-    # # HELICS minimum message time interval is 1 ns and by default
-    # # it uses a time delta of 1 second. What is provided to the
-    # # setTimedelta routine is a multiplier for the default timedelta.
-
-    # # Set one second message interval
-    h.helicsFederateInfoSetTimeProperty(fedinfo, h.HELICS_PROPERTY_TIME_DELTA, deltat)
-    h.helicsFederateInfoSetIntegerProperty(fedinfo, h.HELICS_PROPERTY_INT_LOG_LEVEL, -1)
-
-    vFed = h.helicsCreateValueFederate("TestA Federate", fedinfo)
-
-    @test vFed isa h.ValueFederate
-
-    return vFed, fedinfo, broker
-end
-
-function destroyValueFederate(vFed, fedinfo, broker=nothing)
-
-    h.helicsFederateFinalize(vFed)
-
-    state = h.helicsFederateGetState(vFed)
-    @test state == 3
-
-    if broker != nothing
-        while (h.helicsBrokerIsConnected(broker) == true)
-            sleep(1)
-        end
-    end
-
-    h.helicsFederateInfoFree(fedinfo)
-    h.helicsFederateFree(vFed)
-    h.helicsCloseLibrary()
-
-end
-
 @testset "ValueFederate Creation" begin
-
-    vFed, fedinfo, broker = createValueFederate()
-
-    destroyValueFederate(vFed, fedinfo, broker)
-
+    broker = createBroker()
+    vFed, fedinfo = createValueFederate()
+    destroyFederate(vFed, fedinfo)
+    destroyBroker(broker)
 end
 
 @testset "ValueFederate State" begin
 
-    vFed, fedinfo, broker = createValueFederate()
+    broker = createBroker()
+    vFed, fedinfo = createValueFederate()
 
     state = h.helicsFederateGetState(vFed)
     @test state == 0
@@ -84,11 +19,13 @@ end
     state = h.helicsFederateGetState(vFed)
     @test state == 2
 
-    destroyValueFederate(vFed, fedinfo, broker)
+    destroyFederate(vFed, fedinfo)
+    destroyBroker(broker)
 end
 
 @testset "ValueFederate publication registration" begin
-    vFed, fedinfo, broker = createValueFederate()
+    broker = createBroker()
+    vFed, fedinfo = createValueFederate()
 
     pubid1 = h.helicsFederateRegisterTypePublication(vFed, "pub1", "string", "")
     pubid2 = h.helicsFederateRegisterGlobalTypePublication(vFed, "pub2", "int", "")
@@ -103,11 +40,13 @@ end
     @test h.helicsPublicationGetType(pubid3) == "double"
     @test h.helicsPublicationGetUnits(pubid3) == "V"
 
-    destroyValueFederate(vFed, fedinfo, broker)
+    destroyFederate(vFed, fedinfo)
+    destroyBroker(broker)
 end
 
 @testset "ValueFederate named point" begin
-    vFed, fedinfo, broker = createValueFederate()
+    broker = createBroker()
+    vFed, fedinfo = createValueFederate()
 
     defaultValue = "start of a longer string in place of the shorter one and now this should be very long"
     defVal = 5.3
@@ -149,12 +88,14 @@ end
     # # make sure the value was updated
     @test h.helicsInputGetNamedPoint(subid) == (testValue2, testVal2)
 
-    destroyValueFederate(vFed, fedinfo, broker)
+    destroyFederate(vFed, fedinfo)
+    destroyBroker(broker)
 
 end
 
 @testset "ValueFederate Test Bool" begin
-    vFed, fedinfo, broker = createValueFederate()
+    broker = createBroker()
+    vFed, fedinfo = createValueFederate()
 
     defaultValue = true
     testValue1 = true
@@ -197,12 +138,14 @@ end
     val = h.helicsInputGetBoolean(subid)
     @test val == testValue2
 
-    destroyValueFederate(vFed, fedinfo, broker)
+    destroyFederate(vFed, fedinfo)
+    destroyBroker(broker)
 
 end
 
 @testset "ValueFederate publisher registration" begin
-    vFed, fedinfo, broker = createValueFederate()
+    broker = createBroker()
+    vFed, fedinfo = createValueFederate()
 
     pubid1 = h.helicsFederateRegisterPublication(vFed, "pub1", h.HELICS_DATA_TYPE_STRING, "")
     pubid2 = h.helicsFederateRegisterGlobalPublication(vFed, "pub2", h.HELICS_DATA_TYPE_INT, "")
@@ -224,12 +167,14 @@ end
     publication_type = h.helicsPublicationGetType(pubid2)
     @test publication_type == "int64"
 
-    destroyValueFederate(vFed, fedinfo, broker)
+    destroyFederate(vFed, fedinfo)
+    destroyBroker(broker)
 end
 
 @testset "ValueFederate subscription and publication registration" begin
 
-    vFed, fedinfo, broker = createValueFederate()
+    broker = createBroker()
+    vFed, fedinfo = createValueFederate()
 
     pubid3 = h.helicsFederateRegisterTypePublication(vFed, "pub3", "double", "V")
 
@@ -257,14 +202,16 @@ end
     sub_type = h.helicsInputGetType(subid2)
     @test sub_type == ""
 
-    destroyValueFederate(vFed, fedinfo, broker)
+    destroyFederate(vFed, fedinfo)
+    destroyBroker(broker)
 
 end
 
 
 @testset "ValueFederate single transfer" begin
 
-    vFed, fedinfo, broker = createValueFederate()
+    broker = createBroker()
+    vFed, fedinfo = createValueFederate()
 
     pubid = h.helicsFederateRegisterGlobalPublication(vFed, "pub1", h.HELICS_DATA_TYPE_STRING, "");
     subid = h.helicsFederateRegisterSubscription(vFed, "pub1", "");
@@ -279,11 +226,13 @@ end
     s = h.helicsInputGetString(subid)
     @test s == "string1"
 
-    destroyValueFederate(vFed, fedinfo, broker)
+    destroyFederate(vFed, fedinfo)
+    destroyBroker(broker)
 end
 
 @testset "ValueFederate test double" begin
-    vFed, fedinfo, broker = createValueFederate()
+    broker = createBroker()
+    vFed, fedinfo = createValueFederate()
 
     defaultValue = 1.0
     testValue = 2.0
@@ -314,11 +263,13 @@ end
     value = h.helicsInputGetDouble(subid)
     @test value == testValue + 1
 
-    destroyValueFederate(vFed, fedinfo, broker)
+    destroyFederate(vFed, fedinfo)
+    destroyBroker(broker)
 end
 
 @testset "ValueFederate test complex" begin
-    vFed, fedinfo, broker = createValueFederate()
+    broker = createBroker()
+    vFed, fedinfo = createValueFederate()
 
     rDefaultValue = 1.0
     iDefaultValue = 1.0
@@ -340,11 +291,13 @@ end
 
     @test (rTestValue + im * iTestValue) == h.helicsInputGetComplex(subid)
 
-    destroyValueFederate(vFed, fedinfo, broker)
+    destroyFederate(vFed, fedinfo)
+    destroyBroker(broker)
 end
 
 @testset "ValueFederate test integer" begin
-    vFed, fedinfo, broker = createValueFederate()
+    broker = createBroker()
+    vFed, fedinfo = createValueFederate()
 
     defaultValue = 1
     testValue = 2
@@ -373,11 +326,13 @@ end
     value = h.helicsInputGetInteger(subid)
     @test value == testValue + 1
 
-    destroyValueFederate(vFed, fedinfo, broker)
+    destroyFederate(vFed, fedinfo)
+    destroyBroker(broker)
 end
 
 @testset "ValueFederate test string" begin
-    vFed, fedinfo, broker = createValueFederate()
+    broker = createBroker()
+    vFed, fedinfo = createValueFederate()
 
     defaultValue = "String1"
     testValue = "String2"
@@ -398,11 +353,13 @@ end
     value = h.helicsInputGetString(subid)
     @test value == testValue
 
-    destroyValueFederate(vFed, fedinfo, broker)
+    destroyFederate(vFed, fedinfo)
+    destroyBroker(broker)
 end
 
 @testset "ValueFederate test vectorD" begin
-    vFed, fedinfo, broker = createValueFederate()
+    broker = createBroker()
+    vFed, fedinfo = createValueFederate()
 
     defaultValue = [0.0, 1.0, 2.0]
     testValue = [3.0, 4.0, 5.0]
@@ -427,6 +384,7 @@ end
         @test value == testValue
     end
 
-    destroyValueFederate(vFed, fedinfo, broker)
+    destroyFederate(vFed, fedinfo)
+    destroyBroker(broker)
 end
 

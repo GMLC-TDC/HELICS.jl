@@ -1,66 +1,6 @@
 
-function createBroker(core_type="zmq", number_of_federates=1)
-
-    initstring = "$number_of_federates --name=mainbroker"
-
-    broker = h.helicsCreateBroker(core_type, "", initstring)
-
-    isconnected = h.helicsBrokerIsConnected(broker)
-
-    @test isconnected == true
-
-    return broker
-
-end
-
-function createFederate(broker, core_type="zmq", count=1, deltat=1.0, name_prefix="fed")
-
-    # Create Federate Info object that describes the federate properties #
-    fedinfo = h.helicsCreateFederateInfo()
-
-    # Set Federate name #
-    h.helicsFederateInfoSetCoreName(fedinfo, name_prefix)
-
-    # Set core type from string #
-    h.helicsFederateInfoSetCoreTypeFromString(fedinfo, "zmq")
-
-    # Federate init string #
-    fedinitstring = "--broker=mainbroker --federates=$count"
-    h.helicsFederateInfoSetCoreInitString(fedinfo, fedinitstring)
-
-    # Set the message interval (timedelta) for federate. Note th#
-    # HELICS minimum message time interval is 1 ns and by default
-    # it uses a time delta of 1 second. What is provided to the
-    # setTimedelta routine is a multiplier for the default timedelta.
-
-    # Set one second message interval #
-    h.helicsFederateInfoSetTimeProperty(fedinfo, h.HELICS_PROPERTY_TIME_DELTA, deltat)
-
-    h.helicsFederateInfoSetIntegerProperty(fedinfo, h.HELICS_PROPERTY_INT_LOG_LEVEL, -1)
-
-    mFed = h.helicsCreateMessageFederate(name_prefix, fedinfo)
-
-    return mFed, fedinfo
-end
-
-function destroyFederate(fed, fedinfo)
-    h.helicsFederateFinalize(fed)
-    state = h.helicsFederateGetState(fed)
-    @test state == 3 # TODO: should this be 3?
-
-    h.helicsFederateInfoFree(fedinfo)
-    h.helicsFederateFree(fed)
-end
-
-
-function destroyBroker(broker)
-    h.helicsBrokerDisconnect(broker)
-    h.helicsCloseLibrary()
-end
-
 @testset "Broker" begin
-    broker = createBroker("zmq", 1)
-
+    broker = createBroker(1)
     initstring = "--broker="
     identifier = h.helicsBrokerGetIdentifier(broker)
     initstring = initstring * identifier
@@ -74,10 +14,10 @@ end
 
 @testset "MessageFilter Registration" begin
 
-    broker = createBroker("zmq", 1)
+    broker = createBroker(2)
 
-    fFed, ffedinfo = createFederate(broker, "zmq", 1, 1, "filter")
-    mFed, mfedinfo = createFederate(broker, "zmq", 1, 1, "message")
+    fFed, ffedinfo = createMessageFederate(1, "filter")
+    mFed, mfedinfo = createMessageFederate(1, "message")
 
     h.helicsFederateRegisterGlobalEndpoint(mFed, "port1", "")
     h.helicsFederateRegisterGlobalEndpoint(mFed, "port2", "")
@@ -91,10 +31,10 @@ end
     h.helicsFederateEnterExecutingModeComplete(fFed)
 
     filter_name = h.helicsFilterGetName(f1)
-    @test filter_name == "filter/filter1"
+    @test filter_name == "Testfilter/filter1"
 
     filter_name = h.helicsFilterGetName(f2)
-    @test filter_name == "filter/filter2"
+    @test filter_name == "Testfilter/filter2"
 
     # filter_target = h.helicsFilterGetTarget(f2)
     # @test filter_target == "port2"
@@ -111,10 +51,10 @@ end
 
 @testset "MessageFilter Info" begin
 
-    broker = createBroker("zmq", 1)
+    broker = createBroker(2)
 
-    fFed, ffedinfo = createFederate(broker, "zmq", 1, 1, "filter")
-    mFed, mfedinfo = createFederate(broker, "zmq", 1, 1, "message")
+    fFed, ffedinfo = createMessageFederate(1, "filter")
+    mFed, mfedinfo = createMessageFederate(1, "message")
 
     p1 = h.helicsFederateRegisterGlobalEndpoint(mFed, "port1", "")
     p2 = h.helicsFederateRegisterGlobalEndpoint(mFed, "port2", "")
@@ -142,10 +82,10 @@ end
     h.helicsFederateEnterExecutingModeComplete(fFed)
 
     filter_name = h.helicsFilterGetName(f1)
-    @test filter_name == "filter/filter1"
+    @test filter_name == "Testfilter/filter1"
 
     filter_name = h.helicsFilterGetName(f2)
-    @test filter_name == "filter/filter2"
+    @test filter_name == "Testfilter/filter2"
 
     @test h.helicsEndpointGetInfo(p1) == "p1_test"
     @test h.helicsEndpointGetInfo(p2) == "p2_test"
@@ -167,10 +107,10 @@ end
 
 
 @testset "MessageFilter Function" begin
-    broker = createBroker("zmq", 1)
+    broker = createBroker(2)
 
-    fFed, ffedinfo = createFederate(broker, "zmq", 1, 1, "filter")
-    mFed, mfedinfo = createFederate(broker, "zmq", 1, 1, "message")
+    fFed, ffedinfo = createMessageFederate(1, "filter")
+    mFed, mfedinfo = createMessageFederate(1, "message")
 
     p1 = h.helicsFederateRegisterGlobalEndpoint(mFed, "port1", "")
     p2 = h.helicsFederateRegisterGlobalEndpoint(mFed, "port2", "random")

@@ -2,4 +2,5 @@ deps/build.log
 deps/apple/*
 deps/linux/*
 deps/windows/*
-deps/output
+deps/output/*
+docs/build/*

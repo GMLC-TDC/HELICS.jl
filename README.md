@@ -1,4 +1,4 @@
-# HELICS.jl [![Travis Build Status](https://img.shields.io/travis/com/GMLC-TDC/HELICS.jl.svg)](https://travis-ci.com/GMLC-TDC/HELICS.jl) [![Appveyor Build Status](https://img.shields.io/appveyor/ci/kdheepak/helics-jl.svg)](https://ci.appveyor.com/project/kdheepak/helics-jl) [![Docs](https://img.shields.io/badge/docs-latest-blue.svg)](https://gmlc-tdc.github.io/HELICS.jl/latest)
+# HELICS.jl [![Travis Build Status](https://img.shields.io/travis/com/GMLC-TDC/HELICS.jl.svg)](https://travis-ci.com/GMLC-TDC/HELICS.jl) [![Appveyor Build Status](https://img.shields.io/appveyor/ci/kdheepak/helics-jl.svg)](https://ci.appveyor.com/project/kdheepak/helics-jl) [![Docs](https://img.shields.io/badge/docs-latest-blue.svg)](https://gmlc-tdc.github.io/HELICS.jl/latest) [![Codecov](https://img.shields.io/codecov/c/github/gmlc-tdc/HELICS.jl.svg)](https://codecov.io/gh/GMLC-TDC/HELICS.jl)
 
 HELICS.jl is a cross-platform Julia wrapper around the [HELICS](https://github.com/GMLC-TDC/HELICS-src) library.
 

@@ -1,35 +1,3 @@
-const HELICS_PROPERTY_TIME_DELTA = Lib.helics_property_time_delta
-const HELICS_PROPERTY_TIME_PERIOD = Lib.helics_property_time_period
-const HELICS_PROPERTY_TIME_OFFSET = Lib.helics_property_time_offset
-const HELICS_PROPERTY_TIME_RT_LAG = Lib.helics_property_time_rt_lag
-const HELICS_PROPERTY_TIME_RT_LEAD = Lib.helics_property_time_rt_lead
-const HELICS_PROPERTY_TIME_RT_TOLERANCE = Lib.helics_property_time_rt_tolerance
-const HELICS_PROPERTY_TIME_INPUT_DELAY = Lib.helics_property_time_input_delay
-const HELICS_PROPERTY_TIME_OUTPUT_DELAY = Lib.helics_property_time_output_delay
-const HELICS_PROPERTY_INT_MAX_ITERATIONS = Lib.helics_property_int_max_iterations
-const HELICS_PROPERTY_INT_LOG_LEVEL = Lib.helics_property_int_log_level
-
-const HELICS_DATA_TYPE_STRING = Lib.helics_data_type_string
-const HELICS_DATA_TYPE_DOUBLE = Lib.helics_data_type_double
-const HELICS_DATA_TYPE_INT = Lib.helics_data_type_int
-const HELICS_DATA_TYPE_COMPLEX = Lib.helics_data_type_complex
-const HELICS_DATA_TYPE_VECTOR = Lib.helics_data_type_vector
-const HELICS_DATA_TYPE_COMPLEX_VECTOR = Lib.helics_data_type_complex_vector
-const HELICS_DATA_TYPE_NAMED_POINT = Lib.helics_data_type_named_point
-const HELICS_DATA_TYPE_BOOLEAN = Lib.helics_data_type_boolean
-const HELICS_DATA_TYPE_TIME = Lib.helics_data_type_time
-const HELICS_DATA_TYPE_RAW = Lib.helics_data_type_raw
-const HELICS_DATA_TYPE_ANY = Lib.helics_data_type_any
-
-const HELICS_FILTER_TYPE_CUSTOM = Lib.helics_filter_type_custom
-const HELICS_FILTER_TYPE_DELAY = Lib.helics_filter_type_delay
-const HELICS_FILTER_TYPE_RANDOM_DELAY = Lib.helics_filter_type_random_delay
-const HELICS_FILTER_TYPE_RANDOM_DROP = Lib.helics_filter_type_random_drop
-const HELICS_FILTER_TYPE_REROUTE = Lib.helics_filter_type_reroute
-const HELICS_FILTER_TYPE_CLONE = Lib.helics_filter_type_clone
-const HELICS_FILTER_TYPE_FIREWALL = Lib.helics_filter_type_firewall
-
-
 function helicsFederateRegisterEndpoint(fed::Federate, name::String, kind::String)::Endpoint
     @invoke_and_check Lib.helicsFederateRegisterEndpoint(fed, name, kind)
 end

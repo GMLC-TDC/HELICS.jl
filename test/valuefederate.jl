@@ -35,8 +35,8 @@ function createValueFederate(start_broker=true)
     # # setTimedelta routine is a multiplier for the default timedelta.
 
     # # Set one second message interval
-    h.helicsFederateInfoSetTimeProperty(fedinfo, h.helics_property_time_delta, deltat)
-    h.helicsFederateInfoSetIntegerProperty(fedinfo, h.helics_property_int_log_level, -1)
+    h.helicsFederateInfoSetTimeProperty(fedinfo, h.HELICS_PROPERTY_TIME_DELTA, deltat)
+    h.helicsFederateInfoSetIntegerProperty(fedinfo, h.HELICS_PROPERTY_INT_LOG_LEVEL, -1)
 
     vFed = h.helicsCreateValueFederate("TestA Federate", fedinfo)
 

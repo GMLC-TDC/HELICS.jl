@@ -34,9 +34,9 @@ function createFederate(broker, core_type="zmq", count=1, deltat=1.0, name_prefi
     # setTimedelta routine is a multiplier for the default timedelta.
 
     # Set one second message interval #
-    h.helicsFederateInfoSetTimeProperty(fedinfo, h.helics_property_time_delta, deltat)
+    h.helicsFederateInfoSetTimeProperty(fedinfo, h.HELICS_PROPERTY_TIME_DELTA, deltat)
 
-    h.helicsFederateInfoSetIntegerProperty(fedinfo, h.helics_property_int_log_level, -1)
+    h.helicsFederateInfoSetIntegerProperty(fedinfo, h.HELICS_PROPERTY_INT_LOG_LEVEL, -1)
 
     mFed = h.helicsCreateMessageFederate(name_prefix, fedinfo)
 

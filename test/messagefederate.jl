@@ -35,9 +35,9 @@ function createMessageFederate(start_broker=true)
     # setTimedelta routine is a multiplier for the default timedelta.
 
     # Set one second message interval #
-    h.helicsFederateInfoSetTimeProperty(fedinfo, h.helics_property_time_delta, deltat)
+    h.helicsFederateInfoSetTimeProperty(fedinfo, h.HELICS_PROPERTY_TIME_DELTA, deltat)
 
-    h.helicsFederateInfoSetIntegerProperty(fedinfo, h.helics_property_int_log_level, -1)
+    h.helicsFederateInfoSetIntegerProperty(fedinfo, h.HELICS_PROPERTY_INT_LOG_LEVEL, -1)
 
     mFed = h.helicsCreateMessageFederate("TestA Federate", fedinfo)
 
@@ -104,7 +104,7 @@ end
     epid1 = h.helicsFederateRegisterEndpoint(mFed, "ep1", "")
     epid2 = h.helicsFederateRegisterGlobalEndpoint(mFed, "ep2", "random")
 
-    h.helicsFederateSetTimeProperty(mFed, h.helics_property_time_delta, 1.0)
+    h.helicsFederateSetTimeProperty(mFed, h.HELICS_PROPERTY_TIME_DELTA, 1.0)
     h.helicsFederateEnterExecutingMode(mFed)
 
     data = "random-data"

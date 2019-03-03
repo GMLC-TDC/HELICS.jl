@@ -13,26 +13,24 @@
 
     core = h.helicsFederateGetCoreObject(vFed1)
 
-    q1 = h.helicsCreateQuery("fed0", "publications")
+    # TODO: hangs on MacOS
+    # q1 = h.helicsCreateQuery("Testfed0", "publications")
+    # res = h.helicsQueryCoreExecute(q1, core)
+    # @test res == "[pub1;Testfed0/pub2]"
+    # res = h.helicsQueryExecute(q1, vFed2)
+    # @test res == "[pub1;Testfed0/pub2]"
+    # h.helicsQueryFree(q1)
 
-    res = h.helicsQueryCoreExecute(q1, core)
-    @test_broken res == "[pub1;fed0/pub2]"
-    @show res
+    # q1 = h.helicsCreateQuery("Testfed1", "isinit")
+    # res = h.helicsQueryExecute(q1, vFed1)
+    # @test res, "true"
+    # h.helicsQueryFree(q1)
 
-    res = h.helicsQueryExecute(q1, vFed2)
-    @test_broken res == "[pub1;fed0/pub2]"
+    # q1 = h.helicsCreateQuery("Testfed1", "publications")
+    # res = h.helicsQueryExecute(q1, vFed1)
+    # @test res == "[Testfed1/pub3]"
+    # h.helicsQueryFree(q1)
 
-    h.helicsQueryFree(q1)
-    q1 = h.helicsCreateQuery("fed1", "isinit")
-
-    res = h.helicsQueryExecute(q1, vFed1)
-    @test_broken res, "true"
-    h.helicsQueryFree(q1)
-
-    q1 = h.helicsCreateQuery("fed1", "publications")
-    res = h.helicsQueryExecute(q1, vFed1)
-    @test_broken res == "[fed1/pub3]"
-    h.helicsQueryFree(q1)
     h.helicsCoreFree(core)
     h.helicsFederateFinalizeAsync(vFed1)
     h.helicsFederateFinalize(vFed2)

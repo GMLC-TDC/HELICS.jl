@@ -79,19 +79,19 @@ function helicsFederateGetEndpointCount(fed::Federate)::Int
     Lib.helicsFederateGetEndpointCount(fed)
 end
 
-function helicsEndpointGetInfo(_end)::String
+function helicsEndpointGetInfo(_end::Endpoint)::String
     Lib.helicsEndpointGetInfo(_end) |> unsafe_string
 end
 
-function helicsEndpointSetInfo(_end, info)
+function helicsEndpointSetInfo(_end::Endpoint, info::String)
     @invoke_and_check Lib.helicsEndpointSetInfo(_end, info)
 end
 
-function helicsEndpointSetOption(_end, option, value)
-    @invoke_and_check Lib.helicsEndpointSetOption(_end, option, value)
+function helicsEndpointSetOption(_end::Endpoint, option::Int, value::Bool)
+    @invoke_and_check Lib.helicsEndpointSetOption(_end, option, value ? 1 : 0)
 end
 
-function helicsEndpointGetOption(_end, option)
+function helicsEndpointGetOption(_end::Endpoint, option::Int)::Bool
     Lib.helicsEndpointGetOption(_end, option)
 end
 
@@ -103,11 +103,11 @@ function helicsFederateRegisterGlobalFilter(fed::Federate, kind::Lib.helics_filt
     @invoke_and_check Lib.helicsFederateRegisterGlobalFilter(fed, kind, name)
 end
 
-function helicsFederateRegisterCloningFilter(fed::Federate, deliveryEndpoint)::Filter
+function helicsFederateRegisterCloningFilter(fed::Federate, deliveryEndpoint::String)::Filter
     @invoke_and_check Lib.helicsFederateRegisterCloningFilter(fed, deliveryEndpoint)
 end
 
-function helicsFederateRegisterGlobalCloningFilter(fed::Federate, deliveryEndpoint)::Filter
+function helicsFederateRegisterGlobalCloningFilter(fed::Federate, deliveryEndpoint::String)::Filter
     @invoke_and_check Lib.helicsFederateRegisterGlobalCloningFilter(fed, deliveryEndpoint)
 end
 
@@ -115,19 +115,19 @@ function helicsCoreRegisterFilter(core::Core, kind::Lib.helics_filter_type, name
     @invoke_and_check Lib.helicsCoreRegisterFilter(core, kind, name)
 end
 
-function helicsCoreRegisterCloningFilter(core::Core, deliveryEndpoint)::Filter
+function helicsCoreRegisterCloningFilter(core::Core, deliveryEndpoint::String)::Filter
     @invoke_and_check Lib.helicsCoreRegisterCloningFilter(core, deliveryEndpoint)
 end
 
-function helicsFederateGetFilterCount(fed::Federate)
+function helicsFederateGetFilterCount(fed::Federate)::Int
     Lib.helicsFederateGetFilterCount(fed)
 end
 
-function helicsFederateGetFilter(fed::Federate, name::String)
+function helicsFederateGetFilter(fed::Federate, name::String)::Filter
     @invoke_and_check Lib.helicsFederateGetFilter(fed, name)
 end
 
-function helicsFederateGetFilterByIndex(fed::Federate, index)
+function helicsFederateGetFilterByIndex(fed::Federate, index::Int)::Filter
     @invoke_and_check Lib.helicsFederateGetFilterByIndex(fed, index)
 end
 
@@ -135,11 +135,11 @@ function helicsFilterGetName(filt::Filter)::String
     Lib.helicsFilterGetName(filt) |> unsafe_string
 end
 
-function helicsFilterSet(filt::Filter, prop, val)
+function helicsFilterSet(filt::Filter, prop::String, val::Float64)
     @invoke_and_check Lib.helicsFilterSet(filt, prop, val)
 end
 
-function helicsFilterSetString(filt::Filter, prop, val)
+function helicsFilterSetString(filt::Filter, prop::String, val::String)
     @invoke_and_check Lib.helicsFilterSetString(filt, prop, val)
 end
 
@@ -151,7 +151,7 @@ function helicsFilterAddSourceTarget(filt::Filter, source::String)
     @invoke_and_check Lib.helicsFilterAddSourceTarget(filt, source)
 end
 
-function helicsFilterAddDeliveryEndpoint(filt::Filter, deliveryEndpoint)
+function helicsFilterAddDeliveryEndpoint(filt::Filter, deliveryEndpoint::String)
     @invoke_and_check Lib.helicsFilterAddDeliveryEndpoint(filt, deliveryEndpoint)
 end
 
@@ -159,23 +159,23 @@ function helicsFilterRemoveTarget(filt::Filter, target::String)
     @invoke_and_check Lib.helicsFilterRemoveTarget(filt, target)
 end
 
-function helicsFilterRemoveDeliveryEndpoint(filt::Filter, deliveryEndpoint)
+function helicsFilterRemoveDeliveryEndpoint(filt::Filter, deliveryEndpoint::String)
     @invoke_and_check Lib.helicsFilterRemoveDeliveryEndpoint(filt, deliveryEndpoint)
 end
 
-function helicsFilterGetInfo(filt::Filter)
-    Lib.helicsFilterGetInfo(filt)
+function helicsFilterGetInfo(filt::Filter)::String
+    Lib.helicsFilterGetInfo(filt) |> unsafe_string
 end
 
-function helicsFilterSetInfo(filt::Filter, info)
+function helicsFilterSetInfo(filt::Filter, info::String)
     @invoke_and_check Lib.helicsFilterSetInfo(filt, info)
 end
 
-function helicsFilterSetOption(filt::Filter, option, value)
-    @invoke_and_check Lib.helicsFilterSetOption(filt, option, value)
+function helicsFilterSetOption(filt::Filter, option::Int, value::Bool)
+    @invoke_and_check Lib.helicsFilterSetOption(filt, option, value ? 1 : 0)
 end
 
-function helicsFilterGetOption(filt::Filter, option)
+function helicsFilterGetOption(filt::Filter, option::Int)
     @invoke_and_check Lib.helicsFilterGetOption(filt, option)
 end
 
@@ -219,7 +219,7 @@ function helicsFederateGetPublication(fed::Federate, key::String)::Publication
     @invoke_and_check Lib.helicsFederateGetPublication(fed, key)
 end
 
-function helicsFederateGetPublicationByIndex(fed::Federate, index)::Publication
+function helicsFederateGetPublicationByIndex(fed::Federate, index::Int)::Publication
     @invoke_and_check Lib.helicsFederateGetPublicationByIndex(fed, index)
 end
 
@@ -227,7 +227,7 @@ function helicsFederateGetInput(fed::Federate, key::String)::Input
     @invoke_and_check Lib.helicsFederateGetInput(fed, key)
 end
 
-function helicsFederateGetInputByIndex(fed::Federate, index)::Input
+function helicsFederateGetInputByIndex(fed::Federate, index::Int)::Input
     @invoke_and_check Lib.helicsFederateGetInputByIndex(fed, index)
 end
 
@@ -432,36 +432,36 @@ function helicsPublicationGetUnits(pub::Publication)::String
     Lib.helicsPublicationGetUnits(pub) |> unsafe_string
 end
 
-function helicsInputGetInfo(inp)::String
+function helicsInputGetInfo(inp::Input)::String
     Lib.helicsInputGetInfo(inp) |> unsafe_string
 end
 
-function helicsInputSetInfo(inp, info)
+function helicsInputSetInfo(inp::Input, info::String)
     @invoke_and_check Lib.helicsInputSetInfo(inp, info)
 end
 
-function helicsPublicationGetInfo(pub::Publication)
+function helicsPublicationGetInfo(pub::Publication)::String
     Lib.helicsPublicationGetInfo(pub) |> unsafe_string
 end
 
-function helicsPublicationSetInfo(pub::Publication, info)
+function helicsPublicationSetInfo(pub::Publication, info::String)
     @invoke_and_check Lib.helicsPublicationSetInfo(pub, info)
 end
 
-function helicsInputGetOption(inp, option)
-    Lib.helicsInputGetOption(inp, option)
+function helicsInputGetOption(inp::Input, option::Int)
+    Lib.helicsInputGetOption(inp, option::Int)
 end
 
-function helicsInputSetOption(inp, option, value)
-    @invoke_and_check Lib.helicsInputSetOption(inp, option, value)
+function helicsInputSetOption(inp::Input, option::Int, value::Bool)
+    @invoke_and_check Lib.helicsInputSetOption(inp, option, value ? 1 : 0)
 end
 
-function helicsPublicationGetOption(pub::Publication, option)
+function helicsPublicationGetOption(pub::Publication, option::Int)
     Lib.helicsPublicationGetOption(pub, option)
 end
 
-function helicsPublicationSetOption(pub::Publication, option, val)
-    @invoke_and_check Lib.helicsPublicationSetOption(pub, option, val)
+function helicsPublicationSetOption(pub::Publication, option::Int, val::Bool)
+    @invoke_and_check Lib.helicsPublicationSetOption(pub, option, val ? 1 : 0)
 end
 
 function helicsInputIsUpdated(ipt::Input)::Bool
@@ -472,11 +472,11 @@ function helicsInputLastUpdateTime(ipt::Input)
     Lib.helicsInputLastUpdateTime(ipt)
 end
 
-function helicsFederateGetPublicationCount(fed::Federate)
+function helicsFederateGetPublicationCount(fed::Federate)::Int
     Lib.helicsFederateGetPublicationCount(fed)
 end
 
-function helicsFederateGetInputCount(fed::Federate)
+function helicsFederateGetInputCount(fed::Federate)::Int
     Lib.helicsFederateGetInputCount(fed)
 end
 

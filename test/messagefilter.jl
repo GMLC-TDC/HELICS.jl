@@ -109,6 +109,62 @@ end
     destroyBroker(broker)
 end
 
+@testset "MessageFilter Info" begin
+
+    broker = createBroker("zmq", 1)
+
+    fFed, ffedinfo = createFederate(broker, "zmq", 1, 1, "filter")
+    mFed, mfedinfo = createFederate(broker, "zmq", 1, 1, "message")
+
+    p1 = h.helicsFederateRegisterGlobalEndpoint(mFed, "port1", "")
+    p2 = h.helicsFederateRegisterGlobalEndpoint(mFed, "port2", "")
+
+    h.helicsEndpointSetInfo(p1, "p1_test")
+    h.helicsEndpointSetInfo(p2, "p2_test")
+
+    f1 = h.helicsFederateRegisterFilter(fFed, h.HELICS_FILTER_TYPE_CUSTOM, "filter1")
+    h.helicsFilterAddSourceTarget(f1, "port1")
+    h.helicsFilterSetInfo(f1, "f1_test")
+
+    f2 = h.helicsFederateRegisterFilter(fFed, h.HELICS_FILTER_TYPE_CUSTOM, "filter2")
+    h.helicsFilterAddSourceTarget(f2, "port2")
+    h.helicsFilterSetInfo(f2, "f2_test")
+
+    ep1 = h.helicsFederateRegisterEndpoint(fFed, "fout", "")
+    h.helicsEndpointSetInfo(ep1, "ep1_test")
+
+    f3 = h.helicsFederateRegisterFilter(fFed, h.HELICS_FILTER_TYPE_CUSTOM,  "c4")
+    h.helicsFilterAddSourceTarget(f3, "filter0/fout")
+    h.helicsFilterSetInfo(f3, "f3_test")
+
+    h.helicsFederateEnterExecutingModeAsync(fFed)
+    h.helicsFederateEnterExecutingMode(mFed)
+    h.helicsFederateEnterExecutingModeComplete(fFed)
+
+    filter_name = h.helicsFilterGetName(f1)
+    @test filter_name == "filter/filter1"
+
+    filter_name = h.helicsFilterGetName(f2)
+    @test filter_name == "filter/filter2"
+
+    @test h.helicsEndpointGetInfo(p1) == "p1_test"
+    @test h.helicsEndpointGetInfo(p2) == "p2_test"
+    @test h.helicsEndpointGetInfo(ep1) == "ep1_test"
+
+    @test h.helicsFilterGetInfo(f1) == "f1_test"
+    @test h.helicsFilterGetInfo(f2) == "f2_test"
+    @test h.helicsFilterGetInfo(f3) == "f3_test"
+
+    h.helicsFederateFinalize(mFed)
+    h.helicsFederateFinalize(fFed)
+
+    destroyFederate(fFed, ffedinfo)
+    destroyFederate(mFed, mfedinfo)
+    sleep(1.0)
+
+    destroyBroker(broker)
+end
+
 
 @testset "MessageFilter Function" begin
     broker = createBroker("zmq", 1)

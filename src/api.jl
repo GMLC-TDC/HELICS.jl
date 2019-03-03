@@ -18,8 +18,8 @@ function helicsEndpointSetDefaultDestination(endpoint::Endpoint, dest::String)
     @invoke_and_check Lib.helicsEndpointSetDefaultDestination(endpoint, dest)
 end
 
-function helicsEndpointGetDefaultDestination(endpoint::Endpoint)
-    Lib.helicsEndpointGetDefaultDestination(endpoint)
+function helicsEndpointGetDefaultDestination(endpoint::Endpoint)::String
+    Lib.helicsEndpointGetDefaultDestination(endpoint) |> unsafe_string
 end
 
 function helicsEndpointSendMessageRaw(endpoint::Endpoint, dest::String, data::String)
@@ -50,11 +50,11 @@ function helicsEndpointHasMessage(endpoint::Endpoint)::Bool
     Lib.helicsEndpointHasMessage(endpoint) == 1 ? true : false
 end
 
-function helicsFederatePendingMessages(fed::Federate)
+function helicsFederatePendingMessages(fed::Federate)::Int
     Lib.helicsFederatePendingMessages(fed)
 end
 
-function helicsEndpointPendingMessages(endpoint::Endpoint)
+function helicsEndpointPendingMessages(endpoint::Endpoint)::Int
     Lib.helicsEndpointPendingMessages(endpoint)
 end
 

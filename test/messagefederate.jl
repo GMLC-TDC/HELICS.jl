@@ -1,17 +1,24 @@
 
-function createMessageFederate(start_broker=true)
-    initstring = "-f 1 --name=mainbroker --loglevel=0"
+function startBroker(number=1)
+    initstring = "-f $number --name=mainbroker --loglevel=0"
+
+    @test_throws h.HelicsErrorInvalidArgument broker = h.helicsCreateBroker("mq", "", initstring)
+
+    broker = h.helicsCreateBroker("zmq", "", initstring)
+    @test broker isa h.Broker
+
+    @test h.helicsBrokerIsConnected(broker) == true
+
+    return broker
+end
+
+function createMessageFederate(;name="A Federate", start_broker=true)
     fedinitstring = "--broker=mainbroker --federates=1 --tick=0"
     deltat = 0.01
 
     # Create broker
     if start_broker
-        @test_throws h.HelicsErrorInvalidArgument broker = h.helicsCreateBroker("mq", "", initstring)
-
-        broker = h.helicsCreateBroker("zmq", "", initstring)
-        @test broker isa h.Broker
-
-        @test h.helicsBrokerIsConnected(broker) == true
+        broker = startBroker()
     else
         broker = nothing
     end
@@ -21,7 +28,7 @@ function createMessageFederate(start_broker=true)
     @test fedinfo isa h.FederateInfo
 
     # Set Federate name #
-    h.helicsFederateInfoSetCoreName(fedinfo, "CoreA Federate")
+    h.helicsFederateInfoSetCoreName(fedinfo, "Core$name")
 
     # Set core type from string #
     h.helicsFederateInfoSetCoreTypeFromString(fedinfo, "zmq")
@@ -39,7 +46,7 @@ function createMessageFederate(start_broker=true)
 
     h.helicsFederateInfoSetIntegerProperty(fedinfo, h.HELICS_PROPERTY_INT_LOG_LEVEL, -1)
 
-    mFed = h.helicsCreateMessageFederate("TestA Federate", fedinfo)
+    mFed = h.helicsCreateMessageFederate("Test$name", fedinfo)
 
     @test mFed isa h.MessageFederate
 
@@ -51,13 +58,17 @@ function destroyMessageFederate(mFed, fedinfo, broker=nothing)
     h.helicsFederateFinalize(mFed)
     state = h.helicsFederateGetState(mFed)
     @test state == 3
-    while (h.helicsBrokerIsConnected(broker))
-        sleep(1)
+    if broker != nothing
+        while (h.helicsBrokerIsConnected(broker))
+            sleep(1)
+        end
     end
 
     h.helicsFederateInfoFree(fedinfo)
     h.helicsFederateFree(mFed)
-    h.helicsCloseLibrary()
+    if broker != nothing
+        h.helicsCloseLibrary()
+    end
 
 end
 
@@ -83,6 +94,8 @@ end
 
     h.helicsFederateEnterExecutingMode(mFed)
 
+    @test h.HELICS_STATE_EXECUTION == h.helicsFederateGetState(mFed)
+
     endpoint_name = h.helicsEndpointGetName(epid1)
     @test endpoint_name == "TestA Federate/ep1"
 
@@ -94,6 +107,14 @@ end
 
     endpoint_name = h.helicsEndpointGetType(epid2)
     @test endpoint_name == "random"
+
+    epid_b = h.helicsFederateGetEndpoint(mFed, "ep2")
+    type = h.helicsEndpointGetType(epid_b)
+    @test type == "random"
+
+    epid_c = h.helicsFederateGetEndpointByIndex(mFed, 0)
+    name = h.helicsEndpointGetName(epid_c)
+    @test name == "TestA Federate/ep1"
 
     destroyMessageFederate(mFed, fedinfo, broker)
 end
@@ -134,3 +155,50 @@ end
 
     destroyMessageFederate(mFed, fedinfo, broker)
 end
+
+
+@testset "MessageFederate send_receive_2fed_multisend" begin
+
+    broker = startBroker(2)
+    mFed1, fedinfo1, ans = createMessageFederate(name="A Federate", start_broker=false)
+    mFed2, fedinfo2, ans = createMessageFederate(name="B Federate", start_broker=false)
+
+    epid1 = h.helicsFederateRegisterEndpoint(mFed1, "ep1", "")
+    epid2 = h.helicsFederateRegisterGlobalEndpoint(mFed2, "ep2", "random")
+
+    h.helicsFederateSetTimeProperty(mFed1, h.HELICS_PROPERTY_TIME_DELTA, 1.0)
+    h.helicsFederateSetTimeProperty(mFed2, h.HELICS_PROPERTY_TIME_DELTA, 1.0)
+
+    h.helicsFederateEnterExecutingModeAsync(mFed1)
+    h.helicsFederateEnterExecutingMode(mFed2)
+    h.helicsFederateEnterExecutingModeComplete(mFed1)
+
+    @test h.HELICS_STATE_EXECUTION == h.helicsFederateGetState(mFed1)
+    @test h.HELICS_STATE_EXECUTION == h.helicsFederateGetState(mFed2)
+
+    h.helicsEndpointSetDefaultDestination(epid1, "ep2");
+
+    h.helicsEndpointSendMessageRaw(epid1, "", "a")
+    h.helicsEndpointSendMessageRaw(epid1, "", "a")
+    h.helicsEndpointSendMessageRaw(epid1, "", "a")
+
+    h.helicsFederateRequestTimeAsync(mFed1, 1.0)
+    granted_time = h.helicsFederateRequestTime(mFed2, 1.0)
+    complete_time = h.helicsFederateRequestTimeComplete(mFed1)
+
+    @test granted_time == 1.0
+    @test complete_time == 1.0
+
+    res = h.helicsEndpointPendingMessages(epid2)
+    @test res == 3
+
+    res = h.helicsFederatePendingMessages(mFed2)
+    @test res == 3
+
+    @test h.helicsEndpointGetDefaultDestination(epid1) == "ep2"
+
+    destroyMessageFederate(mFed2, fedinfo2)
+    destroyMessageFederate(mFed1, fedinfo1, broker)
+
+end
+

@@ -9,3 +9,5 @@ const h = HELICS
 include("valuefederate.jl")
 include("messagefederate.jl")
 include("messagefilter.jl")
+
+include("api.jl")

@@ -3,53 +3,34 @@ abstract type CWrapper end
 Base.convert(T::Type{<:CWrapper}, p::Ptr{Nothing}) = T(p)
 Base.unsafe_convert(T::Type{Ptr{Nothing}}, t::CWrapper) = t.ptr
 
-struct Broker <: CWrapper
-    ptr::Ptr{Nothing}
-end
-
-struct Core <: CWrapper
-    ptr::Ptr{Nothing}
-end
-
-struct FederateInfo <: CWrapper
-    ptr::Ptr{Nothing}
-end
-
 abstract type Federate <: CWrapper end
 
-struct ValueFederate <: Federate
-    ptr::Ptr{Nothing}
-end
+for (subtype, supertype) in (
+            (:Broker, :CWrapper),
+            (:Core, :CWrapper),
+            (:FederateInfo, :CWrapper),
+            (:ValueFederate, :Federate),
+            (:MessageFederate, :Federate),
+            (:CombinationFederate, :Federate),
+            (:Publication, :CWrapper),
+            (:Subscription, :CWrapper),
+            (:Endpoint, :CWrapper),
+            (:Filter, :CWrapper),
+            (:Query, :CWrapper),
+           )
 
-struct MessageFederate <: Federate
-    ptr::Ptr{Nothing}
-end
-
-struct CombinationFederate <: Federate
-    ptr::Ptr{Nothing}
-end
-
-struct Publication <: CWrapper
-    ptr::Ptr{Nothing}
-end
-
-struct Subscription <: CWrapper
-    ptr::Ptr{Nothing}
+    eval(:(
+          struct $subtype <: $supertype
+              ptr::Ptr{Nothing}
+              function $subtype(ptr::Ptr{Nothing})
+                  ptr == C_NULL && error("Failed to create $subtype. Received null pointer from HELICS C interface.")
+                  new(ptr)
+              end
+          end
+          ))
 end
 
 const Input = Subscription
-
-struct Endpoint <: CWrapper
-    ptr::Ptr{Nothing}
-end
-
-struct Filter <: CWrapper
-    ptr::Ptr{Nothing}
-end
-
-struct Query <: CWrapper
-    ptr::Ptr{Nothing}
-end
 
 struct Message
     time::Float64
@@ -80,5 +61,18 @@ function Message(msg::Lib.helics_message)
 end
 
 Base.convert(::Type{Message}, msg::Lib.helics_message) = Message(msg)
+function unsafe_wrap(msg::Message)::Lib.helics_message
+    Lib.helics_message(
+                       msg.time,
+                       msg.data |> pointer,
+                       msg.length,
+                       msg.messageID,
+                       msg.flags,
+                       msg.original_source |> pointer,
+                       msg.source |> pointer,
+                       msg.dest |> pointer,
+                       msg.original_dest |> pointer,
+                      )
+end
 
 

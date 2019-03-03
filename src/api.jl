@@ -35,7 +35,8 @@ function helicsEndpointSendEventRaw(endpoint::Endpoint, dest::String, data::Stri
 end
 
 function helicsEndpointSendMessage(endpoint::Endpoint, message::Message)
-    @invoke_and_check Lib.helicsEndpointSendMessage(endpoint, message)
+    msg = Ref(unsafe_wrap(message))
+    @invoke_and_check Lib.helicsEndpointSendMessage(endpoint, msg)
 end
 
 function helicsEndpointSubscribe(endpoint::Endpoint, key::String)
@@ -178,39 +179,39 @@ function helicsFilterGetOption(filt::Filter, option)
     @invoke_and_check Lib.helicsFilterGetOption(filt, option)
 end
 
-function helicsFederateRegisterSubscription(fed::Federate, key::String, units::String)::Subscription
+function helicsFederateRegisterSubscription(fed::Federate, key::String, units::String="")::Subscription
     @invoke_and_check Lib.helicsFederateRegisterSubscription(fed, key, units)
 end
 
-function helicsFederateRegisterPublication(fed::Federate, key::String, kind::Lib.helics_data_type, units::String)::Publication
+function helicsFederateRegisterPublication(fed::Federate, key::String, kind::Lib.helics_data_type, units::String="")::Publication
     @invoke_and_check Lib.helicsFederateRegisterPublication(fed, key, kind, units)
 end
 
-function helicsFederateRegisterTypePublication(fed::Federate, key::String, kind::String, units::String)::Publication
+function helicsFederateRegisterTypePublication(fed::Federate, key::String, kind::String, units::String="")::Publication
     @invoke_and_check Lib.helicsFederateRegisterTypePublication(fed, key, kind, units)
 end
 
-function helicsFederateRegisterGlobalPublication(fed::Federate, key::String, kind::Lib.helics_data_type, units::String)::Publication
+function helicsFederateRegisterGlobalPublication(fed::Federate, key::String, kind::Lib.helics_data_type, units::String="")::Publication
     @invoke_and_check Lib.helicsFederateRegisterGlobalPublication(fed, key, kind, units)
 end
 
-function helicsFederateRegisterGlobalTypePublication(fed::Federate, key::String, kind::String, units::String)::Publication
+function helicsFederateRegisterGlobalTypePublication(fed::Federate, key::String, kind::String, units::String="")::Publication
     @invoke_and_check Lib.helicsFederateRegisterGlobalTypePublication(fed, key, kind, units)
 end
 
-function helicsFederateRegisterInput(fed::Federate, key::String, kind::String, units::String)::Input
+function helicsFederateRegisterInput(fed::Federate, key::String, kind::String, units::String="")::Input
     @invoke_and_check Lib.helicsFederateRegisterInput(fed, key, kind, units)
 end
 
-function helicsFederateRegisterTypeInput(fed::Federate, key::String, kind::String, units::String)::Input
+function helicsFederateRegisterTypeInput(fed::Federate, key::String, kind::String, units::String="")::Input
     @invoke_and_check Lib.helicsFederateRegisterTypeInput(fed, key, kind, units)
 end
 
-function helicsFederateRegisterGlobalInput(fed::Federate, key::String, kind::String, units::String)::Input
+function helicsFederateRegisterGlobalInput(fed::Federate, key::String, kind::String, units::String="")::Input
     @invoke_and_check Lib.helicsFederateRegisterGlobalInput(fed, key, kind, units)
 end
 
-function helicsFederateRegisterGlobalTypeInput(fed::Federate, key::String, kind::String, units::String)::Input
+function helicsFederateRegisterGlobalTypeInput(fed::Federate, key::String, kind::String, units::String="")::Input
     @invoke_and_check Lib.helicsFederateRegisterGlobalTypeInput(fed, key, kind, units)
 end
 
@@ -260,7 +261,7 @@ function helicsPublicationPublishTime(pub::Publication, val)
     @invoke_and_check Lib.helicsPublicationPublishTime(pub, val)
 end
 
-function helicsPublicationPublishChar(pub::Publication, val)
+function helicsPublicationPublishChar(pub::Publication, val::Char)
     @invoke_and_check Lib.helicsPublicationPublishChar(pub, val)
 end
 
@@ -285,7 +286,7 @@ function helicsInputAddTarget(ipt::Input, target::String)
     @invoke_and_check Lib.helicsInputAddTarget(ipt, target)
 end
 
-function helicsInputGetRawValueSize(ipt::Input)
+function helicsInputGetRawValueSize(ipt::Input)::Int
     Lib.helicsInputGetRawValueSize(ipt)
 end
 
@@ -322,7 +323,7 @@ function helicsInputGetTime(ipt::Input)
     @invoke_and_check Lib.helicsInputGetTime(ipt)
 end
 
-function helicsInputGetChar(ipt::Input)
+function helicsInputGetChar(ipt::Input)::Char
     @invoke_and_check Lib.helicsInputGetChar(ipt)
 end
 
@@ -378,7 +379,7 @@ function helicsInputSetDefaultTime(ipt::Input, val)
     @invoke_and_check Lib.helicsInputSetDefaultTime(ipt, val)
 end
 
-function helicsInputSetDefaultChar(ipt::Input, val)
+function helicsInputSetDefaultChar(ipt::Input, val::Char)
     @invoke_and_check Lib.helicsInputSetDefaultChar(ipt, val)
 end
 
@@ -463,8 +464,8 @@ function helicsPublicationSetOption(pub::Publication, option, val)
     @invoke_and_check Lib.helicsPublicationSetOption(pub, option, val)
 end
 
-function helicsInputIsUpdated(ipt::Input)
-    Lib.helicsInputIsUpdated(ipt)
+function helicsInputIsUpdated(ipt::Input)::Bool
+    Lib.helicsInputIsUpdated(ipt) == 1 ? true : false
 end
 
 function helicsInputLastUpdateTime(ipt::Input)
@@ -491,24 +492,24 @@ function helicsErrorClear(err)
     Lib.helicsErrorClear(err)
 end
 
-function helicsIsCoreTypeAvailable(kind::String)
-    Lib.helicsIsCoreTypeAvailable(kind)
+function helicsIsCoreTypeAvailable(kind::String)::Bool
+    Lib.helicsIsCoreTypeAvailable(kind) == 1 ? true : false
 end
 
-function helicsCreateCore(kind::String, name::String, initString::String)
+function helicsCreateCore(kind::String, name::String, initString::String)::Core
     @invoke_and_check Lib.helicsCreateCore(kind, name, initString)
 end
 
-function helicsCreateCoreFromArgs(kind::String, name::String, argc, argv)
+function helicsCreateCoreFromArgs(kind::String, name::String, argc, argv)::Core
     @invoke_and_check Lib.helicsCreateCoreFromArgs(kind, name, argc, argv)
 end
 
-function helicsCoreClone(core::Core)
+function helicsCoreClone(core::Core)::Core
     @invoke_and_check Lib.helicsCoreClone(core)
 end
 
-function helicsCoreIsValid(core::Core)
-    Lib.helicsCoreIsValid(core)
+function helicsCoreIsValid(core::Core)::Bool
+    Lib.helicsCoreIsValid(core) == 1 ? true : false
 end
 
 function helicsCreateBroker(kind::String, name::String, initString::String)::Broker
@@ -519,12 +520,12 @@ function helicsCreateBrokerFromArgs(kind::String, name::String, argc, argv)
     @invoke_and_check Lib.helicsCreateBrokerFromArgs(kind, name, argc, argv)
 end
 
-function helicsBrokerClone(broker::Broker)
+function helicsBrokerClone(broker::Broker)::Broker
     @invoke_and_check Lib.helicsBrokerClone(broker)
 end
 
-function helicsBrokerIsValid(broker::Broker)
-    Lib.helicsBrokerIsValid(broker)
+function helicsBrokerIsValid(broker::Broker)::Bool
+    Lib.helicsBrokerIsValid(broker) == 1 ? true : false
 end
 
 function helicsBrokerIsConnected(broker::Broker)::Bool
@@ -547,8 +548,8 @@ function helicsBrokerWaitForDisconnect(broker::Broker, msToWait)
     @invoke_and_check Lib.helicsBrokerWaitForDisconnect(broker, msToWait)
 end
 
-function helicsCoreIsConnected(core::Core)
-    Lib.helicsCoreIsConnected(core)
+function helicsCoreIsConnected(core::Core)::Bool
+    Lib.helicsCoreIsConnected(core) == 1 ? true : false
 end
 
 function helicsCoreDataLink(core::Core, source::String, target::String)
@@ -583,7 +584,7 @@ function helicsCoreDisconnect(core::Core)
     @invoke_and_check Lib.helicsCoreDisconnect(core)
 end
 
-function helicsGetFederateByName(fedName::String)
+function helicsGetFederateByName(fedName::String)::CombinationFederate
     @invoke_and_check Lib.helicsGetFederateByName(fedName)
 end
 
@@ -635,7 +636,7 @@ function helicsCreateCombinationFederateFromConfig(configFile)::CombinationFeder
     @invoke_and_check Lib.helicsCreateCombinationFederateFromConfig(configFile)
 end
 
-function helicsFederateClone(fed::Federate)
+function helicsFederateClone(fed::T)::T where T <: Federate
     @invoke_and_check Lib.helicsFederateClone(fed)
 end
 
@@ -643,7 +644,7 @@ function helicsCreateFederateInfo()::FederateInfo
     Lib.helicsCreateFederateInfo()
 end
 
-function helicsFederateInfoClone(fi::FederateInfo)
+function helicsFederateInfoClone(fi::FederateInfo)::FederateInfo
     @invoke_and_check Lib.helicsFederateInfoClone(fi)
 end
 
@@ -655,8 +656,8 @@ function helicsFederateInfoFree(fi::FederateInfo)
     Lib.helicsFederateInfoFree(fi)
 end
 
-function helicsFederateIsValid(fed::Federate)
-    Lib.helicsFederateIsValid(fed)
+function helicsFederateIsValid(fed::Federate)::Bool
+    Lib.helicsFederateIsValid(fed) == 1 ? true : false
 end
 
 function helicsFederateInfoSetCoreName(fi::FederateInfo, corename::String)
@@ -695,11 +696,11 @@ function helicsGetOptionIndex(val)
     Lib.helicsGetOptionIndex(val)
 end
 
-function helicsFederateInfoSetFlagOption(fi::FederateInfo, flag, value)
-    @invoke_and_check Lib.helicsFederateInfoSetFlagOption(fi, flag, value)
+function helicsFederateInfoSetFlagOption(fi::FederateInfo, flag::Int, value::Bool)
+    @invoke_and_check Lib.helicsFederateInfoSetFlagOption(fi, flag, value ? 1 : 0)
 end
 
-function helicsFederateInfoSetSeparator(fi::FederateInfo, separator)
+function helicsFederateInfoSetSeparator(fi::FederateInfo, separator::Char)
     @invoke_and_check Lib.helicsFederateInfoSetSeparator(fi, separator)
 end
 
@@ -743,8 +744,9 @@ function helicsFederateEnterInitializingModeAsync(fed::Federate)
     @invoke_and_check Lib.helicsFederateEnterInitializingModeAsync(fed)
 end
 
-function helicsFederateIsAsyncOperationCompleted(fed::Federate)
-    @invoke_and_check Lib.helicsFederateIsAsyncOperationCompleted(fed)
+function helicsFederateIsAsyncOperationCompleted(fed::Federate)::Bool
+    r = @invoke_and_check Lib.helicsFederateIsAsyncOperationCompleted(fed)
+    return r == 1 ? true : false
 end
 
 function helicsFederateEnterInitializingModeComplete(fed::Federate)
@@ -811,16 +813,16 @@ function helicsFederateRequestTimeIterativeComplete(fed::Federate, outIterate)
     @invoke_and_check Lib.helicsFederateRequestTimeIterativeComplete(fed, outIterate)
 end
 
-function helicsFederateGetName(fed::Federate)
-    Lib.helicsFederateGetName(fed)
+function helicsFederateGetName(fed::Federate)::String
+    Lib.helicsFederateGetName(fed) |> unsafe_string
 end
 
 function helicsFederateSetTimeProperty(fed::Federate, timeProperty::Lib.helics_properties, time::Float64)
     @invoke_and_check Lib.helicsFederateSetTimeProperty(fed, timeProperty, time)
 end
 
-function helicsFederateSetFlagOption(fed::Federate, flag, flagValue)
-    @invoke_and_check Lib.helicsFederateSetFlagOption(fed, flag, flagValue)
+function helicsFederateSetFlagOption(fed::Federate, flag::Int, flagValue::Bool)
+    @invoke_and_check Lib.helicsFederateSetFlagOption(fed, flag, flagValue ? 1 : 0)
 end
 
 function helicsFederateSetSeparator(fed::Federate, separator)
@@ -835,7 +837,7 @@ function helicsFederateGetTimeProperty(fed::Federate, timeProperty::Lib.helics_p
     @invoke_and_check Lib.helicsFederateGetTimeProperty(fed, timeProperty)
 end
 
-function helicsFederateGetFlagOption(fed::Federate, flag)
+function helicsFederateGetFlagOption(fed::Federate, flag::Int)::Bool
     @invoke_and_check Lib.helicsFederateGetFlagOption(fed, flag)
 end
 
@@ -883,8 +885,8 @@ function helicsQueryExecuteComplete(query::Query)
     @invoke_and_check Lib.helicsQueryExecuteComplete(query)
 end
 
-function helicsQueryIsCompleted(query::Query)
-    Lib.helicsQueryIsCompleted(query)
+function helicsQueryIsCompleted(query::Query)::Bool
+    Lib.helicsQueryIsCompleted(query) == 1 ? true : false
 end
 
 function helicsQueryFree(query::Query)

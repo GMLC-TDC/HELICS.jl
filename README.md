@@ -24,3 +24,6 @@ There are plenty of useful resources located [here](https://gmlc-tdc.github.io/H
 
 If you are having issues using this Julia interface, feel free to open an issue on GitHub [here](https://github.com/GMLC-TDC/HELICS.jl/issues/new).
 
+### Acknowledgements
+
+This work was developed as an extension to work done as part of the Scalable Integrated Infrastructure Planning (SIIP) initiative at the U.S. Department of Energy's National Renewable Energy Laboratory ([NREL](https://www.nrel.gov/)).

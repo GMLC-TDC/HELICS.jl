@@ -1,3 +1,4 @@
+include("init.jl")
 
 @testset "Broker" begin
     broker = createBroker(1)

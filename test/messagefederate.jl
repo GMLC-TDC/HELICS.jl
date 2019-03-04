@@ -1,3 +1,4 @@
+include("init.jl")
 
 @testset "MessageFederate test_message_federate_initialize" begin
     broker = createBroker()

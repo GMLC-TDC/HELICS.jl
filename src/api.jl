@@ -503,30 +503,32 @@ function helicsFederateGetInputCount(fed::Federate)::Int
 end
 
 """
-get a version string for HELICS
+Get a version string for HELICS
 """
-function helicsGetVersion()
+function helicsGetVersion()::String
     return Lib.helicsGetVersion() |> unsafe_string
 end
 
 """
-return an initialized error object
+Return an initialized error object
 """
-function helicsErrorInitialize()
+function helicsErrorInitialize()::Lib.helics_error
     Lib.helicsErrorInitialize()
 end
 
 """
-clear an error object
+Clear an error object
 """
-function helicsErrorClear(err)
+function helicsErrorClear(err::Lib.helics_error)
     Lib.helicsErrorClear(err)
 end
 
 """
 Returns true if core/broker type specified is available in current compilation.
 
-     `type`: a string representing a core type
+# Arguments
+
+- `type`: a string representing a core type
 
 possible options include "test","zmq","udp","ipc","interprocess","tcp","default", "mpi"
 
@@ -536,14 +538,17 @@ function helicsIsCoreTypeAvailable(kind::String)::Bool
 end
 
 """
-create a core object
+Create a core object
 
-    `type`: the type of the core to create
-    `name`: the name of the core , may be a nullptr or empty string to have a name automatically assigned
-    `initString`: an initialization string to send to the core-the format is similar to command line arguments
-    typical options include a broker address  --broker="XSSAF" or the number of federates or the address
+# Arguments
 
-    return: a helics_core object if the core is invalid err will contain some indication
+- `type`: the type of the core to create
+- `name`: the name of the core , may be a nullptr or empty string to have a name automatically assigned
+- `initString`: an initialization string to send to the core-the format is similar to command line arguments. Typical options include a broker address  --broker="XSSAF" or the number of federates or the address
+
+# Returns
+
+- a helics_core object if the core is invalid err will contain some indication
 
 """
 function helicsCreateCore(kind::String, name::String, initString::String)::Core
@@ -555,36 +560,45 @@ function helicsCreateCoreFromArgs(kind::String, name::String, argc, argv)::Core
 end
 
 """
-create a new reference to an existing core
+Create a new reference to an existing core
 
 this will create a new broker object that references the existing broker it must be freed as well
 
-    `core`: an existing helics_core
+# Arguments
 
-    return: a new reference to the same broker
+- `core`: an existing helics_core
+
+# Returns
+
+- a new reference to the same Core
 """
 function helicsCoreClone(core::Core)::Core
     @Utils.invoke_and_check Lib.helicsCoreClone(core)
 end
 
 """
-check if a core object is a valid object
+Check if a core object is a valid object
 
-    `core`: the helics_core object to test
+# Arguments
+
+- `core`: the helics_core object to test
 """
 function helicsCoreIsValid(core::Core)::Bool
     Lib.helicsCoreIsValid(core) == 1 ? true : false
 end
 
 """
-create a broker object
+Create a broker object
 
-    `type`: the type of the broker to create
-    `name`: the name of the broker , may be a nullptr or empty string to have a name automatically assigned
-    `initString`: an initialization string to send to the core-the format is similar to command line arguments
-    typical options include a broker address  --broker="XSSAF" if this is a subbroker or the number of federates or the address
+# Arguments
 
-    return: a helics_broker object, will be NULL if there was an error indicated in the err object
+- `type`: the type of the broker to create
+- `name`: the name of the broker , may be a nullptr or empty string to have a name automatically assigned
+- `initString`: an initialization string to send to the core-the format is similar to command line arguments. Typical options include a broker address  --broker="XSSAF" if this is a subbroker or the number of federates or the address
+
+# Returns
+
+- a helics_broker object, will be NULL if there was an error indicated in the err object
 
 """
 function helicsCreateBroker(kind::String, name::String, initString::String)::Broker
@@ -596,42 +610,48 @@ function helicsCreateBrokerFromArgs(kind::String, name::String, argc, argv)
 end
 
 """
-create a new reference to an existing broker
+Create a new reference to an existing broker
 
 this will create a new broker object that references the existing broker it must be freed as well
 
-    `broker`: an existing helics_broker
+# Arguments
 
-    return: a new reference to the same broker
+- `broker`: an existing helics_broker
+
+# Returns
+
+- a new reference to the same broker
 """
 function helicsBrokerClone(broker::Broker)::Broker
     @Utils.invoke_and_check Lib.helicsBrokerClone(broker)
 end
 
 """
-check if a broker object is a valid object
+Check if a broker object is a valid object
 
-    `broker`: the helics_broker object to test
+# Arguments
+
+- `broker`: the helics_broker object to test
 """
 function helicsBrokerIsValid(broker::Broker)::Bool
     Lib.helicsBrokerIsValid(broker) == 1 ? true : false
 end
 
 """
-check if a broker is connected
-  a connected broker implies is attached to cores or cores could reach out to communicate
-  return 0 if not connected , something else if it is connected
+Check if a broker is connected. A connected broker implies is attached to cores or cores could reach out to communicate. return 0 if not connected , something else if it is connected.
 """
 function helicsBrokerIsConnected(broker::Broker)::Bool
     Lib.helicsBrokerIsConnected(broker) == 1 ? true : false
 end
 
 """
-link a named publication and named input using a broker
+Link a named publication and named input using a broker
 
-    `broker`: the broker to generate the connection from
-    `source`: the name of the publication (cannot be NULL)
-    `target`: the name of the target to send the publication data (cannot be NULL)
+# Arguments
+
+- `broker`: the broker to generate the connection from
+- `source`: the name of the publication (cannot be NULL)
+- `target`: the name of the target to send the publication data (cannot be NULL)
 
 """
 function helicsBrokerDataLink(broker::Broker, source::String, target::String)
@@ -647,33 +667,42 @@ function helicsBrokerAddDestinationFilterToEndpoint(broker::Broker, filter, endp
 end
 
 """
-wait for the broker to disconnect
+Wait for the broker to disconnect
 
-  `broker`: the broker to wait for
-  `msToWait`: the time out in millisecond (<0 for infinite timeout)
+# Arguments
 
-  return: helics_true if the disconnect was successful,  helics_false if there was a timeout
+- `broker`: the broker to wait for
+- `msToWait`: the time out in millisecond (<0 for infinite timeout)
+
+# Returns
+
+- `true` if the disconnect was successful, `false` if there was a timeout
 
 """
 function helicsBrokerWaitForDisconnect(broker::Broker, msToWait)
-    @Utils.invoke_and_check Lib.helicsBrokerWaitForDisconnect(broker, msToWait)
+    r = @Utils.invoke_and_check Lib.helicsBrokerWaitForDisconnect(broker, msToWait)
+    return r == 1 ? true : false
 end
 
 """
-check if a core is connected
-    a connected core implies is attached to federate or federates could be attached to it
-    return helics_false if not connected, helics_true if it is connected
+Check if a core is connected. A connected core implies is attached to federate or federates could be attached to it.
+
+# Returns
+
+- `false` if not connected, `true` if it is connected
 """
 function helicsCoreIsConnected(core::Core)::Bool
     Lib.helicsCoreIsConnected(core) == 1 ? true : false
 end
 
 """
-link a named publication and named input using a core
+Link a named publication and named input using a core
 
-    `core`: the core to generate the connection from
-    `source`: the name of the publication (cannot be NULL)
-    `target`: the named of the target to send the publication data (cannot be NULL)
+# Arguments
+
+- `core`: the core to generate the connection from
+- `source`: the name of the publication (cannot be NULL)
+- `target`: the named of the target to send the publication data (cannot be NULL)
 
 """
 function helicsCoreDataLink(core::Core, source::String, target::String)
@@ -681,11 +710,13 @@ function helicsCoreDataLink(core::Core, source::String, target::String)
 end
 
 """
-link a named filter to a source endpoint
+Link a named filter to a source endpoint
 
-    `core`: the core to generate the connection from
-    `filter`: the name of the filter (cannot be NULL)
-    `endpoint`: the name of the endpoint to filter the data from (cannot be NULL)
+# Arguments
+
+- `core`: the core to generate the connection from
+- `filter`: the name of the filter (cannot be NULL)
+- `endpoint`: the name of the endpoint to filter the data from (cannot be NULL)
 
 """
 function helicsCoreAddSourceFilterToEndpoint(core::Core, filter, endpoint::Endpoint)
@@ -697,11 +728,15 @@ function helicsCoreAddDestinationFilterToEndpoint(core::Core, filter, endpoint::
 end
 
 """
-get an identifier for the broker
+Get an identifier for the broker
 
-    `broker`: the broker to query
+# Arguments
 
-    return: a string containing the identifier for the broker
+- `broker`: the broker to query
+
+# Returns
+
+- a string containing the identifier for the broker
 
 """
 function helicsBrokerGetIdentifier(broker::Broker)::String
@@ -709,11 +744,15 @@ function helicsBrokerGetIdentifier(broker::Broker)::String
 end
 
 """
-get an identifier for the core
+Get an identifier for the core
 
-    `core`: the core to query
+# Arguments
 
-    return: a string with the identifier of the core
+- `core`: the core to query
+
+# Returns
+
+- a string with the identifier of the core
 
 """
 function helicsCoreGetIdentifier(core::Core)::String
@@ -721,11 +760,15 @@ function helicsCoreGetIdentifier(core::Core)::String
 end
 
 """
-get the network address associated with a broker
+Get the network address associated with a broker
 
-    `broker`: the broker to query
+# Arguments
 
-    return: a string with the network address of the broker
+- `broker`: the broker to query
+
+# Returns
+
+- a string with the network address of the broker
 
 """
 function helicsBrokerGetAddress(broker::Broker)::String
@@ -733,9 +776,11 @@ function helicsBrokerGetAddress(broker::Broker)::String
 end
 
 """
-set the core to ready for init
+Set the core to ready for init
 
 this function is used for cores that have filters but no federates so there needs to be a direct signal to the core to trigger the federation initialization
+
+# Arguments
 
     `core`: the core object to enable init values for
 
@@ -745,11 +790,15 @@ function helicsCoreSetReadyToInit(core::Core)
 end
 
 """
-get an identifier for the core
+Get an identifier for the core
 
-    `core`: the core to query
+# Arguments
 
-    return: a void enumeration indicating any error condition
+- `core`: the core to query
+
+# Returns
+
+- a void enumeration indicating any error condition
 
 """
 function helicsCoreDisconnect(core::Core)
@@ -757,23 +806,29 @@ function helicsCoreDisconnect(core::Core)
 end
 
 """
-get an existing federate object from a core by name
+Get an existing federate object from a core by name
 
 the federate must have been created by one of the other functions and at least one of the objects referencing the created
     federate must still be active in the process
 
+# Arguments
+
     `fedName`: the name of the federate to retrieve
 
-    return: NULL if no fed is available by that name otherwise a helics_federate with that name
+# Returns
+
+- NULL if no fed is available by that name otherwise a helics_federate with that name
 """
 function helicsGetFederateByName(fedName::String)::CombinationFederate
     @Utils.invoke_and_check Lib.helicsGetFederateByName(fedName)
 end
 
 """
-disconnect a broker
+Disconnect a broker
 
-    `broker`: the broker to disconnect
+# Arguments
+
+- `broker`: the broker to disconnect
 
 """
 function helicsBrokerDisconnect(broker::Broker)
@@ -781,49 +836,53 @@ function helicsBrokerDisconnect(broker::Broker)
 end
 
 """
-disconnect and free a broker
+Disconnect and free a broker
 """
 function helicsFederateDestroy(fed::Federate)
     Lib.helicsFederateDestroy(fed)
 end
 
 """
-disconnect and free a broker
+Disconnect and free a broker
 """
 function helicsBrokerDestroy(broker::Broker)
     Lib.helicsBrokerDestroy(broker)
 end
 
 """
-disconnect and free a core
+Disconnect and free a core
 """
 function helicsCoreDestroy(core::Core)
     Lib.helicsCoreDestroy(core)
 end
 
 """
-release the memory associated with a core
+Release the memory associated with a core
 """
 function helicsCoreFree(core::Core)
     Lib.helicsCoreFree(core)
 end
 
 """
-release the memory associated with a broker
+Release the memory associated with a broker
 """
 function helicsBrokerFree(broker::Broker)
     Lib.helicsBrokerFree(broker)
 end
 
 """
-create a value federate from a federate info object
+Create a value federate from a federate info object
 
 helics_federate objects can be used in all functions that take a helics_federate or helics_federate object as an argument
 
-    `fedName`: the name of the federate to create, can NULL or an empty string to use the default name from fi or an assigned name
-    `fi`: the federate info object that contains details on the federate
+# Arguments
 
-    return: an opaque value federate object
+- `fedName`: the name of the federate to create, can NULL or an empty string to use the default name from fi or an assigned name
+- `fi`: the federate info object that contains details on the federate
+
+# Returns
+
+- an opaque value federate object
 
 """
 function helicsCreateValueFederate(fedName::String, fi::FederateInfo)::ValueFederate
@@ -831,13 +890,17 @@ function helicsCreateValueFederate(fedName::String, fi::FederateInfo)::ValueFede
 end
 
 """
-create a value federate from a JSON file, JSON string, or TOML file
+Create a value federate from a JSON file, JSON string, or TOML file
 
 helics_federate objects can be used in all functions that take a helics_federate or helics_federate object as an argument
 
-    `configFile`:  a JSON file or a JSON string or TOML file that contains setup and configuration information
+# Arguments
 
-    return: an opaque value federate object
+- `configFile`:  a JSON file or a JSON string or TOML file that contains setup and configuration information
+
+# Returns
+
+- an opaque value federate object
 
 """
 function helicsCreateValueFederateFromConfig(configFile)::ValueFederate
@@ -845,14 +908,18 @@ function helicsCreateValueFederateFromConfig(configFile)::ValueFederate
 end
 
 """
-create a message federate from a federate info object
+Create a message federate from a federate info object
 
 helics_message_federate objects can be used in all functions that take a helics_message_federate or helics_federate object as an argument
 
-    `fedName`: the name of the federate to create
-    `fi`: the federate info object that contains details on the federate
+# Arguments
 
-    return: an opaque message federate object
+- `fedName`: the name of the federate to create
+- `fi`: the federate info object that contains details on the federate
+
+# Returns
+
+- an opaque message federate object
 
 """
 function helicsCreateMessageFederate(fedName::String, fi::FederateInfo)::MessageFederate
@@ -860,13 +927,17 @@ function helicsCreateMessageFederate(fedName::String, fi::FederateInfo)::Message
 end
 
 """
-create a message federate from a JSON file or JSON string or TOML file
+Create a message federate from a JSON file or JSON string or TOML file
 
 helics_message_federate objects can be used in all functions that take a helics_message_federate or helics_federate object as an argument
 
-    `configFile`:  a Config(JSON,TOML) file or a JSON string that contains setup and configuration information
+# Arguments
 
-    return: an opaque message federate object
+- `configFile`:  a Config(JSON,TOML) file or a JSON string that contains setup and configuration information
+
+# Returns
+
+- an opaque message federate object
 
 """
 function helicsCreateMessageFederateFromConfig(configFile)::MessageFederate
@@ -874,14 +945,18 @@ function helicsCreateMessageFederateFromConfig(configFile)::MessageFederate
 end
 
 """
-create a combination federate from a federate info object
+Create a combination federate from a federate info object
 
 combination federates are both value federates and message federates, objects can be used in all functions that take a helics_federate, helics_message_federate or helics_federate object as an argument
 
-    `fedName`: a string with the name of the federate, can be NULL or an empty string to pull the default name from fi
-    `fi`: the federate info object that contains details on the federate
+# Arguments
 
-    return: an opaque value federate object nullptr if the object creation failed
+- `fedName`: a string with the name of the federate, can be NULL or an empty string to pull the default name from fi
+- `fi`: the federate info object that contains details on the federate
+
+# Returns
+
+- an opaque value federate object nullptr if the object creation failed
 
 """
 function helicsCreateCombinationFederate(fedName::String, fi::FederateInfo)::CombinationFederate
@@ -889,13 +964,17 @@ function helicsCreateCombinationFederate(fedName::String, fi::FederateInfo)::Com
 end
 
 """
-create a combination federate from a JSON file or JSON string
+Create a combination federate from a JSON file or JSON string
 
 combination federates are both value federates and message federates, objects can be used in all functions that take a helics_federate, helics_message_federate or helics_federate object as an argument
 
-    `configFile`:  a JSON file or a JSON string or TOML file that contains setup and configuration information
+# Arguments
 
-    return: an opaque combination federate object
+- `configFile`:  a JSON file or a JSON string or TOML file that contains setup and configuration information
+
+# Returns
+
+- an opaque combination federate object
 
 """
 function helicsCreateCombinationFederateFromConfig(configFile)::CombinationFederate
@@ -903,22 +982,28 @@ function helicsCreateCombinationFederateFromConfig(configFile)::CombinationFeder
 end
 
 """
-create a new reference to an existing federate
+Create a new reference to an existing federate
 
 this will create a new helics_federate object that references the existing federate it must be freed as well
 
-    `fed`: an existing helics_federate
+# Arguments
 
-    return: a new reference to the same federate
+- `fed`: an existing helics_federate
+
+# Returns
+
+- a new reference to the same federate
 """
 function helicsFederateClone(fed::T)::T where T <: Federate
     @Utils.invoke_and_check Lib.helicsFederateClone(fed)
 end
 
 """
-create a federate info object for specifying federate information when constructing a federate
+Create a federate info object for specifying federate information when constructing a federate
 
-    return: a helics_federate_info object which is a reference to the created object
+# Returns
+
+- a helics_federate_info object which is a reference to the created object
 
 """
 function helicsCreateFederateInfo()::FederateInfo
@@ -926,11 +1011,15 @@ function helicsCreateFederateInfo()::FederateInfo
 end
 
 """
-create a federate info object from an existing one and clone the information
+Create a federate info object from an existing one and clone the information
 
-    `fi`: a federateInfo object to duplicate
+# Arguments
 
-    return: a helics_federate_info object which is a reference to the created object
+- `fi`: a federateInfo object to duplicate
+
+# Returns
+
+- a helics_federate_info object which is a reference to the created object
 
 """
 function helicsFederateInfoClone(fi::FederateInfo)::FederateInfo
@@ -938,11 +1027,13 @@ function helicsFederateInfoClone(fi::FederateInfo)::FederateInfo
 end
 
 """
-load a federate info from command line arguments
+Load a federate info from command line arguments
 
-    `fi`: a federateInfo object
-    `argc`: the number of command line arguments
-    `argv`: an array of strings from the command line
+# Arguments
+
+- `fi`: a federateInfo object
+- `argc`: the number of command line arguments
+- `argv`: an array of strings from the command line
 
 """
 function helicsFederateInfoLoadFromArgs(fi::FederateInfo, argc, argv)
@@ -950,26 +1041,30 @@ function helicsFederateInfoLoadFromArgs(fi::FederateInfo, argc, argv)
 end
 
 """
-delete the memory associated with a federate info object
+Delete the memory associated with a federate info object
 """
 function helicsFederateInfoFree(fi::FederateInfo)
     Lib.helicsFederateInfoFree(fi)
 end
 
 """
-check if a federate_object is valid
+Check if a federate_object is valid
 
-    return: helics_true if the federate is a valid active federate, helics_false otherwise
+# Returns
+
+- `true` if the federate is a valid active federate, `false` otherwise
 """
 function helicsFederateIsValid(fed::Federate)::Bool
     Lib.helicsFederateIsValid(fed) == 1 ? true : false
 end
 
 """
-set the name of the core to link to for a federate
+Set the name of the core to link to for a federate
 
-  `fi`: the federate info object to alter
-  `corename`: the identifier for a core to link to
+# Arguments
+
+- `fi`: the federate info object to alter
+- `corename`: the identifier for a core to link to
 
 """
 function helicsFederateInfoSetCoreName(fi::FederateInfo, corename::String)
@@ -977,10 +1072,12 @@ function helicsFederateInfoSetCoreName(fi::FederateInfo, corename::String)
 end
 
 """
-set the initialization string for the core usually in the form of command line arguments
+Set the initialization string for the core usually in the form of command line arguments
 
-    `fi`: the federate info object to alter
-    `coreInit`: a string with the core initialization strings
+# Arguments
+
+- `fi`: the federate info object to alter
+- `coreInit`: a string with the core initialization strings
 
 """
 function helicsFederateInfoSetCoreInitString(fi::FederateInfo, coreInit::String)
@@ -988,12 +1085,14 @@ function helicsFederateInfoSetCoreInitString(fi::FederateInfo, coreInit::String)
 end
 
 """
-set the core type by integer code
+Set the core type by integer code
 
 valid values available by definitions in api-data.h
 
-    `fi`: the federate info object to alter
-    `coretype`: an numerical code for a core type see /ref helics_core_type
+# Arguments
+
+- `fi`: the federate info object to alter
+- `coretype`: an numerical code for a core type see /ref helics_core_type
 
 """
 function helicsFederateInfoSetCoreType(fi::FederateInfo, coretype::Int)
@@ -1001,10 +1100,12 @@ function helicsFederateInfoSetCoreType(fi::FederateInfo, coretype::Int)
 end
 
 """
-set the core type from a string
+Set the core type from a string
 
-    `fi`: the federate info object to alter
-    `coretype`: a string naming a core type
+# Arguments
+
+- `fi`: the federate info object to alter
+- `coretype`: a string naming a core type
 
 """
 function helicsFederateInfoSetCoreTypeFromString(fi::FederateInfo, coretype::String)
@@ -1012,12 +1113,14 @@ function helicsFederateInfoSetCoreTypeFromString(fi::FederateInfo, coretype::Str
 end
 
 """
-set the name or connection information for a broker
+Set the name or connection information for a broker
 
 this is only used if the core is automatically created, the broker information will be transferred to the core for connection
 
-    `fi`: the federate info object to alter
-    `broker`: a string which defined the connection information for a broker either a name or an address
+# Arguments
+
+- `fi`: the federate info object to alter
+- `broker`: a string which defined the connection information for a broker either a name or an address
 
 """
 function helicsFederateInfoSetBroker(fi::FederateInfo, broker::Broker)
@@ -1025,12 +1128,14 @@ function helicsFederateInfoSetBroker(fi::FederateInfo, broker::Broker)
 end
 
 """
-set the port to use for the broker
+Set the port to use for the broker
 
 this is only used if the core is automatically created, the broker information will be transferred to the core for connection this will only be useful for network broker connections
 
-    `fi`: the federate info object to alter
-    `brokerPort`: the integer port number to use for connection with a broker
+# Arguments
+
+- `fi`: the federate info object to alter
+- `brokerPort`: the integer port number to use for connection with a broker
 
 """
 function helicsFederateInfoSetBrokerPort(fi::FederateInfo, brokerPort::Int)
@@ -1038,12 +1143,14 @@ function helicsFederateInfoSetBrokerPort(fi::FederateInfo, brokerPort::Int)
 end
 
 """
-set the local port to use
+Set the local port to use
 
 this is only used if the core is automatically created, the port information will be transferred to the core for connection
 
-    `fi`: the federate info object to alter
-    `localPort`: a string with the port information to use as the local server port can be a number or "auto" or "os_local"
+# Arguments
+
+- `fi`: the federate info object to alter
+- `localPort`: a string with the port information to use as the local server port can be a number or "auto" or "os_local"
 
 """
 function helicsFederateInfoSetLocalPort(fi::FederateInfo, localPort::Int)
@@ -1051,12 +1158,16 @@ function helicsFederateInfoSetLocalPort(fi::FederateInfo, localPort::Int)
 end
 
 """
-get a property index for use in /ref helicsFederateInfoSetFlagOption, /ref helicsFederateInfoSetTimeProperty,
+Get a property index for use in /ref helicsFederateInfoSetFlagOption, /ref helicsFederateInfoSetTimeProperty,
     helicsFederateInfoSetIntegerProperty
 
-    `val`: a string with the property name
+# Arguments
 
-    return: an int with the property code (-1) if not a valid property
+- `val`: a string with the property name
+
+# Returns
+
+- an int with the property code (-1) if not a valid property
 
 """
 function helicsGetPropertyIndex(val)
@@ -1064,12 +1175,16 @@ function helicsGetPropertyIndex(val)
 end
 
 """
-get an option index for use in /ref helicsPublicationSetOption, /ref helicsInputSetOption, /ref helicsEndpointSetOption, /ref
+Get an option index for use in /ref helicsPublicationSetOption, /ref helicsInputSetOption, /ref helicsEndpointSetOption, /ref
     helicsFilterSetOption, and the corresponding get functions
 
-    `val`: a string with the option name
+# Arguments
 
-    return: an int with the option index (-1) if not a valid property
+- `val`: a string with the option name
+
+# Returns
+
+- an int with the option index (-1) if not a valid property
 
 """
 function helicsGetOptionIndex(val)
@@ -1077,13 +1192,15 @@ function helicsGetOptionIndex(val)
 end
 
 """
-set a flag in the info structure
+Set a flag in the info structure
 
 valid flags are available /ref helics_federate_flags
 
-    `fi`: the federate info object to alter
-    `flag`: a numerical index for a flag
-    `value`: the desired value of the flag helics_true or helics_false
+# Arguments
+
+- `fi`: the federate info object to alter
+- `flag`: a numerical index for a flag
+- `value`: the desired value of the flag `true` or `false`
 
 """
 function helicsFederateInfoSetFlagOption(fi::FederateInfo, flag::Int, value::Bool)
@@ -1091,12 +1208,14 @@ function helicsFederateInfoSetFlagOption(fi::FederateInfo, flag::Int, value::Boo
 end
 
 """
-set the separator character in the info structure
+Set the separator character in the info structure
 
 the separator character is the separation character for local publications/endpoints in creating their global name. for example if the separator character is '/'  then a local endpoint would have a globally reachable name of fedName/localName
 
-    `fi`: the federate info object to alter
-    `separator`: the character to use as a separator
+# Arguments
+
+- `fi`: the federate info object to alter
+- `separator`: the character to use as a separator
 
 """
 function helicsFederateInfoSetSeparator(fi::FederateInfo, separator::Char)
@@ -1112,10 +1231,12 @@ function helicsFederateInfoSetIntegerProperty(fi::FederateInfo, intProperty::Lib
 end
 
 """
-load interfaces from a file
+Load interfaces from a file
 
-    `fed`: the federate to which to load interfaces
-    `file`: the name of a file to load the interfaces from either JSON, or TOML
+# Arguments
+
+- `fed`: the federate to which to load interfaces
+- `file`: the name of a file to load the interfaces from either JSON, or TOML
 
 """
 function helicsFederateRegisterInterfaces(fed::Federate, file)
@@ -1123,35 +1244,35 @@ function helicsFederateRegisterInterfaces(fed::Federate, file)
 end
 
 """
-finalize the federate this function halts all communication in the federate and disconnects it from the core
+Finalize the federate this function halts all communication in the federate and disconnects it from the core
 """
 function helicsFederateFinalize(fed::Federate)
     @Utils.invoke_and_check Lib.helicsFederateFinalize(fed)
 end
 
 """
-finalize the federate in an async call
+Finalize the federate in an async call
 """
 function helicsFederateFinalizeAsync(fed::Federate)
     @Utils.invoke_and_check Lib.helicsFederateFinalizeAsync(fed)
 end
 
 """
-complete the asynchronous finalize call
+Complete the asynchronous finalize call
 """
 function helicsFederateFinalizeComplete(fed::Federate)
     @Utils.invoke_and_check Lib.helicsFederateFinalizeComplete(fed)
 end
 
 """
-release the memory associated withe a federate
+Release the memory associated withe a federate
 """
 function helicsFederateFree(fed::Federate)
     Lib.helicsFederateFree(fed)
 end
 
 """
-call when done using the helics library,  this function will ensure the threads are closed properly if possible
+Call when done using the helics library,  this function will ensure the threads are closed properly if possible
     this should be the last call before exiting,
 """
 function helicsCloseLibrary()
@@ -1159,11 +1280,13 @@ function helicsCloseLibrary()
 end
 
 """
-enter the initialization state of a federate
+Enter the initialization state of a federate
 
 the initialization state allows initial values to be set and received if the iteration is requested on entry to the execution state. This is a blocking call and will block until the core allows it to proceed.
 
-    `fed`: the federate to operate on
+# Arguments
+
+- `fed`: the federate to operate on
 
 """
 function helicsFederateEnterInitializingMode(fed::Federate)
@@ -1171,10 +1294,12 @@ function helicsFederateEnterInitializingMode(fed::Federate)
 end
 
 """
-non blocking alternative to \ref helicsFederateEnterInitializingMode
+Non blocking alternative to \ref helicsFederateEnterInitializingMode
     the function helicsFederateEnterInitializationModeFinalize must be called to finish the operation
 
-    `fed`: the federate to operate on
+# Arguments
+
+- `fed`: the federate to operate on
 
 """
 function helicsFederateEnterInitializingModeAsync(fed::Federate)
@@ -1182,11 +1307,15 @@ function helicsFederateEnterInitializingModeAsync(fed::Federate)
 end
 
 """
-check if the current Asynchronous operation has completed
+Check if the current Asynchronous operation has completed
 
-    `fed`: the federate to operate on
+# Arguments
 
-    return: helics_false if not completed, helics_true if completed
+- `fed`: the federate to operate on
+
+# Returns
+
+- `false` if not completed, `true` if completed
 """
 function helicsFederateIsAsyncOperationCompleted(fed::Federate)::Bool
     r = @Utils.invoke_and_check Lib.helicsFederateIsAsyncOperationCompleted(fed)
@@ -1194,20 +1323,24 @@ function helicsFederateIsAsyncOperationCompleted(fed::Federate)::Bool
 end
 
 """
-finalize the entry to initialize mode that was initiated with /ref heliceEnterInitializingModeAsync
+Finalize the entry to initialize mode that was initiated with /ref heliceEnterInitializingModeAsync
 
-    `fed`: the federate desiring to complete the initialization step function
+# Arguments
+
+- `fed`: the federate desiring to complete the initialization step function
 """
 function helicsFederateEnterInitializingModeComplete(fed::Federate)
     @Utils.invoke_and_check Lib.helicsFederateEnterInitializingModeComplete(fed)
 end
 
 """
-request that the federate enter the Execution mode
+Request that the federate enter the Execution mode
 
 this call is blocking until granted entry by the core object for an asynchronous alternative call /ref helicsFederateEnterExecutingModeAsync  on return from this call the federate will be at time 0.
 
-    `fed`: a federate to change modes
+# Arguments
+
+- `fed`: a federate to change modes
 
 """
 function helicsFederateEnterExecutingMode(fed::Federate)
@@ -1215,11 +1348,13 @@ function helicsFederateEnterExecutingMode(fed::Federate)
 end
 
 """
-request that the federate enter the Execution mode
+Request that the federate enter the Execution mode
 
 this call is non-blocking and will return immediately call /ref helicsFederateEnterExecutingModeComplete to finish the call sequence /ref helicsFederateEnterExecutingModeComplete.
 
-    `fed`: the federate object to complete the call
+# Arguments
+
+- `fed`: the federate object to complete the call
 
 """
 function helicsFederateEnterExecutingModeAsync(fed::Federate)
@@ -1227,9 +1362,11 @@ function helicsFederateEnterExecutingModeAsync(fed::Federate)
 end
 
 """
-complete the call to /ref EnterExecutingModeAsync
+Complete the call to /ref EnterExecutingModeAsync
 
-    `fed`: the federate object to complete the call
+# Arguments
+
+- `fed`: the federate object to complete the call
 
 """
 function helicsFederateEnterExecutingModeComplete(fed::Federate)
@@ -1237,14 +1374,18 @@ function helicsFederateEnterExecutingModeComplete(fed::Federate)
 end
 
 """
-request an iterative time
+Request an iterative time
 
 this call allows for finer grain control of the iterative process then /ref helicsFederateRequestTime it takes a time and iteration request and return a time and iteration status.
 
-    `fed`: the federate to make the request of
-    `iterate`: the requested iteration mode
+# Arguments
 
-    return: an iteration structure with field containing the time and iteration status
+- `fed`: the federate to make the request of
+- `iterate`: the requested iteration mode
+
+# Returns
+
+- an iteration structure with field containing the time and iteration status
 
 """
 function helicsFederateEnterExecutingModeIterative(fed::Federate, iterate)
@@ -1256,11 +1397,15 @@ function helicsFederateEnterExecutingModeIterativeAsync(fed::Federate, iterate)
 end
 
 """
-complete the asynchronous iterative call into ExecutionModel
+Complete the asynchronous iterative call into ExecutionModel
 
-    `fed`: the federate to make the request of
+# Arguments
 
-    return: an iteration object containing the iteration time and iteration_status
+- `fed`: the federate to make the request of
+
+# Returns
+
+- an iteration object containing the iteration time and iteration_status
 
 """
 function helicsFederateEnterExecutingModeIterativeComplete(fed::Federate)
@@ -1268,22 +1413,30 @@ function helicsFederateEnterExecutingModeIterativeComplete(fed::Federate)
 end
 
 """
-get the current state of a federate
+Get the current state of a federate
 
-    `fed`: the fed to query
+# Arguments
 
-    return: state the resulting state if void return helics_ok
+- `fed`: the fed to query
+
+# Returns
+
+- state the resulting state if void return helics_ok
 """
 function helicsFederateGetState(fed::Federate)::Int
     @Utils.invoke_and_check Lib.helicsFederateGetState(fed)
 end
 
 """
-get the core object associated with a federate
+Get the core object associated with a federate
 
-    `fed`: a federate object
+# Arguments
 
-    return: a core object, nullptr if invalid
+- `fed`: a federate object
+
+# Returns
+
+- a core object, nullptr if invalid
 
 """
 function helicsFederateGetCoreObject(fed::Federate)::Core
@@ -1291,12 +1444,16 @@ function helicsFederateGetCoreObject(fed::Federate)::Core
 end
 
 """
-request the next time for federate execution
+Request the next time for federate execution
 
-    `fed`: the federate to make the request of
-    `requestTime`: the next requested time
+# Arguments
 
-    return: the time granted to the federate
+- `fed`: the federate to make the request of
+- `requestTime`: the next requested time
+
+# Returns
+
+- the time granted to the federate
     invalid
 """
 function helicsFederateRequestTime(fed::Federate, requestTime::Float64)::Float64
@@ -1304,12 +1461,17 @@ function helicsFederateRequestTime(fed::Federate, requestTime::Float64)::Float64
 end
 
 """
-request the next time step for federate execution
+Request the next time step for federate execution
 
 feds should have setup the period or minDelta for this to work well but it will request the next time step which is the current time plus the minimum time step.
-    `fed`: the federate to make the request of
 
-    return: the time granted to the federate
+# Arguments
+
+- `fed`: the federate to make the request of
+
+# Returns
+
+- the time granted to the federate
     invalid
 """
 function helicsFederateRequestNextStep(fed::Federate)
@@ -1317,15 +1479,20 @@ function helicsFederateRequestNextStep(fed::Federate)
 end
 
 """
-request an iterative time
+Request an iterative time
 
 this call allows for finer grain control of the iterative process then /ref helicsFederateRequestTime it takes a time and iteration request and return a time and iteration status.
-    `fed`: the federate to make the request of
-    `requestTime`: the next desired time
-    `iterate`: the requested iteration mode
-    `outIterate`: the iteration specification of the result
 
-    return: the granted time
+# Arguments
+
+- `fed`: the federate to make the request of
+- `requestTime`: the next desired time
+- `iterate`: the requested iteration mode
+- `outIterate`: the iteration specification of the result
+
+# Returns
+
+- the granted time
 
 """
 function helicsFederateRequestTimeIterative(fed::Federate, requestTime, iterate, outIterate)
@@ -1333,12 +1500,14 @@ function helicsFederateRequestTimeIterative(fed::Federate, requestTime, iterate,
 end
 
 """
-request the next time for federate execution in an asynchronous call
+Request the next time for federate execution in an asynchronous call
 
 call /ref helicsFederateRequestTimeComplete to finish the call
 
-    `fed`: the federate to make the request of
-    `requestTime`: the next requested time
+# Arguments
+
+- `fed`: the federate to make the request of
+- `requestTime`: the next requested time
 
 """
 function helicsFederateRequestTimeAsync(fed::Federate, requestTime)
@@ -1346,26 +1515,34 @@ function helicsFederateRequestTimeAsync(fed::Federate, requestTime)
 end
 
 """
-complete an asynchronous requestTime call
+Complete an asynchronous requestTime call
 
-    `fed`: the federate to make the request of
+# Arguments
 
-    return: the time granted to the federate
+- `fed`: the federate to make the request of
+
+# Returns
+
+- the time granted to the federate
 """
 function helicsFederateRequestTimeComplete(fed::Federate)
     @Utils.invoke_and_check Lib.helicsFederateRequestTimeComplete(fed)
 end
 
 """
-request an iterative time through an asynchronous call
+Request an iterative time through an asynchronous call
 
 this call allows for finer grain control of the iterative process then /ref helicsFederateRequestTime it takes a time an iteration request and returns a time and iteration status call /ref helicsFederateRequestTimeIterativeComplete to finish the process.
 
-    `fed`: the federate to make the request of
-    `requestTime`: the next desired time
-    `iterate`: the requested iteration mode
+# Arguments
 
-    return: a void object with a return code of the result
+- `fed`: the federate to make the request of
+- `requestTime`: the next desired time
+- `iterate`: the requested iteration mode
+
+# Returns
+
+- a void object with a return code of the result
 
 """
 function helicsFederateRequestTimeIterativeAsync(fed::Federate, requestTime, iterate)
@@ -1373,12 +1550,16 @@ function helicsFederateRequestTimeIterativeAsync(fed::Federate, requestTime, ite
 end
 
 """
-complete an iterative time request asynchronous call
+Complete an iterative time request asynchronous call
 
-    `fed`: the federate to make the request of
-    `outIterate`  the iteration specification of the result
+# Arguments
 
-    return: the granted time
+- `fed`: the federate to make the request of
+- `outIterate`  the iteration specification of the result
+
+# Returns
+
+- the granted time
 
 """
 function helicsFederateRequestTimeIterativeComplete(fed::Federate, outIterate)
@@ -1386,11 +1567,15 @@ function helicsFederateRequestTimeIterativeComplete(fed::Federate, outIterate)
 end
 
 """
-get the name of the federate
+Get the name of the federate
 
-    `fed`: the federate object to query
+# Arguments
 
-    return: a pointer to a string with the name
+- `fed`: the federate object to query
+
+# Returns
+
+- a pointer to a string with the name
 
 """
 function helicsFederateGetName(fed::Federate)::String
@@ -1398,11 +1583,13 @@ function helicsFederateGetName(fed::Federate)::String
 end
 
 """
-set a time based property for a federate
+Set a time based property for a federate
 
-    `fed`: the federate object set the property for
-    `timeProperty`: a integer code for a time property
-    `time`: the requested value of the property
+# Arguments
+
+- `fed`: the federate object set the property for
+- `timeProperty`: a integer code for a time property
+- `time`: the requested value of the property
 
 """
 function helicsFederateSetTimeProperty(fed::Federate, timeProperty::Lib.helics_properties, time::Float64)
@@ -1410,11 +1597,13 @@ function helicsFederateSetTimeProperty(fed::Federate, timeProperty::Lib.helics_p
 end
 
 """
-set a flag for the federate
+Set a flag for the federate
 
-    `fed`: the federate to alter a flag for
-    `flag`: the flag to change
-    `flagValue`: the new value of the flag 0 for false !=0 for true
+# Arguments
+
+- `fed`: the federate to alter a flag for
+- `flag`: the flag to change
+- `flagValue`: the new value of the flag 0 for false !=0 for true
 
 """
 function helicsFederateSetFlagOption(fed::Federate, flag::Int, flagValue::Bool)
@@ -1422,12 +1611,14 @@ function helicsFederateSetFlagOption(fed::Federate, flag::Int, flagValue::Bool)
 end
 
 """
-set the separator character in a federate
+Set the separator character in a federate
 
 the separator character is the separation character for local publications/endpoints in creating their global name. for example if the separator character is '/'  then a local endpoint would have a globally reachable name of fedName/localName.
 
-    `fed`: the federate info object to alter
-    `separator`: the character to use as a separator
+# Arguments
+
+- `fed`: the federate info object to alter
+- `separator`: the character to use as a separator
 
 """
 function helicsFederateSetSeparator(fed::Federate, separator)
@@ -1435,11 +1626,13 @@ function helicsFederateSetSeparator(fed::Federate, separator)
 end
 
 """
- set an integer based property of a federate
+Set an integer based property of a federate
 
-    `fed`: the federate to change the property for
-    `intProperty`: the property to set
-    `propertyVal`: the value of the property
+# Arguments
+
+- `fed`: the federate to change the property for
+- `intProperty`: the property to set
+- `propertyVal`: the value of the property
 
 """
 function helicsFederateSetIntegerProperty(fed::Federate, intProperty::Lib.helics_properties, propertyVal)
@@ -1447,10 +1640,12 @@ function helicsFederateSetIntegerProperty(fed::Federate, intProperty::Lib.helics
 end
 
 """
-get the current value of a time based property in a federate
+Get the current value of a time based property in a federate
 
-    `fed`: the federate query
-    `timeProperty`: the property to query
+# Arguments
+
+- `fed`: the federate query
+- `timeProperty`: the property to query
 
 """
 function helicsFederateGetTimeProperty(fed::Federate, timeProperty::Lib.helics_properties)
@@ -1458,12 +1653,16 @@ function helicsFederateGetTimeProperty(fed::Federate, timeProperty::Lib.helics_p
 end
 
 """
-get a flag value for a federate
+Get a flag value for a federate
 
-    `fed`: the federate to get the flag for
-    `flag`: the flag to query
+# Arguments
 
-    return: the value of the flag
+- `fed`: the federate to get the flag for
+- `flag`: the flag to query
+
+# Returns
+
+- the value of the flag
 
 """
 function helicsFederateGetFlagOption(fed::Federate, flag::Int)::Bool
@@ -1471,14 +1670,18 @@ function helicsFederateGetFlagOption(fed::Federate, flag::Int)::Bool
 end
 
 """
- set the logging level for the federate
+Set the logging level for the federate
 
 debug and trace only do anything if they were enabled in the compilation
 
-    `fed`: the federate to get the flag for
-    `intProperty`: a code for the property to set /ref helics_handle_options
+# Arguments
 
-    return: the value of the property
+- `fed`: the federate to get the flag for
+- `intProperty`: a code for the property to set /ref helics_handle_options
+
+# Returns
+
+- the value of the property
 
 """
 function helicsFederateGetIntegerProperty(fed::Federate, intProperty::Lib.helics_properties)
@@ -1486,10 +1689,15 @@ function helicsFederateGetIntegerProperty(fed::Federate, intProperty::Lib.helics
 end
 
 """
-get the current time of the federate
-    `fed`: the federate object to query
+Get the current time of the federate
 
-    return: the current time of the federate
+# Arguments
+
+- `fed`: the federate object to query
+
+# Returns
+
+- the current time of the federate
 
 """
 function helicsFederateGetCurrentTime(fed::Federate)
@@ -1497,13 +1705,15 @@ function helicsFederateGetCurrentTime(fed::Federate)
 end
 
 """
-set a federation global value through a federate
+Set a federation global value through a federate
 
 this overwrites any previous value for this name
 
-    `fed`: the federate to set the global through
-    `valueName`: the name of the global to set
-    `value`: the value of the global
+# Arguments
+
+- `fed`: the federate to set the global through
+- `valueName`: the name of the global to set
+- `value`: the value of the global
 
 """
 function helicsFederateSetGlobal(fed::Federate, valueName, value)
@@ -1511,13 +1721,15 @@ function helicsFederateSetGlobal(fed::Federate, valueName, value)
 end
 
 """
-set a global value in a core
+Set a global value in a core
 
 this overwrites any previous value for this name
 
-    `core`: the core to set the global through
-    `valueName`: the name of the global to set
-    `value`: the value of the global
+# Arguments
+
+- `core`: the core to set the global through
+- `valueName`: the name of the global to set
+- `value`: the value of the global
 
 """
 function helicsCoreSetGlobal(core::Core, valueName, value)
@@ -1525,13 +1737,15 @@ function helicsCoreSetGlobal(core::Core, valueName, value)
 end
 
 """
-set a federation global value
+Set a federation global value
 
 this overwrites any previous value for this name
 
-    `broker`: the broker to set the global through
-    `valueName`: the name of the global to set
-    `value`: the value of the global
+# Arguments
+
+- `broker`: the broker to set the global through
+- `valueName`: the name of the global to set
+- `value`: the value of the global
 
 """
 function helicsBrokerSetGlobal(broker::Broker, valueName, value)
@@ -1539,12 +1753,14 @@ function helicsBrokerSetGlobal(broker::Broker, valueName, value)
 end
 
 """
-create a query object
+Create a query object
 
 a query object consists of a target and query string
 
-    `target`: the name of the target to query
-    `query`: the query to make of the target
+# Arguments
+
+- `target`: the name of the target to query
+- `query`: the query to make of the target
 
 """
 function helicsCreateQuery(target::String, query::String)::Query
@@ -1556,10 +1772,14 @@ Execute a query
 
 the call will block until the query finishes which may require communication or other delays
 
-    `query`: the query object to use in the query
-    `fed`: a federate to send the query through
+# Arguments
 
-    return: a pointer to a string.  the string will remain valid until the query is freed or executed again
+- `query`: the query object to use in the query
+- `fed`: a federate to send the query through
+
+# Returns
+
+- a pointer to a string.  the string will remain valid until the query is freed or executed again
     the return will be nullptr if fed or query is an invalid object, the return string will be "#invalid" if the query itself was invalid
 
 """
@@ -1573,10 +1793,14 @@ Execute a query directly on a core
 
 the call will block until the query finishes which may require communication or other delays
 
-    `query`: the query object to use in the query
-    `core`: the core to send the query to
+# Arguments
 
-    return: a pointer to a string.  the string will remain valid until the query is freed or executed again
+- `query`: the query object to use in the query
+- `core`: the core to send the query to
+
+# Returns
+
+- a pointer to a string.  the string will remain valid until the query is freed or executed again
     the return will be nullptr if fed or query is an invalid object, the return string will be "#invalid" if the query itself was invalid
 
 """
@@ -1590,10 +1814,14 @@ Execute a query directly on a broker
 
 the call will block until the query finishes which may require communication or other delays
 
-    `query`: the query object to use in the query
-    `broker`: the broker to send the query to
+# Arguments
 
-    return: a pointer to a string.  the string will remain valid until the query is freed or executed again
+- `query`: the query object to use in the query
+- `broker`: the broker to send the query to
+
+# Returns
+
+- a pointer to a string.  the string will remain valid until the query is freed or executed again
     the return will be nullptr if fed or query is an invalid object, the return string will be "#invalid" if the query itself was invalid
 
 """
@@ -1605,10 +1833,14 @@ end
 """
 Execute a query in a non-blocking call
 
-    `query`: the query object to use in the query
-    `fed`: a federate to send the query through
+# Arguments
 
-    return: a helics status enumeration with the result of the query specification
+- `query`: the query object to use in the query
+- `fed`: a federate to send the query through
+
+# Returns
+
+- a helics status enumeration with the result of the query specification
 
 """
 function helicsQueryExecuteAsync(query::Query, fed::Federate)
@@ -1616,13 +1848,17 @@ function helicsQueryExecuteAsync(query::Query, fed::Federate)
 end
 
 """
-complete the return from a query called with /ref helicsExecuteQueryAsync
+Complete the return from a query called with /ref helicsExecuteQueryAsync
 
 the function will block until the query completes /ref isQueryComplete can be called to determine if a query has completed or not.
 
-    `query`: the query object to complete execution of
+# Arguments
 
-    return: a pointer to a string.  the string will remain valid until the query is freed or executed again
+- `query`: the query object to complete execution of
+
+# Returns
+
+- a pointer to a string.  the string will remain valid until the query is freed or executed again
     the return will be nullptr if query is an invalid object
 
 """
@@ -1632,14 +1868,17 @@ function helicsQueryExecuteComplete(query::Query)::String
 end
 
 """
-check if an asynchronously executed query has completed
+Check if an asynchronously executed query has completed
 
 this function should usually be called after a QueryExecuteAsync function has been called.
 
-    `query`: the query object to check if completed
+# Arguments
 
-    return: will return helics_true if an asynchronous query has complete or a regular query call was made with a result
-    and false if an asynchronous query has not completed or is invalid
+- `query`: the query object to check if completed
+
+# Returns
+
+- will return `true` if an asynchronous query has complete or a regular query call was made with a result and `false` if an asynchronous query has not completed or is invalid
 
 """
 function helicsQueryIsCompleted(query::Query)::Bool
@@ -1647,14 +1886,14 @@ function helicsQueryIsCompleted(query::Query)::Bool
 end
 
 """
-free the memory associated with a query object
+Free the memory associated with a query object
 """
 function helicsQueryFree(query::Query)
     Lib.helicsQueryFree(query)
 end
 
 """
-function to do some housekeeping work
+Function to do some housekeeping work
 
 this runs some cleanup routines and tries to close out any residual thread that haven't been shutdown yet.
 """

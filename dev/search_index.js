@@ -1553,11 +1553,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsInputSetDefaultTime-Tuple{HELICS.Subscription,Any}",
+    "location": "api/#HELICS.helicsInputSetDefaultTime-Tuple{HELICS.Subscription,Float64}",
     "page": "API",
     "title": "HELICS.helicsInputSetDefaultTime",
     "category": "method",
-    "text": "helicsInputSetDefaultTime(ipt::HELICS.Subscription, val::Any)\n\n\n\n\n\n\n"
+    "text": "helicsInputSetDefaultTime(ipt::HELICS.Subscription, val::Float64)\n\n\n\n\n\n\n"
 },
 
 {

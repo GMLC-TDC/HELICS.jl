@@ -22,11 +22,70 @@ for enum_name in [
                  ]
     # Hacks to not populate namespace
     eval(:(const $(Symbol(uppercase(split(String(Symbol(enum_name)), ".")[end]))) = $enum_name))
+
     for _sym in Lib.CEnum.enum_names(enum_name)
-        eval(:(const $(Symbol(uppercase(String(_sym)))) = Lib.$_sym))
+        eval( :(const $(Symbol(uppercase(String(_sym)))) = Lib.$_sym) )
     end
 
 end
+
+# generate docstrings
+
+@doc """
+$( join(map(x -> "- `" * uppercase(String(x[1])) * "`: " * string(x[2]), zip(Lib.CEnum.enum_names(HELICS.HELICS_ITERATION_REQUEST), Lib.CEnum.enum_values(HELICS.HELICS_ITERATION_REQUEST))), "\n") )
+"""
+HELICS.HELICS_ITERATION_REQUEST
+
+@doc """
+$( join(map(x -> "- `" * uppercase(String(x[1])) * "`: " * string(x[2]), zip(Lib.CEnum.enum_names(HELICS.HELICS_ITERATION_RESULT), Lib.CEnum.enum_values(HELICS.HELICS_ITERATION_RESULT))), "\n") )
+"""
+HELICS.HELICS_ITERATION_RESULT
+
+@doc """
+$( join(map(x -> "- `" * uppercase(String(x[1])) * "`: " * string(x[2]), zip(Lib.CEnum.enum_names(HELICS.HELICS_FEDERATE_STATE), Lib.CEnum.enum_values(HELICS.HELICS_FEDERATE_STATE))), "\n") )
+"""
+HELICS.HELICS_FEDERATE_STATE
+
+@doc """
+$( join(map(x -> "- `" * uppercase(String(x[1])) * "`: " * string(x[2]), zip(Lib.CEnum.enum_names(HELICS.HELICS_DATA_TYPE), Lib.CEnum.enum_values(HELICS.HELICS_DATA_TYPE))), "\n") )
+"""
+HELICS.HELICS_DATA_TYPE
+
+@doc """
+$( join(map(x -> "- `" * uppercase(String(x[1])) * "`: " * string(x[2]), zip(Lib.CEnum.enum_names(HELICS.HELICS_CORE_TYPE), Lib.CEnum.enum_values(HELICS.HELICS_CORE_TYPE))), "\n") )
+"""
+HELICS.HELICS_CORE_TYPE
+
+@doc """
+$( join(map(x -> "- `" * uppercase(String(x[1])) * "`: " * string(x[2]), zip(Lib.CEnum.enum_names(HELICS.HELICS_FEDERATE_FLAGS), Lib.CEnum.enum_values(HELICS.HELICS_FEDERATE_FLAGS))), "\n") )
+"""
+HELICS.HELICS_FEDERATE_FLAGS
+
+@doc """
+$( join(map(x -> "- `" * uppercase(String(x[1])) * "`: " * string(x[2]), zip(Lib.CEnum.enum_names(HELICS.HELICS_LOG_LEVELS), Lib.CEnum.enum_values(HELICS.HELICS_LOG_LEVELS))), "\n") )
+"""
+HELICS.HELICS_LOG_LEVELS
+
+@doc """
+$( join(map(x -> "- `" * uppercase(String(x[1])) * "`: " * string(x[2]), zip(Lib.CEnum.enum_names(HELICS.HELICS_ERROR_TYPES), Lib.CEnum.enum_values(HELICS.HELICS_ERROR_TYPES))), "\n") )
+"""
+HELICS.HELICS_ERROR_TYPES
+
+@doc """
+$( join(map(x -> "- `" * uppercase(String(x[1])) * "`: " * string(x[2]), zip(Lib.CEnum.enum_names(HELICS.HELICS_PROPERTIES), Lib.CEnum.enum_values(HELICS.HELICS_PROPERTIES))), "\n") )
+"""
+HELICS.HELICS_PROPERTIES
+
+@doc """
+$( join(map(x -> "- `" * uppercase(String(x[1])) * "`: " * string(x[2]), zip(Lib.CEnum.enum_names(HELICS.HELICS_HANDLE_OPTIONS), Lib.CEnum.enum_values(HELICS.HELICS_HANDLE_OPTIONS))), "\n") )
+"""
+HELICS.HELICS_HANDLE_OPTIONS
+
+@doc """
+$( join(map(x -> "- `" * uppercase(String(x[1])) * "`: " * string(x[2]), zip(Lib.CEnum.enum_names(HELICS.HELICS_FILTER_TYPE), Lib.CEnum.enum_values(HELICS.HELICS_FILTER_TYPE))), "\n") )
+"""
+HELICS.HELICS_FILTER_TYPE
+
 
 const HELICS_TIME = Union{Int, Float64}
 

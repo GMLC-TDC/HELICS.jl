@@ -1,4 +1,11 @@
 import .Utils
+import .TypedDocStringExtensions
+
+TypedDocStringExtensions.@template (FUNCTIONS, METHODS) =
+    """
+    $(TypedDocStringExtensions.FULLSIGNATURES)
+    $(TypedDocStringExtensions.DOCSTRING)
+    """
 
 for enum_name in [
                  Lib.helics_iteration_request,

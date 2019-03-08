@@ -77,7 +77,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsBrokerClone",
     "category": "method",
-    "text": "helicsBrokerClone(broker::HELICS.Broker)\n\n\nCreate a new reference to an existing broker\n\nthis will create a new broker object that references the existing broker it must be freed as well\n\nArguments\n\nbroker: an existing helics_broker\n\nReturns\n\na new reference to the same broker\n\n\n\n\n\n"
+    "text": "helicsBrokerClone(broker::HELICS.Broker) -> HELICS.Broker\n\n\nCreate a new reference to an existing broker\n\nthis will create a new broker object that references the existing broker it must be freed as well\n\nArguments\n\nbroker: an existing helics_broker\n\nReturns\n\na new reference to the same broker\n\n\n\n\n\n"
 },
 
 {
@@ -117,7 +117,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsBrokerGetAddress",
     "category": "method",
-    "text": "helicsBrokerGetAddress(broker::HELICS.Broker)\n\n\nGet the network address associated with a broker\n\nArguments\n\nbroker: the broker to query\n\nReturns\n\na string with the network address of the broker\n\n\n\n\n\n"
+    "text": "helicsBrokerGetAddress(broker::HELICS.Broker) -> String\n\n\nGet the network address associated with a broker\n\nArguments\n\nbroker: the broker to query\n\nReturns\n\na string with the network address of the broker\n\n\n\n\n\n"
 },
 
 {
@@ -125,7 +125,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsBrokerGetIdentifier",
     "category": "method",
-    "text": "helicsBrokerGetIdentifier(broker::HELICS.Broker)\n\n\nGet an identifier for the broker\n\nArguments\n\nbroker: the broker to query\n\nReturns\n\na string containing the identifier for the broker\n\n\n\n\n\n"
+    "text": "helicsBrokerGetIdentifier(broker::HELICS.Broker) -> String\n\n\nGet an identifier for the broker\n\nArguments\n\nbroker: the broker to query\n\nReturns\n\na string containing the identifier for the broker\n\n\n\n\n\n"
 },
 
 {
@@ -133,7 +133,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsBrokerIsConnected",
     "category": "method",
-    "text": "helicsBrokerIsConnected(broker::HELICS.Broker)\n\n\nCheck if a broker is connected. A connected broker implies is attached to cores or cores could reach out to communicate. return 0 if not connected , something else if it is connected.\n\n\n\n\n\n"
+    "text": "helicsBrokerIsConnected(broker::HELICS.Broker) -> Bool\n\n\nCheck if a broker is connected. A connected broker implies is attached to cores or cores could reach out to communicate. return 0 if not connected , something else if it is connected.\n\n\n\n\n\n"
 },
 
 {
@@ -141,7 +141,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsBrokerIsValid",
     "category": "method",
-    "text": "helicsBrokerIsValid(broker::HELICS.Broker)\n\n\nCheck if a broker object is a valid object\n\nArguments\n\nbroker: the helics_broker object to test\n\n\n\n\n\n"
+    "text": "helicsBrokerIsValid(broker::HELICS.Broker) -> Bool\n\n\nCheck if a broker object is a valid object\n\nArguments\n\nbroker: the helics_broker object to test\n\n\n\n\n\n"
 },
 
 {
@@ -157,7 +157,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsBrokerWaitForDisconnect",
     "category": "method",
-    "text": "helicsBrokerWaitForDisconnect(broker::HELICS.Broker, msToWait::Int64)\n\n\nWait for the broker to disconnect\n\nArguments\n\nbroker: the broker to wait for\nmsToWait: the time out in millisecond (<0 for infinite timeout)\n\nReturns\n\ntrue if the disconnect was successful, false if there was a timeout\n\n\n\n\n\n"
+    "text": "helicsBrokerWaitForDisconnect(broker::HELICS.Broker, msToWait::Int64) -> Bool\n\n\nWait for the broker to disconnect\n\nArguments\n\nbroker: the broker to wait for\nmsToWait: the time out in millisecond (<0 for infinite timeout)\n\nReturns\n\ntrue if the disconnect was successful, false if there was a timeout\n\n\n\n\n\n"
 },
 
 {
@@ -197,7 +197,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsCoreClone",
     "category": "method",
-    "text": "helicsCoreClone(core::HELICS.Core)\n\n\nCreate a new reference to an existing core\n\nthis will create a new broker object that references the existing broker it must be freed as well\n\nArguments\n\ncore: an existing helics_core\n\nReturns\n\na new reference to the same Core\n\n\n\n\n\n"
+    "text": "helicsCoreClone(core::HELICS.Core) -> HELICS.Core\n\n\nCreate a new reference to an existing core\n\nthis will create a new broker object that references the existing broker it must be freed as well\n\nArguments\n\ncore: an existing helics_core\n\nReturns\n\na new reference to the same Core\n\n\n\n\n\n"
 },
 
 {
@@ -237,7 +237,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsCoreGetIdentifier",
     "category": "method",
-    "text": "helicsCoreGetIdentifier(core::HELICS.Core)\n\n\nGet an identifier for the core\n\nArguments\n\ncore: the core to query\n\nReturns\n\na string with the identifier of the core\n\n\n\n\n\n"
+    "text": "helicsCoreGetIdentifier(core::HELICS.Core) -> String\n\n\nGet an identifier for the core\n\nArguments\n\ncore: the core to query\n\nReturns\n\na string with the identifier of the core\n\n\n\n\n\n"
 },
 
 {
@@ -245,7 +245,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsCoreIsConnected",
     "category": "method",
-    "text": "helicsCoreIsConnected(core::HELICS.Core)\n\n\nCheck if a core is connected. A connected core implies is attached to federate or federates could be attached to it.\n\nReturns\n\nfalse if not connected, true if it is connected\n\n\n\n\n\n"
+    "text": "helicsCoreIsConnected(core::HELICS.Core) -> Bool\n\n\nCheck if a core is connected. A connected core implies is attached to federate or federates could be attached to it.\n\nReturns\n\nfalse if not connected, true if it is connected\n\n\n\n\n\n"
 },
 
 {
@@ -253,7 +253,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsCoreIsValid",
     "category": "method",
-    "text": "helicsCoreIsValid(core::HELICS.Core)\n\n\nCheck if a core object is a valid object\n\nArguments\n\ncore: the helics_core object to test\n\n\n\n\n\n"
+    "text": "helicsCoreIsValid(core::HELICS.Core) -> Bool\n\n\nCheck if a core object is a valid object\n\nArguments\n\ncore: the helics_core object to test\n\n\n\n\n\n"
 },
 
 {
@@ -261,7 +261,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsCoreRegisterCloningFilter",
     "category": "method",
-    "text": "helicsCoreRegisterCloningFilter(core::HELICS.Core, deliveryEndpoint::String)\n\n\n\n\n\n\n"
+    "text": "helicsCoreRegisterCloningFilter(core::HELICS.Core, deliveryEndpoint::String) -> HELICS.Filter\n\n\n\n\n\n\n"
 },
 
 {
@@ -269,7 +269,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsCoreRegisterFilter",
     "category": "method",
-    "text": "helicsCoreRegisterFilter(core::HELICS.Core, kind::HELICS.Lib.helics_filter_type, name::String)\n\n\n\n\n\n\n"
+    "text": "helicsCoreRegisterFilter(core::HELICS.Core, kind::HELICS.Lib.helics_filter_type, name::String) -> HELICS.Filter\n\n\n\n\n\n\n"
 },
 
 {
@@ -293,7 +293,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsCreateBroker",
     "category": "method",
-    "text": "helicsCreateBroker(kind::String, name::String, initString::String)\n\n\nCreate a broker object\n\nArguments\n\ntype: the type of the broker to create\nname: the name of the broker , may be a nullptr or empty string to have a name automatically assigned\ninitString: an initialization string to send to the core-the format is similar to command line arguments. Typical options include a broker address  –broker=\"XSSAF\" if this is a subbroker or the number of federates or the address\n\nReturns\n\na helics_broker object, will be NULL if there was an error indicated in the err object\n\n\n\n\n\n"
+    "text": "helicsCreateBroker(kind::String, name::String, initString::String) -> HELICS.Broker\n\n\nCreate a broker object\n\nArguments\n\ntype: the type of the broker to create\nname: the name of the broker , may be a nullptr or empty string to have a name automatically assigned\ninitString: an initialization string to send to the core-the format is similar to command line arguments. Typical options include a broker address  –broker=\"XSSAF\" if this is a subbroker or the number of federates or the address\n\nReturns\n\na helics_broker object, will be NULL if there was an error indicated in the err object\n\n\n\n\n\n"
 },
 
 {
@@ -301,7 +301,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsCreateBrokerFromArgs",
     "category": "method",
-    "text": "helicsCreateBrokerFromArgs(kind::String, name::String, argc::Int64, argv::Array{String,1})\n\n\n\n\n\n\n"
+    "text": "helicsCreateBrokerFromArgs(kind::String, name::String, argc::Int64, argv::Array{String,1}) -> HELICS.Broker\n\n\n\n\n\n\n"
 },
 
 {
@@ -309,7 +309,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsCreateCombinationFederate",
     "category": "method",
-    "text": "helicsCreateCombinationFederate(fedName::String, fi::HELICS.FederateInfo)\n\n\nCreate a combination federate from a federate info object\n\ncombination federates are both value federates and message federates, objects can be used in all functions that take a helicsfederate, helicsmessagefederate or helicsfederate object as an argument\n\nArguments\n\nfedName: a string with the name of the federate, can be NULL or an empty string to pull the default name from fi\nfi: the federate info object that contains details on the federate\n\nReturns\n\nan opaque value federate object nullptr if the object creation failed\n\n\n\n\n\n"
+    "text": "helicsCreateCombinationFederate(fedName::String, fi::HELICS.FederateInfo) -> HELICS.CombinationFederate\n\n\nCreate a combination federate from a federate info object\n\ncombination federates are both value federates and message federates, objects can be used in all functions that take a helicsfederate, helicsmessagefederate or helicsfederate object as an argument\n\nArguments\n\nfedName: a string with the name of the federate, can be NULL or an empty string to pull the default name from fi\nfi: the federate info object that contains details on the federate\n\nReturns\n\nan opaque value federate object nullptr if the object creation failed\n\n\n\n\n\n"
 },
 
 {
@@ -317,7 +317,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsCreateCombinationFederateFromConfig",
     "category": "method",
-    "text": "helicsCreateCombinationFederateFromConfig(configFile::String)\n\n\nCreate a combination federate from a JSON file or JSON string\n\ncombination federates are both value federates and message federates, objects can be used in all functions that take a helicsfederate, helicsmessagefederate or helicsfederate object as an argument\n\nArguments\n\nconfigFile:  a JSON file or a JSON string or TOML file that contains setup and configuration information\n\nReturns\n\nan opaque combination federate object\n\n\n\n\n\n"
+    "text": "helicsCreateCombinationFederateFromConfig(configFile::String) -> HELICS.CombinationFederate\n\n\nCreate a combination federate from a JSON file or JSON string\n\ncombination federates are both value federates and message federates, objects can be used in all functions that take a helicsfederate, helicsmessagefederate or helicsfederate object as an argument\n\nArguments\n\nconfigFile:  a JSON file or a JSON string or TOML file that contains setup and configuration information\n\nReturns\n\nan opaque combination federate object\n\n\n\n\n\n"
 },
 
 {
@@ -325,7 +325,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsCreateCore",
     "category": "method",
-    "text": "helicsCreateCore(kind::String, name::String, initString::String)\n\n\nCreate a core object\n\nArguments\n\ntype: the type of the core to create\nname: the name of the core , may be a nullptr or empty string to have a name automatically assigned\ninitString: an initialization string to send to the core-the format is similar to command line arguments. Typical options include a broker address  –broker=\"XSSAF\" or the number of federates or the address\n\nReturns\n\na helics_core object if the core is invalid err will contain some indication\n\n\n\n\n\n"
+    "text": "helicsCreateCore(kind::String, name::String, initString::String) -> HELICS.Core\n\n\nCreate a core object\n\nArguments\n\ntype: the type of the core to create\nname: the name of the core , may be a nullptr or empty string to have a name automatically assigned\ninitString: an initialization string to send to the core-the format is similar to command line arguments. Typical options include a broker address  –broker=\"XSSAF\" or the number of federates or the address\n\nReturns\n\na helics_core object if the core is invalid err will contain some indication\n\n\n\n\n\n"
 },
 
 {
@@ -333,7 +333,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsCreateCoreFromArgs",
     "category": "method",
-    "text": "helicsCreateCoreFromArgs(kind::String, name::String, argc::Int64, argv::Array{String,1})\n\n\n\n\n\n\n"
+    "text": "helicsCreateCoreFromArgs(kind::String, name::String, argc::Int64, argv::Array{String,1}) -> HELICS.Core\n\n\n\n\n\n\n"
 },
 
 {
@@ -341,7 +341,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsCreateFederateInfo",
     "category": "method",
-    "text": "helicsCreateFederateInfo()\n\n\nCreate a federate info object for specifying federate information when constructing a federate\n\nReturns\n\na helicsfederateinfo object which is a reference to the created object\n\n\n\n\n\n"
+    "text": "helicsCreateFederateInfo() -> HELICS.FederateInfo\n\n\nCreate a federate info object for specifying federate information when constructing a federate\n\nReturns\n\na helicsfederateinfo object which is a reference to the created object\n\n\n\n\n\n"
 },
 
 {
@@ -349,7 +349,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsCreateMessageFederate",
     "category": "method",
-    "text": "helicsCreateMessageFederate(fedName::String, fi::HELICS.FederateInfo)\n\n\nCreate a message federate from a federate info object\n\nhelicsmessagefederate objects can be used in all functions that take a helicsmessagefederate or helics_federate object as an argument\n\nArguments\n\nfedName: the name of the federate to create\nfi: the federate info object that contains details on the federate\n\nReturns\n\nan opaque message federate object\n\n\n\n\n\n"
+    "text": "helicsCreateMessageFederate(fedName::String, fi::HELICS.FederateInfo) -> HELICS.MessageFederate\n\n\nCreate a message federate from a federate info object\n\nhelicsmessagefederate objects can be used in all functions that take a helicsmessagefederate or helics_federate object as an argument\n\nArguments\n\nfedName: the name of the federate to create\nfi: the federate info object that contains details on the federate\n\nReturns\n\nan opaque message federate object\n\n\n\n\n\n"
 },
 
 {
@@ -357,7 +357,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsCreateMessageFederateFromConfig",
     "category": "method",
-    "text": "helicsCreateMessageFederateFromConfig(configFile::String)\n\n\nCreate a message federate from a JSON file or JSON string or TOML file\n\nhelicsmessagefederate objects can be used in all functions that take a helicsmessagefederate or helics_federate object as an argument\n\nArguments\n\nconfigFile:  a Config(JSON,TOML) file or a JSON string that contains setup and configuration information\n\nReturns\n\nan opaque message federate object\n\n\n\n\n\n"
+    "text": "helicsCreateMessageFederateFromConfig(configFile::String) -> HELICS.MessageFederate\n\n\nCreate a message federate from a JSON file or JSON string or TOML file\n\nhelicsmessagefederate objects can be used in all functions that take a helicsmessagefederate or helics_federate object as an argument\n\nArguments\n\nconfigFile:  a Config(JSON,TOML) file or a JSON string that contains setup and configuration information\n\nReturns\n\nan opaque message federate object\n\n\n\n\n\n"
 },
 
 {
@@ -365,7 +365,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsCreateQuery",
     "category": "method",
-    "text": "helicsCreateQuery(target::String, query::String)\n\n\nCreate a query object\n\na query object consists of a target and query string\n\nArguments\n\ntarget: the name of the target to query\nquery: the query to make of the target\n\n\n\n\n\n"
+    "text": "helicsCreateQuery(target::String, query::String) -> HELICS.Query\n\n\nCreate a query object\n\na query object consists of a target and query string\n\nArguments\n\ntarget: the name of the target to query\nquery: the query to make of the target\n\n\n\n\n\n"
 },
 
 {
@@ -373,7 +373,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsCreateValueFederate",
     "category": "method",
-    "text": "helicsCreateValueFederate(fedName::String, fi::HELICS.FederateInfo)\n\n\nCreate a value federate from a federate info object\n\nhelicsfederate objects can be used in all functions that take a helicsfederate or helics_federate object as an argument\n\nArguments\n\nfedName: the name of the federate to create, can NULL or an empty string to use the default name from fi or an assigned name\nfi: the federate info object that contains details on the federate\n\nReturns\n\nan opaque value federate object\n\n\n\n\n\n"
+    "text": "helicsCreateValueFederate(fedName::String, fi::HELICS.FederateInfo) -> HELICS.ValueFederate\n\n\nCreate a value federate from a federate info object\n\nhelicsfederate objects can be used in all functions that take a helicsfederate or helics_federate object as an argument\n\nArguments\n\nfedName: the name of the federate to create, can NULL or an empty string to use the default name from fi or an assigned name\nfi: the federate info object that contains details on the federate\n\nReturns\n\nan opaque value federate object\n\n\n\n\n\n"
 },
 
 {
@@ -381,7 +381,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsCreateValueFederateFromConfig",
     "category": "method",
-    "text": "helicsCreateValueFederateFromConfig(configFile::String)\n\n\nCreate a value federate from a JSON file, JSON string, or TOML file\n\nhelicsfederate objects can be used in all functions that take a helicsfederate or helics_federate object as an argument\n\nArguments\n\nconfigFile:  a JSON file or a JSON string or TOML file that contains setup and configuration information\n\nReturns\n\nan opaque value federate object\n\n\n\n\n\n"
+    "text": "helicsCreateValueFederateFromConfig(configFile::String) -> HELICS.ValueFederate\n\n\nCreate a value federate from a JSON file, JSON string, or TOML file\n\nhelicsfederate objects can be used in all functions that take a helicsfederate or helics_federate object as an argument\n\nArguments\n\nconfigFile:  a JSON file or a JSON string or TOML file that contains setup and configuration information\n\nReturns\n\nan opaque value federate object\n\n\n\n\n\n"
 },
 
 {
@@ -389,7 +389,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsEndpointGetDefaultDestination",
     "category": "method",
-    "text": "helicsEndpointGetDefaultDestination(endpoint::HELICS.Endpoint)\n\n\n\n\n\n\n"
+    "text": "helicsEndpointGetDefaultDestination(endpoint::HELICS.Endpoint) -> String\n\n\n\n\n\n\n"
 },
 
 {
@@ -397,7 +397,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsEndpointGetInfo",
     "category": "method",
-    "text": "helicsEndpointGetInfo(_end::HELICS.Endpoint)\n\n\n\n\n\n\n"
+    "text": "helicsEndpointGetInfo(_end::HELICS.Endpoint) -> String\n\n\n\n\n\n\n"
 },
 
 {
@@ -405,7 +405,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsEndpointGetMessage",
     "category": "method",
-    "text": "helicsEndpointGetMessage(endpoint::HELICS.Endpoint)\n\n\n\n\n\n\n"
+    "text": "helicsEndpointGetMessage(endpoint::HELICS.Endpoint) -> HELICS.Message\n\n\n\n\n\n\n"
 },
 
 {
@@ -413,7 +413,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsEndpointGetName",
     "category": "method",
-    "text": "helicsEndpointGetName(endpoint::HELICS.Endpoint)\n\n\n\n\n\n\n"
+    "text": "helicsEndpointGetName(endpoint::HELICS.Endpoint) -> String\n\n\n\n\n\n\n"
 },
 
 {
@@ -421,7 +421,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsEndpointGetOption",
     "category": "method",
-    "text": "helicsEndpointGetOption(_end::HELICS.Endpoint, option::Int64)\n\n\n\n\n\n\n"
+    "text": "helicsEndpointGetOption(_end::HELICS.Endpoint, option::Int64) -> Bool\n\n\n\n\n\n\n"
 },
 
 {
@@ -429,7 +429,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsEndpointGetType",
     "category": "method",
-    "text": "helicsEndpointGetType(endpoint::HELICS.Endpoint)\n\n\n\n\n\n\n"
+    "text": "helicsEndpointGetType(endpoint::HELICS.Endpoint) -> String\n\n\n\n\n\n\n"
 },
 
 {
@@ -437,7 +437,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsEndpointHasMessage",
     "category": "method",
-    "text": "helicsEndpointHasMessage(endpoint::HELICS.Endpoint)\n\n\n\n\n\n\n"
+    "text": "helicsEndpointHasMessage(endpoint::HELICS.Endpoint) -> Bool\n\n\n\n\n\n\n"
 },
 
 {
@@ -445,7 +445,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsEndpointPendingMessages",
     "category": "method",
-    "text": "helicsEndpointPendingMessages(endpoint::HELICS.Endpoint)\n\n\n\n\n\n\n"
+    "text": "helicsEndpointPendingMessages(endpoint::HELICS.Endpoint) -> Int64\n\n\n\n\n\n\n"
 },
 
 {
@@ -517,7 +517,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsErrorInitialize",
     "category": "method",
-    "text": "helicsErrorInitialize()\n\n\nReturn an initialized error object\n\n\n\n\n\n"
+    "text": "helicsErrorInitialize() -> HELICS.Lib.helics_error\n\n\nReturn an initialized error object\n\n\n\n\n\n"
 },
 
 {
@@ -525,7 +525,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateClone",
     "category": "method",
-    "text": "helicsFederateClone(fed::T<:HELICS.Federate)\n\n\nCreate a new reference to an existing federate\n\nthis will create a new helics_federate object that references the existing federate it must be freed as well\n\nArguments\n\nfed: an existing helics_federate\n\nReturns\n\na new reference to the same federate\n\n\n\n\n\n"
+    "text": "helicsFederateClone(fed::T<:HELICS.Federate) -> Union{CombinationFederate, MessageFederate, ValueFederate}\n\n\nCreate a new reference to an existing federate\n\nthis will create a new helics_federate object that references the existing federate it must be freed as well\n\nArguments\n\nfed: an existing helics_federate\n\nReturns\n\na new reference to the same federate\n\n\n\n\n\n"
 },
 
 {
@@ -565,7 +565,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateEnterExecutingModeIterative",
     "category": "method",
-    "text": "helicsFederateEnterExecutingModeIterative(fed::HELICS.Federate, iterate::Union{Int64, helics_iteration_request})\n\n\nRequest an iterative time\n\nthis call allows for finer grain control of the iterative process then /ref helicsFederateRequestTime it takes a time and iteration request and return a time and iteration status.\n\nArguments\n\nfed: the federate to make the request of\niterate: the requested iteration mode\n\nReturns\n\nan iteration structure with field containing the time and iteration status\n\n\n\n\n\n"
+    "text": "helicsFederateEnterExecutingModeIterative(fed::HELICS.Federate, iterate::Union{Int64, helics_iteration_request}) -> HELICS.Lib.helics_iteration_result\n\n\nRequest an iterative time\n\nthis call allows for finer grain control of the iterative process then /ref helicsFederateRequestTime it takes a time and iteration request and return a time and iteration status.\n\nArguments\n\nfed: the federate to make the request of\niterate: the requested iteration mode\n\nReturns\n\nan iteration structure with field containing the time and iteration status\n\n\n\n\n\n"
 },
 
 {
@@ -581,7 +581,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateEnterExecutingModeIterativeComplete",
     "category": "method",
-    "text": "helicsFederateEnterExecutingModeIterativeComplete(fed::HELICS.Federate)\n\n\nComplete the asynchronous iterative call into ExecutionModel\n\nArguments\n\nfed: the federate to make the request of\n\nReturns\n\nan iteration object containing the iteration time and iteration_status\n\n\n\n\n\n"
+    "text": "helicsFederateEnterExecutingModeIterativeComplete(fed::HELICS.Federate) -> HELICS.Lib.helics_iteration_result\n\n\nComplete the asynchronous iterative call into ExecutionModel\n\nArguments\n\nfed: the federate to make the request of\n\nReturns\n\nan iteration object containing the iteration time and iteration_status\n\n\n\n\n\n"
 },
 
 {
@@ -645,7 +645,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateGetCoreObject",
     "category": "method",
-    "text": "helicsFederateGetCoreObject(fed::HELICS.Federate)\n\n\nGet the core object associated with a federate\n\nArguments\n\nfed: a federate object\n\nReturns\n\na core object, nullptr if invalid\n\n\n\n\n\n"
+    "text": "helicsFederateGetCoreObject(fed::HELICS.Federate) -> HELICS.Core\n\n\nGet the core object associated with a federate\n\nArguments\n\nfed: a federate object\n\nReturns\n\na core object, nullptr if invalid\n\n\n\n\n\n"
 },
 
 {
@@ -653,7 +653,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateGetCurrentTime",
     "category": "method",
-    "text": "helicsFederateGetCurrentTime(fed::HELICS.Federate)\n\n\nGet the current time of the federate\n\nArguments\n\nfed: the federate object to query\n\nReturns\n\nthe current time of the federate\n\n\n\n\n\n"
+    "text": "helicsFederateGetCurrentTime(fed::HELICS.Federate) -> Float64\n\n\nGet the current time of the federate\n\nArguments\n\nfed: the federate object to query\n\nReturns\n\nthe current time of the federate\n\n\n\n\n\n"
 },
 
 {
@@ -661,7 +661,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateGetEndpoint",
     "category": "method",
-    "text": "helicsFederateGetEndpoint(fed::HELICS.Federate, name::String)\n\n\n\n\n\n\n"
+    "text": "helicsFederateGetEndpoint(fed::HELICS.Federate, name::String) -> HELICS.Endpoint\n\n\n\n\n\n\n"
 },
 
 {
@@ -669,7 +669,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateGetEndpointByIndex",
     "category": "method",
-    "text": "helicsFederateGetEndpointByIndex(fed::HELICS.Federate, index::Int64)\n\n\n\n\n\n\n"
+    "text": "helicsFederateGetEndpointByIndex(fed::HELICS.Federate, index::Int64) -> HELICS.Endpoint\n\n\n\n\n\n\n"
 },
 
 {
@@ -677,7 +677,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateGetEndpointCount",
     "category": "method",
-    "text": "helicsFederateGetEndpointCount(fed::HELICS.Federate)\n\n\n\n\n\n\n"
+    "text": "helicsFederateGetEndpointCount(fed::HELICS.Federate) -> Int64\n\n\n\n\n\n\n"
 },
 
 {
@@ -685,7 +685,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateGetFilter",
     "category": "method",
-    "text": "helicsFederateGetFilter(fed::HELICS.Federate, name::String)\n\n\n\n\n\n\n"
+    "text": "helicsFederateGetFilter(fed::HELICS.Federate, name::String) -> HELICS.Filter\n\n\n\n\n\n\n"
 },
 
 {
@@ -693,7 +693,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateGetFilterByIndex",
     "category": "method",
-    "text": "helicsFederateGetFilterByIndex(fed::HELICS.Federate, index::Int64)\n\n\n\n\n\n\n"
+    "text": "helicsFederateGetFilterByIndex(fed::HELICS.Federate, index::Int64) -> HELICS.Filter\n\n\n\n\n\n\n"
 },
 
 {
@@ -701,7 +701,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateGetFilterCount",
     "category": "method",
-    "text": "helicsFederateGetFilterCount(fed::HELICS.Federate)\n\n\n\n\n\n\n"
+    "text": "helicsFederateGetFilterCount(fed::HELICS.Federate) -> Int64\n\n\n\n\n\n\n"
 },
 
 {
@@ -709,7 +709,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateGetFlagOption",
     "category": "method",
-    "text": "helicsFederateGetFlagOption(fed::HELICS.Federate, flag::Int64)\n\n\nGet a flag value for a federate\n\nArguments\n\nfed: the federate to get the flag for\nflag: the flag to query\n\nReturns\n\nthe value of the flag\n\n\n\n\n\n"
+    "text": "helicsFederateGetFlagOption(fed::HELICS.Federate, flag::Int64) -> Bool\n\n\nGet a flag value for a federate\n\nArguments\n\nfed: the federate to get the flag for\nflag: the flag to query\n\nReturns\n\nthe value of the flag\n\n\n\n\n\n"
 },
 
 {
@@ -717,7 +717,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateGetInput",
     "category": "method",
-    "text": "helicsFederateGetInput(fed::HELICS.Federate, key::String)\n\n\n\n\n\n\n"
+    "text": "helicsFederateGetInput(fed::HELICS.Federate, key::String) -> HELICS.Subscription\n\n\n\n\n\n\n"
 },
 
 {
@@ -725,7 +725,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateGetInputByIndex",
     "category": "method",
-    "text": "helicsFederateGetInputByIndex(fed::HELICS.Federate, index::Int64)\n\n\n\n\n\n\n"
+    "text": "helicsFederateGetInputByIndex(fed::HELICS.Federate, index::Int64) -> HELICS.Subscription\n\n\n\n\n\n\n"
 },
 
 {
@@ -733,7 +733,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateGetInputCount",
     "category": "method",
-    "text": "helicsFederateGetInputCount(fed::HELICS.Federate)\n\n\n\n\n\n\n"
+    "text": "helicsFederateGetInputCount(fed::HELICS.Federate) -> Int64\n\n\n\n\n\n\n"
 },
 
 {
@@ -741,7 +741,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateGetIntegerProperty",
     "category": "method",
-    "text": "helicsFederateGetIntegerProperty(fed::HELICS.Federate, intProperty::HELICS.Lib.helics_properties)\n\n\nSet the logging level for the federate\n\ndebug and trace only do anything if they were enabled in the compilation\n\nArguments\n\nfed: the federate to get the flag for\nintProperty: a code for the property to set /ref helicshandleoptions\n\nReturns\n\nthe value of the property\n\n\n\n\n\n"
+    "text": "helicsFederateGetIntegerProperty(fed::HELICS.Federate, intProperty::HELICS.Lib.helics_properties) -> Int32\n\n\nSet the logging level for the federate\n\ndebug and trace only do anything if they were enabled in the compilation\n\nArguments\n\nfed: the federate to get the flag for\nintProperty: a code for the property to set /ref helicshandleoptions\n\nReturns\n\nthe value of the property\n\n\n\n\n\n"
 },
 
 {
@@ -749,7 +749,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateGetMessage",
     "category": "method",
-    "text": "helicsFederateGetMessage(fed::HELICS.Federate)\n\n\n\n\n\n\n"
+    "text": "helicsFederateGetMessage(fed::HELICS.Federate) -> HELICS.Message\n\n\n\n\n\n\n"
 },
 
 {
@@ -757,7 +757,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateGetName",
     "category": "method",
-    "text": "helicsFederateGetName(fed::HELICS.Federate)\n\n\nGet the name of the federate\n\nArguments\n\nfed: the federate object to query\n\nReturns\n\na pointer to a string with the name\n\n\n\n\n\n"
+    "text": "helicsFederateGetName(fed::HELICS.Federate) -> String\n\n\nGet the name of the federate\n\nArguments\n\nfed: the federate object to query\n\nReturns\n\na pointer to a string with the name\n\n\n\n\n\n"
 },
 
 {
@@ -765,7 +765,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateGetPublication",
     "category": "method",
-    "text": "helicsFederateGetPublication(fed::HELICS.Federate, key::String)\n\n\n\n\n\n\n"
+    "text": "helicsFederateGetPublication(fed::HELICS.Federate, key::String) -> HELICS.Publication\n\n\n\n\n\n\n"
 },
 
 {
@@ -773,7 +773,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateGetPublicationByIndex",
     "category": "method",
-    "text": "helicsFederateGetPublicationByIndex(fed::HELICS.Federate, index::Int64)\n\n\n\n\n\n\n"
+    "text": "helicsFederateGetPublicationByIndex(fed::HELICS.Federate, index::Int64) -> HELICS.Publication\n\n\n\n\n\n\n"
 },
 
 {
@@ -781,7 +781,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateGetPublicationCount",
     "category": "method",
-    "text": "helicsFederateGetPublicationCount(fed::HELICS.Federate)\n\n\n\n\n\n\n"
+    "text": "helicsFederateGetPublicationCount(fed::HELICS.Federate) -> Int64\n\n\n\n\n\n\n"
 },
 
 {
@@ -789,7 +789,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateGetState",
     "category": "method",
-    "text": "helicsFederateGetState(fed::HELICS.Federate)\n\n\nGet the current state of a federate\n\nArguments\n\nfed: the fed to query\n\nReturns\n\nstate the resulting state if void return helics_ok\n\n\n\n\n\n"
+    "text": "helicsFederateGetState(fed::HELICS.Federate) -> HELICS.Lib.helics_federate_state\n\n\nGet the current state of a federate\n\nArguments\n\nfed: the fed to query\n\nReturns\n\nstate the resulting state if void return helics_ok\n\n\n\n\n\n"
 },
 
 {
@@ -797,7 +797,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateGetSubscription",
     "category": "method",
-    "text": "helicsFederateGetSubscription(fed::HELICS.Federate, key::String)\n\n\n\n\n\n\n"
+    "text": "helicsFederateGetSubscription(fed::HELICS.Federate, key::String) -> HELICS.Subscription\n\n\n\n\n\n\n"
 },
 
 {
@@ -805,7 +805,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateGetTimeProperty",
     "category": "method",
-    "text": "helicsFederateGetTimeProperty(fed::HELICS.Federate, timeProperty::HELICS.Lib.helics_properties)\n\n\nGet the current value of a time based property in a federate\n\nArguments\n\nfed: the federate query\ntimeProperty: the property to query\n\n\n\n\n\n"
+    "text": "helicsFederateGetTimeProperty(fed::HELICS.Federate, timeProperty::HELICS.Lib.helics_properties) -> Float64\n\n\nGet the current value of a time based property in a federate\n\nArguments\n\nfed: the federate query\ntimeProperty: the property to query\n\n\n\n\n\n"
 },
 
 {
@@ -813,7 +813,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateHasMessage",
     "category": "method",
-    "text": "helicsFederateHasMessage(fed::HELICS.Federate)\n\n\n\n\n\n\n"
+    "text": "helicsFederateHasMessage(fed::HELICS.Federate) -> Bool\n\n\n\n\n\n\n"
 },
 
 {
@@ -821,7 +821,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateInfoClone",
     "category": "method",
-    "text": "helicsFederateInfoClone(fi::HELICS.FederateInfo)\n\n\nCreate a federate info object from an existing one and clone the information\n\nArguments\n\nfi: a federateInfo object to duplicate\n\nReturns\n\na helicsfederateinfo object which is a reference to the created object\n\n\n\n\n\n"
+    "text": "helicsFederateInfoClone(fi::HELICS.FederateInfo) -> HELICS.FederateInfo\n\n\nCreate a federate info object from an existing one and clone the information\n\nArguments\n\nfi: a federateInfo object to duplicate\n\nReturns\n\na helicsfederateinfo object which is a reference to the created object\n\n\n\n\n\n"
 },
 
 {
@@ -933,7 +933,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateIsAsyncOperationCompleted",
     "category": "method",
-    "text": "helicsFederateIsAsyncOperationCompleted(fed::HELICS.Federate)\n\n\nCheck if the current Asynchronous operation has completed\n\nArguments\n\nfed: the federate to operate on\n\nReturns\n\nfalse if not completed, true if completed\n\n\n\n\n\n"
+    "text": "helicsFederateIsAsyncOperationCompleted(fed::HELICS.Federate) -> Bool\n\n\nCheck if the current Asynchronous operation has completed\n\nArguments\n\nfed: the federate to operate on\n\nReturns\n\nfalse if not completed, true if completed\n\n\n\n\n\n"
 },
 
 {
@@ -941,7 +941,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateIsValid",
     "category": "method",
-    "text": "helicsFederateIsValid(fed::HELICS.Federate)\n\n\nCheck if a federate_object is valid\n\nReturns\n\ntrue if the federate is a valid active federate, false otherwise\n\n\n\n\n\n"
+    "text": "helicsFederateIsValid(fed::HELICS.Federate) -> Bool\n\n\nCheck if a federate_object is valid\n\nReturns\n\ntrue if the federate is a valid active federate, false otherwise\n\n\n\n\n\n"
 },
 
 {
@@ -949,7 +949,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederatePendingMessages",
     "category": "method",
-    "text": "helicsFederatePendingMessages(fed::HELICS.Federate)\n\n\n\n\n\n\n"
+    "text": "helicsFederatePendingMessages(fed::HELICS.Federate) -> Int64\n\n\n\n\n\n\n"
 },
 
 {
@@ -957,7 +957,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateRegisterCloningFilter",
     "category": "method",
-    "text": "helicsFederateRegisterCloningFilter(fed::HELICS.Federate, deliveryEndpoint::String)\n\n\n\n\n\n\n"
+    "text": "helicsFederateRegisterCloningFilter(fed::HELICS.Federate, deliveryEndpoint::String) -> HELICS.Filter\n\n\n\n\n\n\n"
 },
 
 {
@@ -965,7 +965,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateRegisterEndpoint",
     "category": "method",
-    "text": "helicsFederateRegisterEndpoint(fed::HELICS.Federate, name::String, kind::String)\n\n\n\n\n\n\n"
+    "text": "helicsFederateRegisterEndpoint(fed::HELICS.Federate, name::String, kind::String) -> HELICS.Endpoint\n\n\n\n\n\n\n"
 },
 
 {
@@ -973,7 +973,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateRegisterFilter",
     "category": "method",
-    "text": "helicsFederateRegisterFilter(fed::HELICS.Federate, kind::HELICS.Lib.helics_filter_type, name::String)\n\n\n\n\n\n\n"
+    "text": "helicsFederateRegisterFilter(fed::HELICS.Federate, kind::HELICS.Lib.helics_filter_type, name::String) -> HELICS.Filter\n\n\n\n\n\n\n"
 },
 
 {
@@ -981,7 +981,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateRegisterGlobalCloningFilter",
     "category": "method",
-    "text": "helicsFederateRegisterGlobalCloningFilter(fed::HELICS.Federate, deliveryEndpoint::String)\n\n\n\n\n\n\n"
+    "text": "helicsFederateRegisterGlobalCloningFilter(fed::HELICS.Federate, deliveryEndpoint::String) -> HELICS.Filter\n\n\n\n\n\n\n"
 },
 
 {
@@ -989,7 +989,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateRegisterGlobalEndpoint",
     "category": "method",
-    "text": "helicsFederateRegisterGlobalEndpoint(fed::HELICS.Federate, name::String, kind::String)\n\n\n\n\n\n\n"
+    "text": "helicsFederateRegisterGlobalEndpoint(fed::HELICS.Federate, name::String, kind::String) -> HELICS.Endpoint\n\n\n\n\n\n\n"
 },
 
 {
@@ -997,7 +997,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateRegisterGlobalFilter",
     "category": "method",
-    "text": "helicsFederateRegisterGlobalFilter(fed::HELICS.Federate, kind::HELICS.Lib.helics_filter_type, name::String)\n\n\n\n\n\n\n"
+    "text": "helicsFederateRegisterGlobalFilter(fed::HELICS.Federate, kind::HELICS.Lib.helics_filter_type, name::String) -> HELICS.Filter\n\n\n\n\n\n\n"
 },
 
 {
@@ -1013,7 +1013,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateRegisterGlobalPublication",
     "category": "function",
-    "text": "helicsFederateRegisterGlobalPublication(fed::HELICS.Federate, key::String, kind::HELICS.Lib.helics_data_type)\nhelicsFederateRegisterGlobalPublication(fed::HELICS.Federate, key::String, kind::HELICS.Lib.helics_data_type, units::String)\n\n\n\n\n\n\n"
+    "text": "helicsFederateRegisterGlobalPublication(fed::HELICS.Federate, key::String, kind::HELICS.Lib.helics_data_type) -> HELICS.Publication\nhelicsFederateRegisterGlobalPublication(fed::HELICS.Federate, key::String, kind::HELICS.Lib.helics_data_type, units::String) -> HELICS.Publication\n\n\n\n\n\n\n"
 },
 
 {
@@ -1021,7 +1021,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateRegisterGlobalTypeInput",
     "category": "function",
-    "text": "helicsFederateRegisterGlobalTypeInput(fed::HELICS.Federate, key::String, kind::String)\nhelicsFederateRegisterGlobalTypeInput(fed::HELICS.Federate, key::String, kind::String, units::String)\n\n\n\n\n\n\n"
+    "text": "helicsFederateRegisterGlobalTypeInput(fed::HELICS.Federate, key::String, kind::String) -> HELICS.Subscription\nhelicsFederateRegisterGlobalTypeInput(fed::HELICS.Federate, key::String, kind::String, units::String) -> HELICS.Subscription\n\n\n\n\n\n\n"
 },
 
 {
@@ -1029,7 +1029,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateRegisterGlobalTypePublication",
     "category": "function",
-    "text": "helicsFederateRegisterGlobalTypePublication(fed::HELICS.Federate, key::String, kind::String)\nhelicsFederateRegisterGlobalTypePublication(fed::HELICS.Federate, key::String, kind::String, units::String)\n\n\n\n\n\n\n"
+    "text": "helicsFederateRegisterGlobalTypePublication(fed::HELICS.Federate, key::String, kind::String) -> HELICS.Publication\nhelicsFederateRegisterGlobalTypePublication(fed::HELICS.Federate, key::String, kind::String, units::String) -> HELICS.Publication\n\n\n\n\n\n\n"
 },
 
 {
@@ -1053,7 +1053,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateRegisterPublication",
     "category": "function",
-    "text": "helicsFederateRegisterPublication(fed::HELICS.Federate, key::String, kind::HELICS.Lib.helics_data_type)\nhelicsFederateRegisterPublication(fed::HELICS.Federate, key::String, kind::HELICS.Lib.helics_data_type, units::String)\n\n\n\n\n\n\n"
+    "text": "helicsFederateRegisterPublication(fed::HELICS.Federate, key::String, kind::HELICS.Lib.helics_data_type) -> HELICS.Publication\nhelicsFederateRegisterPublication(fed::HELICS.Federate, key::String, kind::HELICS.Lib.helics_data_type, units::String) -> HELICS.Publication\n\n\n\n\n\n\n"
 },
 
 {
@@ -1061,7 +1061,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateRegisterSubscription",
     "category": "function",
-    "text": "helicsFederateRegisterSubscription(fed::HELICS.Federate, key::String)\nhelicsFederateRegisterSubscription(fed::HELICS.Federate, key::String, units::String)\n\n\n\n\n\n\n"
+    "text": "helicsFederateRegisterSubscription(fed::HELICS.Federate, key::String) -> HELICS.Subscription\nhelicsFederateRegisterSubscription(fed::HELICS.Federate, key::String, units::String) -> HELICS.Subscription\n\n\n\n\n\n\n"
 },
 
 {
@@ -1069,7 +1069,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateRegisterTypeInput",
     "category": "function",
-    "text": "helicsFederateRegisterTypeInput(fed::HELICS.Federate, key::String, kind::String)\nhelicsFederateRegisterTypeInput(fed::HELICS.Federate, key::String, kind::String, units::String)\n\n\n\n\n\n\n"
+    "text": "helicsFederateRegisterTypeInput(fed::HELICS.Federate, key::String, kind::String) -> HELICS.Subscription\nhelicsFederateRegisterTypeInput(fed::HELICS.Federate, key::String, kind::String, units::String) -> HELICS.Subscription\n\n\n\n\n\n\n"
 },
 
 {
@@ -1077,7 +1077,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateRegisterTypePublication",
     "category": "function",
-    "text": "helicsFederateRegisterTypePublication(fed::HELICS.Federate, key::String, kind::String)\nhelicsFederateRegisterTypePublication(fed::HELICS.Federate, key::String, kind::String, units::String)\n\n\n\n\n\n\n"
+    "text": "helicsFederateRegisterTypePublication(fed::HELICS.Federate, key::String, kind::String) -> HELICS.Publication\nhelicsFederateRegisterTypePublication(fed::HELICS.Federate, key::String, kind::String, units::String) -> HELICS.Publication\n\n\n\n\n\n\n"
 },
 
 {
@@ -1085,7 +1085,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateRequestNextStep",
     "category": "method",
-    "text": "helicsFederateRequestNextStep(fed::HELICS.Federate)\n\n\nRequest the next time step for federate execution\n\nfeds should have setup the period or minDelta for this to work well but it will request the next time step which is the current time plus the minimum time step.\n\nArguments\n\nfed: the federate to make the request of\n\nReturns\n\nthe time granted to the federate\n\n\n\n\n\n"
+    "text": "helicsFederateRequestNextStep(fed::HELICS.Federate) -> Float64\n\n\nRequest the next time step for federate execution\n\nfeds should have setup the period or minDelta for this to work well but it will request the next time step which is the current time plus the minimum time step.\n\nArguments\n\nfed: the federate to make the request of\n\nReturns\n\nthe time granted to the federate\n\n\n\n\n\n"
 },
 
 {
@@ -1093,7 +1093,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateRequestTime",
     "category": "method",
-    "text": "helicsFederateRequestTime(fed::HELICS.Federate, requestTime::Float64)\n\n\nRequest the next time for federate execution\n\nArguments\n\nfed: the federate to make the request of\nrequestTime: the next requested time\n\nReturns\n\nthe time granted to the federate   invalid\n\n\n\n\n\n"
+    "text": "helicsFederateRequestTime(fed::HELICS.Federate, requestTime::Float64) -> Float64\n\n\nRequest the next time for federate execution\n\nArguments\n\nfed: the federate to make the request of\nrequestTime: the next requested time\n\nReturns\n\nthe time granted to the federate   invalid\n\n\n\n\n\n"
 },
 
 {
@@ -1109,7 +1109,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateRequestTimeComplete",
     "category": "method",
-    "text": "helicsFederateRequestTimeComplete(fed::HELICS.Federate)\n\n\nComplete an asynchronous requestTime call\n\nArguments\n\nfed: the federate to make the request of\n\nReturns\n\nthe time granted to the federate\n\n\n\n\n\n"
+    "text": "helicsFederateRequestTimeComplete(fed::HELICS.Federate) -> Float64\n\n\nComplete an asynchronous requestTime call\n\nArguments\n\nfed: the federate to make the request of\n\nReturns\n\nthe time granted to the federate\n\n\n\n\n\n"
 },
 
 {
@@ -1133,7 +1133,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateRequestTimeIterativeComplete",
     "category": "method",
-    "text": "helicsFederateRequestTimeIterativeComplete(fed::HELICS.Federate)\n\n\nComplete an iterative time request asynchronous call\n\nArguments\n\nfed: the federate to make the request of\n\nReturns\n\nthe granted time\noutIterate  the iteration specification of the result\n\n\n\n\n\n"
+    "text": "helicsFederateRequestTimeIterativeComplete(fed::HELICS.Federate) -> Tuple{Float64,HELICS.Lib.helics_iteration_result}\n\n\nComplete an iterative time request asynchronous call\n\nArguments\n\nfed: the federate to make the request of\n\nReturns\n\nthe granted time\noutIterate  the iteration specification of the result\n\n\n\n\n\n"
 },
 
 {
@@ -1205,7 +1205,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFilterGetInfo",
     "category": "method",
-    "text": "helicsFilterGetInfo(filt::HELICS.Filter)\n\n\n\n\n\n\n"
+    "text": "helicsFilterGetInfo(filt::HELICS.Filter) -> String\n\n\n\n\n\n\n"
 },
 
 {
@@ -1213,7 +1213,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFilterGetName",
     "category": "method",
-    "text": "helicsFilterGetName(filt::HELICS.Filter)\n\n\n\n\n\n\n"
+    "text": "helicsFilterGetName(filt::HELICS.Filter) -> String\n\n\n\n\n\n\n"
 },
 
 {
@@ -1277,7 +1277,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsGetFederateByName",
     "category": "method",
-    "text": "helicsGetFederateByName(fedName::String)\n\n\nGet an existing federate object from a core by name\n\nthe federate must have been created by one of the other functions and at least one of the objects referencing the created     federate must still be active in the process\n\nArguments\n\n`fedName`: the name of the federate to retrieve\n\nReturns\n\nNULL if no fed is available by that name otherwise a helics_federate with that name\n\n\n\n\n\n"
+    "text": "helicsGetFederateByName(fedName::String) -> HELICS.CombinationFederate\n\n\nGet an existing federate object from a core by name\n\nthe federate must have been created by one of the other functions and at least one of the objects referencing the created     federate must still be active in the process\n\nArguments\n\n`fedName`: the name of the federate to retrieve\n\nReturns\n\nNULL if no fed is available by that name otherwise a helics_federate with that name\n\n\n\n\n\n"
 },
 
 {
@@ -1285,7 +1285,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsGetOptionIndex",
     "category": "method",
-    "text": "helicsGetOptionIndex(val::String)\n\n\nGet an option index for use in /ref helicsPublicationSetOption, /ref helicsInputSetOption, /ref helicsEndpointSetOption, /ref     helicsFilterSetOption, and the corresponding get functions\n\nArguments\n\nval: a string with the option name\n\nReturns\n\nan int with the option index (-1) if not a valid property\n\n\n\n\n\n"
+    "text": "helicsGetOptionIndex(val::String) -> Int64\n\n\nGet an option index for use in /ref helicsPublicationSetOption, /ref helicsInputSetOption, /ref helicsEndpointSetOption, /ref     helicsFilterSetOption, and the corresponding get functions\n\nArguments\n\nval: a string with the option name\n\nReturns\n\nan int with the option index (-1) if not a valid property\n\n\n\n\n\n"
 },
 
 {
@@ -1293,7 +1293,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsGetPropertyIndex",
     "category": "method",
-    "text": "helicsGetPropertyIndex(val::String)\n\n\nGet a property index for use in /ref helicsFederateInfoSetFlagOption, /ref helicsFederateInfoSetTimeProperty,     helicsFederateInfoSetIntegerProperty\n\nArguments\n\nval: a string with the property name\n\nReturns\n\nan int with the property code (-1) if not a valid property\n\n\n\n\n\n"
+    "text": "helicsGetPropertyIndex(val::String) -> Int64\n\n\nGet a property index for use in /ref helicsFederateInfoSetFlagOption, /ref helicsFederateInfoSetTimeProperty,     helicsFederateInfoSetIntegerProperty\n\nArguments\n\nval: a string with the property name\n\nReturns\n\nan int with the property code (-1) if not a valid property\n\n\n\n\n\n"
 },
 
 {
@@ -1301,7 +1301,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsGetVersion",
     "category": "method",
-    "text": "helicsGetVersion()\n\n\nGet a version string for HELICS\n\n\n\n\n\n"
+    "text": "helicsGetVersion() -> String\n\n\nGet a version string for HELICS\n\n\n\n\n\n"
 },
 
 {
@@ -1317,7 +1317,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsInputGetBoolean",
     "category": "method",
-    "text": "helicsInputGetBoolean(ipt::HELICS.Subscription)\n\n\n\n\n\n\n"
+    "text": "helicsInputGetBoolean(ipt::HELICS.Subscription) -> Bool\n\n\n\n\n\n\n"
 },
 
 {
@@ -1325,7 +1325,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsInputGetChar",
     "category": "method",
-    "text": "helicsInputGetChar(ipt::HELICS.Subscription)\n\n\n\n\n\n\n"
+    "text": "helicsInputGetChar(ipt::HELICS.Subscription) -> Char\n\n\n\n\n\n\n"
 },
 
 {
@@ -1333,7 +1333,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsInputGetComplex",
     "category": "method",
-    "text": "helicsInputGetComplex(ipt::HELICS.Subscription)\n\n\n\n\n\n\n"
+    "text": "helicsInputGetComplex(ipt::HELICS.Subscription) -> Complex{Float64}\n\n\n\n\n\n\n"
 },
 
 {
@@ -1341,7 +1341,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsInputGetComplexObject",
     "category": "method",
-    "text": "helicsInputGetComplexObject(ipt::HELICS.Subscription)\n\n\n\n\n\n\n"
+    "text": "helicsInputGetComplexObject(ipt::HELICS.Subscription) -> Complex{Float64}\n\n\n\n\n\n\n"
 },
 
 {
@@ -1349,7 +1349,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsInputGetDouble",
     "category": "method",
-    "text": "helicsInputGetDouble(ipt::HELICS.Subscription)\n\n\n\n\n\n\n"
+    "text": "helicsInputGetDouble(ipt::HELICS.Subscription) -> Float64\n\n\n\n\n\n\n"
 },
 
 {
@@ -1357,7 +1357,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsInputGetInfo",
     "category": "method",
-    "text": "helicsInputGetInfo(inp::HELICS.Subscription)\n\n\n\n\n\n\n"
+    "text": "helicsInputGetInfo(inp::HELICS.Subscription) -> String\n\n\n\n\n\n\n"
 },
 
 {
@@ -1365,7 +1365,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsInputGetInteger",
     "category": "method",
-    "text": "helicsInputGetInteger(ipt::HELICS.Subscription)\n\n\n\n\n\n\n"
+    "text": "helicsInputGetInteger(ipt::HELICS.Subscription) -> Int64\n\n\n\n\n\n\n"
 },
 
 {
@@ -1373,7 +1373,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsInputGetKey",
     "category": "method",
-    "text": "helicsInputGetKey(ipt::HELICS.Subscription)\n\n\n\n\n\n\n"
+    "text": "helicsInputGetKey(ipt::HELICS.Subscription) -> String\n\n\n\n\n\n\n"
 },
 
 {
@@ -1381,7 +1381,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsInputGetNamedPoint",
     "category": "method",
-    "text": "helicsInputGetNamedPoint(ipt::HELICS.Subscription)\n\n\n\n\n\n\n"
+    "text": "helicsInputGetNamedPoint(ipt::HELICS.Subscription) -> Tuple{String,Float64}\n\n\n\n\n\n\n"
 },
 
 {
@@ -1389,7 +1389,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsInputGetOption",
     "category": "method",
-    "text": "helicsInputGetOption(inp::HELICS.Subscription, option::Int64)\n\n\n\n\n\n\n"
+    "text": "helicsInputGetOption(inp::HELICS.Subscription, option::Int64) -> Bool\n\n\n\n\n\n\n"
 },
 
 {
@@ -1397,7 +1397,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsInputGetPublicationType",
     "category": "method",
-    "text": "helicsInputGetPublicationType(ipt::HELICS.Subscription)\n\n\n\n\n\n\n"
+    "text": "helicsInputGetPublicationType(ipt::HELICS.Subscription) -> String\n\n\n\n\n\n\n"
 },
 
 {
@@ -1413,7 +1413,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsInputGetRawValueSize",
     "category": "method",
-    "text": "helicsInputGetRawValueSize(ipt::HELICS.Subscription)\n\n\n\n\n\n\n"
+    "text": "helicsInputGetRawValueSize(ipt::HELICS.Subscription) -> Int64\n\n\n\n\n\n\n"
 },
 
 {
@@ -1421,7 +1421,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsInputGetString",
     "category": "method",
-    "text": "helicsInputGetString(ipt::HELICS.Subscription)\n\n\n\n\n\n\n"
+    "text": "helicsInputGetString(ipt::HELICS.Subscription) -> String\n\n\n\n\n\n\n"
 },
 
 {
@@ -1429,7 +1429,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsInputGetStringSize",
     "category": "method",
-    "text": "helicsInputGetStringSize(ipt::HELICS.Subscription)\n\n\n\n\n\n\n"
+    "text": "helicsInputGetStringSize(ipt::HELICS.Subscription) -> Int64\n\n\n\n\n\n\n"
 },
 
 {
@@ -1437,7 +1437,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsInputGetTime",
     "category": "method",
-    "text": "helicsInputGetTime(ipt::HELICS.Subscription)\n\n\n\n\n\n\n"
+    "text": "helicsInputGetTime(ipt::HELICS.Subscription) -> Float64\n\n\n\n\n\n\n"
 },
 
 {
@@ -1445,7 +1445,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsInputGetType",
     "category": "method",
-    "text": "helicsInputGetType(ipt::HELICS.Subscription)\n\n\n\n\n\n\n"
+    "text": "helicsInputGetType(ipt::HELICS.Subscription) -> String\n\n\n\n\n\n\n"
 },
 
 {
@@ -1453,7 +1453,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsInputGetUnits",
     "category": "method",
-    "text": "helicsInputGetUnits(ipt::HELICS.Subscription)\n\n\n\n\n\n\n"
+    "text": "helicsInputGetUnits(ipt::HELICS.Subscription) -> String\n\n\n\n\n\n\n"
 },
 
 {
@@ -1461,7 +1461,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsInputGetVector",
     "category": "method",
-    "text": "helicsInputGetVector(ipt::HELICS.Subscription)\n\n\n\n\n\n\n"
+    "text": "helicsInputGetVector(ipt::HELICS.Subscription) -> Array{Float64,1}\n\n\n\n\n\n\n"
 },
 
 {
@@ -1469,7 +1469,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsInputGetVectorSize",
     "category": "method",
-    "text": "helicsInputGetVectorSize(ipt::HELICS.Subscription)\n\n\n\n\n\n\n"
+    "text": "helicsInputGetVectorSize(ipt::HELICS.Subscription) -> Int64\n\n\n\n\n\n\n"
 },
 
 {
@@ -1477,7 +1477,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsInputIsUpdated",
     "category": "method",
-    "text": "helicsInputIsUpdated(ipt::HELICS.Subscription)\n\n\n\n\n\n\n"
+    "text": "helicsInputIsUpdated(ipt::HELICS.Subscription) -> Bool\n\n\n\n\n\n\n"
 },
 
 {
@@ -1485,7 +1485,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsInputLastUpdateTime",
     "category": "method",
-    "text": "helicsInputLastUpdateTime(ipt::HELICS.Subscription)\n\n\n\n\n\n\n"
+    "text": "helicsInputLastUpdateTime(ipt::HELICS.Subscription) -> Float64\n\n\n\n\n\n\n"
 },
 
 {
@@ -1589,7 +1589,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsIsCoreTypeAvailable",
     "category": "method",
-    "text": "helicsIsCoreTypeAvailable(kind::String)\n\n\nReturns true if core/broker type specified is available in current compilation.\n\nArguments\n\ntype: a string representing a core type\n\npossible options include \"test\",\"zmq\",\"udp\",\"ipc\",\"interprocess\",\"tcp\",\"default\", \"mpi\"\n\n\n\n\n\n"
+    "text": "helicsIsCoreTypeAvailable(kind::String) -> Bool\n\n\nReturns true if core/broker type specified is available in current compilation.\n\nArguments\n\ntype: a string representing a core type\n\npossible options include \"test\",\"zmq\",\"udp\",\"ipc\",\"interprocess\",\"tcp\",\"default\", \"mpi\"\n\n\n\n\n\n"
 },
 
 {
@@ -1605,7 +1605,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsPublicationGetInfo",
     "category": "method",
-    "text": "helicsPublicationGetInfo(pub::HELICS.Publication)\n\n\n\n\n\n\n"
+    "text": "helicsPublicationGetInfo(pub::HELICS.Publication) -> String\n\n\n\n\n\n\n"
 },
 
 {
@@ -1613,7 +1613,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsPublicationGetKey",
     "category": "method",
-    "text": "helicsPublicationGetKey(pub::HELICS.Publication)\n\n\n\n\n\n\n"
+    "text": "helicsPublicationGetKey(pub::HELICS.Publication) -> String\n\n\n\n\n\n\n"
 },
 
 {
@@ -1621,7 +1621,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsPublicationGetOption",
     "category": "method",
-    "text": "helicsPublicationGetOption(pub::HELICS.Publication, option::Int64)\n\n\n\n\n\n\n"
+    "text": "helicsPublicationGetOption(pub::HELICS.Publication, option::Int64) -> Bool\n\n\n\n\n\n\n"
 },
 
 {
@@ -1629,7 +1629,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsPublicationGetType",
     "category": "method",
-    "text": "helicsPublicationGetType(pub::HELICS.Publication)\n\n\n\n\n\n\n"
+    "text": "helicsPublicationGetType(pub::HELICS.Publication) -> String\n\n\n\n\n\n\n"
 },
 
 {
@@ -1637,7 +1637,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsPublicationGetUnits",
     "category": "method",
-    "text": "helicsPublicationGetUnits(pub::HELICS.Publication)\n\n\n\n\n\n\n"
+    "text": "helicsPublicationGetUnits(pub::HELICS.Publication) -> String\n\n\n\n\n\n\n"
 },
 
 {
@@ -1741,7 +1741,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsQueryBrokerExecute",
     "category": "method",
-    "text": "helicsQueryBrokerExecute(query::HELICS.Query, broker::HELICS.Broker)\n\n\nExecute a query directly on a broker\n\nthe call will block until the query finishes which may require communication or other delays\n\nArguments\n\nquery: the query object to use in the query\nbroker: the broker to send the query to\n\nReturns\n\na pointer to a string.  the string will remain valid until the query is freed or executed again   the return will be nullptr if fed or query is an invalid object, the return string will be \"#invalid\" if the query itself was invalid\n\n\n\n\n\n"
+    "text": "helicsQueryBrokerExecute(query::HELICS.Query, broker::HELICS.Broker) -> String\n\n\nExecute a query directly on a broker\n\nthe call will block until the query finishes which may require communication or other delays\n\nArguments\n\nquery: the query object to use in the query\nbroker: the broker to send the query to\n\nReturns\n\na pointer to a string.  the string will remain valid until the query is freed or executed again   the return will be nullptr if fed or query is an invalid object, the return string will be \"#invalid\" if the query itself was invalid\n\n\n\n\n\n"
 },
 
 {
@@ -1749,7 +1749,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsQueryCoreExecute",
     "category": "method",
-    "text": "helicsQueryCoreExecute(query::HELICS.Query, core::HELICS.Core)\n\n\nExecute a query directly on a core\n\nthe call will block until the query finishes which may require communication or other delays\n\nArguments\n\nquery: the query object to use in the query\ncore: the core to send the query to\n\nReturns\n\na pointer to a string.  the string will remain valid until the query is freed or executed again   the return will be nullptr if fed or query is an invalid object, the return string will be \"#invalid\" if the query itself was invalid\n\n\n\n\n\n"
+    "text": "helicsQueryCoreExecute(query::HELICS.Query, core::HELICS.Core) -> String\n\n\nExecute a query directly on a core\n\nthe call will block until the query finishes which may require communication or other delays\n\nArguments\n\nquery: the query object to use in the query\ncore: the core to send the query to\n\nReturns\n\na pointer to a string.  the string will remain valid until the query is freed or executed again   the return will be nullptr if fed or query is an invalid object, the return string will be \"#invalid\" if the query itself was invalid\n\n\n\n\n\n"
 },
 
 {
@@ -1757,7 +1757,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsQueryExecute",
     "category": "method",
-    "text": "helicsQueryExecute(query::HELICS.Query, fed::HELICS.Federate)\n\n\nExecute a query\n\nthe call will block until the query finishes which may require communication or other delays\n\nArguments\n\nquery: the query object to use in the query\nfed: a federate to send the query through\n\nReturns\n\na pointer to a string.  the string will remain valid until the query is freed or executed again   the return will be nullptr if fed or query is an invalid object, the return string will be \"#invalid\" if the query itself was invalid\n\n\n\n\n\n"
+    "text": "helicsQueryExecute(query::HELICS.Query, fed::HELICS.Federate) -> String\n\n\nExecute a query\n\nthe call will block until the query finishes which may require communication or other delays\n\nArguments\n\nquery: the query object to use in the query\nfed: a federate to send the query through\n\nReturns\n\na pointer to a string.  the string will remain valid until the query is freed or executed again   the return will be nullptr if fed or query is an invalid object, the return string will be \"#invalid\" if the query itself was invalid\n\n\n\n\n\n"
 },
 
 {
@@ -1773,7 +1773,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsQueryExecuteComplete",
     "category": "method",
-    "text": "helicsQueryExecuteComplete(query::HELICS.Query)\n\n\nComplete the return from a query called with /ref helicsExecuteQueryAsync\n\nthe function will block until the query completes /ref isQueryComplete can be called to determine if a query has completed or not.\n\nArguments\n\nquery: the query object to complete execution of\n\nReturns\n\na pointer to a string.  the string will remain valid until the query is freed or executed again   the return will be nullptr if query is an invalid object\n\n\n\n\n\n"
+    "text": "helicsQueryExecuteComplete(query::HELICS.Query) -> String\n\n\nComplete the return from a query called with /ref helicsExecuteQueryAsync\n\nthe function will block until the query completes /ref isQueryComplete can be called to determine if a query has completed or not.\n\nArguments\n\nquery: the query object to complete execution of\n\nReturns\n\na pointer to a string.  the string will remain valid until the query is freed or executed again   the return will be nullptr if query is an invalid object\n\n\n\n\n\n"
 },
 
 {
@@ -1789,7 +1789,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsQueryIsCompleted",
     "category": "method",
-    "text": "helicsQueryIsCompleted(query::HELICS.Query)\n\n\nCheck if an asynchronously executed query has completed\n\nthis function should usually be called after a QueryExecuteAsync function has been called.\n\nArguments\n\nquery: the query object to check if completed\n\nReturns\n\nwill return true if an asynchronous query has complete or a regular query call was made with a result and false if an asynchronous query has not completed or is invalid\n\n\n\n\n\n"
+    "text": "helicsQueryIsCompleted(query::HELICS.Query) -> Bool\n\n\nCheck if an asynchronously executed query has completed\n\nthis function should usually be called after a QueryExecuteAsync function has been called.\n\nArguments\n\nquery: the query object to check if completed\n\nReturns\n\nwill return true if an asynchronous query has complete or a regular query call was made with a result and false if an asynchronous query has not completed or is invalid\n\n\n\n\n\n"
 },
 
 {
@@ -1797,7 +1797,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsSubscriptionGetKey",
     "category": "method",
-    "text": "helicsSubscriptionGetKey(ipt::HELICS.Subscription)\n\n\n\n\n\n\n"
+    "text": "helicsSubscriptionGetKey(ipt::HELICS.Subscription) -> String\n\n\n\n\n\n\n"
 },
 
 {

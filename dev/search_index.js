@@ -105,11 +105,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsBrokerSetGlobal-Tuple{HELICS.Broker,Any,Any}",
+    "location": "api/#HELICS.helicsBrokerSetGlobal-Tuple{HELICS.Broker,String,String}",
     "page": "API",
     "title": "HELICS.helicsBrokerSetGlobal",
     "category": "method",
-    "text": "helicsBrokerSetGlobal(broker::HELICS.Broker, valueName::Any, value::Any)\n\n\nSet a federation global value\n\nthis overwrites any previous value for this name\n\nArguments\n\nbroker: the broker to set the global through\nvalueName: the name of the global to set\nvalue: the value of the global\n\n\n\n\n\n"
+    "text": "helicsBrokerSetGlobal(broker::HELICS.Broker, valueName::String, value::String)\n\n\nSet a federation global value\n\nthis overwrites any previous value for this name\n\nArguments\n\nbroker: the broker to set the global through\nvalueName: the name of the global to set\nvalue: the value of the global\n\n\n\n\n\n"
 },
 
 {
@@ -137,11 +137,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsCoreAddSourceFilterToEndpoint-Tuple{HELICS.Core,Any,HELICS.Endpoint}",
+    "location": "api/#HELICS.helicsCoreAddSourceFilterToEndpoint-Tuple{HELICS.Core,String,String}",
     "page": "API",
     "title": "HELICS.helicsCoreAddSourceFilterToEndpoint",
     "category": "method",
-    "text": "helicsCoreAddSourceFilterToEndpoint(core::HELICS.Core, filter::Any, endpoint::HELICS.Endpoint)\n\n\nLink a named filter to a source endpoint\n\nArguments\n\ncore: the core to generate the connection from\nfilter: the name of the filter (cannot be NULL)\nendpoint: the name of the endpoint to filter the data from (cannot be NULL)\n\n\n\n\n\n"
+    "text": "helicsCoreAddSourceFilterToEndpoint(core::HELICS.Core, filter::String, endpoint::String)\n\n\nLink a named filter to a source endpoint\n\nArguments\n\ncore: the core to generate the connection from\nfilter: the name of the filter (cannot be NULL)\nendpoint: the name of the endpoint to filter the data from (cannot be NULL)\n\n\n\n\n\n"
 },
 
 {
@@ -209,11 +209,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsCoreSetGlobal-Tuple{HELICS.Core,Any,Any}",
+    "location": "api/#HELICS.helicsCoreSetGlobal-Tuple{HELICS.Core,String,String}",
     "page": "API",
     "title": "HELICS.helicsCoreSetGlobal",
     "category": "method",
-    "text": "helicsCoreSetGlobal(core::HELICS.Core, valueName::Any, value::Any)\n\n\nSet a global value in a core\n\nthis overwrites any previous value for this name\n\nArguments\n\ncore: the core to set the global through\nvalueName: the name of the global to set\nvalue: the value of the global\n\n\n\n\n\n"
+    "text": "helicsCoreSetGlobal(core::HELICS.Core, valueName::String, value::String)\n\n\nSet a global value in a core\n\nthis overwrites any previous value for this name\n\nArguments\n\ncore: the core to set the global through\nvalueName: the name of the global to set\nvalue: the value of the global\n\n\n\n\n\n"
 },
 
 {
@@ -241,11 +241,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsCreateCombinationFederateFromConfig-Tuple{Any}",
+    "location": "api/#HELICS.helicsCreateCombinationFederateFromConfig-Tuple{String}",
     "page": "API",
     "title": "HELICS.helicsCreateCombinationFederateFromConfig",
     "category": "method",
-    "text": "helicsCreateCombinationFederateFromConfig(configFile::Any) -> HELICS.CombinationFederate\n\n\nCreate a combination federate from a JSON file or JSON string\n\ncombination federates are both value federates and message federates, objects can be used in all functions that take a helicsfederate, helicsmessagefederate or helicsfederate object as an argument\n\nArguments\n\nconfigFile:  a JSON file or a JSON string or TOML file that contains setup and configuration information\n\nReturns\n\nan opaque combination federate object\n\n\n\n\n\n"
+    "text": "helicsCreateCombinationFederateFromConfig(configFile::String) -> HELICS.CombinationFederate\n\n\nCreate a combination federate from a JSON file or JSON string\n\ncombination federates are both value federates and message federates, objects can be used in all functions that take a helicsfederate, helicsmessagefederate or helicsfederate object as an argument\n\nArguments\n\nconfigFile:  a JSON file or a JSON string or TOML file that contains setup and configuration information\n\nReturns\n\nan opaque combination federate object\n\n\n\n\n\n"
 },
 
 {
@@ -273,11 +273,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsCreateMessageFederateFromConfig-Tuple{Any}",
+    "location": "api/#HELICS.helicsCreateMessageFederateFromConfig-Tuple{String}",
     "page": "API",
     "title": "HELICS.helicsCreateMessageFederateFromConfig",
     "category": "method",
-    "text": "helicsCreateMessageFederateFromConfig(configFile::Any) -> HELICS.MessageFederate\n\n\nCreate a message federate from a JSON file or JSON string or TOML file\n\nhelicsmessagefederate objects can be used in all functions that take a helicsmessagefederate or helics_federate object as an argument\n\nArguments\n\nconfigFile:  a Config(JSON,TOML) file or a JSON string that contains setup and configuration information\n\nReturns\n\nan opaque message federate object\n\n\n\n\n\n"
+    "text": "helicsCreateMessageFederateFromConfig(configFile::String) -> HELICS.MessageFederate\n\n\nCreate a message federate from a JSON file or JSON string or TOML file\n\nhelicsmessagefederate objects can be used in all functions that take a helicsmessagefederate or helics_federate object as an argument\n\nArguments\n\nconfigFile:  a Config(JSON,TOML) file or a JSON string that contains setup and configuration information\n\nReturns\n\nan opaque message federate object\n\n\n\n\n\n"
 },
 
 {
@@ -297,11 +297,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsCreateValueFederateFromConfig-Tuple{Any}",
+    "location": "api/#HELICS.helicsCreateValueFederateFromConfig-Tuple{String}",
     "page": "API",
     "title": "HELICS.helicsCreateValueFederateFromConfig",
     "category": "method",
-    "text": "helicsCreateValueFederateFromConfig(configFile::Any) -> HELICS.ValueFederate\n\n\nCreate a value federate from a JSON file, JSON string, or TOML file\n\nhelicsfederate objects can be used in all functions that take a helicsfederate or helics_federate object as an argument\n\nArguments\n\nconfigFile:  a JSON file or a JSON string or TOML file that contains setup and configuration information\n\nReturns\n\nan opaque value federate object\n\n\n\n\n\n"
+    "text": "helicsCreateValueFederateFromConfig(configFile::String) -> HELICS.ValueFederate\n\n\nCreate a value federate from a JSON file, JSON string, or TOML file\n\nhelicsfederate objects can be used in all functions that take a helicsfederate or helics_federate object as an argument\n\nArguments\n\nconfigFile:  a JSON file or a JSON string or TOML file that contains setup and configuration information\n\nReturns\n\nan opaque value federate object\n\n\n\n\n\n"
 },
 
 {
@@ -361,11 +361,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsFederateEnterExecutingModeIterative-Tuple{HELICS.Federate,Any}",
+    "location": "api/#HELICS.helicsFederateEnterExecutingModeIterative-Tuple{HELICS.Federate,Union{Int64, helics_iteration_request}}",
     "page": "API",
     "title": "HELICS.helicsFederateEnterExecutingModeIterative",
     "category": "method",
-    "text": "helicsFederateEnterExecutingModeIterative(fed::HELICS.Federate, iterate::Any) -> HELICS.Lib.helics_iteration_result\n\n\nRequest an iterative time\n\nthis call allows for finer grain control of the iterative process then /ref helicsFederateRequestTime it takes a time and iteration request and return a time and iteration status.\n\nArguments\n\nfed: the federate to make the request of\niterate: the requested iteration mode\n\nReturns\n\nan iteration structure with field containing the time and iteration status\n\n\n\n\n\n"
+    "text": "helicsFederateEnterExecutingModeIterative(fed::HELICS.Federate, iterate::Union{Int64, helics_iteration_request}) -> HELICS.Lib.helics_iteration_result\n\n\nRequest an iterative time\n\nthis call allows for finer grain control of the iterative process then /ref helicsFederateRequestTime it takes a time and iteration request and return a time and iteration status.\n\nArguments\n\nfed: the federate to make the request of\niterate: the requested iteration mode\n\nReturns\n\nan iteration structure with field containing the time and iteration status\n\n\n\n\n\n"
 },
 
 {
@@ -477,7 +477,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateGetState",
     "category": "method",
-    "text": "helicsFederateGetState(fed::HELICS.Federate) -> Int64\n\n\nGet the current state of a federate\n\nArguments\n\nfed: the fed to query\n\nReturns\n\nstate the resulting state if void return helics_ok\n\n\n\n\n\n"
+    "text": "helicsFederateGetState(fed::HELICS.Federate) -> HELICS.Lib.helics_federate_state\n\n\nGet the current state of a federate\n\nArguments\n\nfed: the fed to query\n\nReturns\n\nstate the resulting state if void return helics_ok\n\n\n\n\n\n"
 },
 
 {
@@ -505,11 +505,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsFederateInfoLoadFromArgs-Tuple{HELICS.FederateInfo,Any,Any}",
+    "location": "api/#HELICS.helicsFederateInfoLoadFromArgs-Tuple{HELICS.FederateInfo,Int64,Array{String,1}}",
     "page": "API",
     "title": "HELICS.helicsFederateInfoLoadFromArgs",
     "category": "method",
-    "text": "helicsFederateInfoLoadFromArgs(fi::HELICS.FederateInfo, argc::Any, argv::Any)\n\n\nLoad a federate info from command line arguments\n\nArguments\n\nfi: a federateInfo object\nargc: the number of command line arguments\nargv: an array of strings from the command line\n\n\n\n\n\n"
+    "text": "helicsFederateInfoLoadFromArgs(fi::HELICS.FederateInfo, argc::Int64, argv::Array{String,1})\n\n\nLoad a federate info from command line arguments\n\nArguments\n\nfi: a federateInfo object\nargc: the number of command line arguments\nargv: an array of strings from the command line\n\n\n\n\n\n"
 },
 
 {
@@ -601,11 +601,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsFederateRegisterInterfaces-Tuple{HELICS.Federate,Any}",
+    "location": "api/#HELICS.helicsFederateRegisterInterfaces-Tuple{HELICS.Federate,String}",
     "page": "API",
     "title": "HELICS.helicsFederateRegisterInterfaces",
     "category": "method",
-    "text": "helicsFederateRegisterInterfaces(fed::HELICS.Federate, file::Any)\n\n\nLoad interfaces from a file\n\nArguments\n\nfed: the federate to which to load interfaces\nfile: the name of a file to load the interfaces from either JSON, or TOML\n\n\n\n\n\n"
+    "text": "helicsFederateRegisterInterfaces(fed::HELICS.Federate, file::String)\n\n\nLoad interfaces from a file\n\nArguments\n\nfed: the federate to which to load interfaces\nfile: the name of a file to load the interfaces from either JSON, or TOML\n\n\n\n\n\n"
 },
 
 {
@@ -613,7 +613,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateRequestNextStep",
     "category": "method",
-    "text": "helicsFederateRequestNextStep(fed::HELICS.Federate) -> Float64\n\n\nRequest the next time step for federate execution\n\nfeds should have setup the period or minDelta for this to work well but it will request the next time step which is the current time plus the minimum time step.\n\nArguments\n\nfed: the federate to make the request of\n\nReturns\n\nthe time granted to the federate   invalid\n\n\n\n\n\n"
+    "text": "helicsFederateRequestNextStep(fed::HELICS.Federate) -> Float64\n\n\nRequest the next time step for federate execution\n\nfeds should have setup the period or minDelta for this to work well but it will request the next time step which is the current time plus the minimum time step.\n\nArguments\n\nfed: the federate to make the request of\n\nReturns\n\nthe time granted to the federate\n\n\n\n\n\n"
 },
 
 {
@@ -625,11 +625,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsFederateRequestTimeAsync-Tuple{HELICS.Federate,Any}",
+    "location": "api/#HELICS.helicsFederateRequestTimeAsync-Tuple{HELICS.Federate,Float64}",
     "page": "API",
     "title": "HELICS.helicsFederateRequestTimeAsync",
     "category": "method",
-    "text": "helicsFederateRequestTimeAsync(fed::HELICS.Federate, requestTime::Any)\n\n\nRequest the next time for federate execution in an asynchronous call\n\ncall /ref helicsFederateRequestTimeComplete to finish the call\n\nArguments\n\nfed: the federate to make the request of\nrequestTime: the next requested time\n\n\n\n\n\n"
+    "text": "helicsFederateRequestTimeAsync(fed::HELICS.Federate, requestTime::Float64)\n\n\nRequest the next time for federate execution in an asynchronous call\n\ncall /ref helicsFederateRequestTimeComplete to finish the call\n\nArguments\n\nfed: the federate to make the request of\nrequestTime: the next requested time\n\n\n\n\n\n"
 },
 
 {
@@ -641,19 +641,19 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsFederateRequestTimeIterative-Tuple{HELICS.Federate,Any,Any,Any}",
+    "location": "api/#HELICS.helicsFederateRequestTimeIterative-Tuple{HELICS.Federate,Float64,Union{Int64, helics_iteration_request}}",
     "page": "API",
     "title": "HELICS.helicsFederateRequestTimeIterative",
     "category": "method",
-    "text": "helicsFederateRequestTimeIterative(fed::HELICS.Federate, requestTime::Any, iterate::Any, outIterate::Any) -> Float64\n\n\nRequest an iterative time\n\nthis call allows for finer grain control of the iterative process then /ref helicsFederateRequestTime it takes a time and iteration request and return a time and iteration status.\n\nArguments\n\nfed: the federate to make the request of\nrequestTime: the next desired time\niterate: the requested iteration mode\noutIterate: the iteration specification of the result\n\nReturns\n\nthe granted time\n\n\n\n\n\n"
+    "text": "helicsFederateRequestTimeIterative(fed::HELICS.Federate, requestTime::Float64, iterate::Union{Int64, helics_iteration_request})\n\n\nRequest an iterative time\n\nthis call allows for finer grain control of the iterative process then /ref helicsFederateRequestTime it takes a time and iteration request and return a time and iteration status.\n\nArguments\n\nfed: the federate to make the request of\nrequestTime: the next desired time\niterate: the requested iteration mode\n\nReturns\n\nthe granted time\nthe iteration specification of the result\n\n\n\n\n\n"
 },
 
 {
-    "location": "api/#HELICS.helicsFederateRequestTimeIterativeAsync-Tuple{HELICS.Federate,Any,Any}",
+    "location": "api/#HELICS.helicsFederateRequestTimeIterativeAsync-Tuple{HELICS.Federate,Float64,Union{Int64, helics_iteration_request}}",
     "page": "API",
     "title": "HELICS.helicsFederateRequestTimeIterativeAsync",
     "category": "method",
-    "text": "helicsFederateRequestTimeIterativeAsync(fed::HELICS.Federate, requestTime::Any, iterate::Any)\n\n\nRequest an iterative time through an asynchronous call\n\nthis call allows for finer grain control of the iterative process then /ref helicsFederateRequestTime it takes a time an iteration request and returns a time and iteration status call /ref helicsFederateRequestTimeIterativeComplete to finish the process.\n\nArguments\n\nfed: the federate to make the request of\nrequestTime: the next desired time\niterate: the requested iteration mode\n\nReturns\n\na void object with a return code of the result\n\n\n\n\n\n"
+    "text": "helicsFederateRequestTimeIterativeAsync(fed::HELICS.Federate, requestTime::Float64, iterate::Union{Int64, helics_iteration_request})\n\n\nRequest an iterative time through an asynchronous call\n\nthis call allows for finer grain control of the iterative process then /ref helicsFederateRequestTime it takes a time an iteration request and returns a time and iteration status call /ref helicsFederateRequestTimeIterativeComplete to finish the process.\n\nArguments\n\nfed: the federate to make the request of\nrequestTime: the next desired time\niterate: the requested iteration mode\n\nReturns\n\na void object with a return code of the result\n\n\n\n\n\n"
 },
 
 {
@@ -661,7 +661,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateRequestTimeIterativeComplete",
     "category": "method",
-    "text": "helicsFederateRequestTimeIterativeComplete(fed::HELICS.Federate, outIterate::Any) -> Float64\n\n\nComplete an iterative time request asynchronous call\n\nArguments\n\nfed: the federate to make the request of\noutIterate  the iteration specification of the result\n\nReturns\n\nthe granted time\n\n\n\n\n\n"
+    "text": "helicsFederateRequestTimeIterativeComplete(fed::HELICS.Federate, outIterate::Any) -> Tuple{Float64,HELICS.Lib.helics_iteration_result}\n\n\nComplete an iterative time request asynchronous call\n\nArguments\n\nfed: the federate to make the request of\n\nReturns\n\nthe granted time\noutIterate  the iteration specification of the result\n\n\n\n\n\n"
 },
 
 {
@@ -673,27 +673,27 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsFederateSetGlobal-Tuple{HELICS.Federate,Any,Any}",
+    "location": "api/#HELICS.helicsFederateSetGlobal-Tuple{HELICS.Federate,String,String}",
     "page": "API",
     "title": "HELICS.helicsFederateSetGlobal",
     "category": "method",
-    "text": "helicsFederateSetGlobal(fed::HELICS.Federate, valueName::Any, value::Any)\n\n\nSet a federation global value through a federate\n\nthis overwrites any previous value for this name\n\nArguments\n\nfed: the federate to set the global through\nvalueName: the name of the global to set\nvalue: the value of the global\n\n\n\n\n\n"
+    "text": "helicsFederateSetGlobal(fed::HELICS.Federate, valueName::String, value::String)\n\n\nSet a federation global value through a federate\n\nthis overwrites any previous value for this name\n\nArguments\n\nfed: the federate to set the global through\nvalueName: the name of the global to set\nvalue: the value of the global\n\n\n\n\n\n"
 },
 
 {
-    "location": "api/#HELICS.helicsFederateSetIntegerProperty-Tuple{HELICS.Federate,HELICS.Lib.helics_properties,Any}",
+    "location": "api/#HELICS.helicsFederateSetIntegerProperty-Tuple{HELICS.Federate,HELICS.Lib.helics_properties,Int64}",
     "page": "API",
     "title": "HELICS.helicsFederateSetIntegerProperty",
     "category": "method",
-    "text": "helicsFederateSetIntegerProperty(fed::HELICS.Federate, intProperty::HELICS.Lib.helics_properties, propertyVal::Any)\n\n\nSet an integer based property of a federate\n\nArguments\n\nfed: the federate to change the property for\nintProperty: the property to set\npropertyVal: the value of the property\n\n\n\n\n\n"
+    "text": "helicsFederateSetIntegerProperty(fed::HELICS.Federate, intProperty::HELICS.Lib.helics_properties, propertyVal::Int64)\n\n\nSet an integer based property of a federate\n\nArguments\n\nfed: the federate to change the property for\nintProperty: the property to set\npropertyVal: the value of the property\n\n\n\n\n\n"
 },
 
 {
-    "location": "api/#HELICS.helicsFederateSetSeparator-Tuple{HELICS.Federate,Any}",
+    "location": "api/#HELICS.helicsFederateSetSeparator-Tuple{HELICS.Federate,Char}",
     "page": "API",
     "title": "HELICS.helicsFederateSetSeparator",
     "category": "method",
-    "text": "helicsFederateSetSeparator(fed::HELICS.Federate, separator::Any)\n\n\nSet the separator character in a federate\n\nthe separator character is the separation character for local publications/endpoints in creating their global name. for example if the separator character is \'/\'  then a local endpoint would have a globally reachable name of fedName/localName.\n\nArguments\n\nfed: the federate info object to alter\nseparator: the character to use as a separator\n\n\n\n\n\n"
+    "text": "helicsFederateSetSeparator(fed::HELICS.Federate, separator::Char)\n\n\nSet the separator character in a federate\n\nthe separator character is the separation character for local publications/endpoints in creating their global name. for example if the separator character is \'/\'  then a local endpoint would have a globally reachable name of fedName/localName.\n\nArguments\n\nfed: the federate info object to alter\nseparator: the character to use as a separator\n\n\n\n\n\n"
 },
 
 {
@@ -713,19 +713,19 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsGetOptionIndex-Tuple{Any}",
+    "location": "api/#HELICS.helicsGetOptionIndex-Tuple{String}",
     "page": "API",
     "title": "HELICS.helicsGetOptionIndex",
     "category": "method",
-    "text": "helicsGetOptionIndex(val::Any) -> Int32\n\n\nGet an option index for use in /ref helicsPublicationSetOption, /ref helicsInputSetOption, /ref helicsEndpointSetOption, /ref     helicsFilterSetOption, and the corresponding get functions\n\nArguments\n\nval: a string with the option name\n\nReturns\n\nan int with the option index (-1) if not a valid property\n\n\n\n\n\n"
+    "text": "helicsGetOptionIndex(val::String) -> Int64\n\n\nGet an option index for use in /ref helicsPublicationSetOption, /ref helicsInputSetOption, /ref helicsEndpointSetOption, /ref     helicsFilterSetOption, and the corresponding get functions\n\nArguments\n\nval: a string with the option name\n\nReturns\n\nan int with the option index (-1) if not a valid property\n\n\n\n\n\n"
 },
 
 {
-    "location": "api/#HELICS.helicsGetPropertyIndex-Tuple{Any}",
+    "location": "api/#HELICS.helicsGetPropertyIndex-Tuple{String}",
     "page": "API",
     "title": "HELICS.helicsGetPropertyIndex",
     "category": "method",
-    "text": "helicsGetPropertyIndex(val::Any) -> Int32\n\n\nGet a property index for use in /ref helicsFederateInfoSetFlagOption, /ref helicsFederateInfoSetTimeProperty,     helicsFederateInfoSetIntegerProperty\n\nArguments\n\nval: a string with the property name\n\nReturns\n\nan int with the property code (-1) if not a valid property\n\n\n\n\n\n"
+    "text": "helicsGetPropertyIndex(val::String) -> Int64\n\n\nGet a property index for use in /ref helicsFederateInfoSetFlagOption, /ref helicsFederateInfoSetTimeProperty,     helicsFederateInfoSetIntegerProperty\n\nArguments\n\nval: a string with the property name\n\nReturns\n\nan int with the property code (-1) if not a valid property\n\n\n\n\n\n"
 },
 
 {
@@ -773,7 +773,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsQueryExecuteAsync",
     "category": "method",
-    "text": "helicsQueryExecuteAsync(query::HELICS.Query, fed::HELICS.Federate)\n\n\nExecute a query in a non-blocking call\n\nArguments\n\nquery: the query object to use in the query\nfed: a federate to send the query through\n\nReturns\n\na helics status enumeration with the result of the query specification\n\n\n\n\n\n"
+    "text": "helicsQueryExecuteAsync(query::HELICS.Query, fed::HELICS.Federate)\n\n\nExecute a query in a non-blocking call\n\nArguments\n\nquery: the query object to use in the query\nfed: a federate to send the query through\n\n\n\n\n\n"
 },
 
 {

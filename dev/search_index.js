@@ -33,6 +33,22 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "api/#HELICS.helicsBrokerAddDestinationFilterToEndpoint-Tuple{HELICS.Broker,Any,HELICS.Endpoint}",
+    "page": "API",
+    "title": "HELICS.helicsBrokerAddDestinationFilterToEndpoint",
+    "category": "method",
+    "text": "helicsBrokerAddDestinationFilterToEndpoint(broker::HELICS.Broker, filter::Any, endpoint::HELICS.Endpoint)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsBrokerAddSourceFilterToEndpoint-Tuple{HELICS.Broker,Any,HELICS.Endpoint}",
+    "page": "API",
+    "title": "HELICS.helicsBrokerAddSourceFilterToEndpoint",
+    "category": "method",
+    "text": "helicsBrokerAddSourceFilterToEndpoint(broker::HELICS.Broker, filter::Any, endpoint::HELICS.Endpoint)\n\n\n\n\n\n\n"
+},
+
+{
     "location": "api/#HELICS.helicsBrokerClone-Tuple{HELICS.Broker}",
     "page": "API",
     "title": "HELICS.helicsBrokerClone",
@@ -113,11 +129,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsBrokerWaitForDisconnect-Tuple{HELICS.Broker,Any}",
+    "location": "api/#HELICS.helicsBrokerWaitForDisconnect-Tuple{HELICS.Broker,Int64}",
     "page": "API",
     "title": "HELICS.helicsBrokerWaitForDisconnect",
     "category": "method",
-    "text": "helicsBrokerWaitForDisconnect(broker::HELICS.Broker, msToWait::Any) -> Bool\n\n\nWait for the broker to disconnect\n\nArguments\n\nbroker: the broker to wait for\nmsToWait: the time out in millisecond (<0 for infinite timeout)\n\nReturns\n\ntrue if the disconnect was successful, false if there was a timeout\n\n\n\n\n\n"
+    "text": "helicsBrokerWaitForDisconnect(broker::HELICS.Broker, msToWait::Int64) -> Bool\n\n\nWait for the broker to disconnect\n\nArguments\n\nbroker: the broker to wait for\nmsToWait: the time out in millisecond (<0 for infinite timeout)\n\nReturns\n\ntrue if the disconnect was successful, false if there was a timeout\n\n\n\n\n\n"
 },
 
 {
@@ -134,6 +150,14 @@ var documenterSearchIndex = {"docs": [
     "title": "HELICS.helicsCloseLibrary",
     "category": "method",
     "text": "helicsCloseLibrary()\n\n\nCall when done using the helics library,  this function will ensure the threads are closed properly if possible     this should be the last call before exiting,\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsCoreAddDestinationFilterToEndpoint-Tuple{HELICS.Core,String,String}",
+    "page": "API",
+    "title": "HELICS.helicsCoreAddDestinationFilterToEndpoint",
+    "category": "method",
+    "text": "helicsCoreAddDestinationFilterToEndpoint(core::HELICS.Core, filter::String, endpoint::String)\n\n\n\n\n\n\n"
 },
 
 {
@@ -209,6 +233,22 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "api/#HELICS.helicsCoreRegisterCloningFilter-Tuple{HELICS.Core,String}",
+    "page": "API",
+    "title": "HELICS.helicsCoreRegisterCloningFilter",
+    "category": "method",
+    "text": "helicsCoreRegisterCloningFilter(core::HELICS.Core, deliveryEndpoint::String) -> HELICS.Filter\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsCoreRegisterFilter-Tuple{HELICS.Core,HELICS.Lib.helics_filter_type,String}",
+    "page": "API",
+    "title": "HELICS.helicsCoreRegisterFilter",
+    "category": "method",
+    "text": "helicsCoreRegisterFilter(core::HELICS.Core, kind::HELICS.Lib.helics_filter_type, name::String) -> HELICS.Filter\n\n\n\n\n\n\n"
+},
+
+{
     "location": "api/#HELICS.helicsCoreSetGlobal-Tuple{HELICS.Core,String,String}",
     "page": "API",
     "title": "HELICS.helicsCoreSetGlobal",
@@ -233,6 +273,14 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "api/#HELICS.helicsCreateBrokerFromArgs-Tuple{String,String,Int64,Array{String,1}}",
+    "page": "API",
+    "title": "HELICS.helicsCreateBrokerFromArgs",
+    "category": "method",
+    "text": "helicsCreateBrokerFromArgs(kind::String, name::String, argc::Int64, argv::Array{String,1}) -> HELICS.Broker\n\n\n\n\n\n\n"
+},
+
+{
     "location": "api/#HELICS.helicsCreateCombinationFederate-Tuple{String,HELICS.FederateInfo}",
     "page": "API",
     "title": "HELICS.helicsCreateCombinationFederate",
@@ -254,6 +302,14 @@ var documenterSearchIndex = {"docs": [
     "title": "HELICS.helicsCreateCore",
     "category": "method",
     "text": "helicsCreateCore(kind::String, name::String, initString::String) -> HELICS.Core\n\n\nCreate a core object\n\nArguments\n\ntype: the type of the core to create\nname: the name of the core , may be a nullptr or empty string to have a name automatically assigned\ninitString: an initialization string to send to the core-the format is similar to command line arguments. Typical options include a broker address  –broker=\"XSSAF\" or the number of federates or the address\n\nReturns\n\na helics_core object if the core is invalid err will contain some indication\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsCreateCoreFromArgs-Tuple{String,String,Any,Any}",
+    "page": "API",
+    "title": "HELICS.helicsCreateCoreFromArgs",
+    "category": "method",
+    "text": "helicsCreateCoreFromArgs(kind::String, name::String, argc::Any, argv::Any) -> HELICS.Core\n\n\n\n\n\n\n"
 },
 
 {
@@ -302,6 +358,126 @@ var documenterSearchIndex = {"docs": [
     "title": "HELICS.helicsCreateValueFederateFromConfig",
     "category": "method",
     "text": "helicsCreateValueFederateFromConfig(configFile::String) -> HELICS.ValueFederate\n\n\nCreate a value federate from a JSON file, JSON string, or TOML file\n\nhelicsfederate objects can be used in all functions that take a helicsfederate or helics_federate object as an argument\n\nArguments\n\nconfigFile:  a JSON file or a JSON string or TOML file that contains setup and configuration information\n\nReturns\n\nan opaque value federate object\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsEndpointGetDefaultDestination-Tuple{HELICS.Endpoint}",
+    "page": "API",
+    "title": "HELICS.helicsEndpointGetDefaultDestination",
+    "category": "method",
+    "text": "helicsEndpointGetDefaultDestination(endpoint::HELICS.Endpoint) -> String\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsEndpointGetInfo-Tuple{HELICS.Endpoint}",
+    "page": "API",
+    "title": "HELICS.helicsEndpointGetInfo",
+    "category": "method",
+    "text": "helicsEndpointGetInfo(_end::HELICS.Endpoint) -> String\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsEndpointGetMessage-Tuple{HELICS.Endpoint}",
+    "page": "API",
+    "title": "HELICS.helicsEndpointGetMessage",
+    "category": "method",
+    "text": "helicsEndpointGetMessage(endpoint::HELICS.Endpoint) -> HELICS.Message\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsEndpointGetName-Tuple{HELICS.Endpoint}",
+    "page": "API",
+    "title": "HELICS.helicsEndpointGetName",
+    "category": "method",
+    "text": "helicsEndpointGetName(endpoint::HELICS.Endpoint) -> String\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsEndpointGetOption-Tuple{HELICS.Endpoint,Int64}",
+    "page": "API",
+    "title": "HELICS.helicsEndpointGetOption",
+    "category": "method",
+    "text": "helicsEndpointGetOption(_end::HELICS.Endpoint, option::Int64) -> Bool\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsEndpointGetType-Tuple{HELICS.Endpoint}",
+    "page": "API",
+    "title": "HELICS.helicsEndpointGetType",
+    "category": "method",
+    "text": "helicsEndpointGetType(endpoint::HELICS.Endpoint) -> String\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsEndpointHasMessage-Tuple{HELICS.Endpoint}",
+    "page": "API",
+    "title": "HELICS.helicsEndpointHasMessage",
+    "category": "method",
+    "text": "helicsEndpointHasMessage(endpoint::HELICS.Endpoint) -> Bool\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsEndpointPendingMessages-Tuple{HELICS.Endpoint}",
+    "page": "API",
+    "title": "HELICS.helicsEndpointPendingMessages",
+    "category": "method",
+    "text": "helicsEndpointPendingMessages(endpoint::HELICS.Endpoint) -> Int64\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsEndpointSendEventRaw-Tuple{HELICS.Endpoint,String,String,Any}",
+    "page": "API",
+    "title": "HELICS.helicsEndpointSendEventRaw",
+    "category": "method",
+    "text": "helicsEndpointSendEventRaw(endpoint::HELICS.Endpoint, dest::String, data::String, time::Any)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsEndpointSendMessage-Tuple{HELICS.Endpoint,HELICS.Message}",
+    "page": "API",
+    "title": "HELICS.helicsEndpointSendMessage",
+    "category": "method",
+    "text": "helicsEndpointSendMessage(endpoint::HELICS.Endpoint, message::HELICS.Message)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsEndpointSendMessageRaw-Tuple{HELICS.Endpoint,String,String}",
+    "page": "API",
+    "title": "HELICS.helicsEndpointSendMessageRaw",
+    "category": "method",
+    "text": "helicsEndpointSendMessageRaw(endpoint::HELICS.Endpoint, dest::String, data::String)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsEndpointSetDefaultDestination-Tuple{HELICS.Endpoint,String}",
+    "page": "API",
+    "title": "HELICS.helicsEndpointSetDefaultDestination",
+    "category": "method",
+    "text": "helicsEndpointSetDefaultDestination(endpoint::HELICS.Endpoint, dest::String)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsEndpointSetInfo-Tuple{HELICS.Endpoint,String}",
+    "page": "API",
+    "title": "HELICS.helicsEndpointSetInfo",
+    "category": "method",
+    "text": "helicsEndpointSetInfo(_end::HELICS.Endpoint, info::String)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsEndpointSetOption-Tuple{HELICS.Endpoint,Int64,Bool}",
+    "page": "API",
+    "title": "HELICS.helicsEndpointSetOption",
+    "category": "method",
+    "text": "helicsEndpointSetOption(_end::HELICS.Endpoint, option::Int64, value::Bool)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsEndpointSubscribe-Tuple{HELICS.Endpoint,String}",
+    "page": "API",
+    "title": "HELICS.helicsEndpointSubscribe",
+    "category": "method",
+    "text": "helicsEndpointSubscribe(endpoint::HELICS.Endpoint, key::String)\n\n\n\n\n\n\n"
 },
 
 {
@@ -366,6 +542,14 @@ var documenterSearchIndex = {"docs": [
     "title": "HELICS.helicsFederateEnterExecutingModeIterative",
     "category": "method",
     "text": "helicsFederateEnterExecutingModeIterative(fed::HELICS.Federate, iterate::Union{Int64, helics_iteration_request}) -> HELICS.Lib.helics_iteration_result\n\n\nRequest an iterative time\n\nthis call allows for finer grain control of the iterative process then /ref helicsFederateRequestTime it takes a time and iteration request and return a time and iteration status.\n\nArguments\n\nfed: the federate to make the request of\niterate: the requested iteration mode\n\nReturns\n\nan iteration structure with field containing the time and iteration status\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFederateEnterExecutingModeIterativeAsync-Tuple{HELICS.Federate,Union{Int64, helics_iteration_request}}",
+    "page": "API",
+    "title": "HELICS.helicsFederateEnterExecutingModeIterativeAsync",
+    "category": "method",
+    "text": "helicsFederateEnterExecutingModeIterativeAsync(fed::HELICS.Federate, iterate::Union{Int64, helics_iteration_request})\n\n\n\n\n\n\n"
 },
 
 {
@@ -449,11 +633,83 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "api/#HELICS.helicsFederateGetEndpoint-Tuple{HELICS.Federate,String}",
+    "page": "API",
+    "title": "HELICS.helicsFederateGetEndpoint",
+    "category": "method",
+    "text": "helicsFederateGetEndpoint(fed::HELICS.Federate, name::String) -> HELICS.Endpoint\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFederateGetEndpointByIndex-Tuple{HELICS.Federate,Int64}",
+    "page": "API",
+    "title": "HELICS.helicsFederateGetEndpointByIndex",
+    "category": "method",
+    "text": "helicsFederateGetEndpointByIndex(fed::HELICS.Federate, index::Int64) -> HELICS.Endpoint\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFederateGetEndpointCount-Tuple{HELICS.Federate}",
+    "page": "API",
+    "title": "HELICS.helicsFederateGetEndpointCount",
+    "category": "method",
+    "text": "helicsFederateGetEndpointCount(fed::HELICS.Federate) -> Int64\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFederateGetFilter-Tuple{HELICS.Federate,String}",
+    "page": "API",
+    "title": "HELICS.helicsFederateGetFilter",
+    "category": "method",
+    "text": "helicsFederateGetFilter(fed::HELICS.Federate, name::String) -> HELICS.Filter\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFederateGetFilterByIndex-Tuple{HELICS.Federate,Int64}",
+    "page": "API",
+    "title": "HELICS.helicsFederateGetFilterByIndex",
+    "category": "method",
+    "text": "helicsFederateGetFilterByIndex(fed::HELICS.Federate, index::Int64) -> HELICS.Filter\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFederateGetFilterCount-Tuple{HELICS.Federate}",
+    "page": "API",
+    "title": "HELICS.helicsFederateGetFilterCount",
+    "category": "method",
+    "text": "helicsFederateGetFilterCount(fed::HELICS.Federate) -> Int64\n\n\n\n\n\n\n"
+},
+
+{
     "location": "api/#HELICS.helicsFederateGetFlagOption-Tuple{HELICS.Federate,Int64}",
     "page": "API",
     "title": "HELICS.helicsFederateGetFlagOption",
     "category": "method",
     "text": "helicsFederateGetFlagOption(fed::HELICS.Federate, flag::Int64) -> Bool\n\n\nGet a flag value for a federate\n\nArguments\n\nfed: the federate to get the flag for\nflag: the flag to query\n\nReturns\n\nthe value of the flag\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFederateGetInput-Tuple{HELICS.Federate,String}",
+    "page": "API",
+    "title": "HELICS.helicsFederateGetInput",
+    "category": "method",
+    "text": "helicsFederateGetInput(fed::HELICS.Federate, key::String) -> HELICS.Subscription\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFederateGetInputByIndex-Tuple{HELICS.Federate,Int64}",
+    "page": "API",
+    "title": "HELICS.helicsFederateGetInputByIndex",
+    "category": "method",
+    "text": "helicsFederateGetInputByIndex(fed::HELICS.Federate, index::Int64) -> HELICS.Subscription\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFederateGetInputCount-Tuple{HELICS.Federate}",
+    "page": "API",
+    "title": "HELICS.helicsFederateGetInputCount",
+    "category": "method",
+    "text": "helicsFederateGetInputCount(fed::HELICS.Federate) -> Int64\n\n\n\n\n\n\n"
 },
 
 {
@@ -465,11 +721,43 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "api/#HELICS.helicsFederateGetMessage-Tuple{HELICS.Federate}",
+    "page": "API",
+    "title": "HELICS.helicsFederateGetMessage",
+    "category": "method",
+    "text": "helicsFederateGetMessage(fed::HELICS.Federate) -> HELICS.Message\n\n\n\n\n\n\n"
+},
+
+{
     "location": "api/#HELICS.helicsFederateGetName-Tuple{HELICS.Federate}",
     "page": "API",
     "title": "HELICS.helicsFederateGetName",
     "category": "method",
     "text": "helicsFederateGetName(fed::HELICS.Federate) -> String\n\n\nGet the name of the federate\n\nArguments\n\nfed: the federate object to query\n\nReturns\n\na pointer to a string with the name\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFederateGetPublication-Tuple{HELICS.Federate,String}",
+    "page": "API",
+    "title": "HELICS.helicsFederateGetPublication",
+    "category": "method",
+    "text": "helicsFederateGetPublication(fed::HELICS.Federate, key::String) -> HELICS.Publication\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFederateGetPublicationByIndex-Tuple{HELICS.Federate,Int64}",
+    "page": "API",
+    "title": "HELICS.helicsFederateGetPublicationByIndex",
+    "category": "method",
+    "text": "helicsFederateGetPublicationByIndex(fed::HELICS.Federate, index::Int64) -> HELICS.Publication\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFederateGetPublicationCount-Tuple{HELICS.Federate}",
+    "page": "API",
+    "title": "HELICS.helicsFederateGetPublicationCount",
+    "category": "method",
+    "text": "helicsFederateGetPublicationCount(fed::HELICS.Federate) -> Int64\n\n\n\n\n\n\n"
 },
 
 {
@@ -481,11 +769,27 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "api/#HELICS.helicsFederateGetSubscription-Tuple{HELICS.Federate,String}",
+    "page": "API",
+    "title": "HELICS.helicsFederateGetSubscription",
+    "category": "method",
+    "text": "helicsFederateGetSubscription(fed::HELICS.Federate, key::String) -> HELICS.Subscription\n\n\n\n\n\n\n"
+},
+
+{
     "location": "api/#HELICS.helicsFederateGetTimeProperty-Tuple{HELICS.Federate,HELICS.Lib.helics_properties}",
     "page": "API",
     "title": "HELICS.helicsFederateGetTimeProperty",
     "category": "method",
     "text": "helicsFederateGetTimeProperty(fed::HELICS.Federate, timeProperty::HELICS.Lib.helics_properties) -> Float64\n\n\nGet the current value of a time based property in a federate\n\nArguments\n\nfed: the federate query\ntimeProperty: the property to query\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFederateHasMessage-Tuple{HELICS.Federate}",
+    "page": "API",
+    "title": "HELICS.helicsFederateHasMessage",
+    "category": "method",
+    "text": "helicsFederateHasMessage(fed::HELICS.Federate) -> Bool\n\n\n\n\n\n\n"
 },
 
 {
@@ -569,6 +873,14 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "api/#HELICS.helicsFederateInfoSetIntegerProperty-Tuple{HELICS.FederateInfo,HELICS.Lib.helics_properties,Any}",
+    "page": "API",
+    "title": "HELICS.helicsFederateInfoSetIntegerProperty",
+    "category": "method",
+    "text": "helicsFederateInfoSetIntegerProperty(fi::HELICS.FederateInfo, intProperty::HELICS.Lib.helics_properties, propertyValue::Any)\n\n\n\n\n\n\n"
+},
+
+{
     "location": "api/#HELICS.helicsFederateInfoSetLocalPort-Tuple{HELICS.FederateInfo,Int64}",
     "page": "API",
     "title": "HELICS.helicsFederateInfoSetLocalPort",
@@ -582,6 +894,14 @@ var documenterSearchIndex = {"docs": [
     "title": "HELICS.helicsFederateInfoSetSeparator",
     "category": "method",
     "text": "helicsFederateInfoSetSeparator(fi::HELICS.FederateInfo, separator::Char)\n\n\nSet the separator character in the info structure\n\nthe separator character is the separation character for local publications/endpoints in creating their global name. for example if the separator character is \'/\'  then a local endpoint would have a globally reachable name of fedName/localName\n\nArguments\n\nfi: the federate info object to alter\nseparator: the character to use as a separator\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFederateInfoSetTimeProperty-Tuple{HELICS.FederateInfo,HELICS.Lib.helics_properties,Any}",
+    "page": "API",
+    "title": "HELICS.helicsFederateInfoSetTimeProperty",
+    "category": "method",
+    "text": "helicsFederateInfoSetTimeProperty(fi::HELICS.FederateInfo, timeProperty::HELICS.Lib.helics_properties, propertyValue::Any)\n\n\n\n\n\n\n"
 },
 
 {
@@ -601,11 +921,139 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "api/#HELICS.helicsFederatePendingMessages-Tuple{HELICS.Federate}",
+    "page": "API",
+    "title": "HELICS.helicsFederatePendingMessages",
+    "category": "method",
+    "text": "helicsFederatePendingMessages(fed::HELICS.Federate) -> Int64\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFederateRegisterCloningFilter-Tuple{HELICS.Federate,String}",
+    "page": "API",
+    "title": "HELICS.helicsFederateRegisterCloningFilter",
+    "category": "method",
+    "text": "helicsFederateRegisterCloningFilter(fed::HELICS.Federate, deliveryEndpoint::String) -> HELICS.Filter\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFederateRegisterEndpoint-Tuple{HELICS.Federate,String,String}",
+    "page": "API",
+    "title": "HELICS.helicsFederateRegisterEndpoint",
+    "category": "method",
+    "text": "helicsFederateRegisterEndpoint(fed::HELICS.Federate, name::String, kind::String) -> HELICS.Endpoint\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFederateRegisterFilter-Tuple{HELICS.Federate,HELICS.Lib.helics_filter_type,String}",
+    "page": "API",
+    "title": "HELICS.helicsFederateRegisterFilter",
+    "category": "method",
+    "text": "helicsFederateRegisterFilter(fed::HELICS.Federate, kind::HELICS.Lib.helics_filter_type, name::String) -> HELICS.Filter\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFederateRegisterGlobalCloningFilter-Tuple{HELICS.Federate,String}",
+    "page": "API",
+    "title": "HELICS.helicsFederateRegisterGlobalCloningFilter",
+    "category": "method",
+    "text": "helicsFederateRegisterGlobalCloningFilter(fed::HELICS.Federate, deliveryEndpoint::String) -> HELICS.Filter\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFederateRegisterGlobalEndpoint-Tuple{HELICS.Federate,String,String}",
+    "page": "API",
+    "title": "HELICS.helicsFederateRegisterGlobalEndpoint",
+    "category": "method",
+    "text": "helicsFederateRegisterGlobalEndpoint(fed::HELICS.Federate, name::String, kind::String) -> HELICS.Endpoint\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFederateRegisterGlobalFilter-Tuple{HELICS.Federate,HELICS.Lib.helics_filter_type,String}",
+    "page": "API",
+    "title": "HELICS.helicsFederateRegisterGlobalFilter",
+    "category": "method",
+    "text": "helicsFederateRegisterGlobalFilter(fed::HELICS.Federate, kind::HELICS.Lib.helics_filter_type, name::String) -> HELICS.Filter\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFederateRegisterGlobalInput",
+    "page": "API",
+    "title": "HELICS.helicsFederateRegisterGlobalInput",
+    "category": "function",
+    "text": "helicsFederateRegisterGlobalInput(fed::HELICS.Federate, key::String, kind::String)\nhelicsFederateRegisterGlobalInput(fed::HELICS.Federate, key::String, kind::String, units::String)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFederateRegisterGlobalPublication",
+    "page": "API",
+    "title": "HELICS.helicsFederateRegisterGlobalPublication",
+    "category": "function",
+    "text": "helicsFederateRegisterGlobalPublication(fed::HELICS.Federate, key::String, kind::HELICS.Lib.helics_data_type) -> HELICS.Publication\nhelicsFederateRegisterGlobalPublication(fed::HELICS.Federate, key::String, kind::HELICS.Lib.helics_data_type, units::String) -> HELICS.Publication\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFederateRegisterGlobalTypeInput",
+    "page": "API",
+    "title": "HELICS.helicsFederateRegisterGlobalTypeInput",
+    "category": "function",
+    "text": "helicsFederateRegisterGlobalTypeInput(fed::HELICS.Federate, key::String, kind::String) -> HELICS.Subscription\nhelicsFederateRegisterGlobalTypeInput(fed::HELICS.Federate, key::String, kind::String, units::String) -> HELICS.Subscription\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFederateRegisterGlobalTypePublication",
+    "page": "API",
+    "title": "HELICS.helicsFederateRegisterGlobalTypePublication",
+    "category": "function",
+    "text": "helicsFederateRegisterGlobalTypePublication(fed::HELICS.Federate, key::String, kind::String) -> HELICS.Publication\nhelicsFederateRegisterGlobalTypePublication(fed::HELICS.Federate, key::String, kind::String, units::String) -> HELICS.Publication\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFederateRegisterInput",
+    "page": "API",
+    "title": "HELICS.helicsFederateRegisterInput",
+    "category": "function",
+    "text": "helicsFederateRegisterInput(fed::HELICS.Federate, key::String, kind::String)\nhelicsFederateRegisterInput(fed::HELICS.Federate, key::String, kind::String, units::String)\n\n\n\n\n\n\n"
+},
+
+{
     "location": "api/#HELICS.helicsFederateRegisterInterfaces-Tuple{HELICS.Federate,String}",
     "page": "API",
     "title": "HELICS.helicsFederateRegisterInterfaces",
     "category": "method",
     "text": "helicsFederateRegisterInterfaces(fed::HELICS.Federate, file::String)\n\n\nLoad interfaces from a file\n\nArguments\n\nfed: the federate to which to load interfaces\nfile: the name of a file to load the interfaces from either JSON, or TOML\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFederateRegisterPublication",
+    "page": "API",
+    "title": "HELICS.helicsFederateRegisterPublication",
+    "category": "function",
+    "text": "helicsFederateRegisterPublication(fed::HELICS.Federate, key::String, kind::HELICS.Lib.helics_data_type) -> HELICS.Publication\nhelicsFederateRegisterPublication(fed::HELICS.Federate, key::String, kind::HELICS.Lib.helics_data_type, units::String) -> HELICS.Publication\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFederateRegisterSubscription",
+    "page": "API",
+    "title": "HELICS.helicsFederateRegisterSubscription",
+    "category": "function",
+    "text": "helicsFederateRegisterSubscription(fed::HELICS.Federate, key::String) -> HELICS.Subscription\nhelicsFederateRegisterSubscription(fed::HELICS.Federate, key::String, units::String) -> HELICS.Subscription\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFederateRegisterTypeInput",
+    "page": "API",
+    "title": "HELICS.helicsFederateRegisterTypeInput",
+    "category": "function",
+    "text": "helicsFederateRegisterTypeInput(fed::HELICS.Federate, key::String, kind::String) -> HELICS.Subscription\nhelicsFederateRegisterTypeInput(fed::HELICS.Federate, key::String, kind::String, units::String) -> HELICS.Subscription\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFederateRegisterTypePublication",
+    "page": "API",
+    "title": "HELICS.helicsFederateRegisterTypePublication",
+    "category": "function",
+    "text": "helicsFederateRegisterTypePublication(fed::HELICS.Federate, key::String, kind::String) -> HELICS.Publication\nhelicsFederateRegisterTypePublication(fed::HELICS.Federate, key::String, kind::String, units::String) -> HELICS.Publication\n\n\n\n\n\n\n"
 },
 
 {
@@ -657,11 +1105,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsFederateRequestTimeIterativeComplete-Tuple{HELICS.Federate,Any}",
+    "location": "api/#HELICS.helicsFederateRequestTimeIterativeComplete-Tuple{HELICS.Federate}",
     "page": "API",
     "title": "HELICS.helicsFederateRequestTimeIterativeComplete",
     "category": "method",
-    "text": "helicsFederateRequestTimeIterativeComplete(fed::HELICS.Federate, outIterate::Any) -> Tuple{Float64,HELICS.Lib.helics_iteration_result}\n\n\nComplete an iterative time request asynchronous call\n\nArguments\n\nfed: the federate to make the request of\n\nReturns\n\nthe granted time\noutIterate  the iteration specification of the result\n\n\n\n\n\n"
+    "text": "helicsFederateRequestTimeIterativeComplete(fed::HELICS.Federate) -> Tuple{Float64,HELICS.Lib.helics_iteration_result}\n\n\nComplete an iterative time request asynchronous call\n\nArguments\n\nfed: the federate to make the request of\n\nReturns\n\nthe granted time\noutIterate  the iteration specification of the result\n\n\n\n\n\n"
 },
 
 {
@@ -705,6 +1153,102 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "api/#HELICS.helicsFilterAddDeliveryEndpoint-Tuple{HELICS.Filter,String}",
+    "page": "API",
+    "title": "HELICS.helicsFilterAddDeliveryEndpoint",
+    "category": "method",
+    "text": "helicsFilterAddDeliveryEndpoint(filt::HELICS.Filter, deliveryEndpoint::String)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFilterAddDestinationTarget-Tuple{HELICS.Filter,String}",
+    "page": "API",
+    "title": "HELICS.helicsFilterAddDestinationTarget",
+    "category": "method",
+    "text": "helicsFilterAddDestinationTarget(filt::HELICS.Filter, dest::String)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFilterAddSourceTarget-Tuple{HELICS.Filter,String}",
+    "page": "API",
+    "title": "HELICS.helicsFilterAddSourceTarget",
+    "category": "method",
+    "text": "helicsFilterAddSourceTarget(filt::HELICS.Filter, source::String)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFilterGetInfo-Tuple{HELICS.Filter}",
+    "page": "API",
+    "title": "HELICS.helicsFilterGetInfo",
+    "category": "method",
+    "text": "helicsFilterGetInfo(filt::HELICS.Filter) -> String\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFilterGetName-Tuple{HELICS.Filter}",
+    "page": "API",
+    "title": "HELICS.helicsFilterGetName",
+    "category": "method",
+    "text": "helicsFilterGetName(filt::HELICS.Filter) -> String\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFilterGetOption-Tuple{HELICS.Filter,Int64}",
+    "page": "API",
+    "title": "HELICS.helicsFilterGetOption",
+    "category": "method",
+    "text": "helicsFilterGetOption(filt::HELICS.Filter, option::Int64)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFilterRemoveDeliveryEndpoint-Tuple{HELICS.Filter,String}",
+    "page": "API",
+    "title": "HELICS.helicsFilterRemoveDeliveryEndpoint",
+    "category": "method",
+    "text": "helicsFilterRemoveDeliveryEndpoint(filt::HELICS.Filter, deliveryEndpoint::String)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFilterRemoveTarget-Tuple{HELICS.Filter,String}",
+    "page": "API",
+    "title": "HELICS.helicsFilterRemoveTarget",
+    "category": "method",
+    "text": "helicsFilterRemoveTarget(filt::HELICS.Filter, target::String)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFilterSet-Tuple{HELICS.Filter,String,Float64}",
+    "page": "API",
+    "title": "HELICS.helicsFilterSet",
+    "category": "method",
+    "text": "helicsFilterSet(filt::HELICS.Filter, prop::String, val::Float64)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFilterSetInfo-Tuple{HELICS.Filter,String}",
+    "page": "API",
+    "title": "HELICS.helicsFilterSetInfo",
+    "category": "method",
+    "text": "helicsFilterSetInfo(filt::HELICS.Filter, info::String)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFilterSetOption-Tuple{HELICS.Filter,Int64,Bool}",
+    "page": "API",
+    "title": "HELICS.helicsFilterSetOption",
+    "category": "method",
+    "text": "helicsFilterSetOption(filt::HELICS.Filter, option::Int64, value::Bool)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsFilterSetString-Tuple{HELICS.Filter,String,String}",
+    "page": "API",
+    "title": "HELICS.helicsFilterSetString",
+    "category": "method",
+    "text": "helicsFilterSetString(filt::HELICS.Filter, prop::String, val::String)\n\n\n\n\n\n\n"
+},
+
+{
     "location": "api/#HELICS.helicsGetFederateByName-Tuple{String}",
     "page": "API",
     "title": "HELICS.helicsGetFederateByName",
@@ -737,11 +1281,435 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "api/#HELICS.helicsInputAddTarget-Tuple{HELICS.Subscription,String}",
+    "page": "API",
+    "title": "HELICS.helicsInputAddTarget",
+    "category": "method",
+    "text": "helicsInputAddTarget(ipt::HELICS.Subscription, target::String)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputGetBoolean-Tuple{HELICS.Subscription}",
+    "page": "API",
+    "title": "HELICS.helicsInputGetBoolean",
+    "category": "method",
+    "text": "helicsInputGetBoolean(ipt::HELICS.Subscription) -> Bool\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputGetChar-Tuple{HELICS.Subscription}",
+    "page": "API",
+    "title": "HELICS.helicsInputGetChar",
+    "category": "method",
+    "text": "helicsInputGetChar(ipt::HELICS.Subscription) -> Char\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputGetComplex-Tuple{HELICS.Subscription}",
+    "page": "API",
+    "title": "HELICS.helicsInputGetComplex",
+    "category": "method",
+    "text": "helicsInputGetComplex(ipt::HELICS.Subscription) -> Complex{Float64}\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputGetComplexObject-Tuple{HELICS.Subscription}",
+    "page": "API",
+    "title": "HELICS.helicsInputGetComplexObject",
+    "category": "method",
+    "text": "helicsInputGetComplexObject(ipt::HELICS.Subscription) -> Complex{Float64}\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputGetDouble-Tuple{HELICS.Subscription}",
+    "page": "API",
+    "title": "HELICS.helicsInputGetDouble",
+    "category": "method",
+    "text": "helicsInputGetDouble(ipt::HELICS.Subscription) -> Float64\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputGetInfo-Tuple{HELICS.Subscription}",
+    "page": "API",
+    "title": "HELICS.helicsInputGetInfo",
+    "category": "method",
+    "text": "helicsInputGetInfo(inp::HELICS.Subscription) -> String\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputGetInteger-Tuple{HELICS.Subscription}",
+    "page": "API",
+    "title": "HELICS.helicsInputGetInteger",
+    "category": "method",
+    "text": "helicsInputGetInteger(ipt::HELICS.Subscription) -> Int64\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputGetKey-Tuple{HELICS.Subscription}",
+    "page": "API",
+    "title": "HELICS.helicsInputGetKey",
+    "category": "method",
+    "text": "helicsInputGetKey(ipt::HELICS.Subscription) -> String\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputGetNamedPoint-Tuple{HELICS.Subscription}",
+    "page": "API",
+    "title": "HELICS.helicsInputGetNamedPoint",
+    "category": "method",
+    "text": "helicsInputGetNamedPoint(ipt::HELICS.Subscription) -> Tuple{String,Float64}\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputGetOption-Tuple{HELICS.Subscription,Int64}",
+    "page": "API",
+    "title": "HELICS.helicsInputGetOption",
+    "category": "method",
+    "text": "helicsInputGetOption(inp::HELICS.Subscription, option::Int64) -> Bool\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputGetPublicationType-Tuple{HELICS.Subscription}",
+    "page": "API",
+    "title": "HELICS.helicsInputGetPublicationType",
+    "category": "method",
+    "text": "helicsInputGetPublicationType(ipt::HELICS.Subscription) -> String\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputGetRawValue-Tuple{HELICS.Subscription,Any,Any,Any}",
+    "page": "API",
+    "title": "HELICS.helicsInputGetRawValue",
+    "category": "method",
+    "text": "helicsInputGetRawValue(ipt::HELICS.Subscription, data::Any, maxlen::Any, actualSize::Any)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputGetRawValueSize-Tuple{HELICS.Subscription}",
+    "page": "API",
+    "title": "HELICS.helicsInputGetRawValueSize",
+    "category": "method",
+    "text": "helicsInputGetRawValueSize(ipt::HELICS.Subscription) -> Int64\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputGetString-Tuple{HELICS.Subscription}",
+    "page": "API",
+    "title": "HELICS.helicsInputGetString",
+    "category": "method",
+    "text": "helicsInputGetString(ipt::HELICS.Subscription) -> String\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputGetStringSize-Tuple{HELICS.Subscription}",
+    "page": "API",
+    "title": "HELICS.helicsInputGetStringSize",
+    "category": "method",
+    "text": "helicsInputGetStringSize(ipt::HELICS.Subscription) -> Int64\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputGetTime-Tuple{HELICS.Subscription}",
+    "page": "API",
+    "title": "HELICS.helicsInputGetTime",
+    "category": "method",
+    "text": "helicsInputGetTime(ipt::HELICS.Subscription) -> Float64\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputGetType-Tuple{HELICS.Subscription}",
+    "page": "API",
+    "title": "HELICS.helicsInputGetType",
+    "category": "method",
+    "text": "helicsInputGetType(ipt::HELICS.Subscription) -> String\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputGetUnits-Tuple{HELICS.Subscription}",
+    "page": "API",
+    "title": "HELICS.helicsInputGetUnits",
+    "category": "method",
+    "text": "helicsInputGetUnits(ipt::HELICS.Subscription) -> String\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputGetVector-Tuple{HELICS.Subscription}",
+    "page": "API",
+    "title": "HELICS.helicsInputGetVector",
+    "category": "method",
+    "text": "helicsInputGetVector(ipt::HELICS.Subscription) -> Array{Float64,1}\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputGetVectorSize-Tuple{HELICS.Subscription}",
+    "page": "API",
+    "title": "HELICS.helicsInputGetVectorSize",
+    "category": "method",
+    "text": "helicsInputGetVectorSize(ipt::HELICS.Subscription) -> Int64\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputIsUpdated-Tuple{HELICS.Subscription}",
+    "page": "API",
+    "title": "HELICS.helicsInputIsUpdated",
+    "category": "method",
+    "text": "helicsInputIsUpdated(ipt::HELICS.Subscription) -> Bool\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputLastUpdateTime-Tuple{HELICS.Subscription}",
+    "page": "API",
+    "title": "HELICS.helicsInputLastUpdateTime",
+    "category": "method",
+    "text": "helicsInputLastUpdateTime(ipt::HELICS.Subscription) -> Float64\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputSetDefaultBoolean-Tuple{HELICS.Subscription,Bool}",
+    "page": "API",
+    "title": "HELICS.helicsInputSetDefaultBoolean",
+    "category": "method",
+    "text": "helicsInputSetDefaultBoolean(ipt::HELICS.Subscription, val::Bool)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputSetDefaultChar-Tuple{HELICS.Subscription,Char}",
+    "page": "API",
+    "title": "HELICS.helicsInputSetDefaultChar",
+    "category": "method",
+    "text": "helicsInputSetDefaultChar(ipt::HELICS.Subscription, val::Char)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputSetDefaultComplex-Tuple{HELICS.Subscription,Complex{Float64}}",
+    "page": "API",
+    "title": "HELICS.helicsInputSetDefaultComplex",
+    "category": "method",
+    "text": "helicsInputSetDefaultComplex(ipt::HELICS.Subscription, c::Complex{Float64})\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputSetDefaultDouble-Tuple{HELICS.Subscription,Float64}",
+    "page": "API",
+    "title": "HELICS.helicsInputSetDefaultDouble",
+    "category": "method",
+    "text": "helicsInputSetDefaultDouble(ipt::HELICS.Subscription, val::Float64)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputSetDefaultInteger-Tuple{HELICS.Subscription,Int64}",
+    "page": "API",
+    "title": "HELICS.helicsInputSetDefaultInteger",
+    "category": "method",
+    "text": "helicsInputSetDefaultInteger(ipt::HELICS.Subscription, val::Int64)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputSetDefaultNamedPoint-Tuple{HELICS.Subscription,String,Float64}",
+    "page": "API",
+    "title": "HELICS.helicsInputSetDefaultNamedPoint",
+    "category": "method",
+    "text": "helicsInputSetDefaultNamedPoint(ipt::HELICS.Subscription, str::String, val::Float64)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputSetDefaultRaw-Tuple{HELICS.Subscription,Any,Any}",
+    "page": "API",
+    "title": "HELICS.helicsInputSetDefaultRaw",
+    "category": "method",
+    "text": "helicsInputSetDefaultRaw(ipt::HELICS.Subscription, data::Any, inputDataLength::Any)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputSetDefaultString-Tuple{HELICS.Subscription,String}",
+    "page": "API",
+    "title": "HELICS.helicsInputSetDefaultString",
+    "category": "method",
+    "text": "helicsInputSetDefaultString(ipt::HELICS.Subscription, str::String)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputSetDefaultTime-Tuple{HELICS.Subscription,Any}",
+    "page": "API",
+    "title": "HELICS.helicsInputSetDefaultTime",
+    "category": "method",
+    "text": "helicsInputSetDefaultTime(ipt::HELICS.Subscription, val::Any)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputSetDefaultVector-Tuple{HELICS.Subscription,Array{Float64,1}}",
+    "page": "API",
+    "title": "HELICS.helicsInputSetDefaultVector",
+    "category": "method",
+    "text": "helicsInputSetDefaultVector(ipt::HELICS.Subscription, vectorInput::Array{Float64,1})\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputSetInfo-Tuple{HELICS.Subscription,String}",
+    "page": "API",
+    "title": "HELICS.helicsInputSetInfo",
+    "category": "method",
+    "text": "helicsInputSetInfo(inp::HELICS.Subscription, info::String)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsInputSetOption-Tuple{HELICS.Subscription,Int64,Bool}",
+    "page": "API",
+    "title": "HELICS.helicsInputSetOption",
+    "category": "method",
+    "text": "helicsInputSetOption(inp::HELICS.Subscription, option::Int64, value::Bool)\n\n\n\n\n\n\n"
+},
+
+{
     "location": "api/#HELICS.helicsIsCoreTypeAvailable-Tuple{String}",
     "page": "API",
     "title": "HELICS.helicsIsCoreTypeAvailable",
     "category": "method",
     "text": "helicsIsCoreTypeAvailable(kind::String) -> Bool\n\n\nReturns true if core/broker type specified is available in current compilation.\n\nArguments\n\ntype: a string representing a core type\n\npossible options include \"test\",\"zmq\",\"udp\",\"ipc\",\"interprocess\",\"tcp\",\"default\", \"mpi\"\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsPublicationAddTarget-Tuple{HELICS.Publication,String}",
+    "page": "API",
+    "title": "HELICS.helicsPublicationAddTarget",
+    "category": "method",
+    "text": "helicsPublicationAddTarget(pub::HELICS.Publication, target::String)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsPublicationGetInfo-Tuple{HELICS.Publication}",
+    "page": "API",
+    "title": "HELICS.helicsPublicationGetInfo",
+    "category": "method",
+    "text": "helicsPublicationGetInfo(pub::HELICS.Publication) -> String\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsPublicationGetKey-Tuple{HELICS.Publication}",
+    "page": "API",
+    "title": "HELICS.helicsPublicationGetKey",
+    "category": "method",
+    "text": "helicsPublicationGetKey(pub::HELICS.Publication) -> String\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsPublicationGetOption-Tuple{HELICS.Publication,Int64}",
+    "page": "API",
+    "title": "HELICS.helicsPublicationGetOption",
+    "category": "method",
+    "text": "helicsPublicationGetOption(pub::HELICS.Publication, option::Int64) -> Bool\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsPublicationGetType-Tuple{HELICS.Publication}",
+    "page": "API",
+    "title": "HELICS.helicsPublicationGetType",
+    "category": "method",
+    "text": "helicsPublicationGetType(pub::HELICS.Publication) -> String\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsPublicationGetUnits-Tuple{HELICS.Publication}",
+    "page": "API",
+    "title": "HELICS.helicsPublicationGetUnits",
+    "category": "method",
+    "text": "helicsPublicationGetUnits(pub::HELICS.Publication) -> String\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsPublicationPublishBoolean-Tuple{HELICS.Publication,Bool}",
+    "page": "API",
+    "title": "HELICS.helicsPublicationPublishBoolean",
+    "category": "method",
+    "text": "helicsPublicationPublishBoolean(pub::HELICS.Publication, val::Bool)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsPublicationPublishChar-Tuple{HELICS.Publication,Char}",
+    "page": "API",
+    "title": "HELICS.helicsPublicationPublishChar",
+    "category": "method",
+    "text": "helicsPublicationPublishChar(pub::HELICS.Publication, val::Char)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsPublicationPublishComplex-Tuple{HELICS.Publication,Complex{Float64}}",
+    "page": "API",
+    "title": "HELICS.helicsPublicationPublishComplex",
+    "category": "method",
+    "text": "helicsPublicationPublishComplex(pub::HELICS.Publication, c::Complex{Float64})\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsPublicationPublishDouble-Tuple{HELICS.Publication,Float64}",
+    "page": "API",
+    "title": "HELICS.helicsPublicationPublishDouble",
+    "category": "method",
+    "text": "helicsPublicationPublishDouble(pub::HELICS.Publication, val::Float64)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsPublicationPublishInteger-Tuple{HELICS.Publication,Any}",
+    "page": "API",
+    "title": "HELICS.helicsPublicationPublishInteger",
+    "category": "method",
+    "text": "helicsPublicationPublishInteger(pub::HELICS.Publication, val::Any)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsPublicationPublishNamedPoint-Tuple{HELICS.Publication,String,Float64}",
+    "page": "API",
+    "title": "HELICS.helicsPublicationPublishNamedPoint",
+    "category": "method",
+    "text": "helicsPublicationPublishNamedPoint(pub::HELICS.Publication, str::String, val::Float64)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsPublicationPublishRaw-Tuple{HELICS.Publication,Any}",
+    "page": "API",
+    "title": "HELICS.helicsPublicationPublishRaw",
+    "category": "method",
+    "text": "helicsPublicationPublishRaw(pub::HELICS.Publication, data::Any)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsPublicationPublishString-Tuple{HELICS.Publication,String}",
+    "page": "API",
+    "title": "HELICS.helicsPublicationPublishString",
+    "category": "method",
+    "text": "helicsPublicationPublishString(pub::HELICS.Publication, str::String)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsPublicationPublishTime-Tuple{HELICS.Publication,Any}",
+    "page": "API",
+    "title": "HELICS.helicsPublicationPublishTime",
+    "category": "method",
+    "text": "helicsPublicationPublishTime(pub::HELICS.Publication, val::Any)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsPublicationPublishVector-Tuple{HELICS.Publication,Any}",
+    "page": "API",
+    "title": "HELICS.helicsPublicationPublishVector",
+    "category": "method",
+    "text": "helicsPublicationPublishVector(pub::HELICS.Publication, vectorInput::Any)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsPublicationSetInfo-Tuple{HELICS.Publication,String}",
+    "page": "API",
+    "title": "HELICS.helicsPublicationSetInfo",
+    "category": "method",
+    "text": "helicsPublicationSetInfo(pub::HELICS.Publication, info::String)\n\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsPublicationSetOption-Tuple{HELICS.Publication,Int64,Bool}",
+    "page": "API",
+    "title": "HELICS.helicsPublicationSetOption",
+    "category": "method",
+    "text": "helicsPublicationSetOption(pub::HELICS.Publication, option::Int64, val::Bool)\n\n\n\n\n\n\n"
 },
 
 {
@@ -798,6 +1766,14 @@ var documenterSearchIndex = {"docs": [
     "title": "HELICS.helicsQueryIsCompleted",
     "category": "method",
     "text": "helicsQueryIsCompleted(query::HELICS.Query) -> Bool\n\n\nCheck if an asynchronously executed query has completed\n\nthis function should usually be called after a QueryExecuteAsync function has been called.\n\nArguments\n\nquery: the query object to check if completed\n\nReturns\n\nwill return true if an asynchronous query has complete or a regular query call was made with a result and false if an asynchronous query has not completed or is invalid\n\n\n\n\n\n"
+},
+
+{
+    "location": "api/#HELICS.helicsSubscriptionGetKey-Tuple{HELICS.Subscription}",
+    "page": "API",
+    "title": "HELICS.helicsSubscriptionGetKey",
+    "category": "method",
+    "text": "helicsSubscriptionGetKey(ipt::HELICS.Subscription) -> String\n\n\n\n\n\n\n"
 },
 
 {

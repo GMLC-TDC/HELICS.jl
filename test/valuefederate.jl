@@ -64,7 +64,7 @@ end
 
     h.helicsFederateEnterExecutingMode(vFed)
 
-    # publish string1 at time=0.0;
+    # publish string1 at time=0.0
     h.helicsPublicationPublishNamedPoint(pubid, testValue1, testVal1)
 
     @test h.helicsInputGetNamedPoint(subid) == (defaultValue, defVal)
@@ -110,7 +110,7 @@ end
 
     h.helicsFederateEnterExecutingMode(vFed)
 
-    # publish string1 at time=0.0;
+    # publish string1 at time=0.0
     h.helicsPublicationPublishBoolean(pubid, testValue1)
     val = h.helicsInputGetBoolean(subid)
 
@@ -214,8 +214,8 @@ end
     broker = createBroker()
     vFed, fedinfo = createValueFederate()
 
-    pubid = h.helicsFederateRegisterGlobalPublication(vFed, "pub1", h.HELICS_DATA_TYPE_STRING, "");
-    subid = h.helicsFederateRegisterSubscription(vFed, "pub1", "");
+    pubid = h.helicsFederateRegisterGlobalPublication(vFed, "pub1", h.HELICS_DATA_TYPE_STRING, "")
+    subid = h.helicsFederateRegisterSubscription(vFed, "pub1", "")
 
     h.helicsFederateEnterExecutingMode(vFed)
 
@@ -243,7 +243,7 @@ end
 
     h.helicsFederateEnterExecutingMode(vFed)
 
-    # publish string1 at time=0.0;
+    # publish string1 at time=0.0
     h.helicsPublicationPublishDouble(pubid, testValue)
 
     value = h.helicsInputGetDouble(subid)
@@ -255,7 +255,7 @@ end
     value = h.helicsInputGetDouble(subid)
     @test value == testValue
 
-    # publish string1 at time=0.0;
+    # publish string1 at time=0.0
     h.helicsPublicationPublishDouble(pubid, testValue + 1)
 
     grantedtime = h.helicsFederateRequestTime(vFed, 2.0)
@@ -282,7 +282,7 @@ end
 
     h.helicsFederateEnterExecutingMode(vFed)
 
-    # publish string1 at time=0.0;
+    # publish string1 at time=0.0
     h.helicsPublicationPublishComplex(pubid, (rTestValue + im * iTestValue))
 
     @test rDefaultValue + im * iDefaultValue == h.helicsInputGetComplex(subid)
@@ -387,5 +387,35 @@ end
 
     destroyFederate(vFed, fedinfo)
     destroyBroker(broker)
+end
+
+@testset "ValueFederate test single transfer" begin
+    broker = createBroker()
+    vFed, fedinfo = createValueFederate()
+
+    s = "n2"
+
+    pubid = h.helicsFederateRegisterGlobalPublication(vFed, "pub1", h.HELICS_DATA_TYPE_STRING, "")
+    subid = h.helicsFederateRegisterSubscription(vFed, "pub1", "")
+
+    h.helicsFederateEnterExecutingMode(vFed)
+
+    h.helicsPublicationPublishString(pubid, "string1")
+
+    grantedtime = h.helicsFederateRequestTime(vFed, 1.0)
+    @test grantedtime == 0.01
+
+    s = h.helicsInputGetString(subid)
+
+    @test s == "string1"
+
+    time = h.helicsInputLastUpdateTime(subid)
+    @test time == 0.01
+
+    h.helicsPublicationPublishString(pubid, "string2")
+
+    destroyFederate(vFed, fedinfo)
+    destroyBroker(broker)
+
 end
 

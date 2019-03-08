@@ -265,11 +265,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsCoreRegisterFilter-Tuple{HELICS.Core,HELICS.Lib.helics_filter_type,String}",
+    "location": "api/#HELICS.helicsCoreRegisterFilter-Tuple{HELICS.Core,Union{Int64, helics_filter_type},String}",
     "page": "API",
     "title": "HELICS.helicsCoreRegisterFilter",
     "category": "method",
-    "text": "helicsCoreRegisterFilter(core::HELICS.Core, kind::HELICS.Lib.helics_filter_type, name::String) -> HELICS.Filter\n\n\n\n\n\n\n"
+    "text": "helicsCoreRegisterFilter(core::HELICS.Core, kind::Union{Int64, helics_filter_type}, name::String) -> HELICS.Filter\n\n\n\n\n\n\n"
 },
 
 {
@@ -449,11 +449,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsEndpointSendEventRaw-Tuple{HELICS.Endpoint,String,String,Float64}",
+    "location": "api/#HELICS.helicsEndpointSendEventRaw-Tuple{HELICS.Endpoint,String,String,Union{Float64, Int64}}",
     "page": "API",
     "title": "HELICS.helicsEndpointSendEventRaw",
     "category": "method",
-    "text": "helicsEndpointSendEventRaw(endpoint::HELICS.Endpoint, dest::String, data::String, time::Float64)\n\n\n\n\n\n\n"
+    "text": "helicsEndpointSendEventRaw(endpoint::HELICS.Endpoint, dest::String, data::String, time::Union{Float64, Int64})\n\n\n\n\n\n\n"
 },
 
 {
@@ -737,11 +737,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsFederateGetIntegerProperty-Tuple{HELICS.Federate,HELICS.Lib.helics_properties}",
+    "location": "api/#HELICS.helicsFederateGetIntegerProperty-Tuple{HELICS.Federate,Union{Int64, helics_handle_options}}",
     "page": "API",
     "title": "HELICS.helicsFederateGetIntegerProperty",
     "category": "method",
-    "text": "helicsFederateGetIntegerProperty(fed::HELICS.Federate, intProperty::HELICS.Lib.helics_properties) -> Int32\n\n\nSet the logging level for the federate\n\ndebug and trace only do anything if they were enabled in the compilation\n\nArguments\n\nfed: the federate to get the flag for\nintProperty: a code for the property to set /ref helicshandleoptions\n\nReturns\n\nthe value of the property\n\n\n\n\n\n"
+    "text": "helicsFederateGetIntegerProperty(fed::HELICS.Federate, intProperty::Union{Int64, helics_handle_options}) -> Int32\n\n\nSet the logging level for the federate\n\ndebug and trace only do anything if they were enabled in the compilation\n\nArguments\n\nfed: the federate to get the flag for\nintProperty: a code for the property to set /ref helicshandleoptions\n\nReturns\n\nthe value of the property\n\n\n\n\n\n"
 },
 
 {
@@ -801,11 +801,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsFederateGetTimeProperty-Tuple{HELICS.Federate,HELICS.Lib.helics_properties}",
+    "location": "api/#HELICS.helicsFederateGetTimeProperty-Tuple{HELICS.Federate,Union{Int64, helics_properties}}",
     "page": "API",
     "title": "HELICS.helicsFederateGetTimeProperty",
     "category": "method",
-    "text": "helicsFederateGetTimeProperty(fed::HELICS.Federate, timeProperty::HELICS.Lib.helics_properties) -> Float64\n\n\nGet the current value of a time based property in a federate\n\nArguments\n\nfed: the federate query\ntimeProperty: the property to query\n\n\n\n\n\n"
+    "text": "helicsFederateGetTimeProperty(fed::HELICS.Federate, timeProperty::Union{Int64, helics_properties}) -> Float64\n\n\nGet the current value of a time based property in a federate\n\nArguments\n\nfed: the federate query\ntimeProperty: the property to query\n\n\n\n\n\n"
 },
 
 {
@@ -873,11 +873,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsFederateInfoSetCoreType-Tuple{HELICS.FederateInfo,Int64}",
+    "location": "api/#HELICS.helicsFederateInfoSetCoreType-Tuple{HELICS.FederateInfo,Union{Int64, helics_core_type}}",
     "page": "API",
     "title": "HELICS.helicsFederateInfoSetCoreType",
     "category": "method",
-    "text": "helicsFederateInfoSetCoreType(fi::HELICS.FederateInfo, coretype::Int64)\n\n\nSet the core type by integer code\n\nvalid values available by definitions in api-data.h\n\nArguments\n\nfi: the federate info object to alter\ncoretype: an numerical code for a core type see /ref helicscoretype\n\n\n\n\n\n"
+    "text": "helicsFederateInfoSetCoreType(fi::HELICS.FederateInfo, coretype::Union{Int64, helics_core_type})\n\n\nSet the core type by integer code\n\nvalid values available by definitions in api-data.h\n\nArguments\n\nfi: the federate info object to alter\ncoretype: an numerical code for a core type see /ref helicscoretype\n\n\n\n\n\n"
 },
 
 {
@@ -889,19 +889,19 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsFederateInfoSetFlagOption-Tuple{HELICS.FederateInfo,Int64,Bool}",
+    "location": "api/#HELICS.helicsFederateInfoSetFlagOption-Tuple{HELICS.FederateInfo,Union{Int64, helics_federate_flags},Bool}",
     "page": "API",
     "title": "HELICS.helicsFederateInfoSetFlagOption",
     "category": "method",
-    "text": "helicsFederateInfoSetFlagOption(fi::HELICS.FederateInfo, flag::Int64, value::Bool)\n\n\nSet a flag in the info structure\n\nvalid flags are available /ref helicsfederateflags\n\nArguments\n\nfi: the federate info object to alter\nflag: a numerical index for a flag\nvalue: the desired value of the flag true or false\n\n\n\n\n\n"
+    "text": "helicsFederateInfoSetFlagOption(fi::HELICS.FederateInfo, flag::Union{Int64, helics_federate_flags}, value::Bool)\n\n\nSet a flag in the info structure\n\nvalid flags are available /ref helicsfederateflags\n\nArguments\n\nfi: the federate info object to alter\nflag: a numerical index for a flag\nvalue: the desired value of the flag true or false\n\n\n\n\n\n"
 },
 
 {
-    "location": "api/#HELICS.helicsFederateInfoSetIntegerProperty-Tuple{HELICS.FederateInfo,HELICS.Lib.helics_properties,Int64}",
+    "location": "api/#HELICS.helicsFederateInfoSetIntegerProperty-Tuple{HELICS.FederateInfo,Union{Int64, helics_properties},Int64}",
     "page": "API",
     "title": "HELICS.helicsFederateInfoSetIntegerProperty",
     "category": "method",
-    "text": "helicsFederateInfoSetIntegerProperty(fi::HELICS.FederateInfo, intProperty::HELICS.Lib.helics_properties, propertyValue::Int64)\n\n\n\n\n\n\n"
+    "text": "helicsFederateInfoSetIntegerProperty(fi::HELICS.FederateInfo, intProperty::Union{Int64, helics_properties}, propertyValue::Int64)\n\n\n\n\n\n\n"
 },
 
 {
@@ -921,11 +921,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsFederateInfoSetTimeProperty-Tuple{HELICS.FederateInfo,HELICS.Lib.helics_properties,Float64}",
+    "location": "api/#HELICS.helicsFederateInfoSetTimeProperty-Tuple{HELICS.FederateInfo,Union{Int64, helics_properties},Union{Float64, Int64}}",
     "page": "API",
     "title": "HELICS.helicsFederateInfoSetTimeProperty",
     "category": "method",
-    "text": "helicsFederateInfoSetTimeProperty(fi::HELICS.FederateInfo, timeProperty::HELICS.Lib.helics_properties, propertyValue::Float64)\n\n\n\n\n\n\n"
+    "text": "helicsFederateInfoSetTimeProperty(fi::HELICS.FederateInfo, timeProperty::Union{Int64, helics_properties}, propertyValue::Union{Float64, Int64})\n\n\n\n\n\n\n"
 },
 
 {
@@ -969,11 +969,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsFederateRegisterFilter-Tuple{HELICS.Federate,HELICS.Lib.helics_filter_type,String}",
+    "location": "api/#HELICS.helicsFederateRegisterFilter-Tuple{HELICS.Federate,Union{Int64, helics_filter_type},String}",
     "page": "API",
     "title": "HELICS.helicsFederateRegisterFilter",
     "category": "method",
-    "text": "helicsFederateRegisterFilter(fed::HELICS.Federate, kind::HELICS.Lib.helics_filter_type, name::String) -> HELICS.Filter\n\n\n\n\n\n\n"
+    "text": "helicsFederateRegisterFilter(fed::HELICS.Federate, kind::Union{Int64, helics_filter_type}, name::String) -> HELICS.Filter\n\n\n\n\n\n\n"
 },
 
 {
@@ -993,11 +993,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsFederateRegisterGlobalFilter-Tuple{HELICS.Federate,HELICS.Lib.helics_filter_type,String}",
+    "location": "api/#HELICS.helicsFederateRegisterGlobalFilter-Tuple{HELICS.Federate,Union{Int64, helics_filter_type},String}",
     "page": "API",
     "title": "HELICS.helicsFederateRegisterGlobalFilter",
     "category": "method",
-    "text": "helicsFederateRegisterGlobalFilter(fed::HELICS.Federate, kind::HELICS.Lib.helics_filter_type, name::String) -> HELICS.Filter\n\n\n\n\n\n\n"
+    "text": "helicsFederateRegisterGlobalFilter(fed::HELICS.Federate, kind::Union{Int64, helics_filter_type}, name::String) -> HELICS.Filter\n\n\n\n\n\n\n"
 },
 
 {
@@ -1013,7 +1013,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateRegisterGlobalPublication",
     "category": "function",
-    "text": "helicsFederateRegisterGlobalPublication(fed::HELICS.Federate, key::String, kind::HELICS.Lib.helics_data_type) -> HELICS.Publication\nhelicsFederateRegisterGlobalPublication(fed::HELICS.Federate, key::String, kind::HELICS.Lib.helics_data_type, units::String) -> HELICS.Publication\n\n\n\n\n\n\n"
+    "text": "helicsFederateRegisterGlobalPublication(fed::HELICS.Federate, key::String, kind::Union{Int64, helics_data_type}) -> HELICS.Publication\nhelicsFederateRegisterGlobalPublication(fed::HELICS.Federate, key::String, kind::Union{Int64, helics_data_type}, units::String) -> HELICS.Publication\n\n\n\n\n\n\n"
 },
 
 {
@@ -1053,7 +1053,7 @@ var documenterSearchIndex = {"docs": [
     "page": "API",
     "title": "HELICS.helicsFederateRegisterPublication",
     "category": "function",
-    "text": "helicsFederateRegisterPublication(fed::HELICS.Federate, key::String, kind::HELICS.Lib.helics_data_type) -> HELICS.Publication\nhelicsFederateRegisterPublication(fed::HELICS.Federate, key::String, kind::HELICS.Lib.helics_data_type, units::String) -> HELICS.Publication\n\n\n\n\n\n\n"
+    "text": "helicsFederateRegisterPublication(fed::HELICS.Federate, key::String, kind::Union{Int64, helics_data_type}) -> HELICS.Publication\nhelicsFederateRegisterPublication(fed::HELICS.Federate, key::String, kind::Union{Int64, helics_data_type}, units::String) -> HELICS.Publication\n\n\n\n\n\n\n"
 },
 
 {
@@ -1089,19 +1089,19 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsFederateRequestTime-Tuple{HELICS.Federate,Float64}",
+    "location": "api/#HELICS.helicsFederateRequestTime-Tuple{HELICS.Federate,Union{Float64, Int64}}",
     "page": "API",
     "title": "HELICS.helicsFederateRequestTime",
     "category": "method",
-    "text": "helicsFederateRequestTime(fed::HELICS.Federate, requestTime::Float64) -> Float64\n\n\nRequest the next time for federate execution\n\nArguments\n\nfed: the federate to make the request of\nrequestTime: the next requested time\n\nReturns\n\nthe time granted to the federate   invalid\n\n\n\n\n\n"
+    "text": "helicsFederateRequestTime(fed::HELICS.Federate, requestTime::Union{Float64, Int64}) -> Float64\n\n\nRequest the next time for federate execution\n\nArguments\n\nfed: the federate to make the request of\nrequestTime: the next requested time\n\nReturns\n\nthe time granted to the federate   invalid\n\n\n\n\n\n"
 },
 
 {
-    "location": "api/#HELICS.helicsFederateRequestTimeAsync-Tuple{HELICS.Federate,Float64}",
+    "location": "api/#HELICS.helicsFederateRequestTimeAsync-Tuple{HELICS.Federate,Union{Float64, Int64}}",
     "page": "API",
     "title": "HELICS.helicsFederateRequestTimeAsync",
     "category": "method",
-    "text": "helicsFederateRequestTimeAsync(fed::HELICS.Federate, requestTime::Float64)\n\n\nRequest the next time for federate execution in an asynchronous call\n\ncall /ref helicsFederateRequestTimeComplete to finish the call\n\nArguments\n\nfed: the federate to make the request of\nrequestTime: the next requested time\n\n\n\n\n\n"
+    "text": "helicsFederateRequestTimeAsync(fed::HELICS.Federate, requestTime::Union{Float64, Int64})\n\n\nRequest the next time for federate execution in an asynchronous call\n\ncall /ref helicsFederateRequestTimeComplete to finish the call\n\nArguments\n\nfed: the federate to make the request of\nrequestTime: the next requested time\n\n\n\n\n\n"
 },
 
 {
@@ -1113,19 +1113,19 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsFederateRequestTimeIterative-Tuple{HELICS.Federate,Float64,Union{Int64, helics_iteration_request}}",
+    "location": "api/#HELICS.helicsFederateRequestTimeIterative-Tuple{HELICS.Federate,Union{Float64, Int64},Union{Int64, helics_iteration_request}}",
     "page": "API",
     "title": "HELICS.helicsFederateRequestTimeIterative",
     "category": "method",
-    "text": "helicsFederateRequestTimeIterative(fed::HELICS.Federate, requestTime::Float64, iterate::Union{Int64, helics_iteration_request})\n\n\nRequest an iterative time\n\nthis call allows for finer grain control of the iterative process then /ref helicsFederateRequestTime it takes a time and iteration request and return a time and iteration status.\n\nArguments\n\nfed: the federate to make the request of\nrequestTime: the next desired time\niterate: the requested iteration mode\n\nReturns\n\nthe granted time\nthe iteration specification of the result\n\n\n\n\n\n"
+    "text": "helicsFederateRequestTimeIterative(fed::HELICS.Federate, requestTime::Union{Float64, Int64}, iterate::Union{Int64, helics_iteration_request})\n\n\nRequest an iterative time\n\nthis call allows for finer grain control of the iterative process then /ref helicsFederateRequestTime it takes a time and iteration request and return a time and iteration status.\n\nArguments\n\nfed: the federate to make the request of\nrequestTime: the next desired time\niterate: the requested iteration mode\n\nReturns\n\nthe granted time\nthe iteration specification of the result\n\n\n\n\n\n"
 },
 
 {
-    "location": "api/#HELICS.helicsFederateRequestTimeIterativeAsync-Tuple{HELICS.Federate,Float64,Union{Int64, helics_iteration_request}}",
+    "location": "api/#HELICS.helicsFederateRequestTimeIterativeAsync-Tuple{HELICS.Federate,Union{Float64, Int64},Union{Int64, helics_iteration_request}}",
     "page": "API",
     "title": "HELICS.helicsFederateRequestTimeIterativeAsync",
     "category": "method",
-    "text": "helicsFederateRequestTimeIterativeAsync(fed::HELICS.Federate, requestTime::Float64, iterate::Union{Int64, helics_iteration_request})\n\n\nRequest an iterative time through an asynchronous call\n\nthis call allows for finer grain control of the iterative process then /ref helicsFederateRequestTime it takes a time an iteration request and returns a time and iteration status call /ref helicsFederateRequestTimeIterativeComplete to finish the process.\n\nArguments\n\nfed: the federate to make the request of\nrequestTime: the next desired time\niterate: the requested iteration mode\n\nReturns\n\na void object with a return code of the result\n\n\n\n\n\n"
+    "text": "helicsFederateRequestTimeIterativeAsync(fed::HELICS.Federate, requestTime::Union{Float64, Int64}, iterate::Union{Int64, helics_iteration_request})\n\n\nRequest an iterative time through an asynchronous call\n\nthis call allows for finer grain control of the iterative process then /ref helicsFederateRequestTime it takes a time an iteration request and returns a time and iteration status call /ref helicsFederateRequestTimeIterativeComplete to finish the process.\n\nArguments\n\nfed: the federate to make the request of\nrequestTime: the next desired time\niterate: the requested iteration mode\n\nReturns\n\na void object with a return code of the result\n\n\n\n\n\n"
 },
 
 {
@@ -1153,11 +1153,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsFederateSetIntegerProperty-Tuple{HELICS.Federate,HELICS.Lib.helics_properties,Int64}",
+    "location": "api/#HELICS.helicsFederateSetIntegerProperty-Tuple{HELICS.Federate,Union{Int64, helics_properties},Int64}",
     "page": "API",
     "title": "HELICS.helicsFederateSetIntegerProperty",
     "category": "method",
-    "text": "helicsFederateSetIntegerProperty(fed::HELICS.Federate, intProperty::HELICS.Lib.helics_properties, propertyVal::Int64)\n\n\nSet an integer based property of a federate\n\nArguments\n\nfed: the federate to change the property for\nintProperty: the property to set\npropertyVal: the value of the property\n\n\n\n\n\n"
+    "text": "helicsFederateSetIntegerProperty(fed::HELICS.Federate, intProperty::Union{Int64, helics_properties}, propertyVal::Int64)\n\n\nSet an integer based property of a federate\n\nArguments\n\nfed: the federate to change the property for\nintProperty: the property to set\npropertyVal: the value of the property\n\n\n\n\n\n"
 },
 
 {
@@ -1169,11 +1169,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsFederateSetTimeProperty-Tuple{HELICS.Federate,HELICS.Lib.helics_properties,Float64}",
+    "location": "api/#HELICS.helicsFederateSetTimeProperty-Tuple{HELICS.Federate,Union{Int64, helics_properties},Union{Float64, Int64}}",
     "page": "API",
     "title": "HELICS.helicsFederateSetTimeProperty",
     "category": "method",
-    "text": "helicsFederateSetTimeProperty(fed::HELICS.Federate, timeProperty::HELICS.Lib.helics_properties, time::Float64)\n\n\nSet a time based property for a federate\n\nArguments\n\nfed: the federate object set the property for\ntimeProperty: a integer code for a time property\ntime: the requested value of the property\n\n\n\n\n\n"
+    "text": "helicsFederateSetTimeProperty(fed::HELICS.Federate, timeProperty::Union{Int64, helics_properties}, time::Union{Float64, Int64})\n\n\nSet a time based property for a federate\n\nArguments\n\nfed: the federate object set the property for\ntimeProperty: a integer code for a time property\ntime: the requested value of the property\n\n\n\n\n\n"
 },
 
 {
@@ -1553,11 +1553,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsInputSetDefaultTime-Tuple{HELICS.Subscription,Float64}",
+    "location": "api/#HELICS.helicsInputSetDefaultTime-Tuple{HELICS.Subscription,Union{Float64, Int64}}",
     "page": "API",
     "title": "HELICS.helicsInputSetDefaultTime",
     "category": "method",
-    "text": "helicsInputSetDefaultTime(ipt::HELICS.Subscription, val::Float64)\n\n\n\n\n\n\n"
+    "text": "helicsInputSetDefaultTime(ipt::HELICS.Subscription, val::Union{Float64, Int64})\n\n\n\n\n\n\n"
 },
 
 {
@@ -1705,11 +1705,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "api/#HELICS.helicsPublicationPublishTime-Tuple{HELICS.Publication,Float64}",
+    "location": "api/#HELICS.helicsPublicationPublishTime-Tuple{HELICS.Publication,Union{Float64, Int64}}",
     "page": "API",
     "title": "HELICS.helicsPublicationPublishTime",
     "category": "method",
-    "text": "helicsPublicationPublishTime(pub::HELICS.Publication, val::Float64)\n\n\n\n\n\n\n"
+    "text": "helicsPublicationPublishTime(pub::HELICS.Publication, val::Union{Float64, Int64})\n\n\n\n\n\n\n"
 },
 
 {

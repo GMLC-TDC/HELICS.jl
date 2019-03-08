@@ -2,26 +2,50 @@ var documenterSearchIndex = {"docs": [
 
 {
     "location": "#",
-    "page": "HELICS.jl",
-    "title": "HELICS.jl",
+    "page": "HELICS.jl (Image: Travis Build Status) (Image: Appveyor Build Status) (Image: Docs) (Image: Codecov) (Image: Gitter) (Image: Releases)",
+    "title": "HELICS.jl (Image: Travis Build Status) (Image: Appveyor Build Status) (Image: Docs) (Image: Codecov) (Image: Gitter) (Image: Releases)",
     "category": "page",
     "text": ""
 },
 
 {
-    "location": "#HELICS.jl-1",
-    "page": "HELICS.jl",
-    "title": "HELICS.jl",
+    "location": "#HELICS.jl-[![Travis-Build-Status](https://img.shields.io/travis/com/GMLC-TDC/HELICS.jl.svg)](https://travis-ci.com/GMLC-TDC/HELICS.jl)-[![Appveyor-Build-Status](https://img.shields.io/appveyor/ci/kdheepak/helics-jl.svg)](https://ci.appveyor.com/project/kdheepak/helics-jl)-[![Docs](https://img.shields.io/badge/docs-latest-blue.svg)](https://gmlc-tdc.github.io/HELICS.jl/latest)-[![Codecov](https://img.shields.io/codecov/c/github/gmlc-tdc/HELICS.jl.svg)](https://codecov.io/gh/GMLC-TDC/HELICS.jl)-[![Gitter](https://img.shields.io/gitter/room/GMLC-TDC/HELICS-src.svg)](https://gitter.im/GMLC-TDC/HELICS-src)-[![Releases](https://img.shields.io/github/tag-date/GMLC-TDC/HELICS.jl.svg)](https://github.com/GMLC-TDC/HELICS.jl/releases)-1",
+    "page": "HELICS.jl (Image: Travis Build Status) (Image: Appveyor Build Status) (Image: Docs) (Image: Codecov) (Image: Gitter) (Image: Releases)",
+    "title": "HELICS.jl (Image: Travis Build Status) (Image: Appveyor Build Status) (Image: Docs) (Image: Codecov) (Image: Gitter) (Image: Releases)",
     "category": "section",
-    "text": "HELICS.jl is a Julia wrapper for the HELICS package."
+    "text": "HELICS.jl is a cross-platform Julia wrapper around the HELICS library.This package is now available for Windows, Mac, and Linux."
+},
+
+{
+    "location": "#Documentation-1",
+    "page": "HELICS.jl (Image: Travis Build Status) (Image: Appveyor Build Status) (Image: Docs) (Image: Codecov) (Image: Gitter) (Image: Releases)",
+    "title": "Documentation",
+    "category": "section",
+    "text": "The documentation for the development latest of this package is here."
 },
 
 {
     "location": "#Installation-1",
-    "page": "HELICS.jl",
+    "page": "HELICS.jl (Image: Travis Build Status) (Image: Appveyor Build Status) (Image: Docs) (Image: Codecov) (Image: Gitter) (Image: Releases)",
     "title": "Installation",
     "category": "section",
-    "text": "For now, this package is registered, so you can use the following to install:Open the package manager REPL (using ])(v1.1) pkg> add HELICSTo install the latest development version, use the following from within Julia:(v1.1) pkg> dev HELICSThis package includes HELICS as a library. You do not have to install HELICS separately.Note that this should work on 32- and 64-bit Windows systems and 64-bit Linux and Mac systems."
+    "text": "Use the Julia package manager to install HELICS.jljulia> ]\n(v1.1)> add HELICSOpen the package manager REPL (using ])To install the latest development version, use the following from within Julia:(v1.1) pkg> add HELICS#masterThis package includes HELICS as a library. You do not have to install HELICS separately.Note that this should work on 32- and 64-bit Windows systems and 64-bit Linux and Mac systems.If you wish to develop HELICS.jl you may want to use the following:(v1.1) pkg> dev HELICSYou can also get a specific version,(v1.1) pkg> add HELICS#33c98625or specific branch,(v1.1) pkg> add HELICS#kd/some-new-featureif these features haven\'t been merged to master yet."
+},
+
+{
+    "location": "#Troubleshooting-1",
+    "page": "HELICS.jl (Image: Travis Build Status) (Image: Appveyor Build Status) (Image: Docs) (Image: Codecov) (Image: Gitter) (Image: Releases)",
+    "title": "Troubleshooting",
+    "category": "section",
+    "text": "This package interfaces with HELICS, so a good understanding of HELICS will help troubleshooting. There are plenty of useful resources located here.If you are having issues using this Julia interface, feel free to open an issue on GitHub here."
+},
+
+{
+    "location": "#Acknowledgements-1",
+    "page": "HELICS.jl (Image: Travis Build Status) (Image: Appveyor Build Status) (Image: Docs) (Image: Codecov) (Image: Gitter) (Image: Releases)",
+    "title": "Acknowledgements",
+    "category": "section",
+    "text": "This work was developed as an extension to work done as part of the Scalable Integrated Infrastructure Planning (SIIP) initiative at the U.S. Department of Energy\'s National Renewable Energy Laboratory (NREL)."
 },
 
 {

@@ -6,8 +6,6 @@ abstract type Windows <: AbstractOS end
 abstract type MacOS <: BSD end
 abstract type Linux <: BSD end
 
-const HELICS_VERSION = "2.0.0rc1"
-
 if Sys.iswindows()
     const LIBRARY_EXT = "dll"
     const DEPS = "windows"
@@ -65,7 +63,7 @@ function Base.download(::Type{MacOS})
 
     mkpath(joinpath(@__DIR__, DEPS))
 
-    url = "https://anaconda.org/gmlc-tdc/helics/2.0.0rc1/download/osx-64/helics-2.0.0rc1-py37h0a44026_0.tar.bz2"
+    url = "https://anaconda.org/gmlc-tdc/helics/2.0.0/download/osx-64/helics-2.0.0-py37h0a44026_0.tar.bz2"
     get_libraries(url, map(
                            x -> joinpath("lib", x),
                            ["libhelicsSharedLib.dylib"]
@@ -101,7 +99,7 @@ function Base.download(::Type{Linux})
 
     mkpath(joinpath(@__DIR__, DEPS))
 
-    url = "https://anaconda.org/gmlc-tdc/helics/2.0.0rc1/download/linux-64/helics-2.0.0rc1-py37hf484d3e_0.tar.bz2"
+    url = "https://anaconda.org/gmlc-tdc/helics/2.0.0/download/linux-64/helics-2.0.0-py37hf484d3e_0.tar.bz2"
     get_libraries(url, map(
                            x -> joinpath("lib", x),
                            ["libhelicsSharedLib.so"]
@@ -143,7 +141,7 @@ function Base.download(::Type{Windows})
         BIT = "32"
     end
 
-    url = "https://anaconda.org/gmlc-tdc/helics/2.0.0rc1/download/win-$BIT/helics-2.0.0rc1-py37h6538335_0.tar.bz2"
+    url = "https://anaconda.org/gmlc-tdc/helics/2.0.0/download/win-$BIT/helics-2.0.0-py37h6538335_0.tar.bz2"
     get_libraries(url, ["Library/lib/helicsSharedLib.lib", "Library/bin/helicsSharedLib.dll"])
 
     url = "https://anaconda.org/anaconda/libboost/1.67.0/download/win-$BIT/libboost-1.67.0-hd9e427e_4.tar.bz2"

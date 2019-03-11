@@ -1,7 +1,7 @@
 using Clang
 
 # LIBCLANG_HEADERS are those headers to be wrapped.
-const LIBCLANG_INCLUDE = "/Users/$USER/local/helics-v2.0.0-beta.3/include/helics/shared_api_library" |> normpath
+const LIBCLANG_INCLUDE = "/Users/$USER/local/helics-v2.0.0/include/helics/shared_api_library" |> normpath
 const LIBCLANG_HEADERS = [joinpath(LIBCLANG_INCLUDE, header) for header in readdir(LIBCLANG_INCLUDE) if endswith(header, ".h")]
 
 wc = init(; headers = LIBCLANG_HEADERS,

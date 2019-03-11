@@ -25,7 +25,7 @@ module Lib
 
     include("common.jl")
 
-    # Julia wrapper for header: /Users/$USER/local/helics-v2.0.0-rc1/include/helics/shared_api_library/MessageFederate.h
+    # Julia wrapper for header: /Users/$USER/local/helics-v2.0.0/include/helics/shared_api_library/MessageFederate.h
     # Automatically generated using Clang.jl wrap_c
 
 
@@ -120,7 +120,7 @@ module Lib
     function helicsEndpointGetOption(_end, option)
         ccall((:helicsEndpointGetOption, HELICS_LIBRARY), helics_bool, (helics_endpoint, Cint), _end, option)
     end
-    # Julia wrapper for header: /Users/$USER/local/helics-v2.0.0-rc1/include/helics/shared_api_library/MessageFilters.h
+    # Julia wrapper for header: /Users/$USER/local/helics-v2.0.0/include/helics/shared_api_library/MessageFilters.h
     # Automatically generated using Clang.jl wrap_c
 
 
@@ -207,7 +207,7 @@ module Lib
     function helicsFilterGetOption(filt, option)
         ccall((:helicsFilterGetOption, HELICS_LIBRARY), helics_bool, (helics_filter, Cint), filt, option)
     end
-    # Julia wrapper for header: /Users/$USER/local/helics-v2.0.0-rc1/include/helics/shared_api_library/ValueFederate.h
+    # Julia wrapper for header: /Users/$USER/local/helics-v2.0.0/include/helics/shared_api_library/ValueFederate.h
     # Automatically generated using Clang.jl wrap_c
 
 
@@ -490,13 +490,13 @@ module Lib
     function helicsFederateGetInputCount(fed)
         ccall((:helicsFederateGetInputCount, HELICS_LIBRARY), Cint, (helics_federate,), fed)
     end
-    # Julia wrapper for header: /Users/$USER/local/helics-v2.0.0-rc1/include/helics/shared_api_library/api-data.h
+    # Julia wrapper for header: /Users/$USER/local/helics-v2.0.0/include/helics/shared_api_library/api-data.h
     # Automatically generated using Clang.jl wrap_c
 
-    # Julia wrapper for header: /Users/$USER/local/helics-v2.0.0-rc1/include/helics/shared_api_library/helics-config.h
+    # Julia wrapper for header: /Users/$USER/local/helics-v2.0.0/include/helics/shared_api_library/helics-config.h
     # Automatically generated using Clang.jl wrap_c
 
-    # Julia wrapper for header: /Users/$USER/local/helics-v2.0.0-rc1/include/helics/shared_api_library/helics.h
+    # Julia wrapper for header: /Users/$USER/local/helics-v2.0.0/include/helics/shared_api_library/helics.h
     # Automatically generated using Clang.jl wrap_c
 
 
@@ -915,7 +915,7 @@ module Lib
     function helicsCleanupLibrary()
         ccall((:helicsCleanupLibrary, HELICS_LIBRARY), Cvoid, ())
     end
-    # Julia wrapper for header: /Users/$USER/local/helics-v2.0.0-rc1/include/helics/shared_api_library/helicsCallbacks.h
+    # Julia wrapper for header: /Users/$USER/local/helics-v2.0.0/include/helics/shared_api_library/helicsCallbacks.h
     # Automatically generated using Clang.jl wrap_c
 
 
@@ -930,10 +930,10 @@ module Lib
     function helicsFederateAddLoggingCallback(fed, logger, err)
         ccall((:helicsFederateAddLoggingCallback, HELICS_LIBRARY), Cvoid, (helics_federate, Ptr{Cvoid}, Ptr{helics_error}), fed, logger, err)
     end
-    # Julia wrapper for header: /Users/$USER/local/helics-v2.0.0-rc1/include/helics/shared_api_library/helics_enums.h
+    # Julia wrapper for header: /Users/$USER/local/helics-v2.0.0/include/helics/shared_api_library/helics_enums.h
     # Automatically generated using Clang.jl wrap_c
 
-    # Julia wrapper for header: /Users/$USER/local/helics-v2.0.0-rc1/include/helics/shared_api_library/helics_export.h
+    # Julia wrapper for header: /Users/$USER/local/helics-v2.0.0/include/helics/shared_api_library/helics_export.h
     # Automatically generated using Clang.jl wrap_c
 
 end

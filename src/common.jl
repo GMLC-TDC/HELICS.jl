@@ -61,14 +61,14 @@ end
 
 const HELICS_HAVE_MPI = 0
 const HELICS_HAVE_ZEROMQ = 1
-const BOOST_VERSION_LEVEL = 68
+const BOOST_VERSION_LEVEL = 67
 const HELICS_VERSION_MAJOR = 2
 const HELICS_VERSION_MINOR = 0
 const HELICS_VERSION_PATCH = 0
-const HELICS_VERSION = ".0.0-rc1"
-const HELICS_VERSION_BUILD = "rc1"
-const HELICS_VERSION_STRING = "2.0.0-rc1 (01-18-19)"
-const HELICS_DATE = "01-18-19"
+const HELICS_VERSION = "2.0.0"
+const HELICS_VERSION_BUILD = ""
+const HELICS_VERSION_STRING = "2.0.0 (03-10-19)"
+const HELICS_DATE = "03-10-19"
 
 @cenum(helics_data_type,
     helics_data_type_string = 0,

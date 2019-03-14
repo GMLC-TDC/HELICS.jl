@@ -20,8 +20,6 @@ function __init__()
 
 end
 
-include("docstringextensions.jl")
-
 include("lib.jl")
 include("wrapper.jl")
 

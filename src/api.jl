@@ -1,10 +1,10 @@
 import .Utils
-import .TypedDocStringExtensions
+import DocStringExtensions
 
-TypedDocStringExtensions.@template (FUNCTIONS, METHODS) =
+DocStringExtensions.@template (FUNCTIONS, METHODS) =
     """
-    $(TypedDocStringExtensions.FULLSIGNATURES)
-    $(TypedDocStringExtensions.DOCSTRING)
+    $(DocStringExtensions.TYPEDSIGNATURES)
+    $(DocStringExtensions.DOCSTRING)
     """
 
 for enum_name in [
@@ -28,8 +28,6 @@ for enum_name in [
     end
 
 end
-
-# generate docstrings
 
 @doc """
 $( join(map(x -> "- `" * uppercase(String(x[1])) * "`: " * string(x[2]), zip(Lib.CEnum.enum_names(HELICS.HELICS_ITERATION_REQUEST), Lib.CEnum.enum_values(HELICS.HELICS_ITERATION_REQUEST))), "\n") )
@@ -85,7 +83,6 @@ HELICS.HELICS_HANDLE_OPTIONS
 $( join(map(x -> "- `" * uppercase(String(x[1])) * "`: " * string(x[2]), zip(Lib.CEnum.enum_names(HELICS.HELICS_FILTER_TYPE), Lib.CEnum.enum_values(HELICS.HELICS_FILTER_TYPE))), "\n") )
 """
 HELICS.HELICS_FILTER_TYPE
-
 
 const HELICS_TIME = Union{Int, Float64}
 
@@ -840,6 +837,10 @@ Returns true if core/broker type specified is available in current compilation.
 
 - `type`: a string representing a core type
 
+# Returns
+
+- a `Bool`
+
 possible options include "test","zmq","udp","ipc","interprocess","tcp","default", "mpi"
 
 """
@@ -858,7 +859,7 @@ Create a core object
 
 # Returns
 
-- a helics_core object if the core is invalid err will contain some indication
+- a [`Core`](@ref) object if the core is invalid err will contain some indication
 
 """
 function helicsCreateCore(kind::String, name::String, initString::String)::Core
@@ -878,11 +879,11 @@ this will create a new broker object that references the existing broker it must
 
 # Arguments
 
-- `core`: an existing helics_core
+- `core`: an existing [`Core`](@ref)
 
 # Returns
 
-- a new reference to the same Core
+- a new reference to the same [`Core`](@ref)
 """
 function helicsCoreClone(core::Core)::Core
     @Utils.invoke_and_check Lib.helicsCoreClone(core)
@@ -893,7 +894,7 @@ Check if a core object is a valid object
 
 # Arguments
 
-- `core`: the helics_core object to test
+- `core`: the [`Core`](@ref) object to test
 """
 function helicsCoreIsValid(core::Core)::Bool
     Lib.helicsCoreIsValid(core) == 1 ? true : false
@@ -910,7 +911,7 @@ Create a broker object
 
 # Returns
 
-- a helics_broker object, will be NULL if there was an error indicated in the err object
+- a [`Broker`](@ref) object, will be NULL if there was an error indicated in the err object
 
 """
 function helicsCreateBroker(kind::String, name::String, initString::String)::Broker
@@ -930,7 +931,7 @@ this will create a new broker object that references the existing broker it must
 
 # Arguments
 
-- `broker`: an existing helics_broker
+- `broker`: an existing [`Broker`](@ref)
 
 # Returns
 
@@ -945,7 +946,7 @@ Check if a broker object is a valid object
 
 # Arguments
 
-- `broker`: the helics_broker object to test
+- `broker`: the [`Broker`](@ref) object to test
 """
 function helicsBrokerIsValid(broker::Broker)::Bool
     Lib.helicsBrokerIsValid(broker) == 1 ? true : false
@@ -963,7 +964,7 @@ Link a named publication and named input using a broker
 
 # Arguments
 
-- `broker`: the broker to generate the connection from
+- `broker`: the [`Broker`](@ref) to generate the connection from
 - `source`: the name of the publication (cannot be NULL)
 - `target`: the name of the target to send the publication data (cannot be NULL)
 
@@ -1126,7 +1127,7 @@ function helicsCoreDisconnect(core::Core)
 end
 
 """
-Get an existing federate object from a core by name
+Get an existing [`Federate`](@ref) from a core by name
 
 the federate must have been created by one of the other functions and at least one of the objects referencing the created
     federate must still be active in the process
@@ -1137,7 +1138,7 @@ the federate must have been created by one of the other functions and at least o
 
 # Returns
 
-- NULL if no fed is available by that name otherwise a helics_federate with that name
+- NULL if no fed is available by that name otherwise a [`Federate`](@ref) with that name
 """
 function helicsGetFederateByName(fedName::String)::CombinationFederate
     @Utils.invoke_and_check Lib.helicsGetFederateByName(fedName)
@@ -1191,18 +1192,18 @@ function helicsBrokerFree(broker::Broker)
 end
 
 """
-Create a value federate from a federate info object
+Create a value federate from a [`FederateInfo`](@ref) object
 
-helics_federate objects can be used in all functions that take a helics_federate or helics_federate object as an argument
+[`Federate`](@ref) objects can be used in all functions that take a [`Federate`](@ref) object as an argument
 
 # Arguments
 
 - `fedName`: the name of the federate to create, can NULL or an empty string to use the default name from fi or an assigned name
-- `fi`: the federate info object that contains details on the federate
+- `fi`: the [`FederateInfo`](@ref) object that contains details on the federate
 
 # Returns
 
-- an opaque value federate object
+- an opaque value [`Federate`](@ref)
 
 """
 function helicsCreateValueFederate(fedName::String, fi::FederateInfo)::ValueFederate
@@ -1212,7 +1213,7 @@ end
 """
 Create a value federate from a JSON file, JSON string, or TOML file
 
-helics_federate objects can be used in all functions that take a helics_federate or helics_federate object as an argument
+[`Federate`](@ref) objects can be used in all functions that take a [`Federate`](@ref) object as an argument
 
 # Arguments
 
@@ -1220,7 +1221,7 @@ helics_federate objects can be used in all functions that take a helics_federate
 
 # Returns
 
-- an opaque value federate object
+- an opaque value [`Federate`](@ref)
 
 """
 function helicsCreateValueFederateFromConfig(configFile::String)::ValueFederate
@@ -1228,18 +1229,18 @@ function helicsCreateValueFederateFromConfig(configFile::String)::ValueFederate
 end
 
 """
-Create a message federate from a federate info object
+Create a [`MessageFederate`](@ref) from a [`FederateInfo`](@ref) object
 
-helics_message_federate objects can be used in all functions that take a helics_message_federate or helics_federate object as an argument
+[`MessageFederate`](@ref) objects can be used in all functions that take a [`MessageFederate`](@ref) or [`Federate`](@ref) object as an argument
 
 # Arguments
 
 - `fedName`: the name of the federate to create
-- `fi`: the federate info object that contains details on the federate
+- `fi`: the [`FederateInfo`](@ref) object that contains details on the federate
 
 # Returns
 
-- an opaque message federate object
+- an opaque [`MessageFederate`](@ref)
 
 """
 function helicsCreateMessageFederate(fedName::String, fi::FederateInfo)::MessageFederate
@@ -1247,9 +1248,9 @@ function helicsCreateMessageFederate(fedName::String, fi::FederateInfo)::Message
 end
 
 """
-Create a message federate from a JSON file or JSON string or TOML file
+Create a [`MessageFederate`](@ref) from a JSON file or JSON string or TOML file
 
-helics_message_federate objects can be used in all functions that take a helics_message_federate or helics_federate object as an argument
+[`MessageFederate`](@ref) objects can be used in all functions that take a [`MessageFederate`](@ref) or [`Federate`](@ref) object as an argument
 
 # Arguments
 
@@ -1257,7 +1258,7 @@ helics_message_federate objects can be used in all functions that take a helics_
 
 # Returns
 
-- an opaque message federate object
+- an opaque [`MessageFederate`](@ref)
 
 """
 function helicsCreateMessageFederateFromConfig(configFile::String)::MessageFederate
@@ -1265,18 +1266,18 @@ function helicsCreateMessageFederateFromConfig(configFile::String)::MessageFeder
 end
 
 """
-Create a combination federate from a federate info object
+Create a [`CombinationFederate`](@ref) from a [`FederateInfo`](@ref) object
 
-combination federates are both value federates and message federates, objects can be used in all functions that take a helics_federate, helics_message_federate or helics_federate object as an argument
+[`CombinationFederate`](@ref) are both [`ValueFederate`](@ref) and [`MessageFederate`](@ref), objects can be used in all functions that take a [`Federate`](@ref), [`MessageFederate`](@ref) or [`ValueFederate`](@ref) object as an argument
 
 # Arguments
 
 - `fedName`: a string with the name of the federate, can be NULL or an empty string to pull the default name from fi
-- `fi`: the federate info object that contains details on the federate
+- `fi`: the [`FederateInfo`](@ref) object that contains details on the federate
 
 # Returns
 
-- an opaque value federate object nullptr if the object creation failed
+- an opaque [`ValueFederate`](@ref), nullptr if the object creation failed
 
 """
 function helicsCreateCombinationFederate(fedName::String, fi::FederateInfo)::CombinationFederate
@@ -1284,9 +1285,9 @@ function helicsCreateCombinationFederate(fedName::String, fi::FederateInfo)::Com
 end
 
 """
-Create a combination federate from a JSON file or JSON string
+Create a [`CombinationFederate`](@ref) from a JSON file or JSON string
 
-combination federates are both value federates and message federates, objects can be used in all functions that take a helics_federate, helics_message_federate or helics_federate object as an argument
+[`CombinationFederate`](@ref) are both [`ValueFederate`](@ref) and [`MessageFederate`](@ref), objects can be used in all functions that take a [`Federate`](@ref), [`MessageFederate`](@ref) or [`ValueFederate`](@ref) object as an argument
 
 # Arguments
 
@@ -1294,7 +1295,7 @@ combination federates are both value federates and message federates, objects ca
 
 # Returns
 
-- an opaque combination federate object
+- an opaque [`CombinationFederate`](@ref)
 
 """
 function helicsCreateCombinationFederateFromConfig(configFile::String)::CombinationFederate
@@ -1304,11 +1305,11 @@ end
 """
 Create a new reference to an existing federate
 
-this will create a new helics_federate object that references the existing federate it must be freed as well
+this will create a new [`Federate`](@ref) object that references the existing federate it must be freed as well
 
 # Arguments
 
-- `fed`: an existing helics_federate
+- `fed`: an existing [`Federate`](@ref)
 
 # Returns
 
@@ -1319,11 +1320,11 @@ function helicsFederateClone(fed::T)::T where T <: Federate
 end
 
 """
-Create a federate info object for specifying federate information when constructing a federate
+Create a [`FederateInfo`](@ref) object for specifying federate information when constructing a federate
 
 # Returns
 
-- a helics_federate_info object which is a reference to the created object
+- a [`FederateInfo`](@ref) object which is a reference to the created object
 
 """
 function helicsCreateFederateInfo()::FederateInfo
@@ -1331,11 +1332,11 @@ function helicsCreateFederateInfo()::FederateInfo
 end
 
 """
-Create a federate info object from an existing one and clone the information
+Create a [`FederateInfo`](@ref) object from an existing one and clone the information
 
 # Arguments
 
-- `fi`: a federateInfo object to duplicate
+- `fi`: a [`FederateInfo`](@ref) object to duplicate
 
 # Returns
 
@@ -1347,11 +1348,11 @@ function helicsFederateInfoClone(fi::FederateInfo)::FederateInfo
 end
 
 """
-Load a federate info from command line arguments
+Load a [`FederateInfo`](@ref) from command line arguments
 
 # Arguments
 
-- `fi`: a federateInfo object
+- `fi`: a [`FederateInfo`](@ref) object
 - `argc`: the number of command line arguments
 - `argv`: an array of strings from the command line
 
@@ -1361,7 +1362,7 @@ function helicsFederateInfoLoadFromArgs(fi::FederateInfo, argc::Int, argv::Vecto
 end
 
 """
-Delete the memory associated with a federate info object
+Delete the memory associated with a [`FederateInfo`](@ref) object
 """
 function helicsFederateInfoFree(fi::FederateInfo)
     Lib.helicsFederateInfoFree(fi)
@@ -1383,7 +1384,7 @@ Set the name of the core to link to for a federate
 
 # Arguments
 
-- `fi`: the federate info object to alter
+- `fi`: the [`FederateInfo`](@ref) object to alter
 - `corename`: the identifier for a core to link to
 
 """
@@ -1396,7 +1397,7 @@ Set the initialization string for the core usually in the form of command line a
 
 # Arguments
 
-- `fi`: the federate info object to alter
+- `fi`: the [`FederateInfo`](@ref) object to alter
 - `coreInit`: a string with the core initialization strings
 
 """
@@ -1411,7 +1412,7 @@ valid values available by definitions in api-data.h
 
 # Arguments
 
-- `fi`: the federate info object to alter
+- `fi`: the [`FederateInfo`](@ref) object to alter
 - `coretype`: an numerical code for a core type see /ref helics_core_type
 
 """
@@ -1425,7 +1426,7 @@ Set the core type from a string
 
 # Arguments
 
-- `fi`: the federate info object to alter
+- `fi`: the [`FederateInfo`](@ref) object to alter
 - `coretype`: a string naming a core type
 
 """
@@ -1440,7 +1441,7 @@ this is only used if the core is automatically created, the broker information w
 
 # Arguments
 
-- `fi`: the federate info object to alter
+- `fi`: the [`FederateInfo`](@ref) object to alter
 - `broker`: a string which defined the connection information for a broker either a name or an address
 
 """
@@ -1455,7 +1456,7 @@ this is only used if the core is automatically created, the broker information w
 
 # Arguments
 
-- `fi`: the federate info object to alter
+- `fi`: the [`FederateInfo`](@ref) object to alter
 - `brokerPort`: the integer port number to use for connection with a broker
 
 """
@@ -1470,7 +1471,7 @@ this is only used if the core is automatically created, the port information wil
 
 # Arguments
 
-- `fi`: the federate info object to alter
+- `fi`: the [`FederateInfo`](@ref) object to alter
 - `localPort`: a string with the port information to use as the local server port can be a number or "auto" or "os_local"
 
 """
@@ -1479,8 +1480,7 @@ function helicsFederateInfoSetLocalPort(fi::FederateInfo, localPort::Int)
 end
 
 """
-Get a property index for use in /ref helicsFederateInfoSetFlagOption, /ref helicsFederateInfoSetTimeProperty,
-    helicsFederateInfoSetIntegerProperty
+Get a property index for use in [`helicsFederateInfoSetFlagOption`](@ref), [`helicsFederateInfoSetTimeProperty`](@ref), [`helicsFederateInfoSetIntegerProperty`](@ref)
 
 # Arguments
 
@@ -1496,8 +1496,7 @@ function helicsGetPropertyIndex(val::String)::Int
 end
 
 """
-Get an option index for use in /ref helicsPublicationSetOption, /ref helicsInputSetOption, /ref helicsEndpointSetOption, /ref
-    helicsFilterSetOption, and the corresponding get functions
+Get an option index for use in [`helicsPublicationSetOption`](@ref), [`helicsInputSetOption`](@ref), [`helicsEndpointSetOption`](@ref), [`helicsFilterSetOption`](@ref), and the corresponding get functions
 
 # Arguments
 
@@ -1515,11 +1514,11 @@ end
 """
 Set a flag in the info structure
 
-valid flags are available /ref helics_federate_flags
+valid flags are available [`HELICS_FEDERATE_FLAGS`](@ref)
 
 # Arguments
 
-- `fi`: the federate info object to alter
+- `fi`: the [`FederateInfo`](@ref) object to alter
 - `flag`: a numerical index for a flag
 - `value`: the desired value of the flag `true` or `false`
 
@@ -1536,7 +1535,7 @@ the separator character is the separation character for local publications/endpo
 
 # Arguments
 
-- `fi`: the federate info object to alter
+- `fi`: the [`FederateInfo`](@ref) object to alter
 - `separator`: the character to use as a separator
 
 """
@@ -1623,8 +1622,8 @@ function helicsFederateEnterInitializingMode(fed::Federate)
 end
 
 """
-Non blocking alternative to \ref helicsFederateEnterInitializingMode
-    the function helicsFederateEnterInitializationModeFinalize must be called to finish the operation
+Non blocking alternative to [`helicsFederateEnterInitializingMode`](@ref).
+The function [`helicsFederateFinalize`](@ref) must be called to finish the operation
 
 # Arguments
 
@@ -1652,7 +1651,7 @@ function helicsFederateIsAsyncOperationCompleted(fed::Federate)::Bool
 end
 
 """
-Finalize the entry to initialize mode that was initiated with /ref heliceEnterInitializingModeAsync
+Finalize the entry to initialize mode that was initiated with [`helicsFederateEnterInitializingModeAsync`](@ref)
 
 # Arguments
 
@@ -1665,7 +1664,7 @@ end
 """
 Request that the federate enter the Execution mode
 
-this call is blocking until granted entry by the core object for an asynchronous alternative call /ref helicsFederateEnterExecutingModeAsync  on return from this call the federate will be at time 0.
+this call is blocking until granted entry by the core object for an asynchronous alternative call [`helicsFederateEnterExecutingModeAsync`](@ref) on return from this call the federate will be at time 0.
 
 # Arguments
 
@@ -1679,7 +1678,8 @@ end
 """
 Request that the federate enter the Execution mode
 
-this call is non-blocking and will return immediately call /ref helicsFederateEnterExecutingModeComplete to finish the call sequence /ref helicsFederateEnterExecutingModeComplete.
+this call is non-blocking and will return immediately.
+Call [`helicsFederateEnterExecutingModeComplete`](@ref) to finish the call sequence.
 
 # Arguments
 
@@ -1691,7 +1691,7 @@ function helicsFederateEnterExecutingModeAsync(fed::Federate)
 end
 
 """
-Complete the call to /ref EnterExecutingModeAsync
+Complete the call to [`helicsFederateEnterExecutingModeAsync`](@ref)
 
 # Arguments
 
@@ -1705,7 +1705,7 @@ end
 """
 Request an iterative time
 
-this call allows for finer grain control of the iterative process then /ref helicsFederateRequestTime it takes a time and iteration request and return a time and iteration status.
+this call allows for finer grain control of the iterative process then [`helicsFederateRequestTime`](@ref) it takes a time and iteration request and return a time and iteration status.
 
 # Arguments
 
@@ -1750,7 +1750,7 @@ Get the current state of a federate
 
 # Arguments
 
-- `fed`: the fed to query
+- `fed`: the [`Federate`](@ref) to query
 
 # Returns
 
@@ -1814,7 +1814,7 @@ end
 """
 Request an iterative time
 
-this call allows for finer grain control of the iterative process then /ref helicsFederateRequestTime it takes a time and iteration request and return a time and iteration status.
+this call allows for finer grain control of the iterative process then [`helicsFederateRequestTime`](@ref) it takes a time and iteration request and return a time and iteration status.
 
 # Arguments
 
@@ -1837,8 +1837,7 @@ end
 
 """
 Request the next time for federate execution in an asynchronous call
-
-call /ref helicsFederateRequestTimeComplete to finish the call
+Call [`helicsFederateRequestTimeComplete`](@ref) to finish the call
 
 # Arguments
 
@@ -1869,7 +1868,7 @@ end
 """
 Request an iterative time through an asynchronous call
 
-this call allows for finer grain control of the iterative process then /ref helicsFederateRequestTime it takes a time an iteration request and returns a time and iteration status call /ref helicsFederateRequestTimeIterativeComplete to finish the process.
+this call allows for finer grain control of the iterative process then [`helicsFederateRequestTime`](@ref) it takes a time an iteration request and returns a time and iteration status call [`helicsFederateRequestTimeIterativeComplete`](@ref) to finish the process.
 
 # Arguments
 
@@ -1912,11 +1911,11 @@ Get the name of the federate
 
 # Arguments
 
-- `fed`: the federate object to query
+- `fed`: the [`Federate`](@ref) to query
 
 # Returns
 
-- a pointer to a string with the name
+- a string with the name
 
 """
 function helicsFederateGetName(fed::Federate)::String
@@ -1928,7 +1927,7 @@ Set a time based property for a federate
 
 # Arguments
 
-- `fed`: the federate object set the property for
+- `fed`: the [`Federate`](@ref) set the property for
 - `timeProperty`: a integer code for a time property
 - `time`: the requested value of the property
 
@@ -1960,7 +1959,7 @@ the separator character is the separation character for local publications/endpo
 
 # Arguments
 
-- `fed`: the federate info object to alter
+- `fed`: the [`FederateInfo`](@ref) object to alter
 - `separator`: the character to use as a separator
 
 """
@@ -2022,7 +2021,7 @@ debug and trace only do anything if they were enabled in the compilation
 # Arguments
 
 - `fed`: the federate to get the flag for
-- `intProperty`: a code for the property to set /ref helics_handle_options
+- `intProperty`: a code for the property to set [`HELICS_HANDLE_OPTIONS`](@ref)
 
 # Returns
 
@@ -2039,7 +2038,7 @@ Get the current time of the federate
 
 # Arguments
 
-- `fed`: the federate object to query
+- `fed`: the [`Federate`](@ref) to query
 
 # Returns
 
@@ -2099,14 +2098,14 @@ function helicsBrokerSetGlobal(broker::Broker, valueName::String, value::String)
 end
 
 """
-Create a query object
+Create a [`Query`](@ref)
 
-a query object consists of a target and query string
+a [`Query`](@ref) consists of a target and query string
 
 # Arguments
 
 - `target`: the name of the target to query
-- `query`: the query to make of the target
+- `query`: the query string to make of the target
 
 """
 function helicsCreateQuery(target::String, query::String)::Query
@@ -2116,17 +2115,17 @@ end
 """
 Execute a query
 
-the call will block until the query finishes which may require communication or other delays
+the call will block until the [`Query`](@ref) finishes which may require communication or other delays
 
 # Arguments
 
-- `query`: the query object to use in the query
-- `fed`: a federate to send the query through
+- `query`: the [`Query`](@ref) to use in the query
+- `fed`: a federate to send the [`Query`](@ref) through
 
 # Returns
 
-- a pointer to a string.  the string will remain valid until the query is freed or executed again
-    the return will be nullptr if fed or query is an invalid object, the return string will be "#invalid" if the query itself was invalid
+- a string. String will remain valid until the [`Query`](@ref) is freed or executed again
+the return will be nullptr if fed or [`Query`](@ref) is an invalid object, the return string will be "#invalid" if the [`Query`](@ref) itself was invalid
 
 """
 function helicsQueryExecute(query::Query, fed::Federate)::String
@@ -2135,19 +2134,19 @@ function helicsQueryExecute(query::Query, fed::Federate)::String
 end
 
 """
-Execute a query directly on a core
+Execute a [`Query`](@ref) directly on a core
 
-the call will block until the query finishes which may require communication or other delays
+the call will block until the [`Query`](@ref) finishes which may require communication or other delays
 
 # Arguments
 
-- `query`: the query object to use in the query
-- `core`: the core to send the query to
+- `query`: the [`Query`](@ref) to use in the query
+- `core`: the core to send the [`Query`](@ref) to
 
 # Returns
 
-- a pointer to a string.  the string will remain valid until the query is freed or executed again
-    the return will be nullptr if fed or query is an invalid object, the return string will be "#invalid" if the query itself was invalid
+- a string. String will remain valid until the [`Query`](@ref) is freed or executed again
+the return will be nullptr if fed or [`Query`](@ref) is an invalid object, the return string will be "#invalid" if the [`Query`](@ref) itself was invalid
 
 """
 function helicsQueryCoreExecute(query::Query, core::Core)::String
@@ -2156,19 +2155,19 @@ function helicsQueryCoreExecute(query::Query, core::Core)::String
 end
 
 """
-Execute a query directly on a broker
+Execute a [`Query`](@ref) directly on a broker
 
-the call will block until the query finishes which may require communication or other delays
+the call will block until the [`Query`](@ref) finishes which may require communication or other delays
 
 # Arguments
 
-- `query`: the query object to use in the query
-- `broker`: the broker to send the query to
+- `query`: the [`Query`](@ref) to use in the query
+- `broker`: the broker to send the [`Query`](@ref) to
 
 # Returns
 
-- a pointer to a string.  the string will remain valid until the query is freed or executed again
-    the return will be nullptr if fed or query is an invalid object, the return string will be "#invalid" if the query itself was invalid
+- a string. String will remain valid until the [`Query`](@ref) is freed or executed again
+the return will be nullptr if fed or [`Query`](@ref) is an invalid object, the return string will be "#invalid" if the [`Query`](@ref) itself was invalid
 
 """
 function helicsQueryBrokerExecute(query::Query, broker::Broker)::String
@@ -2177,12 +2176,12 @@ function helicsQueryBrokerExecute(query::Query, broker::Broker)::String
 end
 
 """
-Execute a query in a non-blocking call
+Execute a [`Query`](@ref) in a non-blocking call
 
 # Arguments
 
-- `query`: the query object to use in the query
-- `fed`: a federate to send the query through
+- `query`: the [`Query`](@ref) to use in the query
+- `fed`: a federate to send the [`Query`](@ref) through
 
 """
 function helicsQueryExecuteAsync(query::Query, fed::Federate)
@@ -2190,18 +2189,18 @@ function helicsQueryExecuteAsync(query::Query, fed::Federate)
 end
 
 """
-Complete the return from a query called with /ref helicsExecuteQueryAsync
+Complete the return from a [`Query`](@ref) called with [`helicsQueryExecuteAsync`](@ref)
 
-the function will block until the query completes /ref isQueryComplete can be called to determine if a query has completed or not.
+the function will block until the [`Query`](@ref) completes [`helicsQueryIsCompleted`](@ref) can be called to determine if a [`Query`](@ref) has completed or not.
 
 # Arguments
 
-- `query`: the query object to complete execution of
+- `query`: the [`Query`](@ref) to complete execution of
 
 # Returns
 
-- a pointer to a string.  the string will remain valid until the query is freed or executed again
-    the return will be nullptr if query is an invalid object
+- a string. String will remain valid until the [`Query`](@ref) is freed or executed again
+the return will be nullptr if [`Query`](@ref) is an invalid object
 
 """
 function helicsQueryExecuteComplete(query::Query)::String
@@ -2210,17 +2209,17 @@ function helicsQueryExecuteComplete(query::Query)::String
 end
 
 """
-Check if an asynchronously executed query has completed
+Check if an asynchronously executed [`Query`](@ref) has completed
 
 this function should usually be called after a QueryExecuteAsync function has been called.
 
 # Arguments
 
-- `query`: the query object to check if completed
+- `query`: the [`Query`](@ref) to check if completed
 
 # Returns
 
-- will return `true` if an asynchronous query has complete or a regular query call was made with a result and `false` if an asynchronous query has not completed or is invalid
+- will return `true` if an asynchronous [`Query`](@ref) has complete or a regular [`Query`](@ref) call was made with a result and `false` if an asynchronous [`Query`](@ref) has not completed or is invalid
 
 """
 function helicsQueryIsCompleted(query::Query)::Bool
@@ -2228,7 +2227,7 @@ function helicsQueryIsCompleted(query::Query)::Bool
 end
 
 """
-Free the memory associated with a query object
+Free the memory associated with a [`Query`](@ref)
 """
 function helicsQueryFree(query::Query)
     Lib.helicsQueryFree(query)

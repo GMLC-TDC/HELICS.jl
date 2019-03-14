@@ -1,37 +1,88 @@
+import Base: @__doc__
+
+"""
+# Summary
+
+abstract type HELICS.CWrapper
+"""
 abstract type CWrapper end
 
 Base.convert(T::Type{<:CWrapper}, p::Ptr{Nothing}) = T(p)
 Base.unsafe_convert(T::Type{Ptr{Nothing}}, t::CWrapper) = t.ptr
 
+"""
+# Summary
+
+abstract type HELICS.Federate <: HELICS.CWrapper
+
+# Subtypes
+
+- [`HELICS.CombinationFederate`](@ref)
+- [`HELICS.MessageFederate`](@ref)
+- [`HELICS.ValueFederate`](@ref)
+
+# Supertype Hierarchy
+
+HELICS.Federate <: HELICS.CWrapper <: Any
+
+"""
 abstract type Federate <: CWrapper end
 
-for (subtype, supertype) in (
-            (:Broker, :CWrapper),
-            (:Core, :CWrapper),
-            (:FederateInfo, :CWrapper),
-            (:ValueFederate, :Federate),
-            (:MessageFederate, :Federate),
-            (:CombinationFederate, :Federate),
-            (:Publication, :CWrapper),
-            (:Subscription, :CWrapper),
-            (:Endpoint, :CWrapper),
-            (:Filter, :CWrapper),
-            (:Query, :CWrapper),
-           )
+macro define(subtype, supertype)
+    docstring = """
+# Summary
 
-    eval(:(
-          struct $subtype <: $supertype
-              ptr::Ptr{Nothing}
-              function $subtype(ptr::Ptr{Nothing})
-                  ptr == C_NULL && error("Failed to create $subtype. Received null pointer from HELICS C interface.")
-                  new(ptr)
-              end
-          end
-          ))
+struct [`HELICS.$subtype`](@ref) <: [`HELICS.$supertype`](@ref)
+"""
+    quote
+        struct $subtype <: $supertype
+            ptr::Ptr{Nothing}
+            function $subtype(ptr::Ptr{Nothing})
+                ptr == C_NULL && error("Failed to create $subtype. Received null pointer from HELICS C interface.")
+                new(ptr)
+            end
+        end
+        @doc $docstring $subtype
+    end
 end
+
+@define Broker CWrapper
+@define Core CWrapper
+@define FederateInfo CWrapper
+@define ValueFederate Federate
+@define MessageFederate Federate
+@define CombinationFederate Federate
+@define Publication CWrapper
+@define Subscription CWrapper
+@define Endpoint CWrapper
+@define Filter CWrapper
+@define Query CWrapper
 
 const Input = Subscription
 
+"""
+# Summary
+
+struct HELICS.Message
+
+# Fields
+
+```julia
+time::Float64
+data::String
+length::Int64
+messageID::Int32
+flags::Int16
+original_source::String
+source::String
+dest::String
+original_dest::String
+```
+
+# Supertype Hierarchy
+
+HELICS.Message <: Any
+"""
 struct Message
     time::Float64
     data::String

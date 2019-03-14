@@ -13,15 +13,21 @@ uuid = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 
 [[DocStringExtensions]]
 deps = ["LibGit2", "Markdown", "Pkg", "Test"]
-git-tree-sha1 = "1df01539a1c952cef21f2d2d1c092c2bcf0177d7"
+git-tree-sha1 = "4d30e889c9f106a51ffa4791a88ffd4765bf20c3"
 uuid = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
-version = "0.6.0"
+version = "0.7.0"
 
 [[Documenter]]
 deps = ["Base64", "DocStringExtensions", "InteractiveUtils", "LibGit2", "Logging", "Markdown", "Pkg", "REPL", "Random", "Test", "Unicode"]
 git-tree-sha1 = "a8c41ba3d0861240dbec942ee1d0f86c57c37c1c"
 uuid = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 version = "0.21.5"
+
+[[DocumenterMarkdown]]
+deps = ["Documenter", "Test"]
+git-tree-sha1 = "c302ba512683c3db462ee4eff718ae6fedcbf380"
+uuid = "997ab1e6-3595-5248-9280-8efb232c3433"
+version = "0.2.0"
 
 [[DocumenterTools]]
 deps = ["Base64", "DocStringExtensions", "LibGit2", "Pkg", "Test"]

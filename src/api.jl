@@ -356,7 +356,7 @@ end
 """
 """
 function helicsFilterGetOption(filt::Filter, option::Int)::Bool
-    r = @Utils.invoke_and_check Lib.helicsFilterGetOption(filt, option)
+    r = Lib.helicsFilterGetOption(filt, option)
     return r == 1 ? true : false
 end
 

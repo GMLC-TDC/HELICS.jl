@@ -1104,7 +1104,7 @@ this function is used for cores that have filters but no federates so there need
 
 # Arguments
 
-    `core`: the core object to enable init values for
+- `core`: the core object to enable init values for
 
 """
 function helicsCoreSetReadyToInit(core::Core)

@@ -1,7 +1,7 @@
 name = "HELICS"
 uuid = "81524022-8764-5038-b61c-08cb1f58760f"
 authors = ["Dheepak Krishnamurthy <me@kdheepak.com>"]
-version = "0.2.1"
+version = "0.2.2"
 
 [deps]
 DocStringExtensions = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"

@@ -1136,7 +1136,7 @@ the federate must have been created by one of the other functions and at least o
 
 # Arguments
 
-    `fedName`: the name of the federate to retrieve
+- `fedName`: the name of the federate to retrieve
 
 # Returns
 

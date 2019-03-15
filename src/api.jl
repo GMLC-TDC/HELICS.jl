@@ -394,7 +394,8 @@ end
 
 """
 """
-function helicsFederateRegisterInput(fed::Federate, key::String, kind::String, units::String="")::Input
+function helicsFederateRegisterInput(fed::Federate, key::String, kind::Union{Int, HELICS.HELICS_DATA_TYPE}, units::String="")::Input
+    kind = convert(HELICS.HELICS_DATA_TYPE, kind)
     @Utils.invoke_and_check Lib.helicsFederateRegisterInput(fed, key, kind, units)
 end
 

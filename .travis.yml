@@ -1,28 +1,39 @@
-# Documentation: http://docs.travis-ci.com/user/languages/julia/
 language: julia
 os:
   - linux
   - osx
+
 julia:
   - 1.0
   - 1.1
   - nightly
-matrix:
-  allow_failures:
-    - julia: nightly
+
 notifications:
   email: false
-after_success:
-  # push coverage results to Coveralls
-  - julia -e 'using Pkg; cd(Pkg.dir("HELICS")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'
-  # push coverage results to Codecov
-  - julia -e 'using Pkg; cd(Pkg.dir("HELICS")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
-jobs:
+
+## uncomment the following lines to allow failures on nightly julia
+## (tests will run but not make your overall status red)
+matrix:
+  exclude:
+    - os: windows
+      julia: nightly
+      language: julia
+
   include:
-    - stage: "Documentation"
-      julia: 1.0
-      os: linux
-      script:
-        - julia --project=docs/ -e 'using Pkg; Pkg.develop(PackageSpec(path=pwd())); Pkg.build("HELICS"); Pkg.instantiate()'
-        - DOCUMENTER_DEBUG=true julia --project=docs/ docs/make.jl
-      after_success: skip
+    - os: windows
+      language: sh
+      filter_secrets: false
+      before_install:
+        - choco install julia
+
+  allow_failures:
+  - julia: nightly
+
+script:
+  - julia --project --color=yes -e "import Pkg; Pkg.build(); Pkg.instantiate()"
+  - julia --check-bounds=yes --depwarn=no --inline=no --color=yes --project -e "import Pkg; Pkg.test(coverage=true);"
+
+after_success:
+  # push coverage results to Codecov
+  - julia --project=docs/ -e 'import Pkg; Pkg.add("Documenter"); include("docs/make.jl")'
+  - julia -e 'import Pkg; Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'

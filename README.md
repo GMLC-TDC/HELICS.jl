@@ -57,7 +57,7 @@ if these features haven't been merged to `master` yet.
 ### Troubleshooting
 
 This package interfaces with HELICS, so a good understanding of HELICS will help troubleshooting.
-There are plenty of useful resources located [here](https://gmlc-tdc.github.io/HELICS-src).
+There are plenty of useful resources located [here](https://helics.readthedocs.io/en/latest/).
 
 If you are having issues using this Julia interface, feel free to open an issue on GitHub [here](https://github.com/GMLC-TDC/HELICS.jl/issues/new).
 

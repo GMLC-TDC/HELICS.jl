@@ -1419,7 +1419,6 @@ valid values available by definitions in api-data.h
 
 """
 function helicsFederateInfoSetCoreType(fi::FederateInfo, coretype::Union{Int, HELICS.HELICS_CORE_TYPE})
-    coretype = convert(HELICS.HELICS_CORE_TYPE, coretype)
     @Utils.invoke_and_check Lib.helicsFederateInfoSetCoreType(fi, coretype)
 end
 
@@ -1526,7 +1525,6 @@ valid flags are available [`HELICS_FEDERATE_FLAGS`](@ref)
 
 """
 function helicsFederateInfoSetFlagOption(fi::FederateInfo, flag::Union{Int, HELICS.HELICS_FEDERATE_FLAGS}, value::Bool)
-    flag = convert(HELICS.HELICS_FEDERATE_FLAGS, flag)
     @Utils.invoke_and_check Lib.helicsFederateInfoSetFlagOption(fi, flag, value ? 1 : 0)
 end
 

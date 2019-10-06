@@ -4,8 +4,6 @@ __precompile__(true)
 
 import Libdl
 
-Sys.iswindows() && error("Windows is not supported at the moment. Please contact the developer for a workaround.")
-
 # Load in `deps.jl`, complaining if it does not exist
 const depsjl_path = joinpath(@__DIR__, "..", "deps", "deps.jl")
 
@@ -21,21 +19,22 @@ function __init__()
 end
 
 module Lib
-using CEnum
 
-import ..HELICS
-const libhelicsSharedLib = HELICS.libhelicsSharedLib
+    using CEnum
 
-const HELICS_EXPORT = nothing
-const HELICS_NO_EXPORT = nothing
+    import ..HELICS
+    const libhelicsSharedLib = HELICS.libhelicsSharedLib
 
-include("ctypes.jl")
+    const HELICS_EXPORT = nothing
+    const HELICS_NO_EXPORT = nothing
 
-include("common.jl")
+    include("ctypes.jl")
 
-include("manual.jl")
+    include("common.jl")
 
-include("lib.jl")
+    include("manual.jl")
+
+    include("lib.jl")
 
 end
 

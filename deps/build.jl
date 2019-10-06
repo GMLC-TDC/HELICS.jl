@@ -41,5 +41,9 @@ if unsatisfied || !isinstalled(dl_info...; prefix=prefix)
     install(dl_info...; prefix=prefix, force=true, verbose=verbose)
 end
 
+# Build the dependencies
+Mod = @eval module Anon end
+Mod.include("build_ZMQ.v4.2.5+6.jl")
+
 # Write out a deps.jl file that will contain mappings for our products
 write_deps_file(joinpath(@__DIR__, "deps.jl"), products, verbose=verbose)

@@ -2,12 +2,12 @@ const HELICS_HAVE_MPI = 0
 const HELICS_HAVE_ZEROMQ = 1
 const BOOST_VERSION_LEVEL = 67
 const HELICS_VERSION_MAJOR = 2
-const HELICS_VERSION_MINOR = 0
-const HELICS_VERSION_PATCH = 0
-const HELICS_VERSION = "2.0.0"
+const HELICS_VERSION_MINOR = 2
+const HELICS_VERSION_PATCH = 1
+const HELICS_VERSION = "2.2.1"
 const HELICS_VERSION_BUILD = ""
-const HELICS_VERSION_STRING = "2.0.0 (03-10-19)"
-const HELICS_DATE = "03-10-19"
+const HELICS_VERSION_STRING = "2.2.1 (09-27-19)"
+const HELICS_DATE = "09-27-19"
 
 @cenum helics_data_type::UInt32 begin
     helics_data_type_string = 0

@@ -3,14 +3,33 @@ using HELICS
 using Test
 const h = HELICS
 
+@testset "Versions" begin
+
 @test h.helicsGetVersion() isa String
-@test h.helicsGetVersion() == "2.0.0 (03-10-19)"
+@test h.helicsGetVersion() == "2.2.1 (09-27-19)"
 
-include("valuefederate.jl")
-include("messagefederate.jl")
-include("combinationfederate.jl")
-include("messagefilter.jl")
+end
 
-include("api.jl")
+@testset "ValueFederate" begin
+    include("valuefederate.jl")
+end
 
-include("query.jl")
+@testset "MessageFederate" begin
+    include("messagefederate.jl")
+end
+
+@testset "CombinationFederate" begin
+    include("combinationfederate.jl")
+end
+
+@testset "MessageFilter" begin
+    include("messagefilter.jl")
+end
+
+@testset "API" begin
+    include("api.jl")
+end
+
+@testset "Query" begin
+    include("query.jl")
+end

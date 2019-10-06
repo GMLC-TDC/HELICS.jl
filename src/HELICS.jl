@@ -4,23 +4,41 @@ __precompile__(true)
 
 import Libdl
 
+Sys.iswindows() && error("Windows is not supported at the moment. Please contact the developer for a workaround.")
+
+# Load in `deps.jl`, complaining if it does not exist
+const depsjl_path = joinpath(@__DIR__, "..", "deps", "deps.jl")
+
+if !isfile(depsjl_path)
+    error("libhelicsSharedLib cannot be loaded. Please run Pkg.build(\"HELICS\").")
+end
+
+include(depsjl_path)
+
+# Module initialization function
 function __init__()
+    check_deps()
+end
 
-    LIBRARIES = []
+module Lib
+using CEnum
 
-    for library in LIBRARIES
-        if Libdl.dlopen(library) == C_NULL
-            error("$library cannot be opened. Please check 'deps/build.log' for more information.")
-        end
-    end
+import ..HELICS
+const libhelicsSharedLib = HELICS.libhelicsSharedLib
 
-    if Libdl.dlopen(Lib.HELICS_LIBRARY) == C_NULL
-        error("$(Lib.HELICS_LIBRARY) cannot be opened. Please check 'deps/build.log' for more information.")
-    end
+const HELICS_EXPORT = nothing
+const HELICS_NO_EXPORT = nothing
+
+include("ctypes.jl")
+
+include("common.jl")
+
+include("manual.jl")
+
+include("lib.jl")
 
 end
 
-include("lib.jl")
 include("wrapper.jl")
 
 include("utils.jl")

@@ -30,8 +30,7 @@ To install the latest development version, use the following from within Julia:
 This package includes HELICS as a library. You do not have to install HELICS
 separately.
 
-Note that this should work on 32 and 64-bit Windows systems and 64-bit Linux
-and Mac systems.
+Note that this should work on 64-bit Windows, Mac and Linux systems.
 
 If you wish to develop `HELICS.jl` you may want to use the following:
 

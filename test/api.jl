@@ -159,31 +159,22 @@ end
     h.helicsFederateEnterInitializingModeComplete(fed1)
     h.helicsFederateEnterExecutingModeAsync(fed1)
     h.helicsFederateEnterExecutingModeComplete(fed1)
-    mesg1 = h.Message(
-                      0.0,
-                      "Hello",
-                      length("Hello"),
-                      0,
-                      0,
-                      "fed1/Ep1",
-                      "fed1/Ep1",
-                      "Ep2",
-                      "Ep2",
-                     )
 
-    h.helicsEndpointSendMessage(ep1, mesg1)
-    mesg1 = h.Message(
-                      0.0,
-                      "There",
-                      length("There"),
-                      0,
-                      0,
-                      "fed1/Ep1",
-                      "fed1/Ep1",
-                      "Ep2",
-                      "Ep2",
-                     )
-    h.helicsEndpointSendMessage(ep1, mesg1)
+    mesg1 = h.helicsFederateCreateMessageObject(fed1)
+    h.helicsMessageSetString(mesg1, "Hello")
+    h.helicsMessageSetSource(mesg1, "fed1/Ep1")
+    h.helicsMessageSetOriginalSource(mesg1, "fed1/Ep1")
+    h.helicsMessageSetDestination(mesg1, "Ep2")
+    h.helicsMessageSetOriginalDestination(mesg1, "Ep2")
+
+    h.helicsEndpointSendMessageObject(ep1, mesg1)
+    mesg1 = h.helicsFederateCreateMessageObject(fed1)
+    h.helicsMessageSetString(mesg1, "There")
+    h.helicsMessageSetSource(mesg1, "fed1/Ep1")
+    h.helicsMessageSetOriginalSource(mesg1, "fed1/Ep1")
+    h.helicsMessageSetDestination(mesg1, "Ep2")
+    h.helicsMessageSetOriginalDestination(mesg1, "Ep2")
+    h.helicsEndpointSendMessageObject(ep1, mesg1)
     h.helicsEndpointSetDefaultDestination(ep2, "fed1/Ep1")
 
     ep1NameString = h.helicsEndpointGetName(ep1)
@@ -227,28 +218,26 @@ end
     ep2HasMsg = h.helicsEndpointHasMessage(ep2)
     @test ep2HasMsg == 1
 
-    msg2 = h.helicsEndpointGetMessage(ep2)
-    @test msg2.time == 1.0
-    @test "Hello" == msg2.data
-    @test msg2.length == 5
-    @test msg2.original_source == "fed1/Ep1"
-    @test msg2.source == "fed1/Ep1"
-    @test msg2.dest == "Ep2"
-    @test_broken msg2.original_dest == "Ep2"
+    msg2 = h.helicsEndpointGetMessageObject(ep2)
+    @test h.helicsMessageGetTime(msg2) == 1.0
+    @test h.helicsMessageGetString(msg2) == "Hello"
+    @test h.helicsMessageGetOriginalSource(msg2) == "fed1/Ep1"
+    @test h.helicsMessageGetSource(msg2) == "fed1/Ep1"
+    @test h.helicsMessageGetDestination(msg2) == "Ep2"
+    @test h.helicsMessageGetOriginalDestination(msg2) == "Ep2"
 
     fed1MsgCount = h.helicsFederatePendingMessages(fed1)
     @test fed1MsgCount == 1
 
     @test h.helicsFederateHasMessage(fed1) == 1
 
-    msg3 = h.helicsFederateGetMessage(fed1)
-    @test msg3.time == 1.0
-    @test msg3.data == "There"
-    @test msg3.length == 5
-    @test msg3.original_source == "fed1/Ep1"
-    @test msg3.source == "fed1/Ep1"
-    @test msg3.dest == "Ep2"
-    @test_broken msg3.original_dest == "Ep2"
+    msg3 = h.helicsFederateGetMessageObject(fed1)
+    @test h.helicsMessageGetTime(msg3) == 1.0
+    @test h.helicsMessageGetString(msg3) == "There"
+    @test h.helicsMessageGetOriginalSource(msg3) == "fed1/Ep1"
+    @test h.helicsMessageGetSource(msg3) == "fed1/Ep1"
+    @test h.helicsMessageGetDestination(msg3) == "Ep2"
+    @test h.helicsMessageGetOriginalDestination(msg3) == "Ep2"
 
     sub1Updated = h.helicsInputIsUpdated(sub1)
     @test sub1Updated == 1

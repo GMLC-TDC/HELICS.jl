@@ -146,6 +146,12 @@ end
 
 """
 """
+function helicsEndpointSendMessageObject(endpoint::Endpoint, message::Message)
+    @Utils.invoke_and_check Lib.helicsEndpointSendMessageObject(endpoint, message)
+end
+
+"""
+"""
 function helicsEndpointSubscribe(endpoint::Endpoint, key::String)
     @Utils.invoke_and_check Lib.helicsEndpointSubscribe(endpoint, key)
 end
@@ -179,14 +185,24 @@ end
 function helicsEndpointGetMessage(endpoint::Endpoint)::Message
     Lib.helicsEndpointGetMessage(endpoint)
 end
-@deprecate helicsEndpointGetMessage(endpoint) helicsEndpointGetMessageObject(endpoint) false
+
+"""
+"""
+function helicsEndpointGetMessageObject(endpoint::Endpoint)::Message
+    Lib.helicsEndpointGetMessageObject(endpoint)
+end
 
 """
 """
 function helicsFederateGetMessage(fed::Federate)::Message
     Lib.helicsFederateGetMessage(fed)
 end
-@deprecate helicsFederateGetMessage(fed) helicsFederateGetMessageObject(fed)
+
+"""
+"""
+function helicsFederateGetMessageObject(fed::Federate)::Message
+    Lib.helicsFederateGetMessageObject(fed)
+end
 
 """
 """
@@ -2248,25 +2264,163 @@ function helicsFederateAddLoggingCallback(fed::Federate, logger)
     @Utils.invoke_and_check Lib.helicsFederateAddLoggingCallback(fed, logger)
 end
 
-function helicsFederateCreateMessageObject(fed::Federate)
+function helicsFederateCreateMessageObject(fed::Federate)::Message
     @Utils.invoke_and_check Lib.helicsFederateCreateMessageObject(fed)
 end
 
+"""
+"""
+function helicsMessageGetSource(message::Message)::String
+    Lib.helicsMessageGetSource(message) |> unsafe_string
+end
+
+"""
+"""
+function helicsMessageGetDestination(message::Message)::String
+    Lib.helicsMessageGetDestination(message) |> unsafe_string
+end
+
+"""
+"""
+function helicsMessageGetOriginalSource(message::Message)::String
+    Lib.helicsMessageGetOriginalSource(message) |> unsafe_string
+end
+
+"""
+"""
+function helicsMessageGetOriginalDestination(message::Message)::String
+    Lib.helicsMessageGetOriginalDestination(message) |> unsafe_string
+end
+
+"""
+"""
+function helicsMessageGetTime(message::Message)::Float64
+    Lib.helicsMessageGetTime(message)
+end
+
+"""
+"""
+function helicsMessageGetString(message::Message)::String
+    Lib.helicsMessageGetString(message) |> unsafe_string
+end
+
+"""
+"""
+function helicsMessageGetMessageID(message::Message)::Int
+    Lib.helicsMessageGetMessageID(message)
+end
+
+"""
+"""
+function helicsMessageCheckFlag(message::Message, flag::Union{Int, HELICS.HELICS_FEDERATE_FLAGS})::Bool
+    Lib.helicsMessageCheckFlag(message, flag) == 1 ? true : false
+end
+
+"""
+"""
+function helicsMessageGetRawDataSize(message::Message)::Int
+    Lib.helicsMessageGetRawDataSize(message)
+end
+
+"""
+"""
+function helicsMessageGetRawData(message::Message, data::String)
+    maxlen = Cint(helicsMessageGetRawDataSize(message))
+    actualSize = Ref(maxlen)
+    @Utils.invoke_and_check Lib.helicsMessageGetRawData(message, data, maxlen, actualSize)
+end
+
+"""
+"""
+function helicsMessageGetRawDataPointer(message::Message)::Ptr{Cvoid}
+    Lib.helicsMessageGetRawDataPointer(message)
+end
+
+"""
+"""
+function helicsMessageIsValid(message::Message)::Bool
+    Lib.helicsMessageIsValid(message) == 1 ? true : false
+end
+
+"""
+"""
+function helicsMessageSetSource(message::Message, src::String)
+    @Utils.invoke_and_check Lib.helicsMessageSetSource(message, src)
+end
+
+"""
+"""
 function helicsMessageSetDestination(message::Message, dest::String)
     @Utils.invoke_and_check Lib.helicsMessageSetDestination(message, dest)
 end
 
-function helicsMessageGetDestination(message::Message)
-    @Utils.invoke_and_check Lib.helicsMessageGetDestination(message)
+"""
+"""
+function helicsMessageSetOriginalSource(message::Message, src::String)
+    @Utils.invoke_and_check Lib.helicsMessageSetOriginalSource(message, src)
 end
 
+"""
+"""
+function helicsMessageSetOriginalDestination(message::Message, dest::String)
+    @Utils.invoke_and_check Lib.helicsMessageSetOriginalDestination(message, dest)
+end
+
+"""
+"""
+function helicsMessageSetTime(message::Message, time::HELICS.HELICS_TIME)
+    @Utils.invoke_and_check Lib.helicsMessageSetTime(message, time)
+end
+
+"""
+"""
+function helicsMessageResize(message::Message, newSize::Int)
+    @Utils.invoke_and_check Lib.helicsMessageResize(message, newSize)
+end
+
+"""
+"""
+function helicsMessageReserve(message::Message, reserveSize::Int)
+    @Utils.invoke_and_check Lib.helicsMessageReserve(message, reserverSize)
+end
+
+"""
+"""
+function helicsMessageSetMessageID(message::Message, messageID::Int32)
+    @Utils.invoke_and_check helicsMessageSetMessageID(message, messageID)
+end
+
+"""
+"""
+function helicsMessageClearFlags(message::Message)
+    Lib.helicsMessageClearFlags(message)
+end
+
+"""
+"""
+function helicsMessageSetFlagOption(message::Message, flag::Union{Int, HELICS_FEDERATE_FLAGS}, flagValue::Bool)
+    @Utils.invoke_and_check Lib.helicsMessageSetFlagOption(message, flag, flagValue)
+end
+
+"""
+"""
+function helicsMessageSetString(message::Message, str::String)
+    @Utils.invoke_and_check Lib.helicsMessageSetString(message, str)
+end
+
+"""
+"""
 function helicsMessageSetData(message::Message, data::String)
     inputDataLength = length(data)
     data = pointer(data)
-    @Utils.invoke_and_check Lib.helicsMessageSetData(message, data, len)
+    @Utils.invoke_and_check Lib.helicsMessageSetData(message, data, inputDataLength)
 end
 
-function helicsMessageSetTime(message::Message, time::HELICS.HELICS_TIME)
-    @Utils.invoke_and_check Lib.helicsMessageSetTime(message, time)
+"""
+"""
+function helicsMessageAppendData(message::Message, data::String)
+    inputDataLength = length(data)
+    data = pointer(data)
+    @Utils.invoke_and_check Lib.helicsMessageAppendData(message, data, inputDataLength)
 end
 

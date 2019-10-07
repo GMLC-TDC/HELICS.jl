@@ -76,14 +76,14 @@ end
     res = h.helicsEndpointHasMessage(epid2)
     @test res == true
 
-    message = h.helicsEndpointGetMessage(epid2)
+    message = h.helicsEndpointGetMessageObject(epid2)
 
-    @test message.data == "random-data"
-    @test message.length == 11
-    @test message.original_dest == ""
-    @test message.original_source == "TestA Federate/ep1"
-    @test message.source == "TestA Federate/ep1"
-    @test message.time == 1.0
+    @test h.helicsMessageGetString(message) == "random-data"
+    @test h.helicsMessageGetRawDataSize(message) == 11
+    @test h.helicsMessageGetOriginalDestination(message) == ""
+    @test h.helicsMessageGetOriginalSource(message) == "TestA Federate/ep1"
+    @test h.helicsMessageGetSource(message) == "TestA Federate/ep1"
+    @test h.helicsMessageGetTime(message) == 1.0
 
     destroyFederate(mFed, fedinfo)
     destroyBroker(broker)
@@ -164,10 +164,10 @@ end
     @test h.helicsEndpointHasMessage(epid2) == true
 
     msg = h.helicsEndpointGetMessageObject(epid2)
-    h.helicsMessageGetRawDataSize(msg) == 500
+    @test h.helicsMessageGetRawDataSize(msg) == 500
 
     rdata = h.helicsMessageGetRawDataPointer(msg)
-    @test rdata[245] == 'a'
+    @test Char(unsafe_load(Ptr{Cchar}(rdata), 245)) == 'a'
 
     h.helicsFederateFinalize(mFed1)
 

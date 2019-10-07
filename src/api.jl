@@ -88,19 +88,19 @@ const HELICS_TIME = Union{Int, Float64}
 
 """
 """
-function helicsFederateRegisterEndpoint(fed::Federate, name::AbstractString, kind::AbstractString)::Endpoint
+function helicsFederateRegisterEndpoint(fed::Federate, name::String, kind::String)::Endpoint
     @Utils.invoke_and_check Lib.helicsFederateRegisterEndpoint(fed, name, kind)
 end
 
 """
 """
-function helicsFederateRegisterGlobalEndpoint(fed::Federate, name::AbstractString, kind::AbstractString)::Endpoint
+function helicsFederateRegisterGlobalEndpoint(fed::Federate, name::String, kind::String)::Endpoint
     @Utils.invoke_and_check Lib.helicsFederateRegisterGlobalEndpoint(fed, name, kind)
 end
 
 """
 """
-function helicsFederateGetEndpoint(fed::Federate, name::AbstractString)::Endpoint
+function helicsFederateGetEndpoint(fed::Federate, name::String)::Endpoint
     @Utils.invoke_and_check Lib.helicsFederateGetEndpoint(fed, name)
 end
 
@@ -112,19 +112,19 @@ end
 
 """
 """
-function helicsEndpointSetDefaultDestination(endpoint::Endpoint, dest::AbstractString)
+function helicsEndpointSetDefaultDestination(endpoint::Endpoint, dest::String)
     @Utils.invoke_and_check Lib.helicsEndpointSetDefaultDestination(endpoint, dest)
 end
 
 """
 """
-function helicsEndpointGetDefaultDestination(endpoint::Endpoint)::AbstractString
+function helicsEndpointGetDefaultDestination(endpoint::Endpoint)::String
     Lib.helicsEndpointGetDefaultDestination(endpoint) |> unsafe_string
 end
 
 """
 """
-function helicsEndpointSendMessageRaw(endpoint::Endpoint, dest::AbstractString, data::AbstractString)
+function helicsEndpointSendMessageRaw(endpoint::Endpoint, dest::String, data::String)
     inputDataLength = length(data)
     data = pointer(data)
     @Utils.invoke_and_check Lib.helicsEndpointSendMessageRaw(endpoint, dest, data, inputDataLength)
@@ -132,7 +132,7 @@ end
 
 """
 """
-function helicsEndpointSendEventRaw(endpoint::Endpoint, dest::AbstractString, data::AbstractString, time::HELICS.HELICS_TIME)
+function helicsEndpointSendEventRaw(endpoint::Endpoint, dest::String, data::String, time::HELICS.HELICS_TIME)
     inputDataLength = length(data)
     data = pointer(data)
     @Utils.invoke_and_check Lib.helicsEndpointSendEventRaw(endpoint, dest, data, inputDataLength, time)
@@ -146,7 +146,7 @@ end
 
 """
 """
-function helicsEndpointSubscribe(endpoint::Endpoint, key::AbstractString)
+function helicsEndpointSubscribe(endpoint::Endpoint, key::String)
     @Utils.invoke_and_check Lib.helicsEndpointSubscribe(endpoint, key)
 end
 
@@ -179,12 +179,14 @@ end
 function helicsEndpointGetMessage(endpoint::Endpoint)::Message
     Lib.helicsEndpointGetMessage(endpoint)
 end
+@deprecate helicsEndpointGetMessage(endpoint) helicsEndpointGetMessageObject(endpoint) false
 
 """
 """
 function helicsFederateGetMessage(fed::Federate)::Message
     Lib.helicsFederateGetMessage(fed)
 end
+@deprecate helicsFederateGetMessage(fed) helicsFederateGetMessageObject(fed)
 
 """
 """
@@ -212,7 +214,7 @@ end
 
 """
 """
-function helicsEndpointSetInfo(_end::Endpoint, info::AbstractString)
+function helicsEndpointSetInfo(_end::Endpoint, info::String)
     @Utils.invoke_and_check Lib.helicsEndpointSetInfo(_end, info)
 end
 
@@ -230,40 +232,40 @@ end
 
 """
 """
-function helicsFederateRegisterFilter(fed::Federate, kind::Union{Int, HELICS.HELICS_FILTER_TYPE}, name::AbstractString)::Filter
+function helicsFederateRegisterFilter(fed::Federate, kind::Union{Int, HELICS.HELICS_FILTER_TYPE}, name::String)::Filter
     kind = convert(HELICS.HELICS_FILTER_TYPE, kind)
     @Utils.invoke_and_check Lib.helicsFederateRegisterFilter(fed, kind, name)
 end
 
 """
 """
-function helicsFederateRegisterGlobalFilter(fed::Federate, kind::Union{Int, HELICS.HELICS_FILTER_TYPE}, name::AbstractString)::Filter
+function helicsFederateRegisterGlobalFilter(fed::Federate, kind::Union{Int, HELICS.HELICS_FILTER_TYPE}, name::String)::Filter
     kind = convert(HELICS.HELICS_FILTER_TYPE, kind)
     @Utils.invoke_and_check Lib.helicsFederateRegisterGlobalFilter(fed, kind, name)
 end
 
 """
 """
-function helicsFederateRegisterCloningFilter(fed::Federate, deliveryEndpoint::AbstractString)::Filter
+function helicsFederateRegisterCloningFilter(fed::Federate, deliveryEndpoint::String)::Filter
     @Utils.invoke_and_check Lib.helicsFederateRegisterCloningFilter(fed, deliveryEndpoint)
 end
 
 """
 """
-function helicsFederateRegisterGlobalCloningFilter(fed::Federate, deliveryEndpoint::AbstractString)::Filter
+function helicsFederateRegisterGlobalCloningFilter(fed::Federate, deliveryEndpoint::String)::Filter
     @Utils.invoke_and_check Lib.helicsFederateRegisterGlobalCloningFilter(fed, deliveryEndpoint)
 end
 
 """
 """
-function helicsCoreRegisterFilter(core::Core, kind::Union{Int, HELICS.HELICS_FILTER_TYPE}, name::AbstractString)::Filter
+function helicsCoreRegisterFilter(core::Core, kind::Union{Int, HELICS.HELICS_FILTER_TYPE}, name::String)::Filter
     kind = convert(HELICS.HELICS_FILTER_TYPE, kind)
     @Utils.invoke_and_check Lib.helicsCoreRegisterFilter(core, kind, name)
 end
 
 """
 """
-function helicsCoreRegisterCloningFilter(core::Core, deliveryEndpoint::AbstractString)::Filter
+function helicsCoreRegisterCloningFilter(core::Core, deliveryEndpoint::String)::Filter
     @Utils.invoke_and_check Lib.helicsCoreRegisterCloningFilter(core, deliveryEndpoint)
 end
 
@@ -275,7 +277,7 @@ end
 
 """
 """
-function helicsFederateGetFilter(fed::Federate, name::AbstractString)::Filter
+function helicsFederateGetFilter(fed::Federate, name::String)::Filter
     @Utils.invoke_and_check Lib.helicsFederateGetFilter(fed, name)
 end
 
@@ -287,49 +289,49 @@ end
 
 """
 """
-function helicsFilterGetName(filt::Filter)::AbstractString
+function helicsFilterGetName(filt::Filter)::String
     Lib.helicsFilterGetName(filt) |> unsafe_string
 end
 
 """
 """
-function helicsFilterSet(filt::Filter, prop::AbstractString, val::Float64)
+function helicsFilterSet(filt::Filter, prop::String, val::Float64)
     @Utils.invoke_and_check Lib.helicsFilterSet(filt, prop, val)
 end
 
 """
 """
-function helicsFilterSetString(filt::Filter, prop::AbstractString, val::AbstractString)
+function helicsFilterSetString(filt::Filter, prop::String, val::String)
     @Utils.invoke_and_check Lib.helicsFilterSetString(filt, prop, val)
 end
 
 """
 """
-function helicsFilterAddDestinationTarget(filt::Filter, dest::AbstractString)
+function helicsFilterAddDestinationTarget(filt::Filter, dest::String)
     @Utils.invoke_and_check Lib.helicsFilterAddDestinationTarget(filt, dest)
 end
 
 """
 """
-function helicsFilterAddSourceTarget(filt::Filter, source::AbstractString)
+function helicsFilterAddSourceTarget(filt::Filter, source::String)
     @Utils.invoke_and_check Lib.helicsFilterAddSourceTarget(filt, source)
 end
 
 """
 """
-function helicsFilterAddDeliveryEndpoint(filt::Filter, deliveryEndpoint::AbstractString)
+function helicsFilterAddDeliveryEndpoint(filt::Filter, deliveryEndpoint::String)
     @Utils.invoke_and_check Lib.helicsFilterAddDeliveryEndpoint(filt, deliveryEndpoint)
 end
 
 """
 """
-function helicsFilterRemoveTarget(filt::Filter, target::AbstractString)
+function helicsFilterRemoveTarget(filt::Filter, target::String)
     @Utils.invoke_and_check Lib.helicsFilterRemoveTarget(filt, target)
 end
 
 """
 """
-function helicsFilterRemoveDeliveryEndpoint(filt::Filter, deliveryEndpoint::AbstractString)
+function helicsFilterRemoveDeliveryEndpoint(filt::Filter, deliveryEndpoint::String)
     @Utils.invoke_and_check Lib.helicsFilterRemoveDeliveryEndpoint(filt, deliveryEndpoint)
 end
 
@@ -341,7 +343,7 @@ end
 
 """
 """
-function helicsFilterSetInfo(filt::Filter, info::AbstractString)
+function helicsFilterSetInfo(filt::Filter, info::String)
     @Utils.invoke_and_check Lib.helicsFilterSetInfo(filt, info)
 end
 
@@ -360,65 +362,65 @@ end
 
 """
 """
-function helicsFederateRegisterSubscription(fed::Federate, key::AbstractString, units::AbstractString="")::Subscription
+function helicsFederateRegisterSubscription(fed::Federate, key::String, units::String="")::Subscription
     @Utils.invoke_and_check Lib.helicsFederateRegisterSubscription(fed, key, units)
 end
 
 """
 """
-function helicsFederateRegisterPublication(fed::Federate, key::AbstractString, kind::Union{Int, HELICS.HELICS_DATA_TYPE}, units::AbstractString="")::Publication
+function helicsFederateRegisterPublication(fed::Federate, key::String, kind::Union{Int, HELICS.HELICS_DATA_TYPE}, units::String="")::Publication
     kind = convert(HELICS.HELICS_DATA_TYPE, kind)
     @Utils.invoke_and_check Lib.helicsFederateRegisterPublication(fed, key, kind, units)
 end
 
 """
 """
-function helicsFederateRegisterTypePublication(fed::Federate, key::AbstractString, kind::AbstractString, units::AbstractString="")::Publication
+function helicsFederateRegisterTypePublication(fed::Federate, key::String, kind::String, units::String="")::Publication
     @Utils.invoke_and_check Lib.helicsFederateRegisterTypePublication(fed, key, kind, units)
 end
 
 """
 """
-function helicsFederateRegisterGlobalPublication(fed::Federate, key::AbstractString, kind::Union{Int, HELICS.HELICS_DATA_TYPE}, units::AbstractString="")::Publication
+function helicsFederateRegisterGlobalPublication(fed::Federate, key::String, kind::Union{Int, HELICS.HELICS_DATA_TYPE}, units::String="")::Publication
     kind = convert(HELICS.HELICS_DATA_TYPE, kind)
     @Utils.invoke_and_check Lib.helicsFederateRegisterGlobalPublication(fed, key, kind, units)
 end
 
 """
 """
-function helicsFederateRegisterGlobalTypePublication(fed::Federate, key::AbstractString, kind::AbstractString, units::AbstractString="")::Publication
+function helicsFederateRegisterGlobalTypePublication(fed::Federate, key::String, kind::String, units::String="")::Publication
     @Utils.invoke_and_check Lib.helicsFederateRegisterGlobalTypePublication(fed, key, kind, units)
 end
 
 """
 """
-function helicsFederateRegisterInput(fed::Federate, key::AbstractString, kind::Union{Int, HELICS.HELICS_DATA_TYPE}, units::AbstractString="")::Input
+function helicsFederateRegisterInput(fed::Federate, key::String, kind::Union{Int, HELICS.HELICS_DATA_TYPE}, units::String="")::Input
     kind = convert(HELICS.HELICS_DATA_TYPE, kind)
     @Utils.invoke_and_check Lib.helicsFederateRegisterInput(fed, key, kind, units)
 end
 
 """
 """
-function helicsFederateRegisterTypeInput(fed::Federate, key::AbstractString, kind::AbstractString, units::AbstractString="")::Input
+function helicsFederateRegisterTypeInput(fed::Federate, key::String, kind::String, units::String="")::Input
     @Utils.invoke_and_check Lib.helicsFederateRegisterTypeInput(fed, key, kind, units)
 end
 
 """
 """
-function helicsFederateRegisterGlobalInput(fed::Federate, key::AbstractString, kind::Union{Int, HELICS.HELICS_DATA_TYPE}, units::AbstractString="")::Input
+function helicsFederateRegisterGlobalInput(fed::Federate, key::String, kind::Union{Int, HELICS.HELICS_DATA_TYPE}, units::String="")::Input
     kind = convert(HELICS.HELICS_DATA_TYPE, kind)
     @Utils.invoke_and_check Lib.helicsFederateRegisterGlobalInput(fed, key, kind, units)
 end
 
 """
 """
-function helicsFederateRegisterGlobalTypeInput(fed::Federate, key::AbstractString, kind::AbstractString, units::AbstractString="")::Input
+function helicsFederateRegisterGlobalTypeInput(fed::Federate, key::String, kind::String, units::String="")::Input
     @Utils.invoke_and_check Lib.helicsFederateRegisterGlobalTypeInput(fed, key, kind, units)
 end
 
 """
 """
-function helicsFederateGetPublication(fed::Federate, key::AbstractString)::Publication
+function helicsFederateGetPublication(fed::Federate, key::String)::Publication
     @Utils.invoke_and_check Lib.helicsFederateGetPublication(fed, key)
 end
 
@@ -430,7 +432,7 @@ end
 
 """
 """
-function helicsFederateGetInput(fed::Federate, key::AbstractString)::Input
+function helicsFederateGetInput(fed::Federate, key::String)::Input
     @Utils.invoke_and_check Lib.helicsFederateGetInput(fed, key)
 end
 
@@ -442,7 +444,7 @@ end
 
 """
 """
-function helicsFederateGetSubscription(fed::Federate, key::AbstractString)::Subscription
+function helicsFederateGetSubscription(fed::Federate, key::String)::Subscription
     @Utils.invoke_and_check Lib.helicsFederateGetSubscription(fed, key)
 end
 
@@ -456,7 +458,7 @@ end
 
 """
 """
-function helicsPublicationPublishString(pub::Publication, str::AbstractString)
+function helicsPublicationPublishString(pub::Publication, str::String)
     @Utils.invoke_and_check Lib.helicsPublicationPublishString(pub, str)
 end
 
@@ -505,19 +507,19 @@ end
 
 """
 """
-function helicsPublicationPublishNamedPoint(pub::Publication, str::AbstractString, val::Float64)
+function helicsPublicationPublishNamedPoint(pub::Publication, str::String, val::Float64)
     @Utils.invoke_and_check Lib.helicsPublicationPublishNamedPoint(pub, str, val)
 end
 
 """
 """
-function helicsPublicationAddTarget(pub::Publication, target::AbstractString)
+function helicsPublicationAddTarget(pub::Publication, target::String)
     @Utils.invoke_and_check Lib.helicsPublicationAddTarget(pub, target)
 end
 
 """
 """
-function helicsInputAddTarget(ipt::Input, target::AbstractString)
+function helicsInputAddTarget(ipt::Input, target::String)
     @Utils.invoke_and_check Lib.helicsInputAddTarget(ipt, target)
 end
 
@@ -634,7 +636,7 @@ end
 
 """
 """
-function helicsInputSetDefaultString(ipt::Input, str::AbstractString)
+function helicsInputSetDefaultString(ipt::Input, str::String)
     @Utils.invoke_and_check Lib.helicsInputSetDefaultString(ipt, str)
 end
 
@@ -683,7 +685,7 @@ end
 
 """
 """
-function helicsInputSetDefaultNamedPoint(ipt::Input, str::AbstractString, val::Float64)
+function helicsInputSetDefaultNamedPoint(ipt::Input, str::String, val::Float64)
     @Utils.invoke_and_check Lib.helicsInputSetDefaultNamedPoint(ipt, str, val)
 end
 
@@ -842,7 +844,7 @@ Returns true if core/broker type specified is available in current compilation.
 possible options include "test","zmq","udp","ipc","interprocess","tcp","default", "mpi"
 
 """
-function helicsIsCoreTypeAvailable(kind::AbstractString)::Bool
+function helicsIsCoreTypeAvailable(kind::String)::Bool
     Lib.helicsIsCoreTypeAvailable(kind) == 1 ? true : false
 end
 
@@ -860,13 +862,13 @@ Create a core object
 - a [`Core`](@ref) object if the core is invalid err will contain some indication
 
 """
-function helicsCreateCore(kind::AbstractString, name::AbstractString, initString::AbstractString)::Core
+function helicsCreateCore(kind::String, name::String, initString::String)::Core
     @Utils.invoke_and_check Lib.helicsCreateCore(kind, name, initString)
 end
 
 """
 """
-function helicsCreateCoreFromArgs(kind::AbstractString, name::AbstractString, argc::Int, argv::Vector{<:AbstractString})::Core
+function helicsCreateCoreFromArgs(kind::String, name::String, argc::Int, argv::Vector{<:AbstractString})::Core
     @Utils.invoke_and_check Lib.helicsCreateCoreFromArgs(kind, name, argc, argv)
 end
 
@@ -912,13 +914,13 @@ Create a broker object
 - a [`Broker`](@ref) object, will be NULL if there was an error indicated in the err object
 
 """
-function helicsCreateBroker(kind::AbstractString, name::AbstractString, initString::AbstractString)::Broker
+function helicsCreateBroker(kind::String, name::String, initString::String)::Broker
     @Utils.invoke_and_check Lib.helicsCreateBroker(kind, name, initString)
 end
 
 """
 """
-function helicsCreateBrokerFromArgs(kind::AbstractString, name::AbstractString, argc::Int, argv::Vector{<:AbstractString})::Broker
+function helicsCreateBrokerFromArgs(kind::String, name::String, argc::Int, argv::Vector{<:AbstractString})::Broker
     @Utils.invoke_and_check Lib.helicsCreateBrokerFromArgs(kind, name, argc, argv)
 end
 
@@ -967,19 +969,19 @@ Link a named publication and named input using a broker
 - `target`: the name of the target to send the publication data (cannot be NULL)
 
 """
-function helicsBrokerDataLink(broker::Broker, source::AbstractString, target::AbstractString)
+function helicsBrokerDataLink(broker::Broker, source::String, target::String)
     @Utils.invoke_and_check Lib.helicsBrokerDataLink(broker, source, target)
 end
 
 """
 """
-function helicsBrokerAddSourceFilterToEndpoint(broker::Broker, filter::AbstractString, endpoint::AbstractString)
+function helicsBrokerAddSourceFilterToEndpoint(broker::Broker, filter::String, endpoint::String)
     @Utils.invoke_and_check Lib.helicsBrokerAddSourceFilterToEndpoint(broker, filter, endpoint)
 end
 
 """
 """
-function helicsBrokerAddDestinationFilterToEndpoint(broker::Broker, filter::AbstractString, endpoint::AbstractString)
+function helicsBrokerAddDestinationFilterToEndpoint(broker::Broker, filter::String, endpoint::String)
     @Utils.invoke_and_check Lib.helicsBrokerAddDestinationFilterToEndpoint(broker, filter, endpoint)
 end
 
@@ -1022,7 +1024,7 @@ Link a named publication and named input using a core
 - `target`: the named of the target to send the publication data (cannot be NULL)
 
 """
-function helicsCoreDataLink(core::Core, source::AbstractString, target::AbstractString)
+function helicsCoreDataLink(core::Core, source::String, target::String)
     @Utils.invoke_and_check Lib.helicsCoreDataLink(core, source, target)
 end
 
@@ -1036,13 +1038,13 @@ Link a named filter to a source endpoint
 - `endpoint`: the name of the endpoint to filter the data from (cannot be NULL)
 
 """
-function helicsCoreAddSourceFilterToEndpoint(core::Core, filter::AbstractString, endpoint::AbstractString)
+function helicsCoreAddSourceFilterToEndpoint(core::Core, filter::String, endpoint::String)
     @Utils.invoke_and_check Lib.helicsCoreAddSourceFilterToEndpoint(core, filter, endpoint)
 end
 
 """
 """
-function helicsCoreAddDestinationFilterToEndpoint(core::Core, filter::AbstractString, endpoint::AbstractString)
+function helicsCoreAddDestinationFilterToEndpoint(core::Core, filter::String, endpoint::String)
     @Utils.invoke_and_check Lib.helicsCoreAddDestinationFilterToEndpoint(core, filter, endpoint)
 end
 
@@ -1138,7 +1140,7 @@ the federate must have been created by one of the other functions and at least o
 
 - NULL if no fed is available by that name otherwise a [`Federate`](@ref) with that name
 """
-function helicsGetFederateByName(fedName::AbstractString)::CombinationFederate
+function helicsGetFederateByName(fedName::String)::CombinationFederate
     @Utils.invoke_and_check Lib.helicsGetFederateByName(fedName)
 end
 
@@ -1204,7 +1206,7 @@ Create a value federate from a [`FederateInfo`](@ref) object
 - an opaque value [`Federate`](@ref)
 
 """
-function helicsCreateValueFederate(fedName::AbstractString, fi::FederateInfo)::ValueFederate
+function helicsCreateValueFederate(fedName::String, fi::FederateInfo)::ValueFederate
     @Utils.invoke_and_check Lib.helicsCreateValueFederate(fedName, fi)
 end
 
@@ -1222,7 +1224,7 @@ Create a value federate from a JSON file, JSON string, or TOML file
 - an opaque value [`Federate`](@ref)
 
 """
-function helicsCreateValueFederateFromConfig(configFile::AbstractString)::ValueFederate
+function helicsCreateValueFederateFromConfig(configFile::String)::ValueFederate
     @Utils.invoke_and_check Lib.helicsCreateValueFederateFromConfig(configFile)
 end
 
@@ -1241,7 +1243,7 @@ Create a [`MessageFederate`](@ref) from a [`FederateInfo`](@ref) object
 - an opaque [`MessageFederate`](@ref)
 
 """
-function helicsCreateMessageFederate(fedName::AbstractString, fi::FederateInfo)::MessageFederate
+function helicsCreateMessageFederate(fedName::String, fi::FederateInfo)::MessageFederate
     @Utils.invoke_and_check Lib.helicsCreateMessageFederate(fedName, fi)
 end
 
@@ -1259,7 +1261,7 @@ Create a [`MessageFederate`](@ref) from a JSON file or JSON string or TOML file
 - an opaque [`MessageFederate`](@ref)
 
 """
-function helicsCreateMessageFederateFromConfig(configFile::AbstractString)::MessageFederate
+function helicsCreateMessageFederateFromConfig(configFile::String)::MessageFederate
     @Utils.invoke_and_check Lib.helicsCreateMessageFederateFromConfig(configFile)
 end
 
@@ -1278,7 +1280,7 @@ Create a [`CombinationFederate`](@ref) from a [`FederateInfo`](@ref) object
 - an opaque [`ValueFederate`](@ref), nullptr if the object creation failed
 
 """
-function helicsCreateCombinationFederate(fedName::AbstractString, fi::FederateInfo)::CombinationFederate
+function helicsCreateCombinationFederate(fedName::String, fi::FederateInfo)::CombinationFederate
     @Utils.invoke_and_check Lib.helicsCreateCombinationFederate(fedName, fi)
 end
 
@@ -1296,7 +1298,7 @@ Create a [`CombinationFederate`](@ref) from a JSON file or JSON string
 - an opaque [`CombinationFederate`](@ref)
 
 """
-function helicsCreateCombinationFederateFromConfig(configFile::AbstractString)::CombinationFederate
+function helicsCreateCombinationFederateFromConfig(configFile::String)::CombinationFederate
     @Utils.invoke_and_check Lib.helicsCreateCombinationFederateFromConfig(configFile)
 end
 
@@ -1386,7 +1388,7 @@ Set the name of the core to link to for a federate
 - `corename`: the identifier for a core to link to
 
 """
-function helicsFederateInfoSetCoreName(fi::FederateInfo, corename::AbstractString)
+function helicsFederateInfoSetCoreName(fi::FederateInfo, corename::String)
     @Utils.invoke_and_check Lib.helicsFederateInfoSetCoreName(fi, corename)
 end
 
@@ -1399,7 +1401,7 @@ Set the initialization string for the core usually in the form of command line a
 - `coreInit`: a string with the core initialization strings
 
 """
-function helicsFederateInfoSetCoreInitString(fi::FederateInfo, coreInit::AbstractString)
+function helicsFederateInfoSetCoreInitString(fi::FederateInfo, coreInit::String)
     @Utils.invoke_and_check Lib.helicsFederateInfoSetCoreInitString(fi, coreInit)
 end
 
@@ -1427,7 +1429,7 @@ Set the core type from a string
 - `coretype`: a string naming a core type
 
 """
-function helicsFederateInfoSetCoreTypeFromString(fi::FederateInfo, coretype::AbstractString)
+function helicsFederateInfoSetCoreTypeFromString(fi::FederateInfo, coretype::String)
     @Utils.invoke_and_check Lib.helicsFederateInfoSetCoreTypeFromString(fi, coretype)
 end
 
@@ -1488,7 +1490,7 @@ Get a property index for use in [`helicsFederateInfoSetFlagOption`](@ref), [`hel
 - an int with the property code (-1) if not a valid property
 
 """
-function helicsGetPropertyIndex(val::AbstractString)::Int
+function helicsGetPropertyIndex(val::String)::Int
     Lib.helicsGetPropertyIndex(val)
 end
 
@@ -1504,7 +1506,7 @@ Get an option index for use in [`helicsPublicationSetOption`](@ref), [`helicsInp
 - an int with the option index (-1) if not a valid property
 
 """
-function helicsGetOptionIndex(val::AbstractString)::Int
+function helicsGetOptionIndex(val::String)::Int
     Lib.helicsGetOptionIndex(val)
 end
 
@@ -1563,7 +1565,7 @@ Load interfaces from a file
 - `file`: the name of a file to load the interfaces from either JSON, or TOML
 
 """
-function helicsFederateRegisterInterfaces(fed::Federate, file::AbstractString)
+function helicsFederateRegisterInterfaces(fed::Federate, file::String)
     @Utils.invoke_and_check Lib.helicsFederateRegisterInterfaces(fed, file)
 end
 
@@ -2053,7 +2055,7 @@ this overwrites any previous value for this name
 - `value`: the value of the global
 
 """
-function helicsFederateSetGlobal(fed::Federate, valueName::AbstractString, value::AbstractString)
+function helicsFederateSetGlobal(fed::Federate, valueName::String, value::String)
     @Utils.invoke_and_check Lib.helicsFederateSetGlobal(fed, valueName, value)
 end
 
@@ -2069,7 +2071,7 @@ this overwrites any previous value for this name
 - `value`: the value of the global
 
 """
-function helicsCoreSetGlobal(core::Core, valueName::AbstractString, value::AbstractString)
+function helicsCoreSetGlobal(core::Core, valueName::String, value::String)
     @Utils.invoke_and_check Lib.helicsCoreSetGlobal(core, valueName, value)
 end
 
@@ -2085,7 +2087,7 @@ this overwrites any previous value for this name
 - `value`: the value of the global
 
 """
-function helicsBrokerSetGlobal(broker::Broker, valueName::AbstractString, value::AbstractString)
+function helicsBrokerSetGlobal(broker::Broker, valueName::String, value::String)
     @Utils.invoke_and_check Lib.helicsBrokerSetGlobal(broker, valueName, value)
 end
 
@@ -2100,7 +2102,7 @@ a [`Query`](@ref) consists of a target and query string
 - `query`: the query string to make of the target
 
 """
-function helicsCreateQuery(target::AbstractString, query::AbstractString)::Query
+function helicsCreateQuery(target::String, query::String)::Query
     Lib.helicsCreateQuery(target, query)
 end
 
@@ -2250,7 +2252,7 @@ function helicsFederateCreateMessageObject(fed::Federate)
     @Utils.invoke_and_check Lib.helicsFederateCreateMessageObject(fed)
 end
 
-function helicsMessageSetDestination(message::Message, dest::AbstractString)
+function helicsMessageSetDestination(message::Message, dest::String)
     @Utils.invoke_and_check Lib.helicsMessageSetDestination(message, dest)
 end
 
@@ -2258,7 +2260,7 @@ function helicsMessageGetDestination(message::Message)
     @Utils.invoke_and_check Lib.helicsMessageGetDestination(message)
 end
 
-function helicsMessageSetData(message::Message, data::AbstractString)
+function helicsMessageSetData(message::Message, data::String)
     inputDataLength = length(data)
     data = pointer(data)
     @Utils.invoke_and_check Lib.helicsMessageSetData(message, data, len)

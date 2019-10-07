@@ -25,6 +25,14 @@ matrix:
       before_install:
         - choco install julia
 
+    - stage: "Documentation"
+      julia: 1.0
+      os: linux
+      script:
+        - julia --project=docs/ -e 'using Pkg; Pkg.develop(PackageSpec(path=pwd())); Pkg.build("HELICS"); Pkg.instantiate()'
+        - DOCUMENTER_DEBUG=true julia --project=docs/ docs/make.jl
+      after_success: skip
+
   allow_failures:
   - julia: nightly
 
@@ -34,5 +42,4 @@ script:
 
 after_success:
   # push coverage results to Codecov
-  - julia --project=docs/ -e 'import Pkg; Pkg.add("Documenter"); include("docs/make.jl")'
   - julia -e 'import Pkg; Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'

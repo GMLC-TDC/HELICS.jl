@@ -135,3 +135,52 @@ end
 
 end
 
+@testset "MessageFederate message_object_tests" begin
+
+    broker = createBroker(1)
+    mFed1, fedinfo1 = createMessageFederate(1, "test")
+
+    epid1 = h.helicsFederateRegisterEndpoint(mFed1, "ep1", "")
+    epid2 = h.helicsFederateRegisterGlobalEndpoint(mFed1, "ep2", "random");
+
+    h.helicsFederateSetTimeProperty(mFed1, h.HELICS_PROPERTY_TIME_DELTA, 1.0)
+
+    h.helicsFederateEnterExecutingMode(mFed1)
+
+    @test h.helicsFederateGetState(mFed1) == h.HELICS_STATE_EXECUTION
+
+    msg = h.helicsFederateCreateMessageObject(mFed1)
+    h.helicsMessageSetDestination(msg, "ep2")
+    h.helicsMessageGetDestination(msg) == "ep2"
+    h.helicsMessageSetData(msg, repeat("a", 500))
+    h.helicsMessageSetTime(msg, 0.0)
+
+    h.helicsEndpointSendMessageObject(epid1, msg)
+    time = h.helicsFederateRequestTime(mFed1, 1.0)
+    @test time == 1.0
+
+    @test h.helicsFederateHasMessage(mFed1) == true
+    @test h.helicsEndpointHasMessage(epid1) == false
+    @test h.helicsEndpointHasMessage(epid2) == true
+
+    msg = h.helicsEndpointGetMessageObject(epid2)
+    h.helicsMessageGetRawDataSize(msg) == 500
+
+    rdata = h.helicsMessageGetRawDataPointer(msg)
+    @test rdata[245] == 'a'
+
+    h.helicsFederateFinalize(mFed1)
+
+    @test h.helicsFederateGetState(mFed1) == h.HELICS_STATE_FINALIZE
+
+    h.helicsMessageSetFlagOption(msg, 7, true);
+    @test h.helicsMessageCheckFlag(msg, 7) == true
+    h.helicsMessageClearFlags(msg);
+    @test h.helicsMessageCheckFlag(msg, 7) == false
+
+    h.helicsEndpointSetDefaultDestination(epid1, "ep2")
+
+    destroyFederate(mFed1, fedinfo1)
+    destroyBroker(broker)
+
+end

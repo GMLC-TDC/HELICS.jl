@@ -249,14 +249,12 @@ end
 """
 """
 function helicsFederateRegisterFilter(fed::Federate, kind::Union{Int, HELICS.HELICS_FILTER_TYPE}, name::String)::Filter
-    kind = convert(HELICS.HELICS_FILTER_TYPE, kind)
     @Utils.invoke_and_check Lib.helicsFederateRegisterFilter(fed, kind, name)
 end
 
 """
 """
 function helicsFederateRegisterGlobalFilter(fed::Federate, kind::Union{Int, HELICS.HELICS_FILTER_TYPE}, name::String)::Filter
-    kind = convert(HELICS.HELICS_FILTER_TYPE, kind)
     @Utils.invoke_and_check Lib.helicsFederateRegisterGlobalFilter(fed, kind, name)
 end
 
@@ -275,7 +273,6 @@ end
 """
 """
 function helicsCoreRegisterFilter(core::Core, kind::Union{Int, HELICS.HELICS_FILTER_TYPE}, name::String)::Filter
-    kind = convert(HELICS.HELICS_FILTER_TYPE, kind)
     @Utils.invoke_and_check Lib.helicsCoreRegisterFilter(core, kind, name)
 end
 
@@ -385,7 +382,6 @@ end
 """
 """
 function helicsFederateRegisterPublication(fed::Federate, key::String, kind::Union{Int, HELICS.HELICS_DATA_TYPE}, units::String="")::Publication
-    kind = convert(HELICS.HELICS_DATA_TYPE, kind)
     @Utils.invoke_and_check Lib.helicsFederateRegisterPublication(fed, key, kind, units)
 end
 
@@ -398,7 +394,6 @@ end
 """
 """
 function helicsFederateRegisterGlobalPublication(fed::Federate, key::String, kind::Union{Int, HELICS.HELICS_DATA_TYPE}, units::String="")::Publication
-    kind = convert(HELICS.HELICS_DATA_TYPE, kind)
     @Utils.invoke_and_check Lib.helicsFederateRegisterGlobalPublication(fed, key, kind, units)
 end
 
@@ -411,7 +406,6 @@ end
 """
 """
 function helicsFederateRegisterInput(fed::Federate, key::String, kind::Union{Int, HELICS.HELICS_DATA_TYPE}, units::String="")::Input
-    kind = convert(HELICS.HELICS_DATA_TYPE, kind)
     @Utils.invoke_and_check Lib.helicsFederateRegisterInput(fed, key, kind, units)
 end
 
@@ -424,7 +418,6 @@ end
 """
 """
 function helicsFederateRegisterGlobalInput(fed::Federate, key::String, kind::Union{Int, HELICS.HELICS_DATA_TYPE}, units::String="")::Input
-    kind = convert(HELICS.HELICS_DATA_TYPE, kind)
     @Utils.invoke_and_check Lib.helicsFederateRegisterGlobalInput(fed, key, kind, units)
 end
 
@@ -1560,15 +1553,12 @@ end
 """
 """
 function helicsFederateInfoSetTimeProperty(fi::FederateInfo, timeProperty::Union{Int, HELICS.HELICS_PROPERTIES}, propertyValue::HELICS.HELICS_TIME)
-    propertyValue = convert(Float64, propertyValue)
-    timeProperty = convert(HELICS.HELICS_PROPERTIES, timeProperty)
     @Utils.invoke_and_check Lib.helicsFederateInfoSetTimeProperty(fi, timeProperty, propertyValue)
 end
 
 """
 """
 function helicsFederateInfoSetIntegerProperty(fi::FederateInfo, intProperty::Union{Int, HELICS.HELICS_PROPERTIES}, propertyValue::Int)
-    intProperty = convert(HELICS.HELICS_PROPERTIES, intProperty)
     @Utils.invoke_and_check Lib.helicsFederateInfoSetIntegerProperty(fi, intProperty, propertyValue)
 end
 
@@ -1732,14 +1722,12 @@ this call allows for finer grain control of the iterative process then [`helicsF
 
 """
 function helicsFederateEnterExecutingModeIterative(fed::Federate, iterate::Union{Int, HELICS.HELICS_ITERATION_REQUEST})::HELICS.HELICS_ITERATION_RESULT
-    iterate = convert(HELICS.HELICS_ITERATION_REQUEST, iterate)
     @Utils.invoke_and_check Lib.helicsFederateEnterExecutingModeIterative(fed, iterate)
 end
 
 """
 """
 function helicsFederateEnterExecutingModeIterativeAsync(fed::Federate, iterate::Union{Int, HELICS.HELICS_ITERATION_REQUEST})::HELICS.HELICS_ITERATION_RESULT
-    iterate = convert(HELICS.HELICS_ITERATION_REQUEST, iterate)
     @Utils.invoke_and_check Lib.helicsFederateEnterExecutingModeIterativeAsync(fed, iterate)
 end
 
@@ -1842,7 +1830,6 @@ this call allows for finer grain control of the iterative process then [`helicsF
 
 """
 function helicsFederateRequestTimeIterative(fed::Federate, requestTime::HELICS.HELICS_TIME, iterate::Union{Int, HELICS.HELICS_ITERATION_REQUEST})::Tuple{Float64, HELICS.HELICS_ITERATION_RESULT}
-    iterate = convert(HELICS.HELICS_ITERATION_REQUEST, iterate)
     outIterate = Ref{HELICS.HELICS_ITERATION_RESULT}(0)
     t = @Utils.invoke_and_check Lib.helicsFederateRequestTimeIterative(fed, requestTime, iterate, outIterate)
     return t, outIterate
@@ -1894,7 +1881,6 @@ this call allows for finer grain control of the iterative process then [`helicsF
 
 """
 function helicsFederateRequestTimeIterativeAsync(fed::Federate, requestTime::HELICS.HELICS_TIME, iterate::Union{Int, HELICS.HELICS_ITERATION_REQUEST})
-    iterate = convert(HELICS.HELICS_ITERATION_REQUEST, iterate)
     @Utils.invoke_and_check Lib.helicsFederateRequestTimeIterativeAsync(fed, requestTime, iterate)
 end
 
@@ -1944,7 +1930,6 @@ Set a time based property for a federate
 
 """
 function helicsFederateSetTimeProperty(fed::Federate, timeProperty::Union{Int, HELICS.HELICS_PROPERTIES}, time::HELICS.HELICS_TIME)
-    timeProperty = convert(HELICS.HELICS_PROPERTIES, timeProperty)
     @Utils.invoke_and_check Lib.helicsFederateSetTimeProperty(fed, timeProperty, time)
 end
 
@@ -1988,7 +1973,6 @@ Set an integer based property of a federate
 
 """
 function helicsFederateSetIntegerProperty(fed::Federate, intProperty::Union{Int, HELICS.HELICS_PROPERTIES}, propertyVal::Int)
-    intProperty = convert(HELICS.HELICS_PROPERTIES, intProperty)
     @Utils.invoke_and_check Lib.helicsFederateSetIntegerProperty(fed, intProperty, propertyVal)
 end
 
@@ -2002,7 +1986,6 @@ Get the current value of a time based property in a federate
 
 """
 function helicsFederateGetTimeProperty(fed::Federate, timeProperty::Union{Int, HELICS.HELICS_PROPERTIES})::Float64
-    timeProperty = convert(HELICS.HELICS_PROPERTIES, timeProperty)
     @Utils.invoke_and_check Lib.helicsFederateGetTimeProperty(fed, timeProperty)
 end
 
@@ -2039,7 +2022,6 @@ debug and trace only do anything if they were enabled in the compilation
 
 """
 function helicsFederateGetIntegerProperty(fed::Federate, intProperty::Union{Int, HELICS.HELICS_HANDLE_OPTIONS})
-    intProperty = convert(HELICS.HELICS_HANDLE_OPTIONS, intProperty)
     @Utils.invoke_and_check Lib.helicsFederateGetIntegerProperty(fed, intProperty)
 end
 

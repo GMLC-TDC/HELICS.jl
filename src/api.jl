@@ -369,8 +369,7 @@ end
 """
 """
 function helicsFilterGetOption(filt::Filter, option::Int)::Bool
-    r = Lib.helicsFilterGetOption(filt, option)
-    return r == 1 ? true : false
+    return Lib.helicsFilterGetOption(filt, option) == 1 ? true : false
 end
 
 """
@@ -2021,7 +2020,7 @@ debug and trace only do anything if they were enabled in the compilation
 - the value of the property
 
 """
-function helicsFederateGetIntegerProperty(fed::Federate, intProperty::Union{Int, HELICS.HELICS_HANDLE_OPTIONS})
+function helicsFederateGetIntegerProperty(fed::Federate, intProperty::Union{Int, HELICS.HELICS_HANDLE_OPTIONS})::Int
     @Utils.invoke_and_check Lib.helicsFederateGetIntegerProperty(fed, intProperty)
 end
 
@@ -2037,7 +2036,7 @@ Get the current time of the federate
 - the current time of the federate
 
 """
-function helicsFederateGetCurrentTime(fed::Federate)
+function helicsFederateGetCurrentTime(fed::Federate)::Float64
     @Utils.invoke_and_check Lib.helicsFederateGetCurrentTime(fed)
 end
 
@@ -2306,10 +2305,12 @@ end
 
 """
 """
-function helicsMessageGetRawData(message::Message, data::String)
+function helicsMessageGetRawData(message::Message)::String
     maxlen = Cint(helicsMessageGetRawDataSize(message))
+    data = Vector{Cchar}(undef, maxlen)
     actualSize = Ref(maxlen)
-    @Utils.invoke_and_check Lib.helicsMessageGetRawData(message, data, maxlen, actualSize)
+    @Utils.invoke_and_check Lib.helicsMessageGetRawData(message, Ref(data), maxlen, actualSize)
+    return String(Vector{UInt8}(data))
 end
 
 """

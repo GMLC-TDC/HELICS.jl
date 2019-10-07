@@ -2407,3 +2407,93 @@ function helicsMessageAppendData(message::Message, data::String)
     @Utils.invoke_and_check Lib.helicsMessageAppendData(message, data, inputDataLength)
 end
 
+function helicsInputGetInjectionUnits(ipt::Input)::String
+    Lib.helicsInputGetInjectionUnits(ipt) |> unsafe_string
+end
+
+function helicsFederateRegisterFromPublicationJSON(fed::Federate, json::String)
+    @Utils.invoke_and_check Lib.helicsFederateRegisterFromPublicationJSON(fed, json)
+end
+
+function helicsCoreSetLogFile(core::Core, logFileName::String)
+    @Utils.invoke_and_check Lib.helicsCoreSetLogFile(core, logFileName)
+end
+
+function helicsBrokerSetLogFile(broker::Broker, logFileName::String)
+    @Utils.invoke_and_check Lib.helicsBrokerSetLogFile(broker::Broker, logFileName::String)
+end
+
+function helicsFederateClearMessages(fed::Federate)
+    Lib.helicsFederateClearMessages(fed)
+end
+
+function helicsFederateClearUpdates(fed::Federate)
+    Lib.helicsFederateClearUpdates(fed)
+end
+
+function helicsFederateLogInfoMessage(fed::Federate, logmessage::String)
+    @Utils.invoke_and_check Lib.helicsFederateLogInfoMessage(fed, logmessage)
+end
+
+function helicsInputGetExtractionUnits(ipt::Input)
+    Lib.helicsInputGetExtractionUnits(ipt) |> unsafe_string
+end
+
+function helicsFederateSetLogFile(fed::Federate, logFile::String)
+    @Utils.invoke_and_check Lib.helicsFederateSetLogFile(fed, logFile)
+end
+
+function helicsFederateLogLevelMessage(fed::Federate, loglevel::Int, logmessage::String)
+    @Utils.invoke_and_check Lib.helicsFederateLogLevelMessage(fed, loglevel, logmessage)
+end
+
+function helicsCoreGetAddress(core::Core)::String
+    Lib.helicsCoreGetAddress(core) |> unsafe_string
+end
+
+function helicsInputClearUpdate(ipt::Input)
+    Lib.helicsInputClearUpdate(ipt)
+end
+
+helicsFederateSetLoggingCallback(fed::Federate, logger, userdata) = error("Not implemented.")
+
+function helicsFederateLogErrorMessage(fed::Federate, logmessage::String)
+    @Utils.invoke_and_check Lib.helicsFederateLogErrorMessage(fed, logmessage)
+end
+
+function helicsCoreWaitForDisconnect(core::Core, msWait::Int)
+    @Utils.invoke_and_check Lib.helicsCoreWaitForDisconnect(core, msWait)
+end
+
+function helicsFederateLogDebugMessage(fed::Federate, logmessage::String)
+    @Utils.invoke_and_check Lib.helicsFederateLogDebugMessage(fed, logmessage)
+end
+
+helicsBrokerSetLoggingCallback(broker::Broker, logger, userdata) = error("Not implemented.")
+
+function helicsFederateInfoSetBrokerKey(fi::FederateInfo, brokerKey::String)
+    @Utils.invoke_and_check Lib.helicsFederateInfoSetBrokerKey(fi, brokerKey)
+end
+
+function helicsFederateLogWarningMessage(fed::Federate, logmessage::String)
+    @Utils.invoke_and_check Lib.helicsFederateLogWarningMessage(fed, logmessage)
+end
+
+function helicsFederatePublishJSON(fed::Federate, json::String)
+    @Utils.invoke_and_check Lib.helicsFederatePublishJSON(fed, json)
+end
+
+function helicsFederateRequestTimeAdvance(fed::Federate, timeDelta::HELICS.HELICS_TIME)::Float64
+    @Utils.invoke_and_check Lib.helicsFederateRequestTimeAdvance(fed, timeDelta)
+end
+
+function helicsEndpointClearMessages(endpoint::Endpoint)
+    Lib.helicsEndpointClearMessages(endpoint)
+end
+
+helicsCoreSetLoggingCallback(core::Core, logger, userdata) = error("Not implemented")
+
+function helicsFederateInfoSetBrokerInitString(fi::FederateInfo, brokerInit::String)
+    @Utils.invoke_and_check Lib.helicsFederateInfoSetBrokerInitString(fi::FederateInfo, brokerInit)
+end
+

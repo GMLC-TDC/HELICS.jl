@@ -58,71 +58,7 @@ end
 @define Filter CWrapper
 @define Query CWrapper
 
+@define Message CWrapper
+
 const Input = Subscription
-
-"""
-# Summary
-
-struct HELICS.Message
-
-# Fields
-
-```julia
-time::Float64
-data::String
-length::Int64
-messageID::Int32
-flags::Int16
-original_source::String
-source::String
-dest::String
-original_dest::String
-```
-
-# Supertype Hierarchy
-
-HELICS.Message <: Any
-"""
-struct Message
-    time::Float64
-    data::String
-    length::Int64
-    messageID::Int32
-    flags::Int16
-    original_source::String
-    source::String
-    dest::String
-    original_dest::String
-end
-
-function Message(msg::Lib.helics_message)
-
-    return Message(
-                   msg.time,
-                   msg.data |> unsafe_string,
-                   msg.length,
-                   msg.messageID,
-                   msg.flags,
-                   msg.original_source |> unsafe_string,
-                   msg.source |> unsafe_string,
-                   msg.dest |> unsafe_string,
-                   msg.original_dest |> unsafe_string,
-                  )
-
-end
-
-Base.convert(::Type{Message}, msg::Lib.helics_message) = Message(msg)
-function unsafe_wrap(msg::Message)::Lib.helics_message
-    Lib.helics_message(
-                       msg.time,
-                       msg.data |> pointer,
-                       msg.length,
-                       msg.messageID,
-                       msg.flags,
-                       msg.original_source |> pointer,
-                       msg.source |> pointer,
-                       msg.dest |> pointer,
-                       msg.original_dest |> pointer,
-                      )
-end
 

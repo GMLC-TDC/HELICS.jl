@@ -133,7 +133,6 @@ end
 """
 """
 function helicsEndpointSendEventRaw(endpoint::Endpoint, dest::String, data::String, time::HELICS.HELICS_TIME)
-    time = convert(Float64, time)
     inputDataLength = length(data)
     data = pointer(data)
     @Utils.invoke_and_check Lib.helicsEndpointSendEventRaw(endpoint, dest, data, inputDataLength, time)
@@ -142,8 +141,13 @@ end
 """
 """
 function helicsEndpointSendMessage(endpoint::Endpoint, message::Message)
-    msg = Ref(unsafe_wrap(message))
-    @Utils.invoke_and_check Lib.helicsEndpointSendMessage(endpoint, msg)
+    @Utils.invoke_and_check Lib.helicsEndpointSendMessage(endpoint, message)
+end
+
+"""
+"""
+function helicsEndpointSendMessageObject(endpoint::Endpoint, message::Message)
+    @Utils.invoke_and_check Lib.helicsEndpointSendMessageObject(endpoint, message)
 end
 
 """
@@ -184,8 +188,20 @@ end
 
 """
 """
+function helicsEndpointGetMessageObject(endpoint::Endpoint)::Message
+    Lib.helicsEndpointGetMessageObject(endpoint)
+end
+
+"""
+"""
 function helicsFederateGetMessage(fed::Federate)::Message
     Lib.helicsFederateGetMessage(fed)
+end
+
+"""
+"""
+function helicsFederateGetMessageObject(fed::Federate)::Message
+    Lib.helicsFederateGetMessageObject(fed)
 end
 
 """
@@ -233,14 +249,12 @@ end
 """
 """
 function helicsFederateRegisterFilter(fed::Federate, kind::Union{Int, HELICS.HELICS_FILTER_TYPE}, name::String)::Filter
-    kind = convert(HELICS.HELICS_FILTER_TYPE, kind)
     @Utils.invoke_and_check Lib.helicsFederateRegisterFilter(fed, kind, name)
 end
 
 """
 """
 function helicsFederateRegisterGlobalFilter(fed::Federate, kind::Union{Int, HELICS.HELICS_FILTER_TYPE}, name::String)::Filter
-    kind = convert(HELICS.HELICS_FILTER_TYPE, kind)
     @Utils.invoke_and_check Lib.helicsFederateRegisterGlobalFilter(fed, kind, name)
 end
 
@@ -259,7 +273,6 @@ end
 """
 """
 function helicsCoreRegisterFilter(core::Core, kind::Union{Int, HELICS.HELICS_FILTER_TYPE}, name::String)::Filter
-    kind = convert(HELICS.HELICS_FILTER_TYPE, kind)
     @Utils.invoke_and_check Lib.helicsCoreRegisterFilter(core, kind, name)
 end
 
@@ -356,8 +369,7 @@ end
 """
 """
 function helicsFilterGetOption(filt::Filter, option::Int)::Bool
-    r = Lib.helicsFilterGetOption(filt, option)
-    return r == 1 ? true : false
+    return Lib.helicsFilterGetOption(filt, option) == 1 ? true : false
 end
 
 """
@@ -369,7 +381,6 @@ end
 """
 """
 function helicsFederateRegisterPublication(fed::Federate, key::String, kind::Union{Int, HELICS.HELICS_DATA_TYPE}, units::String="")::Publication
-    kind = convert(HELICS.HELICS_DATA_TYPE, kind)
     @Utils.invoke_and_check Lib.helicsFederateRegisterPublication(fed, key, kind, units)
 end
 
@@ -382,7 +393,6 @@ end
 """
 """
 function helicsFederateRegisterGlobalPublication(fed::Federate, key::String, kind::Union{Int, HELICS.HELICS_DATA_TYPE}, units::String="")::Publication
-    kind = convert(HELICS.HELICS_DATA_TYPE, kind)
     @Utils.invoke_and_check Lib.helicsFederateRegisterGlobalPublication(fed, key, kind, units)
 end
 
@@ -395,7 +405,6 @@ end
 """
 """
 function helicsFederateRegisterInput(fed::Federate, key::String, kind::Union{Int, HELICS.HELICS_DATA_TYPE}, units::String="")::Input
-    kind = convert(HELICS.HELICS_DATA_TYPE, kind)
     @Utils.invoke_and_check Lib.helicsFederateRegisterInput(fed, key, kind, units)
 end
 
@@ -408,7 +417,6 @@ end
 """
 """
 function helicsFederateRegisterGlobalInput(fed::Federate, key::String, kind::Union{Int, HELICS.HELICS_DATA_TYPE}, units::String="")::Input
-    kind = convert(HELICS.HELICS_DATA_TYPE, kind)
     @Utils.invoke_and_check Lib.helicsFederateRegisterGlobalInput(fed, key, kind, units)
 end
 
@@ -483,7 +491,6 @@ end
 """
 """
 function helicsPublicationPublishTime(pub::Publication, val::HELICS.HELICS_TIME)
-    val = convert(Float64, val)
     @Utils.invoke_and_check Lib.helicsPublicationPublishTime(pub, val)
 end
 
@@ -656,7 +663,6 @@ end
 """
 """
 function helicsInputSetDefaultTime(ipt::Input, val::HELICS.HELICS_TIME)
-    val = convert(Float64, val)
     @Utils.invoke_and_check Lib.helicsInputSetDefaultTime(ipt, val)
 end
 
@@ -870,7 +876,7 @@ end
 
 """
 """
-function helicsCreateCoreFromArgs(kind::String, name::String, argc::Int, argv::Vector{String})::Core
+function helicsCreateCoreFromArgs(kind::String, name::String, argc::Int, argv::Vector{<:AbstractString})::Core
     @Utils.invoke_and_check Lib.helicsCreateCoreFromArgs(kind, name, argc, argv)
 end
 
@@ -922,7 +928,7 @@ end
 
 """
 """
-function helicsCreateBrokerFromArgs(kind::String, name::String, argc::Int, argv::Vector{String})::Broker
+function helicsCreateBrokerFromArgs(kind::String, name::String, argc::Int, argv::Vector{<:AbstractString})::Broker
     @Utils.invoke_and_check Lib.helicsCreateBrokerFromArgs(kind, name, argc, argv)
 end
 
@@ -1359,7 +1365,7 @@ Load a [`FederateInfo`](@ref) from command line arguments
 - `argv`: an array of strings from the command line
 
 """
-function helicsFederateInfoLoadFromArgs(fi::FederateInfo, argc::Int, argv::Vector{String})
+function helicsFederateInfoLoadFromArgs(fi::FederateInfo, argc::Int, argv::Vector{<:AbstractString})
     @Utils.invoke_and_check Lib.helicsFederateInfoLoadFromArgs(fi, argc, argv)
 end
 
@@ -1546,15 +1552,12 @@ end
 """
 """
 function helicsFederateInfoSetTimeProperty(fi::FederateInfo, timeProperty::Union{Int, HELICS.HELICS_PROPERTIES}, propertyValue::HELICS.HELICS_TIME)
-    propertyValue = convert(Float64, propertyValue)
-    timeProperty = convert(HELICS.HELICS_PROPERTIES, timeProperty)
     @Utils.invoke_and_check Lib.helicsFederateInfoSetTimeProperty(fi, timeProperty, propertyValue)
 end
 
 """
 """
 function helicsFederateInfoSetIntegerProperty(fi::FederateInfo, intProperty::Union{Int, HELICS.HELICS_PROPERTIES}, propertyValue::Int)
-    intProperty = convert(HELICS.HELICS_PROPERTIES, intProperty)
     @Utils.invoke_and_check Lib.helicsFederateInfoSetIntegerProperty(fi, intProperty, propertyValue)
 end
 
@@ -1718,14 +1721,12 @@ this call allows for finer grain control of the iterative process then [`helicsF
 
 """
 function helicsFederateEnterExecutingModeIterative(fed::Federate, iterate::Union{Int, HELICS.HELICS_ITERATION_REQUEST})::HELICS.HELICS_ITERATION_RESULT
-    iterate = convert(HELICS.HELICS_ITERATION_REQUEST, iterate)
     @Utils.invoke_and_check Lib.helicsFederateEnterExecutingModeIterative(fed, iterate)
 end
 
 """
 """
 function helicsFederateEnterExecutingModeIterativeAsync(fed::Federate, iterate::Union{Int, HELICS.HELICS_ITERATION_REQUEST})::HELICS.HELICS_ITERATION_RESULT
-    iterate = convert(HELICS.HELICS_ITERATION_REQUEST, iterate)
     @Utils.invoke_and_check Lib.helicsFederateEnterExecutingModeIterativeAsync(fed, iterate)
 end
 
@@ -1790,7 +1791,6 @@ Request the next time for federate execution
     invalid
 """
 function helicsFederateRequestTime(fed::Federate, requestTime::HELICS.HELICS_TIME)::Float64
-    requestTime = convert(Float64, requestTime)
     @Utils.invoke_and_check Lib.helicsFederateRequestTime(fed, requestTime)
 end
 
@@ -1829,8 +1829,6 @@ this call allows for finer grain control of the iterative process then [`helicsF
 
 """
 function helicsFederateRequestTimeIterative(fed::Federate, requestTime::HELICS.HELICS_TIME, iterate::Union{Int, HELICS.HELICS_ITERATION_REQUEST})::Tuple{Float64, HELICS.HELICS_ITERATION_RESULT}
-    requestTime = convert(Float64, requestTime)
-    iterate = convert(HELICS.HELICS_ITERATION_REQUEST, iterate)
     outIterate = Ref{HELICS.HELICS_ITERATION_RESULT}(0)
     t = @Utils.invoke_and_check Lib.helicsFederateRequestTimeIterative(fed, requestTime, iterate, outIterate)
     return t, outIterate
@@ -1847,7 +1845,6 @@ Call [`helicsFederateRequestTimeComplete`](@ref) to finish the call
 
 """
 function helicsFederateRequestTimeAsync(fed::Federate, requestTime::HELICS.HELICS_TIME)
-    requestTime = convert(Float64, requestTime)
     @Utils.invoke_and_check Lib.helicsFederateRequestTimeAsync(fed, requestTime)
 end
 
@@ -1883,8 +1880,6 @@ this call allows for finer grain control of the iterative process then [`helicsF
 
 """
 function helicsFederateRequestTimeIterativeAsync(fed::Federate, requestTime::HELICS.HELICS_TIME, iterate::Union{Int, HELICS.HELICS_ITERATION_REQUEST})
-    requestTime = convert(Float64, requestTime)
-    iterate = convert(HELICS.HELICS_ITERATION_REQUEST, iterate)
     @Utils.invoke_and_check Lib.helicsFederateRequestTimeIterativeAsync(fed, requestTime, iterate)
 end
 
@@ -1934,8 +1929,6 @@ Set a time based property for a federate
 
 """
 function helicsFederateSetTimeProperty(fed::Federate, timeProperty::Union{Int, HELICS.HELICS_PROPERTIES}, time::HELICS.HELICS_TIME)
-    time = convert(Float64, time)
-    timeProperty = convert(HELICS.HELICS_PROPERTIES, timeProperty)
     @Utils.invoke_and_check Lib.helicsFederateSetTimeProperty(fed, timeProperty, time)
 end
 
@@ -1979,7 +1972,6 @@ Set an integer based property of a federate
 
 """
 function helicsFederateSetIntegerProperty(fed::Federate, intProperty::Union{Int, HELICS.HELICS_PROPERTIES}, propertyVal::Int)
-    intProperty = convert(HELICS.HELICS_PROPERTIES, intProperty)
     @Utils.invoke_and_check Lib.helicsFederateSetIntegerProperty(fed, intProperty, propertyVal)
 end
 
@@ -1993,7 +1985,6 @@ Get the current value of a time based property in a federate
 
 """
 function helicsFederateGetTimeProperty(fed::Federate, timeProperty::Union{Int, HELICS.HELICS_PROPERTIES})::Float64
-    timeProperty = convert(HELICS.HELICS_PROPERTIES, timeProperty)
     @Utils.invoke_and_check Lib.helicsFederateGetTimeProperty(fed, timeProperty)
 end
 
@@ -2029,8 +2020,7 @@ debug and trace only do anything if they were enabled in the compilation
 - the value of the property
 
 """
-function helicsFederateGetIntegerProperty(fed::Federate, intProperty::Union{Int, HELICS.HELICS_HANDLE_OPTIONS})
-    intProperty = convert(HELICS.HELICS_HANDLE_OPTIONS, intProperty)
+function helicsFederateGetIntegerProperty(fed::Federate, intProperty::Union{Int, HELICS.HELICS_HANDLE_OPTIONS})::Int
     @Utils.invoke_and_check Lib.helicsFederateGetIntegerProperty(fed, intProperty)
 end
 
@@ -2046,7 +2036,7 @@ Get the current time of the federate
 - the current time of the federate
 
 """
-function helicsFederateGetCurrentTime(fed::Federate)
+function helicsFederateGetCurrentTime(fed::Federate)::Float64
     @Utils.invoke_and_check Lib.helicsFederateGetCurrentTime(fed)
 end
 
@@ -2253,5 +2243,257 @@ end
 
 function helicsFederateAddLoggingCallback(fed::Federate, logger)
     @Utils.invoke_and_check Lib.helicsFederateAddLoggingCallback(fed, logger)
+end
+
+function helicsFederateCreateMessageObject(fed::Federate)::Message
+    @Utils.invoke_and_check Lib.helicsFederateCreateMessageObject(fed)
+end
+
+"""
+"""
+function helicsMessageGetSource(message::Message)::String
+    Lib.helicsMessageGetSource(message) |> unsafe_string
+end
+
+"""
+"""
+function helicsMessageGetDestination(message::Message)::String
+    Lib.helicsMessageGetDestination(message) |> unsafe_string
+end
+
+"""
+"""
+function helicsMessageGetOriginalSource(message::Message)::String
+    Lib.helicsMessageGetOriginalSource(message) |> unsafe_string
+end
+
+"""
+"""
+function helicsMessageGetOriginalDestination(message::Message)::String
+    Lib.helicsMessageGetOriginalDestination(message) |> unsafe_string
+end
+
+"""
+"""
+function helicsMessageGetTime(message::Message)::Float64
+    Lib.helicsMessageGetTime(message)
+end
+
+"""
+"""
+function helicsMessageGetString(message::Message)::String
+    Lib.helicsMessageGetString(message) |> unsafe_string
+end
+
+"""
+"""
+function helicsMessageGetMessageID(message::Message)::Int
+    Lib.helicsMessageGetMessageID(message)
+end
+
+"""
+"""
+function helicsMessageCheckFlag(message::Message, flag::Union{Int, HELICS.HELICS_FEDERATE_FLAGS})::Bool
+    Lib.helicsMessageCheckFlag(message, flag) == 1 ? true : false
+end
+
+"""
+"""
+function helicsMessageGetRawDataSize(message::Message)::Int
+    Lib.helicsMessageGetRawDataSize(message)
+end
+
+"""
+"""
+function helicsMessageGetRawData(message::Message)::String
+    maxlen = Cint(helicsMessageGetRawDataSize(message))
+    data = Vector{Cchar}(undef, maxlen)
+    actualSize = Ref(maxlen)
+    @Utils.invoke_and_check Lib.helicsMessageGetRawData(message, Ref(data), maxlen, actualSize)
+    return String(Vector{UInt8}(data))
+end
+
+"""
+"""
+function helicsMessageGetRawDataPointer(message::Message)::Ptr{Cvoid}
+    Lib.helicsMessageGetRawDataPointer(message)
+end
+
+"""
+"""
+function helicsMessageIsValid(message::Message)::Bool
+    Lib.helicsMessageIsValid(message) == 1 ? true : false
+end
+
+"""
+"""
+function helicsMessageSetSource(message::Message, src::String)
+    @Utils.invoke_and_check Lib.helicsMessageSetSource(message, src)
+end
+
+"""
+"""
+function helicsMessageSetDestination(message::Message, dest::String)
+    @Utils.invoke_and_check Lib.helicsMessageSetDestination(message, dest)
+end
+
+"""
+"""
+function helicsMessageSetOriginalSource(message::Message, src::String)
+    @Utils.invoke_and_check Lib.helicsMessageSetOriginalSource(message, src)
+end
+
+"""
+"""
+function helicsMessageSetOriginalDestination(message::Message, dest::String)
+    @Utils.invoke_and_check Lib.helicsMessageSetOriginalDestination(message, dest)
+end
+
+"""
+"""
+function helicsMessageSetTime(message::Message, time::HELICS.HELICS_TIME)
+    @Utils.invoke_and_check Lib.helicsMessageSetTime(message, time)
+end
+
+"""
+"""
+function helicsMessageResize(message::Message, newSize::Int)
+    @Utils.invoke_and_check Lib.helicsMessageResize(message, newSize)
+end
+
+"""
+"""
+function helicsMessageReserve(message::Message, reserveSize::Int)
+    @Utils.invoke_and_check Lib.helicsMessageReserve(message, reserverSize)
+end
+
+"""
+"""
+function helicsMessageSetMessageID(message::Message, messageID::Int32)
+    @Utils.invoke_and_check helicsMessageSetMessageID(message, messageID)
+end
+
+"""
+"""
+function helicsMessageClearFlags(message::Message)
+    Lib.helicsMessageClearFlags(message)
+end
+
+"""
+"""
+function helicsMessageSetFlagOption(message::Message, flag::Union{Int, HELICS_FEDERATE_FLAGS}, flagValue::Bool)
+    @Utils.invoke_and_check Lib.helicsMessageSetFlagOption(message, flag, flagValue)
+end
+
+"""
+"""
+function helicsMessageSetString(message::Message, str::String)
+    @Utils.invoke_and_check Lib.helicsMessageSetString(message, str)
+end
+
+"""
+"""
+function helicsMessageSetData(message::Message, data::String)
+    inputDataLength = length(data)
+    data = pointer(data)
+    @Utils.invoke_and_check Lib.helicsMessageSetData(message, data, inputDataLength)
+end
+
+"""
+"""
+function helicsMessageAppendData(message::Message, data::String)
+    inputDataLength = length(data)
+    data = pointer(data)
+    @Utils.invoke_and_check Lib.helicsMessageAppendData(message, data, inputDataLength)
+end
+
+function helicsInputGetInjectionUnits(ipt::Input)::String
+    Lib.helicsInputGetInjectionUnits(ipt) |> unsafe_string
+end
+
+function helicsFederateRegisterFromPublicationJSON(fed::Federate, json::String)
+    @Utils.invoke_and_check Lib.helicsFederateRegisterFromPublicationJSON(fed, json)
+end
+
+function helicsCoreSetLogFile(core::Core, logFileName::String)
+    @Utils.invoke_and_check Lib.helicsCoreSetLogFile(core, logFileName)
+end
+
+function helicsBrokerSetLogFile(broker::Broker, logFileName::String)
+    @Utils.invoke_and_check Lib.helicsBrokerSetLogFile(broker::Broker, logFileName::String)
+end
+
+function helicsFederateClearMessages(fed::Federate)
+    Lib.helicsFederateClearMessages(fed)
+end
+
+function helicsFederateClearUpdates(fed::Federate)
+    Lib.helicsFederateClearUpdates(fed)
+end
+
+function helicsFederateLogInfoMessage(fed::Federate, logmessage::String)
+    @Utils.invoke_and_check Lib.helicsFederateLogInfoMessage(fed, logmessage)
+end
+
+function helicsInputGetExtractionUnits(ipt::Input)
+    Lib.helicsInputGetExtractionUnits(ipt) |> unsafe_string
+end
+
+function helicsFederateSetLogFile(fed::Federate, logFile::String)
+    @Utils.invoke_and_check Lib.helicsFederateSetLogFile(fed, logFile)
+end
+
+function helicsFederateLogLevelMessage(fed::Federate, loglevel::Int, logmessage::String)
+    @Utils.invoke_and_check Lib.helicsFederateLogLevelMessage(fed, loglevel, logmessage)
+end
+
+function helicsCoreGetAddress(core::Core)::String
+    Lib.helicsCoreGetAddress(core) |> unsafe_string
+end
+
+function helicsInputClearUpdate(ipt::Input)
+    Lib.helicsInputClearUpdate(ipt)
+end
+
+helicsFederateSetLoggingCallback(fed::Federate, logger, userdata) = error("Not implemented.")
+
+function helicsFederateLogErrorMessage(fed::Federate, logmessage::String)
+    @Utils.invoke_and_check Lib.helicsFederateLogErrorMessage(fed, logmessage)
+end
+
+function helicsCoreWaitForDisconnect(core::Core, msWait::Int)
+    @Utils.invoke_and_check Lib.helicsCoreWaitForDisconnect(core, msWait)
+end
+
+function helicsFederateLogDebugMessage(fed::Federate, logmessage::String)
+    @Utils.invoke_and_check Lib.helicsFederateLogDebugMessage(fed, logmessage)
+end
+
+helicsBrokerSetLoggingCallback(broker::Broker, logger, userdata) = error("Not implemented.")
+
+function helicsFederateInfoSetBrokerKey(fi::FederateInfo, brokerKey::String)
+    @Utils.invoke_and_check Lib.helicsFederateInfoSetBrokerKey(fi, brokerKey)
+end
+
+function helicsFederateLogWarningMessage(fed::Federate, logmessage::String)
+    @Utils.invoke_and_check Lib.helicsFederateLogWarningMessage(fed, logmessage)
+end
+
+function helicsFederatePublishJSON(fed::Federate, json::String)
+    @Utils.invoke_and_check Lib.helicsFederatePublishJSON(fed, json)
+end
+
+function helicsFederateRequestTimeAdvance(fed::Federate, timeDelta::HELICS.HELICS_TIME)::Float64
+    @Utils.invoke_and_check Lib.helicsFederateRequestTimeAdvance(fed, timeDelta)
+end
+
+function helicsEndpointClearMessages(endpoint::Endpoint)
+    Lib.helicsEndpointClearMessages(endpoint)
+end
+
+helicsCoreSetLoggingCallback(core::Core, logger, userdata) = error("Not implemented")
+
+function helicsFederateInfoSetBrokerInitString(fi::FederateInfo, brokerInit::String)
+    @Utils.invoke_and_check Lib.helicsFederateInfoSetBrokerInitString(fi::FederateInfo, brokerInit)
 end
 

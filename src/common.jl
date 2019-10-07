@@ -46,7 +46,7 @@ struct helics_complex
     imag::Cdouble
 end
 
-struct helics_message
+mutable struct helics_message
     time::helics_time
     data::Cstring
     length::Int64

@@ -27,7 +27,6 @@ matrix:
 
   allow_failures:
   - julia: nightly
-  - os: windows
 
 script:
   - julia --project --color=yes -e "import Pkg; Pkg.build(); Pkg.instantiate()"

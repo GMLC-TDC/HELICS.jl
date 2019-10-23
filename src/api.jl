@@ -7,6 +7,15 @@ DocStringExtensions.@template (FUNCTIONS, METHODS) =
     $(DocStringExtensions.DOCSTRING)
     """
 
+# We want these enums to be made available in the HELICS api.
+# Manually typing these out is verbose and annoying
+# We make the enums uppercase since they are essentially constant integer values
+# for e.g. `Lib.helics_iteration_request` -> `HELICS.HELICS_ITERATION_REQUEST`
+#          `Lib.helics_iteration_request_no_iteration` -> `HELICS.HELICS_ITERATION_REQUEST_NO_ITERATION`
+#          `Lib.helics_iteration_request_force_iteration` -> `HELICS.HELICS_ITERATION_REQUEST_FORCE_ITERATION`
+#          `Lib.helics_iteration_request_iterate_if_needed` -> `HELICS.HELICS_ITERATION_REQUEST_ITERATE_IF_NEEDED`
+# and so on ...
+
 for enum_name in [
                  Lib.helics_iteration_request,
                  Lib.helics_iteration_result,
@@ -28,6 +37,16 @@ for enum_name in [
     end
 
 end
+
+# Generate the docstring for these enumerations.
+# e.g. the following generates documentation like this:
+# HELICS.HELICS_ITERATION_REQUEST — Type.
+#
+#    HELICS_ITERATION_REQUEST_NO_ITERATION: 0
+#    HELICS_ITERATION_REQUEST_FORCE_ITERATION: 1
+#    HELICS_ITERATION_REQUEST_ITERATE_IF_NEEDED: 2
+#
+# TODO: this can be further simplified with a macro that loops over the list as done previously
 
 @doc """
 $( join(map(x -> "- `" * uppercase(String(x[1])) * "`: " * string(x[2]), Lib.CEnum.name_value_pairs(HELICS.HELICS_ITERATION_REQUEST)), "\n") )

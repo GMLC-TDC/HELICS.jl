@@ -16,6 +16,7 @@ include(depsjl_path)
 # Module initialization function
 function __init__()
     check_deps()
+    atexit(helicsCloseLibrary)
 end
 
 module Lib

@@ -6,7 +6,7 @@ const h = HELICS
 @testset "Versions" begin
 
 @test h.helicsGetVersion() isa String
-@test h.helicsGetVersion() == "2.2.1 (09-27-19)"
+@test h.helicsGetVersion() == "2.2.2 (10-27-19)"
 
 end
 

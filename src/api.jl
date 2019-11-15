@@ -2516,3 +2516,11 @@ function helicsFederateInfoSetBrokerInitString(fi::FederateInfo, brokerInit::Str
     Utils.@invoke_and_check Lib.helicsFederateInfoSetBrokerInitString(fi::FederateInfo, brokerInit)
 end
 
+function helicsBrokerMakeConnections(broker::Broker, file::String)
+    Utils.@invoke_and_check Lib.helicsBrokerMakeConnections(broker, file)
+end
+
+function helicsCoreMakeConnections(core::Core, file::String)
+    Utils.@invoke_and_check Lib.helicsCoreMakeConnections(core, file)
+end
+

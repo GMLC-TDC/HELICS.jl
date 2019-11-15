@@ -6,7 +6,7 @@ const h = HELICS
 @testset "Versions" begin
 
     @test h.helicsGetVersion() isa String
-    @test VersionNumber(split(h.helicsGetVersion())[1]) == h.HELICS_VERSION
+    @test VersionNumber(split(h.helicsGetVersion())[1]) == h.HELICS_LIBRARY_VERSION
 
 end
 

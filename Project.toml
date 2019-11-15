@@ -1,7 +1,7 @@
 name = "HELICS"
 uuid = "81524022-8764-5038-b61c-08cb1f58760f"
 authors = ["Dheepak Krishnamurthy <me@kdheepak.com>"]
-version = "0.4.1"
+version = "0.5.0"
 
 [deps]
 BinaryProvider = "b99e7846-7c00-51b0-8f62-c81ae34c0232"

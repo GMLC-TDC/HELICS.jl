@@ -16,14 +16,18 @@ for folder in LIBHELICS_INCLUDE
     end
 end
 
+LIBHELICS_ARGS = String[]
+for path in LIBHELICS_INCLUDE
+    push!(LIBHELICS_ARGS, "-I")
+    push!(LIBHELICS_ARGS, path)
+end
+
+
 wc = init(; headers = LIBHELICS_HEADERS,
             output_file = joinpath(@__DIR__, "../src/lib.jl"),
             common_file = joinpath(@__DIR__, "../src/common.jl"),
             clang_includes = vcat(LIBHELICS_INCLUDE..., CLANG_INCLUDE),
-            clang_args = [
-                          "-I", joinpath(LIBHELICS_INCLUDE[1], ".."),
-                          "-I", joinpath(LIBHELICS_INCLUDE[2], ".."),
-                         ],
+            clang_args = LIBHELICS_ARGS,
             header_wrapped = (root, current)->root == current,
             header_library = x->"libhelicsSharedLib",
             clang_diagnostics = true,

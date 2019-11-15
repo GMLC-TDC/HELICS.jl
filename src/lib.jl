@@ -1111,3 +1111,9 @@ end
 # Julia wrapper for header: helics_export.h
 # Automatically generated using Clang.jl
 
+# Julia wrapper for header: chelics.h
+# Automatically generated using Clang.jl
+
+# Julia wrapper for header: helics_enums.h
+# Automatically generated using Clang.jl
+

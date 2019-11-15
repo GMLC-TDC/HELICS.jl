@@ -2,12 +2,12 @@ const HELICS_HAVE_MPI = 0
 const HELICS_HAVE_ZEROMQ = 1
 const BOOST_VERSION_LEVEL = 67
 const HELICS_VERSION_MAJOR = 2
-const HELICS_VERSION_MINOR = 2
-const HELICS_VERSION_PATCH = 2
-const HELICS_VERSION = "2.2.2"
+const HELICS_VERSION_MINOR = 3
+const HELICS_VERSION_PATCH = 0
+const HELICS_VERSION = "2.3.0"
 const HELICS_VERSION_BUILD = ""
-const HELICS_VERSION_STRING = "2.2.2 (10-27-19)"
-const HELICS_DATE = "10-27-19"
+const HELICS_VERSION_STRING = "2.3.0 (2019-11-13)"
+const HELICS_DATE = "2019-11-13"
 
 @cenum helics_data_type::UInt32 begin
     helics_data_type_string = 0
@@ -38,6 +38,8 @@ const helics_data_type_char = helics_data_type_string
     helics_core_type_nng = 9
     helics_core_type_tcp_ss = 11
     helics_core_type_http = 12
+    helics_core_type_websocket = 14
+    helics_core_type_inproc = 18
 end
 
 @cenum helics_federate_flags::UInt32 begin
@@ -81,6 +83,7 @@ end
     helics_error_invalid_state_transition = -9
     helics_error_invalid_function_call = -10
     helics_error_execution_failure = -14
+    helics_error_insufficient_space = -18
     helics_error_other = -101
     other_error_type = -203
 end
@@ -96,6 +99,8 @@ end
     helics_property_time_output_delay = 150
     helics_property_int_max_iterations = 259
     helics_property_int_log_level = 271
+    helics_property_int_file_log_level = 272
+    helics_property_int_console_log_level = 274
 end
 
 @cenum helics_handle_options::UInt32 begin
@@ -105,6 +110,7 @@ end
     helics_handle_option_multiple_connections_allowed = 409
     helics_handle_option_buffer_data = 411
     helics_handle_option_strict_type_checking = 414
+    helics_handle_option_ignore_unit_mismatch = 447
     helics_handle_option_only_transmit_on_change = 6
     helics_handle_option_only_update_on_change = 8
     helics_handle_option_ignore_interrupts = 475

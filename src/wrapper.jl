@@ -34,16 +34,16 @@ macro define(subtype, supertype)
 
 struct [`HELICS.$subtype`](@ref) <: [`HELICS.$supertype`](@ref)
 """
-    quote
+    esc(quote
         struct $subtype <: $supertype
             ptr::Ptr{Nothing}
             function $subtype(ptr::Ptr{Nothing})
-                ptr == C_NULL && error("Failed to create $subtype. Received null pointer from HELICS C interface.")
+                ptr == C_NULL && error("Failed to create $($subtype). Received null pointer from HELICS C interface.")
                 new(ptr)
             end
         end
         @doc $docstring $subtype
-    end
+    end)
 end
 
 @define Broker CWrapper

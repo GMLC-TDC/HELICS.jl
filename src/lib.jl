@@ -154,8 +154,8 @@ function helicsMessageGetRawDataSize(message)
     ccall((:helicsMessageGetRawDataSize, libhelicsSharedLib), Cint, (helics_message_object,), message)
 end
 
-function helicsMessageGetRawData(message, data, maxlen, actualSize, err)
-    ccall((:helicsMessageGetRawData, libhelicsSharedLib), Cvoid, (helics_message_object, Ptr{Cvoid}, Cint, Ptr{Cint}, Ptr{helics_error}), message, data, maxlen, actualSize, err)
+function helicsMessageGetRawData(message, data, maxMessagelen, actualSize, err)
+    ccall((:helicsMessageGetRawData, libhelicsSharedLib), Cvoid, (helics_message_object, Ptr{Cvoid}, Cint, Ptr{Cint}, Ptr{helics_error}), message, data, maxMessagelen, actualSize, err)
 end
 
 function helicsMessageGetRawDataPointer(message)
@@ -428,8 +428,8 @@ function helicsInputGetRawValueSize(ipt)
     ccall((:helicsInputGetRawValueSize, libhelicsSharedLib), Cint, (helics_input,), ipt)
 end
 
-function helicsInputGetRawValue(ipt, data, maxlen, actualSize, err)
-    ccall((:helicsInputGetRawValue, libhelicsSharedLib), Cvoid, (helics_input, Ptr{Cvoid}, Cint, Ptr{Cint}, Ptr{helics_error}), ipt, data, maxlen, actualSize, err)
+function helicsInputGetRawValue(ipt, data, maxDatalen, actualSize, err)
+    ccall((:helicsInputGetRawValue, libhelicsSharedLib), Cvoid, (helics_input, Ptr{Cvoid}, Cint, Ptr{Cint}, Ptr{helics_error}), ipt, data, maxDatalen, actualSize, err)
 end
 
 function helicsInputGetStringSize(ipt)
@@ -682,6 +682,10 @@ function helicsBrokerAddDestinationFilterToEndpoint(broker, filter, endpoint, er
     ccall((:helicsBrokerAddDestinationFilterToEndpoint, libhelicsSharedLib), Cvoid, (helics_broker, Cstring, Cstring, Ptr{helics_error}), broker, filter, endpoint, err)
 end
 
+function helicsBrokerMakeConnections(broker, file, err)
+    ccall((:helicsBrokerMakeConnections, libhelicsSharedLib), Cvoid, (helics_broker, Cstring, Ptr{helics_error}), broker, file, err)
+end
+
 function helicsCoreWaitForDisconnect(core, msToWait, err)
     ccall((:helicsCoreWaitForDisconnect, libhelicsSharedLib), helics_bool, (helics_core, Cint, Ptr{helics_error}), core, msToWait, err)
 end
@@ -704,6 +708,10 @@ end
 
 function helicsCoreAddDestinationFilterToEndpoint(core, filter, endpoint, err)
     ccall((:helicsCoreAddDestinationFilterToEndpoint, libhelicsSharedLib), Cvoid, (helics_core, Cstring, Cstring, Ptr{helics_error}), core, filter, endpoint, err)
+end
+
+function helicsCoreMakeConnections(core, file, err)
+    ccall((:helicsCoreMakeConnections, libhelicsSharedLib), Cvoid, (helics_core, Cstring, Ptr{helics_error}), core, file, err)
 end
 
 function helicsBrokerGetIdentifier(broker)

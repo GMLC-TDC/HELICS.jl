@@ -5,8 +5,8 @@ const h = HELICS
 
 @testset "Versions" begin
 
-@test h.helicsGetVersion() isa String
-@test h.helicsGetVersion() == "2.2.2 (10-27-19)"
+    @test h.helicsGetVersion() isa String
+    @test VersionNumber(split(h.helicsGetVersion())[1]) == h.HELICS_VERSION
 
 end
 

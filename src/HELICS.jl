@@ -39,6 +39,8 @@ module Lib
 
 end
 
+const HELICS_VERSION = VersionNumber(split(Lib.HELICS_VERSION_STRING)[1])
+
 include("wrapper.jl")
 
 include("utils.jl")

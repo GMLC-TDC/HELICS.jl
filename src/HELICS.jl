@@ -33,14 +33,9 @@ module Lib
 
     include("common.jl")
 
-    include("manual.jl")
-
     include("lib.jl")
 
 end
-
-const HELICS_LIBRARY_VERSION = VersionNumber(split(Lib.HELICS_VERSION_STRING)[1])
-const HELICS_PACKAGE_VERSION = VersionNumber(match(r"version\s*=\s*\"(.+)\"", read(joinpath(@__DIR__, "..", "Project.toml"), String)).captures[1])
 
 include("wrapper.jl")
 
@@ -48,5 +43,7 @@ include("utils.jl")
 
 include("api.jl")
 
+const HELICS_LIBRARY_VERSION = VersionNumber(split(helicsGetVersion())[1])
+const HELICS_PACKAGE_VERSION = VersionNumber(match(r"version\s*=\s*\"(.+)\"", read(joinpath(@__DIR__, "..", "Project.toml"), String)).captures[1])
 
 end # module

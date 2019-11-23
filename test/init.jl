@@ -59,14 +59,14 @@ function destroyFederate(fed, fedinfo, broker=nothing)
     h.helicsFederateFinalize(fed)
     state = h.helicsFederateGetState(fed)
     @test state == 3
-    if broker != nothing
+    if broker !== nothing
         while (h.helicsBrokerIsConnected(broker))
             sleep(1)
         end
     end
     h.helicsFederateInfoFree(fedinfo)
     h.helicsFederateFree(fed)
-    if broker != nothing
+    if broker !== nothing
         destroyBroker(broker)
     end
 end

@@ -21,25 +21,25 @@ end
 
 @testset "Core API tests" begin
 
-    core1 = h.helicsCreateCore("test", "core1", "--autobroker")
-    core2 = h.helicsCoreClone(core1)
-    @test occursin("core1", h.helicsCoreGetIdentifier(core1))
+    # core1 = h.helicsCreateCore("test", "core1", "--autobroker")
+    # core2 = h.helicsCoreClone(core1)
+    # @test occursin("core1", h.helicsCoreGetIdentifier(core1))
 
-    @test h.helicsCoreIsConnected(core1) == 0
+    # @test h.helicsCoreIsConnected(core1) == 0
 
-    sourceFilter1 = h.helicsCoreRegisterFilter(core1, h.HELICS_FILTER_TYPE_DELAY, "core1SourceFilter")
-    h.helicsFilterAddSourceTarget(sourceFilter1, "ep1")
-    destinationFilter1 = h.helicsCoreRegisterFilter(core1, h.HELICS_FILTER_TYPE_DELAY, "core1DestinationFilter")
-    h.helicsFilterAddDestinationTarget(destinationFilter1, "ep2")
-    cloningFilter1 = h.helicsCoreRegisterCloningFilter(core1, "ep3")
-    h.helicsFilterRemoveDeliveryEndpoint(cloningFilter1, "ep3")
+    # sourceFilter1 = h.helicsCoreRegisterFilter(core1, h.HELICS_FILTER_TYPE_DELAY, "core1SourceFilter")
+    # h.helicsFilterAddSourceTarget(sourceFilter1, "ep1")
+    # destinationFilter1 = h.helicsCoreRegisterFilter(core1, h.HELICS_FILTER_TYPE_DELAY, "core1DestinationFilter")
+    # h.helicsFilterAddDestinationTarget(destinationFilter1, "ep2")
+    # cloningFilter1 = h.helicsCoreRegisterCloningFilter(core1, "ep3")
+    # h.helicsFilterRemoveDeliveryEndpoint(cloningFilter1, "ep3")
 
-    h.helicsCoreSetReadyToInit(core1)
-    h.helicsCoreDisconnect(core1)
-    h.helicsCoreDisconnect(core2)
-    h.helicsCoreFree(core1)
-    h.helicsCoreFree(core2)
-    h.helicsCloseLibrary()
+    # h.helicsCoreSetReadyToInit(core1)
+    # h.helicsCoreDisconnect(core1)
+    # h.helicsCoreDisconnect(core2)
+    # h.helicsCoreFree(core1)
+    # h.helicsCoreFree(core2)
+    # h.helicsCloseLibrary()
 
 end
 

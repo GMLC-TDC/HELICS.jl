@@ -279,14 +279,14 @@ end
 
 """
 """
-function helicsFederateRegisterCloningFilter(fed::Federate, deliveryEndpoint::String)::Filter
-    return Utils.@invoke_and_check Lib.helicsFederateRegisterCloningFilter(fed, deliveryEndpoint)
+function helicsFederateRegisterCloningFilter(fed::Federate, name::String)::Filter
+    return Utils.@invoke_and_check Lib.helicsFederateRegisterCloningFilter(fed, name)
 end
 
 """
 """
-function helicsFederateRegisterGlobalCloningFilter(fed::Federate, deliveryEndpoint::String)::Filter
-    return Utils.@invoke_and_check Lib.helicsFederateRegisterGlobalCloningFilter(fed, deliveryEndpoint)
+function helicsFederateRegisterGlobalCloningFilter(fed::Federate, name::String)::Filter
+    return Utils.@invoke_and_check Lib.helicsFederateRegisterGlobalCloningFilter(fed, name)
 end
 
 """
@@ -297,8 +297,8 @@ end
 
 """
 """
-function helicsCoreRegisterCloningFilter(core::Core, deliveryEndpoint::String)::Filter
-    return Utils.@invoke_and_check Lib.helicsCoreRegisterCloningFilter(core, deliveryEndpoint)
+function helicsCoreRegisterCloningFilter(core::Core, name::String)::Filter
+    return Utils.@invoke_and_check Lib.helicsCoreRegisterCloningFilter(core, name)
 end
 
 """
@@ -1848,9 +1848,9 @@ this call allows for finer grain control of the iterative process then [`helicsF
 
 """
 function helicsFederateRequestTimeIterative(fed::Federate, requestTime::HELICS.HELICS_TIME, iterate::Union{Int, HELICS.HELICS_ITERATION_REQUEST})::Tuple{Float64, HELICS.HELICS_ITERATION_RESULT}
-    outIterate = Ref{HELICS.HELICS_ITERATION_RESULT}(0)
-    t = Utils.@invoke_and_check Lib.helicsFederateRequestTimeIterative(fed, requestTime, iterate, outIterate)
-    return t, outIterate
+    outIteration = Ref{HELICS.HELICS_ITERATION_RESULT}(0)
+    t = Utils.@invoke_and_check Lib.helicsFederateRequestTimeIterative(fed, requestTime, iterate, outIteration)
+    return t, outIteration
 end
 
 """
@@ -2524,3 +2524,6 @@ function helicsCoreMakeConnections(core::Core, file::String)
     Utils.@invoke_and_check Lib.helicsCoreMakeConnections(core, file)
 end
 
+function helicsInputSetMinimumChange(inp::Input, tolerance::Float64)
+    Utils.@invoke_and_check Lib.helicsInputSetMinimumChange(inp, tolerance)
+end

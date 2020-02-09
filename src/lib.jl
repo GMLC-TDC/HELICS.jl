@@ -229,20 +229,20 @@ function helicsFederateRegisterGlobalFilter(fed, type, name, err)
     ccall((:helicsFederateRegisterGlobalFilter, libhelicsSharedLib), helics_filter, (helics_federate, helics_filter_type, Cstring, Ptr{helics_error}), fed, type, name, err)
 end
 
-function helicsFederateRegisterCloningFilter(fed, deliveryEndpoint, err)
-    ccall((:helicsFederateRegisterCloningFilter, libhelicsSharedLib), helics_filter, (helics_federate, Cstring, Ptr{helics_error}), fed, deliveryEndpoint, err)
+function helicsFederateRegisterCloningFilter(fed, name, err)
+    ccall((:helicsFederateRegisterCloningFilter, libhelicsSharedLib), helics_filter, (helics_federate, Cstring, Ptr{helics_error}), fed, name, err)
 end
 
-function helicsFederateRegisterGlobalCloningFilter(fed, deliveryEndpoint, err)
-    ccall((:helicsFederateRegisterGlobalCloningFilter, libhelicsSharedLib), helics_filter, (helics_federate, Cstring, Ptr{helics_error}), fed, deliveryEndpoint, err)
+function helicsFederateRegisterGlobalCloningFilter(fed, name, err)
+    ccall((:helicsFederateRegisterGlobalCloningFilter, libhelicsSharedLib), helics_filter, (helics_federate, Cstring, Ptr{helics_error}), fed, name, err)
 end
 
 function helicsCoreRegisterFilter(core, type, name, err)
     ccall((:helicsCoreRegisterFilter, libhelicsSharedLib), helics_filter, (helics_core, helics_filter_type, Cstring, Ptr{helics_error}), core, type, name, err)
 end
 
-function helicsCoreRegisterCloningFilter(core, deliveryEndpoint, err)
-    ccall((:helicsCoreRegisterCloningFilter, libhelicsSharedLib), helics_filter, (helics_core, Cstring, Ptr{helics_error}), core, deliveryEndpoint, err)
+function helicsCoreRegisterCloningFilter(core, name, err)
+    ccall((:helicsCoreRegisterCloningFilter, libhelicsSharedLib), helics_filter, (helics_core, Cstring, Ptr{helics_error}), core, name, err)
 end
 
 function helicsFederateGetFilterCount(fed)
@@ -592,6 +592,14 @@ function helicsPublicationSetOption(pub, option, val, err)
     ccall((:helicsPublicationSetOption, libhelicsSharedLib), Cvoid, (helics_publication, Cint, helics_bool, Ptr{helics_error}), pub, option, val, err)
 end
 
+function helicsPublicationSetMinimumChange(pub, tolerance, err)
+    ccall((:helicsPublicationSetMinimumChange, libhelicsSharedLib), Cvoid, (helics_publication, Cdouble, Ptr{helics_error}), pub, tolerance, err)
+end
+
+function helicsInputSetMinimumChange(inp, tolerance, err)
+    ccall((:helicsInputSetMinimumChange, libhelicsSharedLib), Cvoid, (helics_input, Cdouble, Ptr{helics_error}), inp, tolerance, err)
+end
+
 function helicsInputIsUpdated(ipt)
     ccall((:helicsInputIsUpdated, libhelicsSharedLib), helics_bool, (helics_input,), ipt)
 end
@@ -732,6 +740,10 @@ end
 
 function helicsCoreSetReadyToInit(core, err)
     ccall((:helicsCoreSetReadyToInit, libhelicsSharedLib), Cvoid, (helics_core, Ptr{helics_error}), core, err)
+end
+
+function helicsCoreConnect(core, err)
+    ccall((:helicsCoreConnect, libhelicsSharedLib), helics_bool, (helics_core, Ptr{helics_error}), core, err)
 end
 
 function helicsCoreDisconnect(core, err)
@@ -958,8 +970,8 @@ function helicsFederateRequestNextStep(fed, err)
     ccall((:helicsFederateRequestNextStep, libhelicsSharedLib), helics_time, (helics_federate, Ptr{helics_error}), fed, err)
 end
 
-function helicsFederateRequestTimeIterative(fed, requestTime, iterate, outIterate, err)
-    ccall((:helicsFederateRequestTimeIterative, libhelicsSharedLib), helics_time, (helics_federate, helics_time, helics_iteration_request, Ptr{helics_iteration_result}, Ptr{helics_error}), fed, requestTime, iterate, outIterate, err)
+function helicsFederateRequestTimeIterative(fed, requestTime, iterate, outIteration, err)
+    ccall((:helicsFederateRequestTimeIterative, libhelicsSharedLib), helics_time, (helics_federate, helics_time, helics_iteration_request, Ptr{helics_iteration_result}, Ptr{helics_error}), fed, requestTime, iterate, outIteration, err)
 end
 
 function helicsFederateRequestTimeAsync(fed, requestTime, err)

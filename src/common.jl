@@ -117,6 +117,7 @@ end
     helics_flag_forward_compute = 14
     helics_flag_realtime = 16
     helics_flag_single_thread_federate = 27
+    helics_flag_slow_responding = 29
     helics_flag_delay_init_entry = 45
     helics_flag_enable_init_entry = 47
     helics_flag_ignore_time_mismatch_warnings = 67

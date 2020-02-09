@@ -1,9 +1,11 @@
 using Clang
 
+using HELICS_jll
+
 # LIBCLANG_HEADERS are those headers to be wrapped.
 const LIBHELICS_INCLUDE = [
-                           joinpath(@__DIR__, "../deps/usr/include/helics/shared_api_library") |> normpath,
-                           joinpath(@__DIR__, "../deps/usr/include/helics") |> normpath
+                           joinpath(HELICS_jll.artifact_dir, "include/helics/shared_api_library") |> normpath,
+                           joinpath(HELICS_jll.artifact_dir, "include/helics") |> normpath
                           ]
 
 const LIBHELICS_HEADERS = String[]

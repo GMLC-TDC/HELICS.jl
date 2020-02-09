@@ -19,4 +19,5 @@ deploydocs(
                    ),
     make = () -> run(`mkdocs build`),
     target = "site",
+    push_preview = true
 )

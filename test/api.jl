@@ -257,11 +257,7 @@ end
     sub3ValueSize = h.helicsInputGetRawValueSize(sub3)
     @test sub3ValueSize == 6
 
-    if typeof(1) == Int32
-        @test_broken h.helicsInputGetVector(sub6) == [4.5, 56.5]
-    else
-        @test h.helicsInputGetVector(sub6) == [4.5, 56.5]
-    end
+    @test h.helicsInputGetVector(sub6) == [4.5, 56.5]
 
     h.helicsFederateFinalize(fed1)
     h.helicsFederateFinalize(fed2)

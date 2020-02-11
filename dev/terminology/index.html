@@ -309,7 +309,7 @@
                 <p><a id='Terminology-1'></a></p>
 <h1 id="terminology">Terminology</h1>
 <p>Illustration of a simple federation consisting of two federates.</p>
-<div class="codehilite"><pre><span></span>    +--------------------+               +--------------------+
+<div class="codehilite"><pre><span></span><code>    +--------------------+               +--------------------+
     <span class="p">|</span>                    <span class="p">|</span>               <span class="p">|</span>                    <span class="p">|</span>
     <span class="p">|</span>                    <span class="p">|</span>               <span class="p">|</span>                    <span class="p">|</span>
     <span class="p">|</span>                    <span class="p">|</span>               <span class="p">|</span>                    <span class="p">|</span>
@@ -339,14 +339,14 @@
                          <span class="p">|</span>               <span class="p">|</span>
                          <span class="p">|</span>               <span class="p">|</span>
                          +---------------+
-</pre></div>
+</code></pre></div>
 
 
 <p>A federation, also called a co-simulation consists of multiple federates, or components, agents or actors. These federates exchange data at given points in time. HELICS manages time in a distributed fashion based on how the federation is configured during initialization. If you have a Julia program, and you wish to exchange data with another HELICS federate, you can create a <code>Federate</code> by calling the <a href="../api/#HELICS.helicsCreateCombinationFederate-Tuple{String,HELICS.FederateInfo}"><code>HELICS.helicsCreateCombinationFederate</code></a> function. This federate must be provided with some information in order to set it up correctly. A <code>FederateInfo</code> object must be first created in order to set up a <code>Federate</code>. This <code>FederateInfo</code> object contains information about what type of communication core is used in HELICS (e.g. <code>zmq</code>, <code>mpi</code>, <code>tcp</code>, <code>udp</code>), the name of the <code>Federate</code>, where the <code>Broker</code> is located, etc. All <code>Federate</code>s must connect to a <code>Broker</code>. A <code>Broker</code> is a separate process that can run on the same machine or a remote machine. You can start a <code>Broker</code> by running <a href="../api/#HELICS.helicsCreateBroker-Tuple{String,String,String}"><code>HELICS.helicsCreateBroker</code></a>, or running <code>helics_broker -f ${NUMBER_OF_FEDERATES}</code> from the command line. Both creating a <code>FederateInfo</code> and <code>Broker</code> object can take some initialization options in the form of a <code>initstring</code>. See the <a href="https://github.com/GMLC-TDC/HELICS-Examples"><code>examples</code></a> folder for more information.</p>
 <p>After creating a <code>Federate</code>, you will want to create <code>Publication</code>s and <code>Subscription</code>s. The strings you choose for these publications and subscriptions must be unique, and they act like topics in a federation. You can send data in the form of values from a <code>Publication</code> to a <code>Subscription</code>. Additionally, you can register <code>Endpoint</code>s as well, which allow you to send <code>Message</code>s. <code>Message</code>s can be filtered on by any <code>Federate</code> and can be used to model complex communication interactions.</p>
 <p>You can use functions like <a href="../api/#HELICS.helicsPublicationPublishDouble-Tuple{HELICS.Publication,Float64}"><code>HELICS.helicsPublicationPublishDouble</code></a> to send values at the "current time", and use functions like <a href="../api/#HELICS.helicsSubscriptionGetKey-Tuple{HELICS.Subscription}"><code>HELICS.helicsSubscriptionGetKey</code></a> or <a href="../api/#HELICS.helicsInputGetDouble-Tuple{HELICS.Subscription}"><code>HELICS.helicsInputGetDouble</code></a> to receive values at the "current time". You can use functions like <a href="../api/#HELICS.helicsEndpointSendMessage-Tuple{HELICS.Endpoint,HELICS.Message}"><code>HELICS.helicsEndpointSendMessage</code></a> to send messages at the "current time", and use functions like <a href="../api/#HELICS.helicsEndpointGetMessage-Tuple{HELICS.Endpoint}"><code>HELICS.helicsEndpointGetMessage</code></a> functions to receive messages that arrived before the "current time".</p>
 <p>You can request to move to a time by using the <a href="../api/#HELICS.helicsFederateRequestTime-Tuple{HELICS.Federate,Union{Float64, Int64}}"><code>HELICS.helicsFederateRequestTime</code></a> function. This function returns a time back that you can safely move to. The time granted will always be less than or equal to the requested time. If you wish to move to the requested time, you may use a while loop until that the granted time is equal to the requested time.</p>
-<div class="codehilite"><pre><span></span><span class="k">for</span> <span class="n">t</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">100</span>
+<div class="codehilite"><pre><span></span><code><span class="k">for</span> <span class="n">t</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">100</span>
 
     <span class="n">requested_time</span> <span class="o">=</span> <span class="n">t</span>
 <span class="hll">    <span class="k">while</span> <span class="n">granted_time</span> <span class="o">&lt;</span> <span class="n">requested_time</span>
@@ -357,7 +357,7 @@
     <span class="c"># Send or Receive data here</span>
 
 <span class="k">end</span>
-</pre></div>
+</code></pre></div>
 
 
 <p><a href="../api/#HELICS.helicsFederateRequestTime-Tuple{HELICS.Federate,Union{Float64, Int64}}"><code>HELICS.helicsFederateRequestTime</code></a> is a blocking call. There are other asynchronous request time functions available that allow you to do work while you wait for others to move forward in simulation time.</p>

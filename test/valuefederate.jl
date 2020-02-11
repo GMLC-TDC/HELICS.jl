@@ -379,11 +379,7 @@ end
 
     value = h.helicsInputGetVector(subid)
 
-    if typeof(1) == Int32
-        @test_broken value == testValue
-    else
-        @test value == testValue
-    end
+    @test value == testValue
 
     destroyFederate(vFed, fedinfo)
     destroyBroker(broker)

@@ -1,6 +1,6 @@
 # HELICS.jl
 
-[![Travis Build Status](https://img.shields.io/travis/com/GMLC-TDC/HELICS.jl/master.svg)](https://travis-ci.com/GMLC-TDC/HELICS.jl) [![Docs](https://img.shields.io/badge/docs-latest-blue.svg)](https://gmlc-tdc.github.io/HELICS.jl/latest) [![Codecov](https://img.shields.io/codecov/c/github/gmlc-tdc/HELICS.jl.svg)](https://codecov.io/gh/GMLC-TDC/HELICS.jl) [![Gitter](https://img.shields.io/gitter/room/GMLC-TDC/HELICS.svg)](https://gitter.im/GMLC-TDC/HELICS) [![Releases](https://img.shields.io/github/tag-date/GMLC-TDC/HELICS.jl.svg)](https://github.com/GMLC-TDC/HELICS.jl/releases)
+[![CI](https://github.com/GMLC-TDC/HELICS.jl/workflows/CI/badge.svg)](https://github.com/GMLC-TDC/HELICS.jl/actions?query=workflow%3ACI) [![Docs](https://img.shields.io/badge/docs-latest-blue.svg)](https://gmlc-tdc.github.io/HELICS.jl/latest) [![Codecov](https://img.shields.io/codecov/c/github/gmlc-tdc/HELICS.jl.svg)](https://codecov.io/gh/GMLC-TDC/HELICS.jl) [![Coverage Status](https://coveralls.io/repos/github/GMLC-TDC/HELICS.jl/badge.svg?branch=HEAD)](https://coveralls.io/github/GMLC-TDC/HELICS.jl?branch=HEAD) [![Gitter](https://img.shields.io/gitter/room/GMLC-TDC/HELICS.svg)](https://gitter.im/GMLC-TDC/HELICS) [![Releases](https://img.shields.io/github/tag-date/GMLC-TDC/HELICS.jl.svg)](https://github.com/GMLC-TDC/HELICS.jl/releases)
 
 [HELICS.jl](https://github.com/GMLC-TDC/HELICS.jl) is a cross-platform Julia wrapper around the [HELICS](https://github.com/GMLC-TDC/HELICS) library.
 

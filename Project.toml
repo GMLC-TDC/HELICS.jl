@@ -1,7 +1,7 @@
 name = "HELICS"
 uuid = "81524022-8764-5038-b61c-08cb1f58760f"
 authors = ["Dheepak Krishnamurthy <me@kdheepak.com>"]
-version = "0.6.0"
+version = "0.6.1"
 
 [deps]
 CEnum = "fa961155-64e5-5f13-b03f-caf6b980ea82"

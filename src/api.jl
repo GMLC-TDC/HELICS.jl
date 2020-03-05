@@ -1962,7 +1962,7 @@ Set a flag for the federate
 - `flagValue`: the new value of the flag 0 for false !=0 for true
 
 """
-function helicsFederateSetFlagOption(fed::Federate, flag::Int, flagValue::Bool)
+function helicsFederateSetFlagOption(fed::Federate, flag::Union{Int, HELICS.HELICS_FEDERATE_FLAGS}, flagValue::Bool)
     Utils.@invoke_and_check Lib.helicsFederateSetFlagOption(fed, flag, flagValue ? 1 : 0)
 end
 
@@ -2021,7 +2021,7 @@ Get a flag value for a federate
 - the value of the flag
 
 """
-function helicsFederateGetFlagOption(fed::Federate, flag::Int)::Bool
+function helicsFederateGetFlagOption(fed::Federate, flag::Union{Int, HELICS.HELICS_FEDERATE_FLAGS})::Bool
     return Utils.@invoke_and_check Lib.helicsFederateGetFlagOption(fed, flag)
 end
 

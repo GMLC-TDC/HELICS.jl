@@ -104,6 +104,7 @@ $( join(map(x -> "- `" * uppercase(String(x[1])) * "`: " * string(x[2]), Lib.CEn
 HELICS.HELICS_FILTER_TYPE
 
 const HELICS_TIME = Union{Int, Float64}
+const CFunction = Ptr{Cvoid}
 
 """
 """
@@ -2474,7 +2475,9 @@ function helicsInputClearUpdate(ipt::Input)
     Lib.helicsInputClearUpdate(ipt)
 end
 
-helicsFederateSetLoggingCallback(fed::Federate, logger, userdata) = error("Not implemented.")
+function helicsFederateSetLoggingCallback(fed::Federate, logger::CFunction, userdata)
+    Utils.@invoke_and_check Lib.helicsFederateSetLoggingCallback(fed, logger, userdata)
+end
 
 function helicsFederateLogErrorMessage(fed::Federate, logmessage::String)
     Utils.@invoke_and_check Lib.helicsFederateLogErrorMessage(fed, logmessage)
@@ -2488,7 +2491,9 @@ function helicsFederateLogDebugMessage(fed::Federate, logmessage::String)
     Utils.@invoke_and_check Lib.helicsFederateLogDebugMessage(fed, logmessage)
 end
 
-helicsBrokerSetLoggingCallback(broker::Broker, logger, userdata) = error("Not implemented.")
+function helicsBrokerSetLoggingCallback(broker::Broker, logger::CFunction, userdata)
+    Utils.@invoke_and_check Lib.helicsBrokerSetLoggingCallback(broker, logger, userdata)
+end
 
 function helicsFederateInfoSetBrokerKey(fi::FederateInfo, brokerKey::String)
     Utils.@invoke_and_check Lib.helicsFederateInfoSetBrokerKey(fi, brokerKey)
@@ -2510,7 +2515,9 @@ function helicsEndpointClearMessages(endpoint::Endpoint)
     Lib.helicsEndpointClearMessages(endpoint)
 end
 
-helicsCoreSetLoggingCallback(core::Core, logger, userdata) = error("Not implemented")
+function helicsCoreSetLoggingCallback(core::Core, logger::CFunction, userdata)
+    Utils.@invoke_and_check Lib.helicsCoreSetLoggingCallback(broker, logger, userdata)
+end
 
 function helicsFederateInfoSetBrokerInitString(fi::FederateInfo, brokerInit::String)
     Utils.@invoke_and_check Lib.helicsFederateInfoSetBrokerInitString(fi::FederateInfo, brokerInit)

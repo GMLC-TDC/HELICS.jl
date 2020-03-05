@@ -1,6 +1,7 @@
 using Clang
 
-using HELICS_jll
+using HELICS
+const HELICS_jll = HELICS.Lib.HELICS_jll
 
 # LIBCLANG_HEADERS are those headers to be wrapped.
 const LIBHELICS_INCLUDE = [

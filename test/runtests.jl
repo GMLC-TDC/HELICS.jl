@@ -10,6 +10,10 @@ const h = HELICS
 
 end
 
+@testset "API" begin
+    include("api.jl")
+end
+
 @testset "ValueFederate" begin
     include("valuefederate.jl")
 end
@@ -26,14 +30,10 @@ end
     include("messagefilter.jl")
 end
 
-@testset "Filters" begin
-    include("filters.jl")
-end
-
-@testset "API" begin
-    include("api.jl")
-end
-
 @testset "Query" begin
     include("query.jl")
+end
+
+@testset "Filters" begin
+    include("filters.jl")
 end

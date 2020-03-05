@@ -256,13 +256,13 @@ end
 
 """
 """
-function helicsEndpointSetOption(_end::Endpoint, option::Int, value::Bool)
+function helicsEndpointSetOption(_end::Endpoint, option::Union{Int, HELICS.HELICS_HANDLE_OPTIONS}, value::Bool)
     Utils.@invoke_and_check Lib.helicsEndpointSetOption(_end, option, value ? 1 : 0)
 end
 
 """
 """
-function helicsEndpointGetOption(_end::Endpoint, option::Int)::Bool
+function helicsEndpointGetOption(_end::Endpoint, option::Union{Int, HELICS.HELICS_HANDLE_OPTIONS})::Bool
     return Lib.helicsEndpointGetOption(_end, option)
 end
 

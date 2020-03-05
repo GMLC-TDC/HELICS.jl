@@ -98,6 +98,8 @@ end
     epid1 = h.helicsFederateRegisterEndpoint(mFed1, "ep1", "")
     epid2 = h.helicsFederateRegisterGlobalEndpoint(mFed2, "ep2", "random")
 
+    h.helicsEndpointSetOption(epid1, h.HELICS_HANDLE_OPTION_IGNORE_INTERRUPTS, true)
+
     h.helicsFederateSetTimeProperty(mFed1, h.HELICS_PROPERTY_TIME_DELTA, 1.0)
     h.helicsFederateSetTimeProperty(mFed2, h.HELICS_PROPERTY_TIME_DELTA, 1.0)
 
@@ -128,6 +130,9 @@ end
     @test res == 3
 
     @test h.helicsEndpointGetDefaultDestination(epid1) == "ep2"
+
+    # FIXME: Someday this will be implemented.
+    @test_broken h.helicsEndpointGetOption(epid1, h.HELICS_HANDLE_OPTION_IGNORE_INTERRUPTS) == true
 
     destroyFederate(mFed1, fedinfo1)
     destroyFederate(mFed2, fedinfo2)

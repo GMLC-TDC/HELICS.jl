@@ -58,7 +58,7 @@ mutable struct helics_message
     original_dest::Cstring
 end
 
-mutable struct helics_error
+struct helics_error
     error_code::Int32
     message::Cstring
 end
@@ -189,4 +189,3 @@ end
     helics_filter_type_clone = 5
     helics_filter_type_firewall = 6
 end
-

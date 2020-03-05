@@ -139,7 +139,7 @@ end
 """
 """
 function helicsEndpointGetDefaultDestination(endpoint::Endpoint)::String
-    return Lib.helicsEndpointGetDefaultDestination(endpoint) |> unsafe_string
+    return unsafe_string(Lib.helicsEndpointGetDefaultDestination(endpoint))
 end
 
 """
@@ -227,13 +227,13 @@ end
 """
 """
 function helicsEndpointGetType(endpoint::Endpoint)::String
-    return Lib.helicsEndpointGetType(endpoint) |> unsafe_string
+    return unsafe_string(Lib.helicsEndpointGetType(endpoint))
 end
 
 """
 """
 function helicsEndpointGetName(endpoint::Endpoint)::String
-    return Lib.helicsEndpointGetName(endpoint) |> unsafe_string
+    return unsafe_string(Lib.helicsEndpointGetName(endpoint))
 end
 
 """
@@ -245,7 +245,7 @@ end
 """
 """
 function helicsEndpointGetInfo(_end::Endpoint)::String
-    return Lib.helicsEndpointGetInfo(_end) |> unsafe_string
+    return unsafe_string(Lib.helicsEndpointGetInfo(_end))
 end
 
 """
@@ -323,7 +323,7 @@ end
 """
 """
 function helicsFilterGetName(filt::Filter)::String
-    return Lib.helicsFilterGetName(filt) |> unsafe_string
+    return unsafe_string(Lib.helicsFilterGetName(filt))
 end
 
 """
@@ -371,7 +371,7 @@ end
 """
 """
 function helicsFilterGetInfo(filt::Filter)::String
-    return Lib.helicsFilterGetInfo(filt) |> unsafe_string
+    return unsafe_string(Lib.helicsFilterGetInfo(filt))
 end
 
 """
@@ -720,55 +720,55 @@ end
 """
 """
 function helicsInputGetType(ipt::Input)::String
-    return Lib.helicsInputGetType(ipt) |> unsafe_string
+    return unsafe_string(Lib.helicsInputGetType(ipt))
 end
 
 """
 """
 function helicsInputGetPublicationType(ipt::Input)::String
-    return Lib.helicsInputGetPublicationType(ipt) |> unsafe_string
+    return unsafe_string(Lib.helicsInputGetPublicationType(ipt))
 end
 
 """
 """
 function helicsPublicationGetType(pub::Publication)::String
-    return Lib.helicsPublicationGetType(pub) |> unsafe_string
+    return unsafe_string(Lib.helicsPublicationGetType(pub))
 end
 
 """
 """
 function helicsInputGetKey(ipt::Input)::String
-    return Lib.helicsInputGetKey(ipt) |> unsafe_string
+    return unsafe_string(Lib.helicsInputGetKey(ipt))
 end
 
 """
 """
 function helicsSubscriptionGetKey(ipt::Input)::String
-    return Lib.helicsSubscriptionGetKey(ipt) |> unsafe_string
+    return unsafe_string(Lib.helicsSubscriptionGetKey(ipt))
 end
 
 """
 """
 function helicsPublicationGetKey(pub::Publication)::String
-    return Lib.helicsPublicationGetKey(pub) |> unsafe_string
+    return unsafe_string(Lib.helicsPublicationGetKey(pub))
 end
 
 """
 """
 function helicsInputGetUnits(ipt::Input)::String
-    return Lib.helicsInputGetUnits(ipt) |> unsafe_string
+    return unsafe_string(Lib.helicsInputGetUnits(ipt))
 end
 
 """
 """
 function helicsPublicationGetUnits(pub::Publication)::String
-    return Lib.helicsPublicationGetUnits(pub) |> unsafe_string
+    return unsafe_string(Lib.helicsPublicationGetUnits(pub))
 end
 
 """
 """
 function helicsInputGetInfo(inp::Input)::String
-    return Lib.helicsInputGetInfo(inp) |> unsafe_string
+    return unsafe_string(Lib.helicsInputGetInfo(inp))
 end
 
 """
@@ -780,7 +780,7 @@ end
 """
 """
 function helicsPublicationGetInfo(pub::Publication)::String
-    return Lib.helicsPublicationGetInfo(pub) |> unsafe_string
+    return unsafe_string(Lib.helicsPublicationGetInfo(pub))
 end
 
 """
@@ -841,7 +841,7 @@ end
 Get a version string for HELICS
 """
 function helicsGetVersion()::String
-    return Lib.helicsGetVersion() |> unsafe_string
+    return unsafe_string(Lib.helicsGetVersion())
 end
 
 """
@@ -1089,7 +1089,7 @@ Get an identifier for the broker
 
 """
 function helicsBrokerGetIdentifier(broker::Broker)::String
-    return Lib.helicsBrokerGetIdentifier(broker) |> unsafe_string
+    return unsafe_string(Lib.helicsBrokerGetIdentifier(broker))
 end
 
 """
@@ -1105,7 +1105,7 @@ Get an identifier for the core
 
 """
 function helicsCoreGetIdentifier(core::Core)::String
-    return Lib.helicsCoreGetIdentifier(core) |> unsafe_string
+    return unsafe_string(Lib.helicsCoreGetIdentifier(core))
 end
 
 """
@@ -1121,7 +1121,7 @@ Get the network address associated with a broker
 
 """
 function helicsBrokerGetAddress(broker::Broker)::String
-    return Lib.helicsBrokerGetAddress(broker) |> unsafe_string
+    return unsafe_string(Lib.helicsBrokerGetAddress(broker))
 end
 
 """
@@ -1935,7 +1935,7 @@ Get the name of the federate
 
 """
 function helicsFederateGetName(fed::Federate)::String
-    return Lib.helicsFederateGetName(fed) |> unsafe_string
+    return unsafe_string(Lib.helicsFederateGetName(fed))
 end
 
 """
@@ -2141,7 +2141,7 @@ the return will be nullptr if fed or [`Query`](@ref) is an invalid object, the r
 """
 function helicsQueryExecute(query::Query, fed::Federate)::String
     r = Utils.@invoke_and_check Lib.helicsQueryExecute(query, fed)
-    return r |> unsafe_string
+    return unsafe_string(r)
 end
 
 """
@@ -2162,7 +2162,7 @@ the return will be nullptr if fed or [`Query`](@ref) is an invalid object, the r
 """
 function helicsQueryCoreExecute(query::Query, core::Core)::String
     r = Utils.@invoke_and_check Lib.helicsQueryCoreExecute(query, core)
-    return r |> unsafe_string
+    return unsafe_string(r)
 end
 
 """
@@ -2183,7 +2183,7 @@ the return will be nullptr if fed or [`Query`](@ref) is an invalid object, the r
 """
 function helicsQueryBrokerExecute(query::Query, broker::Broker)::String
     r = Utils.@invoke_and_check Lib.helicsQueryBrokerExecute(query, broker)
-    return r |> unsafe_string
+    return unsafe_string(r)
 end
 
 """
@@ -2216,7 +2216,7 @@ the return will be nullptr if [`Query`](@ref) is an invalid object
 """
 function helicsQueryExecuteComplete(query::Query)::String
     r = Utils.@invoke_and_check Lib.helicsQueryExecuteComplete(query)
-    return r |> unsafe_string
+    return unsafe_string(r)
 end
 
 """
@@ -2272,25 +2272,25 @@ end
 """
 """
 function helicsMessageGetSource(message::Message)::String
-    return Lib.helicsMessageGetSource(message) |> unsafe_string
+    return unsafe_string(Lib.helicsMessageGetSource(message))
 end
 
 """
 """
 function helicsMessageGetDestination(message::Message)::String
-    return Lib.helicsMessageGetDestination(message) |> unsafe_string
+    return unsafe_string(Lib.helicsMessageGetDestination(message))
 end
 
 """
 """
 function helicsMessageGetOriginalSource(message::Message)::String
-    return Lib.helicsMessageGetOriginalSource(message) |> unsafe_string
+    return unsafe_string(Lib.helicsMessageGetOriginalSource(message))
 end
 
 """
 """
 function helicsMessageGetOriginalDestination(message::Message)::String
-    return Lib.helicsMessageGetOriginalDestination(message) |> unsafe_string
+    return unsafe_string(Lib.helicsMessageGetOriginalDestination(message))
 end
 
 """
@@ -2302,7 +2302,7 @@ end
 """
 """
 function helicsMessageGetString(message::Message)::String
-    return Lib.helicsMessageGetString(message) |> unsafe_string
+    return unsafe_string(Lib.helicsMessageGetString(message))
 end
 
 """
@@ -2428,7 +2428,7 @@ function helicsMessageAppendData(message::Message, data::String)
 end
 
 function helicsInputGetInjectionUnits(ipt::Input)::String
-    return Lib.helicsInputGetInjectionUnits(ipt) |> unsafe_string
+    return unsafe_string(Lib.helicsInputGetInjectionUnits(ipt))
 end
 
 function helicsFederateRegisterFromPublicationJSON(fed::Federate, json::String)
@@ -2456,7 +2456,7 @@ function helicsFederateLogInfoMessage(fed::Federate, logmessage::String)
 end
 
 function helicsInputGetExtractionUnits(ipt::Input)::String
-    return Lib.helicsInputGetExtractionUnits(ipt) |> unsafe_string
+    return unsafe_string(Lib.helicsInputGetExtractionUnits(ipt))
 end
 
 function helicsFederateSetLogFile(fed::Federate, logFile::String)
@@ -2468,7 +2468,7 @@ function helicsFederateLogLevelMessage(fed::Federate, loglevel::Int, logmessage:
 end
 
 function helicsCoreGetAddress(core::Core)::String
-    return Lib.helicsCoreGetAddress(core) |> unsafe_string
+    return unsafe_string(Lib.helicsCoreGetAddress(core))
 end
 
 function helicsInputClearUpdate(ipt::Input)

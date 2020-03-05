@@ -26,6 +26,10 @@ end
     include("messagefilter.jl")
 end
 
+@testset "Filters" begin
+    include("filters.jl")
+end
+
 @testset "API" begin
     include("api.jl")
 end

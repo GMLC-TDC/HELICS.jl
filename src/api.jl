@@ -202,7 +202,7 @@ end
 
 """
 """
-function helicsEndpointGetMessage(endpoint::Endpoint)::Message
+function helicsEndpointGetMessage(endpoint::Endpoint)::Lib.helics_message
     return Lib.helicsEndpointGetMessage(endpoint)
 end
 
@@ -214,7 +214,7 @@ end
 
 """
 """
-function helicsFederateGetMessage(fed::Federate)::Message
+function helicsFederateGetMessage(fed::Federate)::Lib.helics_message
     return Lib.helicsFederateGetMessage(fed)
 end
 

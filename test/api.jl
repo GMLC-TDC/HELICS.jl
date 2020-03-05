@@ -44,6 +44,55 @@ end
 
 end
 
+mutable struct UserData
+    x::Int
+end
+
+function logger(level::Cint, identifier::Cstring, message::Cstring, udata::Ptr{Cvoid})::Cvoid
+    m = unsafe_pointer_to_objref(Ptr{UserData}(udata)) # cast
+    m.x += 1
+    print("$level, $(unsafe_string(identifier)), $(unsafe_string(message)), $(m)\n")
+end
+
+@testset "Logging API tests" begin
+
+    fi = h.helicsCreateFederateInfo()
+    broker = h.helicsCreateBroker("zmq", "broker", "--federates 1 --loglevel 1")
+    h.helicsFederateInfoSetCoreInitString(fi, "--federates 1")
+
+    h.helicsFederateInfoSetIntegerProperty(fi, h.HELICS_PROPERTY_INT_LOG_LEVEL, 5)
+
+    fed = h.helicsCreateValueFederate("test1", fi)
+
+    userdata = UserData(5)
+
+    h.helicsFederateSetLoggingCallback(fed, @cfunction(logger, Cvoid, (Cint, Cstring, Cstring, Ptr{Cvoid})), Ref(userdata))
+
+    h.helicsFederateEnterExecutingMode(fed)
+    h.helicsFederateLogInfoMessage(fed, "test MEXAGE")
+    h.helicsFederateRequestNextStep(fed)
+    h.helicsFederateLogInfoMessage(fed, "test MEXAGE")
+    h.helicsFederateRequestNextStep(fed)
+    h.helicsFederateLogInfoMessage(fed, "test MEXAGE")
+    h.helicsFederateRequestNextStep(fed)
+    h.helicsFederateLogInfoMessage(fed, "test MEXAGE")
+    h.helicsFederateRequestNextStep(fed)
+
+    h.helicsFederateFinalize(fed)
+
+    @test userdata.x == 9
+
+    h.helicsFederateFree(fed)
+    h.helicsFederateInfoFree(fi)
+
+    h.helicsBrokerDisconnect(broker)
+    h.helicsBrokerFree(broker)
+
+    h.helicsCleanupLibrary()
+    h.helicsCloseLibrary()
+
+end
+
 @testset "Misc API tests" begin
     fedInfo1 = h.helicsCreateFederateInfo()
     h.helicsFederateInfoSetCoreInitString(fedInfo1, "-f 1")

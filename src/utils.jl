@@ -25,7 +25,9 @@ module Utils
 
     function invoke_and_check(f::Function, args...)
         err = Lib.helicsErrorInitialize()
-        r = f(args..., Ref(err))
+        ref_err = Ref(err)
+        r = f(args..., ref_err)
+        err = ref_err[]
         if err.error_code == 0
             return r
         elseif err.error_code == -8
@@ -47,4 +49,3 @@ module Utils
     end
 
 end
-

@@ -21,7 +21,8 @@ end
 
 @testset "Core API tests" begin
 
-    # core1 = h.helicsCreateCore("test", "core1", "--autobroker")
+    # "TEST core not available"
+    @test_throws h.Utils.HelicsErrorOther core1 = h.helicsCreateCore("test", "core1", "--autobroker")
     # core2 = h.helicsCoreClone(core1)
     # @test occursin("core1", h.helicsCoreGetIdentifier(core1))
 
@@ -272,4 +273,3 @@ end
     h.helicsCleanupLibrary()
     h.helicsCloseLibrary()
 end
-

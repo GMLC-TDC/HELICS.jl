@@ -102,6 +102,7 @@ const helics_data_type_char = helics_data_type_string
     helics_core_type_http = 12
     helics_core_type_websocket = 14
     helics_core_type_inproc = 18
+    helics_core_type_null = 66
 end
 
 @cenum helics_federate_flags::UInt32 begin
@@ -121,6 +122,7 @@ end
     helics_flag_delay_init_entry = 45
     helics_flag_enable_init_entry = 47
     helics_flag_ignore_time_mismatch_warnings = 67
+    helics_flag_terminate_on_error = 72
 end
 
 @cenum helics_log_levels::Int32 begin
@@ -149,6 +151,7 @@ end
     helics_error_execution_failure = -14
     helics_error_insufficient_space = -18
     helics_error_other = -101
+    helics_error_fatal = -404
     helics_error_external_type = -203
 end
 

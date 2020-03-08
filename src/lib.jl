@@ -890,6 +890,14 @@ function helicsFederateRegisterInterfaces(fed, file, err)
     ccall((:helicsFederateRegisterInterfaces, libhelicsSharedLib), Cvoid, (helics_federate, Cstring, Ptr{helics_error}), fed, file, err)
 end
 
+function helicsFederateGlobalError(fed, error_code, error_string)
+    ccall((:helicsFederateGlobalError, libhelicsSharedLib), Cvoid, (helics_federate, Cint, Cstring), fed, error_code, error_string)
+end
+
+function helicsFederateLocalError(fed, error_code, error_string)
+    ccall((:helicsFederateLocalError, libhelicsSharedLib), Cvoid, (helics_federate, Cint, Cstring), fed, error_code, error_string)
+end
+
 function helicsFederateFinalize(fed, err)
     ccall((:helicsFederateFinalize, libhelicsSharedLib), Cvoid, (helics_federate, Ptr{helics_error}), fed, err)
 end
@@ -1028,6 +1036,10 @@ end
 
 function helicsFederateSetGlobal(fed, valueName, value, err)
     ccall((:helicsFederateSetGlobal, libhelicsSharedLib), Cvoid, (helics_federate, Cstring, Cstring, Ptr{helics_error}), fed, valueName, value, err)
+end
+
+function helicsFederateAddDependency(fed, fedName, err)
+    ccall((:helicsFederateAddDependency, libhelicsSharedLib), Cvoid, (helics_federate, Cstring, Ptr{helics_error}), fed, fedName, err)
 end
 
 function helicsFederateSetLogFile(fed, logFile, err)

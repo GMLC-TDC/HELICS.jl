@@ -2534,3 +2534,15 @@ end
 function helicsInputSetMinimumChange(inp::Input, tolerance::Float64)
     Utils.@invoke_and_check Lib.helicsInputSetMinimumChange(inp, tolerance)
 end
+
+function helicsFederateGlobalError(fed::Federate, error_code::Integer, error_string::String)
+    helicsFederateGlobalError(fed, code, error_string)
+end
+
+function helicsFederateLocalError(fed::Federate, error_code::Integer, error_string::String)
+    helicsFederateLocalError(fed, code, error_string)
+end
+
+function helicsFederateAddDependency(fed::Federate, fedName::String)
+    Utils.@invoke_and_check helicsFederateAddDependency(fed, fedName)
+end

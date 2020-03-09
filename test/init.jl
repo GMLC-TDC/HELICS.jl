@@ -71,6 +71,5 @@ function destroyFederate(fed, fedinfo, broker=nothing)
     end
 end
 
-const destroyValueFederate = destroyFederate
-const destroyMessageFederate = destroyFederate
-
+destroyValueFederate(args...) = destroyFederate(args...)
+destroyMessageFederate(args...) = destroyFederate(args...)

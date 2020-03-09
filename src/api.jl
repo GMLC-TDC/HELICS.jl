@@ -113,13 +113,13 @@ The endpoint becomes part of the federate and is destroyed when the federate is 
 
 # Arguments
 
-- `fed`: the federate object in which to create an endpoint must have been create with helicsCreateMessageFederate or helicsCreateCombinationFederate
+- `fed`: the federate object in which to create an endpoint must have been create with [`helicsCreateMessageFederate`](@ref) or [`helicsCreateCombinationFederate`](@ref)
 - `name`: the identifier for the endpoint,  this will be prepended with the federate name for the global identifier
 - `type`: a string describing the expected type of the publication may be NULL
 
 # Returns
 
-- [`Endpoint`](@ref) object containing the endpoint, nullptr on failure
+- [`Endpoint`](@ref) object containing the endpoint
 """
 function helicsFederateRegisterEndpoint(fed::Federate, name::String, kind::String)::Endpoint
     return Utils.@invoke_and_check Lib.helicsFederateRegisterEndpoint(fed, name, kind)
@@ -133,14 +133,13 @@ federate is freed so there are no separate free functions for endpoints
 
 # Arguments
 
-- `fed` the federate object in which to create an endpoint must have been create with helicsCreateMessageFederate or helicsCreateCombinationFederate
+- `fed` the federate object in which to create an endpoint must have been create with [`helicsCreateMessageFederate`](@ref) or [`helicsCreateCombinationFederate`](@ref)
 - `name` the identifier for the endpoint, the given name is the global identifier
 - `type` a string describing the expected type of the publication may be NULL
-- `err` a pointer to an error object for catching errors
 
 # Returns
 
-- [`Endpoint`](@ref) object containing the endpoint, nullptr on failure
+- [`Endpoint`](@ref) object containing the endpoint
 """
 function helicsFederateRegisterGlobalEndpoint(fed::Federate, name::String, kind::String)::Endpoint
     return Utils.@invoke_and_check Lib.helicsFederateRegisterGlobalEndpoint(fed, name, kind)
@@ -153,21 +152,17 @@ Get an endpoint object from a name
 
 - `fed`: The message federate object to use to get the endpoint
 - `name`: The name of the endpoint
-- `err`: The error object to complete if there is an error
 
 # Returns
 
-- a `helics_endpoint` object, the object will not
-be valid and err will contain an error code if no endpoint with the
-specified name exists
+- a [`Endpoint`](@ref) object, the object will not be valid and err will contain an error code if no endpoint with the specified name exists
 """
 function helicsFederateGetEndpoint(fed::Federate, name::String)::Endpoint
     Utils.@invoke_and_check Lib.helicsFederateGetEndpoint(fed, name)
 end
 
 """
-Get an endpoint by its index typically already created via
-registerInterfaces file or something of that nature
+Get an endpoint by its index typically already created via registerInterfaces file or something of that nature
 
 # Arguments
 
@@ -176,7 +171,7 @@ registerInterfaces file or something of that nature
 
 # Returns
 
-- a helics_endpoint, which will be NULL if an invalid index
+- a [`Endpoint`](@ref), which will be NULL if an invalid index
 
 """
 function helicsFederateGetEndpointByIndex(fed::Federate, index::Int)::Endpoint
@@ -184,8 +179,7 @@ function helicsFederateGetEndpointByIndex(fed::Federate, index::Int)::Endpoint
 end
 
 """
-Set the default destination for an endpoint if no other endpoint is
-given
+Set the default destination for an endpoint if no other endpoint is given
 
 # Arguments
 
@@ -218,9 +212,8 @@ Send a message to the specified destination
 # Arguments
 
 - `endpoint`: The endpoint to send the data from
-- `dest`: The target destination (nullptr to use the default destination)
+- `dest`: The target destination (empty string to use the default destination)
 - `data`: The data to send
-- `inputDataLength`: The length of the data to send
 """
 function helicsEndpointSendMessageRaw(endpoint::Endpoint, dest::String, data::String)
     inputDataLength = length(data)
@@ -234,9 +227,8 @@ Send a message at a specific time to the specified destination
 # Arguments
 
 - `endpoint`: The endpoint to send the data from
-- `dest`: The target destination (nullptr to use the default destination)
+- `dest`: The target destination (empty string to use the default destination)
 - `data`: The data to send
-- `inputDataLength`: The length of the data to send
 - `time`: The time the message should be sent
 """
 function helicsEndpointSendEventRaw(endpoint::Endpoint, dest::String, data::String, time::HELICS.HELICS_TIME)
@@ -344,7 +336,7 @@ Receive a packet from a particular endpoint
 
 # Returns
 
-- a message object
+- [`Message`](@ref) object
 """
 function helicsEndpointGetMessage(endpoint::Endpoint)::Lib.helics_message
     return Lib.helicsEndpointGetMessage(endpoint)
@@ -359,7 +351,7 @@ Receive a packet from a particular endpoint
 
 # Returns
 
-- a message object
+- [`Message`](@ref) object
 """
 function helicsEndpointGetMessageObject(endpoint::Endpoint)::Message
     return Lib.helicsEndpointGetMessageObject(endpoint)
@@ -368,10 +360,8 @@ end
 """
 Receive a communication message for any endpoint in the federate
 
-the return order will be in order of endpoint creation. So all messages
-that are available for the first endpoint, then all for the second, and
-so on within a single endpoint the messages are ordered by time, then
-`source_id`, then order of arrival
+The return order will be in order of endpoint creation.
+So all messages that are available for the first endpoint, then all for the second, and so on within a single endpoint the messages are ordered by time, then `source_id`, then order of arrival
 
 # Returns
 
@@ -384,10 +374,8 @@ end
 """
 Receive a communication message for any endpoint in the federate
 
-the return order will be in order of endpoint creation. So all messages
-that are available for the first endpoint, then all for the second, and
-so on within a single endpoint the messages are ordered by time, then
-`source_id`, then order of arrival
+The return order will be in order of endpoint creation.
+So all messages that are available for the first endpoint, then all for the second, and so on within a single endpoint the messages are ordered by time, then `source_id`, then order of arrival
 
 Returns
 
@@ -506,7 +494,7 @@ a few extra features of name matching to function on the federate interface but 
 
 # Returns
 
-- a helics_filter object
+- a [`Filter`](@ref) object
 """
 function helicsFederateRegisterFilter(fed::Federate, kind::Union{Int, HELICS.HELICS_FILTER_TYPE}, name::String)::Filter
     return Utils.@invoke_and_check Lib.helicsFederateRegisterFilter(fed, kind, name)
@@ -526,7 +514,7 @@ a few extra features of name matching to function on the federate interface but 
 
 # Returns
 
-- a helics_filter object
+- a [`Filter`](@ref) object
 """
 function helicsFederateRegisterGlobalFilter(fed::Federate, kind::Union{Int, HELICS.HELICS_FILTER_TYPE}, name::String)::Filter
     return Utils.@invoke_and_check Lib.helicsFederateRegisterGlobalFilter(fed, kind, name)
@@ -545,7 +533,7 @@ through other functions
 
 # Returns
 
-- a helics_filter object
+- a [`Filter`](@ref) object
 """
 function helicsFederateRegisterCloningFilter(fed::Federate, name::String)::Filter
     return Utils.@invoke_and_check Lib.helicsFederateRegisterCloningFilter(fed, name)
@@ -564,7 +552,7 @@ through other functions
 
 # Returns
 
-- a helics_filter object
+- a [`Filter`](@ref) object
 """
 function helicsFederateRegisterGlobalCloningFilter(fed::Federate, name::String)::Filter
     return Utils.@invoke_and_check Lib.helicsFederateRegisterGlobalCloningFilter(fed, name)
@@ -584,7 +572,7 @@ a few extra features of name matching to function on the federate interface but 
 
 # Returns
 
-- a helics_filter object
+- a [`Filter`](@ref) object
 """
 function helicsCoreRegisterFilter(core::Core, kind::Union{Int, HELICS.HELICS_FILTER_TYPE}, name::String)::Filter
     return Utils.@invoke_and_check Lib.helicsCoreRegisterFilter(core, kind, name)
@@ -603,7 +591,7 @@ through other functions
 
 # Returns
 
-- a helics_filter object
+- a [`Filter`](@ref) object
 """
 function helicsCoreRegisterCloningFilter(core::Core, name::String)::Filter
     return Utils.@invoke_and_check Lib.helicsCoreRegisterCloningFilter(core, name)
@@ -634,7 +622,7 @@ Get a filter by its name typically already created via registerInterfaces file o
 
 # Returns
 
-- a helics_filter object, the object will not be valid and err will contain an error code if no filter with the specified name exists
+- a [`Filter`](@ref) object, the object will not be valid and err will contain an error code if no filter with the specified name exists
 """
 function helicsFederateGetFilter(fed::Federate, name::String)::Filter
     return Utils.@invoke_and_check Lib.helicsFederateGetFilter(fed, name)
@@ -648,7 +636,7 @@ Get a filter by its index typically already created via registerInterfaces file 
 - `fed`: the federate object in which to create a publication
 - `index`: the index of the publication to get
 
-- a helics_filter, which will be NULL if an invalid index
+- a [`Filter`](@ref), which will be NULL if an invalid index
 """
 function helicsFederateGetFilterByIndex(fed::Federate, index::Int)::Filter
     return Utils.@invoke_and_check Lib.helicsFederateGetFilterByIndex(fed, index)
@@ -817,8 +805,7 @@ functions for subscriptions and publications
 
 # Arguments
 
-- `fed`: the federate object in which to create a subscription must have been create with helicsCreateValueFederate or
-helicsCreateCombinationFederate
+- `fed`: the federate object in which to create a subscription must have been create with [`helicsCreateValueFederate`](@ref) or [`helicsCreateCombinationFederate`](@ref)
 - `key`: the identifier matching a publication to get a subscription for
 - `units`: a string listing the units of the subscription maybe NULL
 
@@ -840,7 +827,7 @@ functions for subscriptions and publications
 
 - `fed`: the federate object in which to create a publication
 - `key`: the identifier for the publication the global publication key will be prepended with the federate name
-- `type`: a code identifying the type of the input see /ref helics_data_type for available options
+- `type`: a code identifying the type of the input see [`HELICS_DATA_TYPE`](@ref) for available options
 - `units`: a string listing the units of the subscription maybe NULL
 
 # Returns
@@ -884,7 +871,7 @@ functions for subscriptions and publications
 
 - `fed`: the federate object in which to create a publication
 - `key`: the identifier for the publication
-- `type`: a code identifying the type of the input see /ref helics_data_type for available options
+- `type`: a code identifying the type of the input see [`HELICS_DATA_TYPE`](@ref) for available options
 - `units`: a string listing the units of the subscription maybe NULL
 
 # Returns
@@ -968,7 +955,7 @@ functions for subscriptions and publications
 
 - `fed`: the federate object in which to create a publication
 - `key`: the identifier for the publication
-- `type`: a code identifying the type of the input see /ref helics_data_type for available options
+- `type`: a code identifying the type of the input see [`HELICS_DATA_TYPE`](@ref) for available options
 - `units`: a string listing the units of the subscription maybe NULL
 
 # Returns
@@ -1010,7 +997,7 @@ Get a publication object from a key
 
 # Returns
 
-- a helics_publication object, the object will not be valid and err will contain an error code if no publication with the
+- a [`PUBLICATION`](@ref) object, the object will not be valid and err will contain an error code if no publication with the
 specified key exists
 """
 function helicsFederateGetPublication(fed::Federate, key::String)::Publication
@@ -1043,7 +1030,7 @@ Get an input object from a key
 
 # Returns
 
-- a helics_input object, the object will not be valid and err will contain an error code if no input with the specified key exists
+- a [`INPUT`](@ref) object, the object will not be valid and err will contain an error code if no input with the specified key exists
 """
 function helicsFederateGetInput(fed::Federate, key::String)::Input
     return Utils.@invoke_and_check Lib.helicsFederateGetInput(fed, key)
@@ -1075,7 +1062,7 @@ Get an input object from a subscription target
 
 # Returns
 
-- a helics_input object, the object will not be valid and err will contain an error code if no input with the specified
+- a [`INPUT`](@ref) object, the object will not be valid and err will contain an error code if no input with the specified
 key exists
 """
 function helicsFederateGetSubscription(fed::Federate, key::String)::Subscription
@@ -1894,7 +1881,7 @@ Create a core object
 # Arguments
 
 - `type`: the type of the core to create
-- `name`: the name of the core , may be a nullptr or empty string to have a name automatically assigned
+- `name`: the name of the core , may be a empty string to have a name automatically assigned
 - `initString`: an initialization string to send to the core-the format is similar to command line arguments. Typical options include a broker address  --broker="XSSAF" or the number of federates or the address
 
 # Returns
@@ -1946,7 +1933,7 @@ Create a broker object
 # Arguments
 
 - `type`: the type of the broker to create
-- `name`: the name of the broker , may be a nullptr or empty string to have a name automatically assigned
+- `name`: the name of the broker , may be a empty string to have a name automatically assigned
 - `initString`: an initialization string to send to the core-the format is similar to command line arguments. Typical options include a broker address  --broker="XSSAF" if this is a subbroker or the number of federates or the address
 
 # Returns
@@ -2331,7 +2318,7 @@ Create a [`CombinationFederate`](@ref) from a [`FederateInfo`](@ref) object
 
 # Returns
 
-- an opaque [`ValueFederate`](@ref), nullptr if the object creation failed
+- an opaque [`ValueFederate`](@ref)
 
 """
 function helicsCreateCombinationFederate(fedName::String, fi::FederateInfo)::CombinationFederate
@@ -2394,7 +2381,7 @@ Create a [`FederateInfo`](@ref) object from an existing one and clone the inform
 
 # Returns
 
-- a helics_federate_info object which is a reference to the created object
+- a [`FederateInfo`](@ref) object which is a reference to the created object
 
 """
 function helicsFederateInfoClone(fi::FederateInfo)::FederateInfo
@@ -2816,7 +2803,7 @@ Get the core object associated with a federate
 
 # Returns
 
-- a core object, nullptr if invalid
+- a [`Core`](@ref) object
 
 """
 function helicsFederateGetCoreObject(fed::Federate)::Core
@@ -3286,7 +3273,7 @@ The message is empty and isValid will return false since there is no data associ
 
 # Returns
 
-- a helics_message_object containing the message data
+- a [`Message`](@ref) containing the message data
 """
 function helicsFederateCreateMessageObject(fed::Federate)::Message
     Utils.@invoke_and_check Lib.helicsFederateCreateMessageObject(fed)
@@ -3707,8 +3694,8 @@ end
 """
 Clear all stored messages from a federate
 
-this clears messages retrieved through helicsFederateGetMessage or
-helicsFederateGetMessageObject
+this clears messages retrieved through [`helicsFederateGetMessage`](@ref) or
+[`helicsFederateGetMessageObject`](@ref)
 
 # Arguments
 
@@ -3809,7 +3796,7 @@ a message flows into a federate from the core or from a federate
 
 # Arguments
 
-- `fed`: the federate object in which to create a subscription must have been create with helicsCreateValueFederate or helicsCreateCombinationFederate
+- `fed`: the federate object in which to create a subscription must have been create with [`helicsCreateValueFederate`](@ref) or [`helicsCreateCombinationFederate`](@ref)
 - `logger`: a callback with signature void(int, const char *, const char *, void *); the function arguments are loglevel, an identifier string, and a message string, and a pointer to user data
 - `userdata`: a point to user data that is passed to the function when executing
 """
@@ -3866,7 +3853,7 @@ a message flows into a broker from the core or from a broker
 
 # Arguments
 
-- `broker`: the broker object in which to create a subscription must have been create with helicsCreateValueFederate or helicsCreateCombinationFederate
+- `broker`: the broker object in which to create a subscription must have been create with [`helicsCreateValueFederate`](@ref) or [`helicsCreateCombinationFederate`](@ref)
 - `logger`: a callback with signature void(int, const char *, const char *, void *); the function arguments are loglevel,  an identifier, and a message string, and a pointer to user data
 - `userdata`: a point to user data that is passed to the function when executing
 """
@@ -3949,7 +3936,7 @@ a message flows into a core from the core or from a broker
 
 # Arguments
 
-- `core`: the core object in which to create a subscription must have been create with helicsCreateValueFederate or helicsCreateCombinationFederate
+- `core`: the core object in which to create a subscription must have been create with [`helicsCreateValueFederate`](@ref) or [`helicsCreateCombinationFederate`](@ref)
 - `logger`: a callback with signature void(int, const char *, const char *, void *); the function arguments are loglevel,  an identifier, and a message string
 - `userdata`: a point to user data that is passed to the function when executing
 """

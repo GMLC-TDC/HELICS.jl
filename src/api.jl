@@ -493,126 +493,317 @@ function helicsEndpointGetOption(_end::Endpoint, option::Union{Int, HELICS.HELIC
 end
 
 """
+Create a source Filter on the specified federate
+
+filters can be created through a federate or a core , linking through a federate allows
+a few extra features of name matching to function on the federate interface but otherwise equivalent behavior
+
+# Arguments
+
+- `fed`: the fed to register through
+- `type`: the type of filter to create [`HELICS_FILTER_TYPE`](@ref)
+- `name`: the name of the filter (can be NULL)
+
+# Returns
+
+- a helics_filter object
 """
 function helicsFederateRegisterFilter(fed::Federate, kind::Union{Int, HELICS.HELICS_FILTER_TYPE}, name::String)::Filter
     return Utils.@invoke_and_check Lib.helicsFederateRegisterFilter(fed, kind, name)
 end
 
 """
+Create a global source filter through a federate
+
+Filters can be created through a federate or a core , linking through a federate allows
+a few extra features of name matching to function on the federate interface but otherwise equivalent behavior
+
+# Arguments
+
+- `fed`: the fed to register through
+- `type`: the type of filter to create [`HELICS_FILTER_TYPE`](@ref)
+- `name`: the name of the filter (can be NULL)
+
+# Returns
+
+- a helics_filter object
 """
 function helicsFederateRegisterGlobalFilter(fed::Federate, kind::Union{Int, HELICS.HELICS_FILTER_TYPE}, name::String)::Filter
     return Utils.@invoke_and_check Lib.helicsFederateRegisterGlobalFilter(fed, kind, name)
 end
 
 """
+Create a cloning Filter on the specified federate
+
+Cloning filters copy a message and send it to multiple locations source and destination can be added
+through other functions
+
+# Arguments
+
+- `fed`: the fed to register through
+- `name`: the name of the filter (can be NULL)
+
+# Returns
+
+- a helics_filter object
 """
 function helicsFederateRegisterCloningFilter(fed::Federate, name::String)::Filter
     return Utils.@invoke_and_check Lib.helicsFederateRegisterCloningFilter(fed, name)
 end
 
 """
+Create a global cloning Filter on the specified federate
+
+Cloning filters copy a message and send it to multiple locations source and destination can be added
+through other functions
+
+# Arguments
+
+- `fed`: the fed to register through
+- `name`: the name of the filter (can be NULL)
+
+# Returns
+
+- a helics_filter object
 """
 function helicsFederateRegisterGlobalCloningFilter(fed::Federate, name::String)::Filter
     return Utils.@invoke_and_check Lib.helicsFederateRegisterGlobalCloningFilter(fed, name)
 end
 
 """
+Create a source Filter on the specified core
+
+Filters can be created through a federate or a core , linking through a federate allows
+a few extra features of name matching to function on the federate interface but otherwise equivalent behavior
+
+# Arguments
+
+- `core` the core to register through
+- `type` the type of filter to create [`HELICS_FILTER_TYPE`](@ref)
+- `name` the name of the filter (can be NULL)
+
+# Returns
+
+- a helics_filter object
 """
 function helicsCoreRegisterFilter(core::Core, kind::Union{Int, HELICS.HELICS_FILTER_TYPE}, name::String)::Filter
     return Utils.@invoke_and_check Lib.helicsCoreRegisterFilter(core, kind, name)
 end
 
 """
+Create a cloning Filter on the specified core
+
+Cloning filters copy a message and send it to multiple locations source and destination can be added
+through other functions
+
+# Arguments
+
+- `core`: the core to register through
+- `name`: the name of the filter (can be NULL)
+
+# Returns
+
+- a helics_filter object
 """
 function helicsCoreRegisterCloningFilter(core::Core, name::String)::Filter
     return Utils.@invoke_and_check Lib.helicsCoreRegisterCloningFilter(core, name)
 end
 
 """
+Get a the number of filters registered through a federate
+
+# Arguments
+
+- `fed`: the federate object to use to get the filter
+
+# Returns
+
+- a count of the number of filters registered through a federate
 """
 function helicsFederateGetFilterCount(fed::Federate)::Int
     return Lib.helicsFederateGetFilterCount(fed)
 end
 
 """
+Get a filter by its name typically already created via registerInterfaces file or something of that nature
+
+# Arguments
+
+- `fed`: the federate object to use to get the filter
+- `name`: the name of the filter
+
+# Returns
+
+- a helics_filter object, the object will not be valid and err will contain an error code if no filter with the specified name exists
 """
 function helicsFederateGetFilter(fed::Federate, name::String)::Filter
     return Utils.@invoke_and_check Lib.helicsFederateGetFilter(fed, name)
 end
 
 """
+Get a filter by its index typically already created via registerInterfaces file or something of that nature
+
+# Arguments
+
+- `fed`: the federate object in which to create a publication
+- `index`: the index of the publication to get
+
+- a helics_filter, which will be NULL if an invalid index
 """
 function helicsFederateGetFilterByIndex(fed::Federate, index::Int)::Filter
     return Utils.@invoke_and_check Lib.helicsFederateGetFilterByIndex(fed, index)
 end
 
 """
+Get the name of the filter and store in the given string
+
+# Arguments
+
+- `filt`: the given filter
+
+# Returns
+
+- a string with the name of the filter
 """
 function helicsFilterGetName(filt::Filter)::String
     return unsafe_string(Lib.helicsFilterGetName(filt))
 end
 
 """
+Set a property on a filter
+
+# Arguments
+
+- `filt`: the filter to modify
+- `prop`: a string containing the property to set
+- `val`: a numerical value of the property
 """
 function helicsFilterSet(filt::Filter, prop::String, val::Float64)
     Utils.@invoke_and_check Lib.helicsFilterSet(filt, prop, val)
 end
 
 """
+Set a string property on a filter
+
+# Arguments
+
+- `filt`: the filter to modify
+- `prop`: a string containing the property to set
+- `val`: a string containing the new value
 """
 function helicsFilterSetString(filt::Filter, prop::String, val::String)
     Utils.@invoke_and_check Lib.helicsFilterSetString(filt, prop, val)
 end
 
 """
+Add a destination target to a filter
+
+All messages going to a destination are copied to the delivery address(es)
+
+# Arguments
+
+- `filt`: the given filter to add a destination target
+- `dest`: the name of the endpoint to add as a destination target
 """
 function helicsFilterAddDestinationTarget(filt::Filter, dest::String)
     Utils.@invoke_and_check Lib.helicsFilterAddDestinationTarget(filt, dest)
 end
 
 """
+Add a source target to a filter
+
+All messages coming from a source are copied to the delivery address(es)
+
+- `filt`: the given filter
+- `source`: the name of the endpoint to add as a source target
 """
 function helicsFilterAddSourceTarget(filt::Filter, source::String)
     Utils.@invoke_and_check Lib.helicsFilterAddSourceTarget(filt, source)
 end
 
 """
+Add a delivery endpoint to a cloning filter
+
+All cloned messages are sent to the delivery address(es)
+
+# Arguments
+
+- `filt`: the given filter
+- `deliveryEndpoint`: the name of the endpoint to deliver messages to
 """
 function helicsFilterAddDeliveryEndpoint(filt::Filter, deliveryEndpoint::String)
     Utils.@invoke_and_check Lib.helicsFilterAddDeliveryEndpoint(filt, deliveryEndpoint)
 end
 
 """
+Remove a destination target from a filter
+
+- `filt`: the given filter
+- `target`: the named endpoint to remove as a target
 """
 function helicsFilterRemoveTarget(filt::Filter, target::String)
     Utils.@invoke_and_check Lib.helicsFilterRemoveTarget(filt, target)
 end
 
 """
+Remove a delivery destination from a cloning filter
+
+# Arguments
+
+- `filt`: the given filter (must be a cloning filter)
+- `deliveryEndpoint`: a string with the deliverEndpoint to remove
 """
 function helicsFilterRemoveDeliveryEndpoint(filt::Filter, deliveryEndpoint::String)
     Utils.@invoke_and_check Lib.helicsFilterRemoveDeliveryEndpoint(filt, deliveryEndpoint)
 end
 
 """
+Get the data in the info field of an filter
+
+# Arguments
+
+- `filt`: the given filter
+
+# Returns
+
+- a string with the info field string
 """
 function helicsFilterGetInfo(filt::Filter)::String
     return unsafe_string(Lib.helicsFilterGetInfo(filt))
 end
 
 """
+Set the data in the info field for an filter
+
+# Arguments
+
+- `filt`: the given filter
+- `info`: the string to set
 """
 function helicsFilterSetInfo(filt::Filter, info::String)
     Utils.@invoke_and_check Lib.helicsFilterSetInfo(filt, info)
 end
 
 """
+Set the data in the info field for an filter
+
+# Arguments
+
+- `filt`: the given filter
+- `option`: the option to set [`HELICS_HANDLE_OPTIONS`](@ref)
+- `value`: the value of the option (helics_true or helics_false)
 """
 function helicsFilterSetOption(filt::Filter, option::Int, value::Bool)
     Utils.@invoke_and_check Lib.helicsFilterSetOption(filt, option, value ? 1 : 0)
 end
 
 """
+Get a handle option for the filter
+
+# Arguments
+
+- `filt`: the given filter to query
+- `option`: the option to query [`HELICS_HANDLE_OPTIONS`](@ref)
 """
 function helicsFilterGetOption(filt::Filter, option::Int)::Bool
     return Lib.helicsFilterGetOption(filt, option) == 1 ? true : false
@@ -3088,18 +3279,15 @@ function helicsCleanupLibrary()
     Lib.helicsCleanupLibrary()
 end
 
-function helicsBrokerAddLoggingCallback(broker::Broker, logger)
-    Utils.@invoke_and_check Lib.helicsBrokerAddLoggingCallback(broker, logger)
-end
+"""
+Create a new empty message object
 
-function helicsCoreAddLoggingCallback(core::Core, logger)
-    Utils.@invoke_and_check Lib.helicsCoreAddLoggingCallback(core, logger)
-end
+The message is empty and isValid will return false since there is no data associated with the message yet.
 
-function helicsFederateAddLoggingCallback(fed::Federate, logger)
-    Utils.@invoke_and_check Lib.helicsFederateAddLoggingCallback(fed, logger)
-end
+# Returns
 
+- a helics_message_object containing the message data
+"""
 function helicsFederateCreateMessageObject(fed::Federate)::Message
     Utils.@invoke_and_check Lib.helicsFederateCreateMessageObject(fed)
 end
@@ -3464,12 +3652,29 @@ function helicsMessageAppendData(message::Message, data::String)
 end
 
 """
+Get the units of the publication that an input is linked to
+
+# Arguments
+
+- `ipt`: the input to query
+
+# Returns
+
+- a void enumeration, helics_ok if everything worked
 """
 function helicsInputGetInjectionUnits(ipt::Input)::String
     return unsafe_string(Lib.helicsInputGetInjectionUnits(ipt))
 end
 
 """
+Register the publications via  JSON publication string
+
+This would be the same JSON that would be used to publish data
+
+# Arguments
+
+- `fed`: the federate
+- `json`: json string
 """
 function helicsFederateRegisterFromPublicationJSON(fed::Federate, json::String)
     Utils.@invoke_and_check Lib.helicsFederateRegisterFromPublicationJSON(fed, json)
@@ -3514,6 +3719,7 @@ function helicsFederateClearMessages(fed::Federate)
 end
 
 """
+Clear all the update flags from a federates inputs
 """
 function helicsFederateClearUpdates(fed::Federate)
     Lib.helicsFederateClearUpdates(fed)
@@ -3532,12 +3738,29 @@ function helicsFederateLogInfoMessage(fed::Federate, logmessage::String)
 end
 
 """
+Get the units of an input
+
+The same as helicsInputGetUnits
+
+# Arguments
+
+- `ipt`: the input to query
+
+# Returns
+
+- a void enumeration, helics_ok if everything worked
 """
 function helicsInputGetExtractionUnits(ipt::Input)::String
     return unsafe_string(Lib.helicsInputGetExtractionUnits(ipt))
 end
 
 """
+Set the logging file for a federate (actually on the core associated with a federate)
+
+# Arguments
+
+- `fed`: the federate to set the log file for
+- `logFile`: the name of the log file
 """
 function helicsFederateSetLogFile(fed::Federate, logFile::String)
     Utils.@invoke_and_check Lib.helicsFederateSetLogFile(fed, logFile)
@@ -3572,12 +3795,23 @@ function helicsCoreGetAddress(core::Core)::String
 end
 
 """
+Clear the updated flag from an input
 """
 function helicsInputClearUpdate(ipt::Input)
     Lib.helicsInputClearUpdate(ipt)
 end
 
 """
+Set the logging callback for a federate
+
+Add a logging callback function for the C The logging callback will be called when
+a message flows into a federate from the core or from a federate
+
+# Arguments
+
+- `fed`: the federate object in which to create a subscription must have been create with helicsCreateValueFederate or helicsCreateCombinationFederate
+- `logger`: a callback with signature void(int, const char *, const char *, void *); the function arguments are loglevel, an identifier string, and a message string, and a pointer to user data
+- `userdata`: a point to user data that is passed to the function when executing
 """
 function helicsFederateSetLoggingCallback(fed::Federate, logger::CFunction, userdata)
     Utils.@invoke_and_check Lib.helicsFederateSetLoggingCallback(fed, logger, userdata)
@@ -3625,6 +3859,16 @@ function helicsFederateLogDebugMessage(fed::Federate, logmessage::String)
 end
 
 """
+Set the logging callback to a broker
+
+Add a logging callback function for the C The logging callback will be called when
+a message flows into a broker from the core or from a broker
+
+# Arguments
+
+- `broker`: the broker object in which to create a subscription must have been create with helicsCreateValueFederate or helicsCreateCombinationFederate
+- `logger`: a callback with signature void(int, const char *, const char *, void *); the function arguments are loglevel,  an identifier, and a message string, and a pointer to user data
+- `userdata`: a point to user data that is passed to the function when executing
 """
 function helicsBrokerSetLoggingCallback(broker::Broker, logger::CFunction, userdata)
     Utils.@invoke_and_check Lib.helicsBrokerSetLoggingCallback(broker, logger, userdata)
@@ -3658,6 +3902,12 @@ function helicsFederateLogWarningMessage(fed::Federate, logmessage::String)
 end
 
 """
+Publish data contained in a json file or string
+
+# Arguments
+
+- `fed`: The federate
+- `json`: json file or string
 """
 function helicsFederatePublishJSON(fed::Federate, json::String)
     Utils.@invoke_and_check Lib.helicsFederatePublishJSON(fed, json)
@@ -3692,6 +3942,16 @@ function helicsEndpointClearMessages(endpoint::Endpoint)
 end
 
 """
+Set the logging callback for a core
+
+Add a logging callback function for the C The logging callback will be called when
+a message flows into a core from the core or from a broker
+
+# Arguments
+
+- `core`: the core object in which to create a subscription must have been create with helicsCreateValueFederate or helicsCreateCombinationFederate
+- `logger`: a callback with signature void(int, const char *, const char *, void *); the function arguments are loglevel,  an identifier, and a message string
+- `userdata`: a point to user data that is passed to the function when executing
 """
 function helicsCoreSetLoggingCallback(core::Core, logger::CFunction, userdata)
     Utils.@invoke_and_check Lib.helicsCoreSetLoggingCallback(broker, logger, userdata)
@@ -3735,24 +3995,66 @@ function helicsCoreMakeConnections(core::Core, file::String)
 end
 
 """
+Set the minimum change detection tolerance
+
+# Arguments
+
+- `inp`: the input to modify
+- `tolerance`: the tolerance level for registering an update, values changing less than this value will not show as being updated
 """
 function helicsInputSetMinimumChange(inp::Input, tolerance::Float64)
     Utils.@invoke_and_check Lib.helicsInputSetMinimumChange(inp, tolerance)
 end
 
 """
+Set the minimum change detection tolerance
+
+# Arguments
+
+- `pub`: the publication to modify
+- `tolerance`: the tolerance level for publication, values changing less than this value will not be published
+"""
+function helicsPublicationSetMinimumChange(pub::Publication, tolerance::Float64)
+    Utils.@invoke_and_check Lib.helicsPublicationSetMinimumChange(pub, tolerance)
+end
+
+"""
+Generate a global Error from a federate
+
+A global error halts the co-simulation completely
+
+# Arguments
+
+- `fed`: the federate to create an error in
+- `error_code`: the integer code for the error
+- `error_string`: a string describing the error
 """
 function helicsFederateGlobalError(fed::Federate, error_code::Integer, error_string::String)
     helicsFederateGlobalError(fed, code, error_string)
 end
 
 """
+Generate a local error in a federate
+
+This will propagate through the co-simulation but not necessarily halt the co-simulation, it has a similar effect to finalize but does allow some interaction with a core for a brief time.
+
+# Arguments
+
+- `fed`: the federate to create an error in
+- `error_code`: the integer code for the error
+- `error_string`: a string describing the error
 """
 function helicsFederateLocalError(fed::Federate, error_code::Integer, error_string::String)
     helicsFederateLocalError(fed, code, error_string)
 end
 
 """
+Add a time dependency for a federate.  The federate will depend on the given named federate for time synchronization
+
+# Arguments
+
+- `fed`: the federate to add the dependency for
+- `fedName`: the name of the federate to depend on
 """
 function helicsFederateAddDependency(fed::Federate, fedName::String)
     Utils.@invoke_and_check helicsFederateAddDependency(fed, fedName)

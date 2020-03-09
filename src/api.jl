@@ -107,42 +107,120 @@ const HELICS_TIME = Union{Int, Float64}
 const CFunction = Ptr{Cvoid}
 
 """
+Create an endpoint
+
+The endpoint becomes part of the federate and is destroyed when the federate is freed so there are no separate free functions for endpoints.
+
+# Arguments
+
+- `fed`: the federate object in which to create an endpoint must have been create with helicsCreateMessageFederate or helicsCreateCombinationFederate
+- `name`: the identifier for the endpoint,  this will be prepended with the federate name for the global identifier
+- `type`: a string describing the expected type of the publication may be NULL
+
+# Returns
+
+- [`Endpoint`](@ref) object containing the endpoint, nullptr on failure
 """
 function helicsFederateRegisterEndpoint(fed::Federate, name::String, kind::String)::Endpoint
     return Utils.@invoke_and_check Lib.helicsFederateRegisterEndpoint(fed, name, kind)
 end
 
 """
+Create an endpoint
+
+The endpoint becomes part of the federate and is destroyed when the
+federate is freed so there are no separate free functions for endpoints
+
+# Arguments
+
+- `fed` the federate object in which to create an endpoint must have been create with helicsCreateMessageFederate or helicsCreateCombinationFederate
+- `name` the identifier for the endpoint, the given name is the global identifier
+- `type` a string describing the expected type of the publication may be NULL
+- `err` a pointer to an error object for catching errors
+
+# Returns
+
+- [`Endpoint`](@ref) object containing the endpoint, nullptr on failure
 """
 function helicsFederateRegisterGlobalEndpoint(fed::Federate, name::String, kind::String)::Endpoint
     return Utils.@invoke_and_check Lib.helicsFederateRegisterGlobalEndpoint(fed, name, kind)
 end
 
 """
+Get an endpoint object from a name
+
+# Arguments
+
+- `fed`: The message federate object to use to get the endpoint
+- `name`: The name of the endpoint
+- `err`: The error object to complete if there is an error
+
+# Returns
+
+- a `helics_endpoint` object, the object will not
+be valid and err will contain an error code if no endpoint with the
+specified name exists
 """
 function helicsFederateGetEndpoint(fed::Federate, name::String)::Endpoint
     Utils.@invoke_and_check Lib.helicsFederateGetEndpoint(fed, name)
 end
 
 """
+Get an endpoint by its index typically already created via
+registerInterfaces file or something of that nature
+
+# Arguments
+
+- `fed`: The federate object in which to create a publication
+- `index`: The index of the publication to get
+
+# Returns
+
+- a helics_endpoint, which will be NULL if an invalid index
+
 """
 function helicsFederateGetEndpointByIndex(fed::Federate, index::Int)::Endpoint
     return Utils.@invoke_and_check Lib.helicsFederateGetEndpointByIndex(fed, index)
 end
 
 """
+Set the default destination for an endpoint if no other endpoint is
+given
+
+# Arguments
+
+- `endpoint`: The endpoint to set the destination for
+- `dest`: A string naming the desired default endpoint
+
 """
 function helicsEndpointSetDefaultDestination(endpoint::Endpoint, dest::String)
     Utils.@invoke_and_check Lib.helicsEndpointSetDefaultDestination(endpoint, dest)
 end
 
 """
+Get the default destination for an endpoint
+
+# Arguments
+
+- `endpoint`: The endpoint to set the destination for
+
+# Returns
+
+- a string with the default destination
 """
 function helicsEndpointGetDefaultDestination(endpoint::Endpoint)::String
     return unsafe_string(Lib.helicsEndpointGetDefaultDestination(endpoint))
 end
 
 """
+Send a message to the specified destination
+
+# Arguments
+
+- `endpoint`: The endpoint to send the data from
+- `dest`: The target destination (nullptr to use the default destination)
+- `data`: The data to send
+- `inputDataLength`: The length of the data to send
 """
 function helicsEndpointSendMessageRaw(endpoint::Endpoint, dest::String, data::String)
     inputDataLength = length(data)
@@ -151,6 +229,15 @@ function helicsEndpointSendMessageRaw(endpoint::Endpoint, dest::String, data::St
 end
 
 """
+Send a message at a specific time to the specified destination
+
+# Arguments
+
+- `endpoint`: The endpoint to send the data from
+- `dest`: The target destination (nullptr to use the default destination)
+- `data`: The data to send
+- `inputDataLength`: The length of the data to send
+- `time`: The time the message should be sent
 """
 function helicsEndpointSendEventRaw(endpoint::Endpoint, dest::String, data::String, time::HELICS.HELICS_TIME)
     inputDataLength = length(data)
@@ -159,108 +246,247 @@ function helicsEndpointSendEventRaw(endpoint::Endpoint, dest::String, data::Stri
 end
 
 """
+Send a message object from a specific endpoint
+
+# Arguments
+
+- `endpoint`: The endpoint to send the data from
+- `message`: The actual message to send
 """
 function helicsEndpointSendMessage(endpoint::Endpoint, message::Message)
     Utils.@invoke_and_check Lib.helicsEndpointSendMessage(endpoint, message)
 end
 
 """
+Send a message object from a specific endpoint
+
+# Arguments
+
+- `endpoint`: The endpoint to send the data from
+- `message`: The actual message to send
 """
 function helicsEndpointSendMessageObject(endpoint::Endpoint, message::Message)
     Utils.@invoke_and_check Lib.helicsEndpointSendMessageObject(endpoint, message)
 end
 
 """
+Subscribe an endpoint to a publication
+
+# Arguments
+
+- `endpoint`: The endpoint to use
+- `key`: The name of the publication
 """
 function helicsEndpointSubscribe(endpoint::Endpoint, key::String)
     Utils.@invoke_and_check Lib.helicsEndpointSubscribe(endpoint, key)
 end
 
 """
+Check if the federate has any outstanding messages
+
+# Arguments
+
+- `fed`: The federate to check if it has
+
+# Returns
+
+- `true` if the federate has a message waiting `false` otherwise
 """
 function helicsFederateHasMessage(fed::Federate)::Bool
     return Lib.helicsFederateHasMessage(fed) == 1 ? true : false
 end
 
 """
+Check if a given endpoint has any unread messages
+
+# Arguments
+
+- `endpoint`: The endpoint to check
+
+# Returns
+
+- `true` if the endpoint has a message, `false` otherwise
 """
 function helicsEndpointHasMessage(endpoint::Endpoint)::Bool
     return Lib.helicsEndpointHasMessage(endpoint) == 1 ? true : false
 end
 
 """
+Returns the number of pending receives for the specified destination
+endpoint.
+
+# Arguments
+
+- `fed`: The federate to get the number of waiting messages
 """
 function helicsFederatePendingMessages(fed::Federate)::Int
     return Lib.helicsFederatePendingMessages(fed)
 end
 
 """
+Returns the number of pending receives for all endpoints of particular
+federate.
+
+# Arguments
+
+- `endpoint`: The endpoint to query
 """
 function helicsEndpointPendingMessages(endpoint::Endpoint)::Int
     return Lib.helicsEndpointPendingMessages(endpoint)
 end
 
 """
+Receive a packet from a particular endpoint
+
+# Arguments
+
+- `endpoint`: The identifier for the endpoint
+
+# Returns
+
+- a message object
 """
 function helicsEndpointGetMessage(endpoint::Endpoint)::Lib.helics_message
     return Lib.helicsEndpointGetMessage(endpoint)
 end
 
 """
+Receive a packet from a particular endpoint
+
+# Arguments
+
+- `endpoint`: The identifier for the endpoint
+
+# Returns
+
+- a message object
 """
 function helicsEndpointGetMessageObject(endpoint::Endpoint)::Message
     return Lib.helicsEndpointGetMessageObject(endpoint)
 end
 
 """
+Receive a communication message for any endpoint in the federate
+
+the return order will be in order of endpoint creation. So all messages
+that are available for the first endpoint, then all for the second, and
+so on within a single endpoint the messages are ordered by time, then
+`source_id`, then order of arrival
+
+# Returns
+
+- a `unique_ptr` to a [`Lib.helics_message`](@ref) object containing the message data
 """
 function helicsFederateGetMessage(fed::Federate)::Lib.helics_message
     return Lib.helicsFederateGetMessage(fed)
 end
 
 """
+Receive a communication message for any endpoint in the federate
+
+the return order will be in order of endpoint creation. So all messages
+that are available for the first endpoint, then all for the second, and
+so on within a single endpoint the messages are ordered by time, then
+`source_id`, then order of arrival
+
+Returns
+
+- a [`Message`](@ref) which references the
+data in the message
 """
 function helicsFederateGetMessageObject(fed::Federate)::Message
     return Lib.helicsFederateGetMessageObject(fed)
 end
 
 """
+Get the type specified for an endpoint
+
+# Arguments
+
+- `endpoint`: The endpoint object in question
+
+# Returns
+
+- the defined type of the endpoint
 """
 function helicsEndpointGetType(endpoint::Endpoint)::String
     return unsafe_string(Lib.helicsEndpointGetType(endpoint))
 end
 
 """
+get the name of an endpoint
+
+# Arguments
+
+- `endpoint`: The endpoint object in question
+
+# Returns
+
+- the name of the endpoint
 """
 function helicsEndpointGetName(endpoint::Endpoint)::String
     return unsafe_string(Lib.helicsEndpointGetName(endpoint))
 end
 
 """
+Get the number of endpoints in a federate
+
+# Arguments
+
+- `fed`: The message federate to query
+
+# Returns
+
+- (-1) if fed was not a valid federate otherwise returns the number of endpoints
 """
 function helicsFederateGetEndpointCount(fed::Federate)::Int
     return Lib.helicsFederateGetEndpointCount(fed)
 end
 
 """
+Get the data in the info field of an filter
+
+# Arguments
+
+- `end`: The filter to query
+
+# Returns
+
+- a string with the info field string
 """
 function helicsEndpointGetInfo(_end::Endpoint)::String
     return unsafe_string(Lib.helicsEndpointGetInfo(_end))
 end
 
 """
+Set the data in the info field for an filter
+
+# Arguments
+
+- `end`: The endpoint to query
+- `info`: The string to set
 """
 function helicsEndpointSetInfo(_end::Endpoint, info::String)
     Utils.@invoke_and_check Lib.helicsEndpointSetInfo(_end, info)
 end
 
 """
+Set a handle option on an endpoint
+
+- `end`: The endpoint to modify
+- `option`: Integer code for the option to set [`HELICS_HANDLE_OPTIONS`](@ref)
+- `value`: The value to set the option
+
 """
 function helicsEndpointSetOption(_end::Endpoint, option::Union{Int, HELICS.HELICS_HANDLE_OPTIONS}, value::Bool)
     Utils.@invoke_and_check Lib.helicsEndpointSetOption(_end, option, value ? 1 : 0)
 end
 
 """
+Get a handle option on an endpoint
+
+- `end`: The endpoint to modify
+- `option`: Integer code for the option to set [`HELICS_HANDLE_OPTIONS`](@ref)
 """
 function helicsEndpointGetOption(_end::Endpoint, option::Union{Int, HELICS.HELICS_HANDLE_OPTIONS})::Bool
     return Lib.helicsEndpointGetOption(_end, option)
@@ -2270,60 +2496,154 @@ function helicsFederateCreateMessageObject(fed::Federate)::Message
 end
 
 """
+Get the source endpoint of a message
+
+     message operation functions
+
+functions for working with helics message envelopes
+
+# Arguments
+
+- `message`: The message object in question
+
+# Returns
+
+- a string with the source endpoint
 """
 function helicsMessageGetSource(message::Message)::String
     return unsafe_string(Lib.helicsMessageGetSource(message))
 end
 
 """
+Get the destination endpoint of a message
+
+# Arguments
+
+- `message`: The message object in question
+
+# Returns
+
+- a string with the destination endpoint
 """
 function helicsMessageGetDestination(message::Message)::String
     return unsafe_string(Lib.helicsMessageGetDestination(message))
 end
 
 """
+Get the original source endpoint of a message, the source may have
+modified by filters or other actions
+
+# Arguments
+
+- `message`: The message object in question
+
+# Returns
+
+- a string with the source of a message
 """
 function helicsMessageGetOriginalSource(message::Message)::String
     return unsafe_string(Lib.helicsMessageGetOriginalSource(message))
 end
 
 """
+Get the original destination endpoint of a message, the destination may
+have been modified by filters or other actions
+
+# Arguments
+
+- `message`: The message object in question
+
+# Returns
+
+- a string with the original destination of a message
 """
 function helicsMessageGetOriginalDestination(message::Message)::String
     return unsafe_string(Lib.helicsMessageGetOriginalDestination(message))
 end
 
 """
+Get the helics time associated with a message
+
+# Arguments
+
+- `message`: The message object in question
+
+# Returns
+
+- the time associated with a message
 """
 function helicsMessageGetTime(message::Message)::Float64
     return Lib.helicsMessageGetTime(message)
 end
 
 """
+Get the payload of a message as a string
+
+# Arguments
+
+- `message`: The message object in question
+
+# Returns
+
+- a string representing the payload of a message
 """
 function helicsMessageGetString(message::Message)::String
     return unsafe_string(Lib.helicsMessageGetString(message))
 end
 
 """
+Get the messageID of a message
+
+# Arguments
+
+- `message`: The message object in question
+
+# Returns
+
+- the messageID
 """
 function helicsMessageGetMessageID(message::Message)::Int
     return Lib.helicsMessageGetMessageID(message)
 end
 
 """
+Check if a flag is set on a message
+
+# Arguments
+
+- `message`: The message object in question
+- `flag`: The flag to check should be between [0,15]
+
+# Returns
+
+- the flags associated with a message
 """
 function helicsMessageCheckFlag(message::Message, flag::Union{Int, HELICS.HELICS_FEDERATE_FLAGS})::Bool
     return Lib.helicsMessageCheckFlag(message, flag) == 1 ? true : false
 end
 
 """
+Get the size of the data payload in bytes
+
+# Arguments
+
+- `message`: The message object in question
+
+# Returns
+
+- the size of the data payload
 """
 function helicsMessageGetRawDataSize(message::Message)::Int
     return Lib.helicsMessageGetRawDataSize(message)
 end
 
 """
+Get the raw data for a message object
+
+- `message`: A message object to get the data for
+- `data`: The memory location of the data
+- `maxMessagelen`: The maximum size of information that data can hold
+- `actualSize`: The actual length of data copied to data
 """
 function helicsMessageGetRawData(message::Message)::String
     maxlen = Cint(helicsMessageGetRawDataSize(message))
@@ -2334,84 +2654,184 @@ function helicsMessageGetRawData(message::Message)::String
 end
 
 """
+Get a pointer to the raw data of a message
+
+# Arguments
+
+- `message`: A message object to get the data for
+
+# Returns
+
+- a pointer to the raw data in memory, the
+pointer may be NULL if the message is not a valid message
 """
 function helicsMessageGetRawDataPointer(message::Message)::Ptr{Cvoid}
     return Lib.helicsMessageGetRawDataPointer(message)
 end
 
 """
+A check if the message contains a valid payload
+
+# Arguments
+
+- `message`: The message object in question
+
+# Returns
+
+- true if the message contains a payload
 """
 function helicsMessageIsValid(message::Message)::Bool
     return Lib.helicsMessageIsValid(message) == 1 ? true : false
 end
 
 """
+Set the source of a message
+
+# Arguments
+
+- `message`: The message object in question
+- `src`: A string containing the source
 """
 function helicsMessageSetSource(message::Message, src::String)
     Utils.@invoke_and_check Lib.helicsMessageSetSource(message, src)
 end
 
 """
+Set the destination of a message
+
+# Arguments
+
+- `message`: The message object in question
+- `dest`: A string containing the new destination
 """
 function helicsMessageSetDestination(message::Message, dest::String)
     Utils.@invoke_and_check Lib.helicsMessageSetDestination(message, dest)
 end
 
 """
+Set the original source of a message
+
+# Arguments
+
+- `message`: The message object in question
+- `src`: A string containing the new original source
 """
 function helicsMessageSetOriginalSource(message::Message, src::String)
     Utils.@invoke_and_check Lib.helicsMessageSetOriginalSource(message, src)
 end
 
 """
+Set the original destination of a message
+
+# Arguments
+
+- `message`: The message object in question
+- `dest`: A string containing the new original source
 """
 function helicsMessageSetOriginalDestination(message::Message, dest::String)
     Utils.@invoke_and_check Lib.helicsMessageSetOriginalDestination(message, dest)
 end
 
 """
+Set the delivery time for a message
+
+# Arguments
+
+- `message`: The message object in question
+- `time`: The time the message should be delivered
 """
 function helicsMessageSetTime(message::Message, time::HELICS.HELICS_TIME)
     Utils.@invoke_and_check Lib.helicsMessageSetTime(message, time)
 end
 
 """
+Resize the data buffer for a message
+
+the message data buffer will be resized there is no guarantees on what
+is in the buffer in newly allocated space if the allocated space is not
+sufficient new allocations will occur
+
+# Arguments
+
+- `message`: The message object in question
+- `newSize`: The new size in bytes of the buffer
 """
 function helicsMessageResize(message::Message, newSize::Int)
     Utils.@invoke_and_check Lib.helicsMessageResize(message, newSize)
 end
 
 """
+Reserve space in a buffer but don't actually resize
+
+the message data buffer will be reserved but not resized
+
+# Arguments
+
+- `message`: The message object in question
+- `reserveSize`: The number of bytes to reserve in the message object
 """
 function helicsMessageReserve(message::Message, reserveSize::Int)
     Utils.@invoke_and_check Lib.helicsMessageReserve(message, reserverSize)
 end
 
 """
+Set the message ID for the message
+
+normally this is not needed and the core of HELICS will adjust as needed
+
+# Arguments
+
+- `message`: The message object in question
+- `messageID`: A new message ID
 """
 function helicsMessageSetMessageID(message::Message, messageID::Int32)
     Utils.@invoke_and_check helicsMessageSetMessageID(message, messageID)
 end
 
 """
+Clear the flags of a message
+
+# Arguments
+
+- `message`: The message object in question
 """
 function helicsMessageClearFlags(message::Message)
     Lib.helicsMessageClearFlags(message)
 end
 
 """
+Set a flag on a message
+
+# Arguments
+
+- `message`: The message object in question
+- `flag`: An index of a flag to set on the message
+- `flagValue`: The desired value of the flag
 """
 function helicsMessageSetFlagOption(message::Message, flag::Union{Int, HELICS_FEDERATE_FLAGS}, flagValue::Bool)
     Utils.@invoke_and_check Lib.helicsMessageSetFlagOption(message, flag, flagValue)
 end
 
 """
+Set the data payload of a message as a string
+
+# Arguments
+
+- `message`: The message object in question
+- `str`: A string containing the message data
 """
 function helicsMessageSetString(message::Message, str::String)
     Utils.@invoke_and_check Lib.helicsMessageSetString(message, str)
 end
 
 """
+Set the data payload of a message as raw data
+
+# Arguments
+
+- `message`: The message object in question
+- `data`: A string containing the message data
+- `inputDataLength`: The length of the data to input
 """
 function helicsMessageSetData(message::Message, data::String)
     inputDataLength = length(data)
@@ -2420,6 +2840,13 @@ function helicsMessageSetData(message::Message, data::String)
 end
 
 """
+Append data to the payload
+
+# Arguments
+
+- `message`: The message object in question
+- `data`: A string containing the message data to append
+- `inputDataLength`: The length of the data to input
 """
 function helicsMessageAppendData(message::Message, data::String)
     inputDataLength = length(data)
@@ -2427,122 +2854,297 @@ function helicsMessageAppendData(message::Message, data::String)
     Utils.@invoke_and_check Lib.helicsMessageAppendData(message, data, inputDataLength)
 end
 
+"""
+"""
 function helicsInputGetInjectionUnits(ipt::Input)::String
     return unsafe_string(Lib.helicsInputGetInjectionUnits(ipt))
 end
 
+"""
+"""
 function helicsFederateRegisterFromPublicationJSON(fed::Federate, json::String)
     Utils.@invoke_and_check Lib.helicsFederateRegisterFromPublicationJSON(fed, json)
 end
 
+"""
+Set a the log file on a core
+
+# Arguments
+
+- `core`: The core to set the global through
+- `logFileName`: The name of the file to log to
+"""
 function helicsCoreSetLogFile(core::Core, logFileName::String)
     Utils.@invoke_and_check Lib.helicsCoreSetLogFile(core, logFileName)
 end
 
+"""
+Set a the log file on a broker
+
+# Arguments
+
+- `broker`: The broker to set the global through
+- `logFileName`: The name of the file to log to
+"""
 function helicsBrokerSetLogFile(broker::Broker, logFileName::String)
     Utils.@invoke_and_check Lib.helicsBrokerSetLogFile(broker::Broker, logFileName::String)
 end
 
+"""
+Clear all stored messages from a federate
+
+this clears messages retrieved through helicsFederateGetMessage or
+helicsFederateGetMessageObject
+
+# Arguments
+
+- `fed`: The federate to clear the message for
+"""
 function helicsFederateClearMessages(fed::Federate)
     Lib.helicsFederateClearMessages(fed)
 end
 
+"""
+"""
 function helicsFederateClearUpdates(fed::Federate)
     Lib.helicsFederateClearUpdates(fed)
 end
 
+"""
+Log a message through a federate
+
+# Arguments
+
+- `fed`: The federate to set the global through
+- `logmessage`: The message to put in the log
+"""
 function helicsFederateLogInfoMessage(fed::Federate, logmessage::String)
     Utils.@invoke_and_check Lib.helicsFederateLogInfoMessage(fed, logmessage)
 end
 
+"""
+"""
 function helicsInputGetExtractionUnits(ipt::Input)::String
     return unsafe_string(Lib.helicsInputGetExtractionUnits(ipt))
 end
 
+"""
+"""
 function helicsFederateSetLogFile(fed::Federate, logFile::String)
     Utils.@invoke_and_check Lib.helicsFederateSetLogFile(fed, logFile)
 end
 
-function helicsFederateLogLevelMessage(fed::Federate, loglevel::Int, logmessage::String)
+"""
+Log a message through a federate
+
+# Arguments
+
+- `fed`: The federate to set the global through
+- `loglevel`: The level of the message to log. See [`HELICS_LOG_LEVELS`](@ref)
+- `logmessage`: The message to put in the log
+"""
+function helicsFederateLogLevelMessage(fed::Federate, loglevel::Union{Int, HELICS_LOG_LEVELS}, logmessage::String)
     Utils.@invoke_and_check Lib.helicsFederateLogLevelMessage(fed, loglevel, logmessage)
 end
 
+"""
+Get the network address associated with a core
+
+# Arguments
+
+- `core`: The core to query
+
+# Returns
+
+- a string with the network address of the broker
+"""
 function helicsCoreGetAddress(core::Core)::String
     return unsafe_string(Lib.helicsCoreGetAddress(core))
 end
 
+"""
+"""
 function helicsInputClearUpdate(ipt::Input)
     Lib.helicsInputClearUpdate(ipt)
 end
 
+"""
+"""
 function helicsFederateSetLoggingCallback(fed::Federate, logger::CFunction, userdata)
     Utils.@invoke_and_check Lib.helicsFederateSetLoggingCallback(fed, logger, userdata)
 end
 
+"""
+Log an error message through a federate
+
+# Arguments
+
+- `fed`: The federate to set the global through
+- `logmessage`: The message to put in the log
+"""
 function helicsFederateLogErrorMessage(fed::Federate, logmessage::String)
     Utils.@invoke_and_check Lib.helicsFederateLogErrorMessage(fed, logmessage)
 end
 
+"""
+Wait for the core to disconnect
+
+# Arguments
+
+- `core`: The core to wait for
+- `msToWait`: The time out in millisecond (<0 for infinite timeout)
+
+# Returns
+
+`true` if the disconnect was successful,
+`false` if there was a timeout
+"""
 function helicsCoreWaitForDisconnect(core::Core, msWait::Int)
     Utils.@invoke_and_check Lib.helicsCoreWaitForDisconnect(core, msWait)
 end
 
+"""
+Log a message through a federate
+
+# Arguments
+
+- `fed`: The federate to set the global through
+- `logmessage`: The message to put in the log
+"""
 function helicsFederateLogDebugMessage(fed::Federate, logmessage::String)
     Utils.@invoke_and_check Lib.helicsFederateLogDebugMessage(fed, logmessage)
 end
 
+"""
+"""
 function helicsBrokerSetLoggingCallback(broker::Broker, logger::CFunction, userdata)
     Utils.@invoke_and_check Lib.helicsBrokerSetLoggingCallback(broker, logger, userdata)
 end
 
+"""
+Set the key for a broker connection
+
+this is only used if the core is automatically created, the broker
+information will be transferred to the core for connection
+
+# Arguments
+
+- `fi`: The federate info object to alter
+- `brokerkey`: A string containing a key for the broker to connect
+"""
 function helicsFederateInfoSetBrokerKey(fi::FederateInfo, brokerKey::String)
     Utils.@invoke_and_check Lib.helicsFederateInfoSetBrokerKey(fi, brokerKey)
 end
 
+"""
+Log a warning message through a federate
+
+# Arguments
+
+- `fed`: The federate to set the global through
+- `logmessage`: The message to put in the log
+"""
 function helicsFederateLogWarningMessage(fed::Federate, logmessage::String)
     Utils.@invoke_and_check Lib.helicsFederateLogWarningMessage(fed, logmessage)
 end
 
+"""
+"""
 function helicsFederatePublishJSON(fed::Federate, json::String)
     Utils.@invoke_and_check Lib.helicsFederatePublishJSON(fed, json)
 end
 
+"""
+request the next time for federate execution
+
+# Arguments
+
+- `fed`: The federate to make the request of
+- `timeDelta`: The requested amount of time to advance
+
+Returns
+
+- the time granted to the federate, will return
+[`HELICS_TIME_MAXTIME`](@ref) if the simulation has terminated invalid
+"""
 function helicsFederateRequestTimeAdvance(fed::Federate, timeDelta::HELICS.HELICS_TIME)::Float64
     return Utils.@invoke_and_check Lib.helicsFederateRequestTimeAdvance(fed, timeDelta)
 end
 
+"""
+Clear all message from an endpoint
+
+# Arguments
+
+- `endpoint`: The endpoint object to operate on
+"""
 function helicsEndpointClearMessages(endpoint::Endpoint)
     Lib.helicsEndpointClearMessages(endpoint)
 end
 
+"""
+"""
 function helicsCoreSetLoggingCallback(core::Core, logger::CFunction, userdata)
     Utils.@invoke_and_check Lib.helicsCoreSetLoggingCallback(broker, logger, userdata)
 end
 
+"""
+Set the initialization string that a core will pass to a generated
+broker usually in the form of command line arguments
+
+# Arguments
+
+- `fi`: The federate info object to alter
+- `brokerInit`: A string with command line arguments for a generated broker
+"""
 function helicsFederateInfoSetBrokerInitString(fi::FederateInfo, brokerInit::String)
     Utils.@invoke_and_check Lib.helicsFederateInfoSetBrokerInitString(fi::FederateInfo, brokerInit)
 end
 
+"""
+Load a file containing connection information
+
+# Arguments
+
+- `broker`: The broker to generate the connections from
+- `file`: A JSON or TOML file containing connection information
+"""
 function helicsBrokerMakeConnections(broker::Broker, file::String)
     Utils.@invoke_and_check Lib.helicsBrokerMakeConnections(broker, file)
 end
 
+"""
+Load a file containing connection information
+
+# Arguments
+
+- `core`: The core to generate the connections from
+- `file`: A JSON or TOML file containing connection information
+"""
 function helicsCoreMakeConnections(core::Core, file::String)
     Utils.@invoke_and_check Lib.helicsCoreMakeConnections(core, file)
 end
 
+"""
+"""
 function helicsInputSetMinimumChange(inp::Input, tolerance::Float64)
     Utils.@invoke_and_check Lib.helicsInputSetMinimumChange(inp, tolerance)
 end
 
+"""
+"""
 function helicsFederateGlobalError(fed::Federate, error_code::Integer, error_string::String)
     helicsFederateGlobalError(fed, code, error_string)
 end
 
+"""
+"""
 function helicsFederateLocalError(fed::Federate, error_code::Integer, error_string::String)
     helicsFederateLocalError(fed, code, error_string)
 end
 
+"""
+"""
 function helicsFederateAddDependency(fed::Federate, fedName::String)
     Utils.@invoke_and_check helicsFederateAddDependency(fed, fedName)
 end

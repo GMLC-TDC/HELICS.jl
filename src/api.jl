@@ -109,6 +109,7 @@ HELICS.HELICS_FILTER_TYPE
 
 const HELICS_TIME = Union{Int,Float64}
 const CFunction = Ptr{Cvoid}
+const HELICS_TIME_MAXTIME = typemax(Int)
 
 """
 Create an endpoint
@@ -369,7 +370,7 @@ So all messages that are available for the first endpoint, then all for the seco
 
 # Returns
 
-- a `unique_ptr` to a [`Lib.helics_message`](@ref) object containing the message data
+- a `unique_ptr` to a [`HELICS.Lib.helics_message`](@ref) object containing the message data
 """
 function helicsFederateGetMessage(fed::Federate)::Lib.helics_message
     return Lib.helicsFederateGetMessage(fed)
@@ -1001,7 +1002,7 @@ Get a publication object from a key
 
 # Returns
 
-- a [`PUBLICATION`](@ref) object, the object will not be valid and err will contain an error code if no publication with the
+- a [`Publication`](@ref) object, the object will not be valid and err will contain an error code if no publication with the
 specified key exists
 """
 function helicsFederateGetPublication(fed::Federate, key::String)::Publication
@@ -1034,7 +1035,7 @@ Get an input object from a key
 
 # Returns
 
-- a [`INPUT`](@ref) object, the object will not be valid and err will contain an error code if no input with the specified key exists
+- a [`Subscription`](@ref) object, the object will not be valid and err will contain an error code if no input with the specified key exists
 """
 function helicsFederateGetInput(fed::Federate, key::String)::Input
     return Utils.@invoke_and_check Lib.helicsFederateGetInput(fed, key)
@@ -1066,7 +1067,7 @@ Get an input object from a subscription target
 
 # Returns
 
-- a [`INPUT`](@ref) object, the object will not be valid and err will contain an error code if no input with the specified
+- a [`Subscription`](@ref) object, the object will not be valid and err will contain an error code if no input with the specified
 key exists
 """
 function helicsFederateGetSubscription(fed::Federate, key::String)::Subscription
@@ -3914,8 +3915,7 @@ request the next time for federate execution
 
 Returns
 
-- the time granted to the federate, will return
-[`HELICS_TIME_MAXTIME`](@ref) if the simulation has terminated invalid
+- the time granted to the federate, will return maximum time if the simulation has terminated invalid
 """
 function helicsFederateRequestTimeAdvance(fed::Federate, timeDelta::HELICS.HELICS_TIME)::Float64
     return Utils.@invoke_and_check Lib.helicsFederateRequestTimeAdvance(fed, timeDelta)

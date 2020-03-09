@@ -9,8 +9,9 @@ makedocs(
         canonical = "https://gmlc-tdc.github.io/HELICS.jl/stable/",
     ),
     sitename = "HELICS.jl",
+    authors = "Dheepak Krishnamurthy",
     pages = [
-        "index.md",
+        "Home" => "index.md",
         "terminology.md",
         "api.md",
     ],

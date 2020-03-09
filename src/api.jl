@@ -843,74 +843,159 @@ function helicsFederateGetPublicationByIndex(fed::Federate, index::Int)::Publica
 end
 
 """
+Get an input object from a key
+
+# Arguments
+
+- `fed`: the value federate object to use to get the publication
+- `key`: the name of the input
+
+# Returns
+
+- a helics_input object, the object will not be valid and err will contain an error code if no input with the specified key exists
 """
 function helicsFederateGetInput(fed::Federate, key::String)::Input
     return Utils.@invoke_and_check Lib.helicsFederateGetInput(fed, key)
 end
 
 """
+Get an input by its index typically already created via registerInterfaces file or something of that nature
+
+# Arguments
+
+- `fed`: the federate object in which to create a publication
+- `index`: the index of the publication to get
+
+# Returns
+
+- a helics_input, which will be NULL if an invalid index
 """
 function helicsFederateGetInputByIndex(fed::Federate, index::Int)::Input
     return Utils.@invoke_and_check Lib.helicsFederateGetInputByIndex(fed, index)
 end
 
 """
+Get an input object from a subscription target
+
+# Arguments
+
+- `fed`: the value federate object to use to get the publication
+- `key`: the name of the publication that a subscription is targeting
+
+# Returns
+
+- a helics_input object, the object will not be valid and err will contain an error code if no input with the specified
+key exists
 """
 function helicsFederateGetSubscription(fed::Federate, key::String)::Subscription
     return Utils.@invoke_and_check Lib.helicsFederateGetSubscription(fed, key)
 end
 
 """
+Publish raw data from bytes
+
+# Arguments
+
+- `pub`: the publication to publish for
+- `data`: the raw data
 """
-function helicsPublicationPublishRaw(pub::Publication, data)
+function helicsPublicationPublishRaw(pub::Publication, data::Cstring)
     inputDataLength = length(data)
     data = pointer(data)
     Utils.@invoke_and_check Lib.helicsPublicationPublishRaw(pub, data, inputDataLength)
 end
 
 """
+Publish a string
+
+# Arguments
+
+- `pub`: the publication to publish for
+- `str`: String
 """
 function helicsPublicationPublishString(pub::Publication, str::String)
     Utils.@invoke_and_check Lib.helicsPublicationPublishString(pub, str)
 end
 
 """
+Publish an integer value
+
+# Arguments
+
+- `pub`: the publication to publish for
+- `val`: the numerical value to publish
 """
 function helicsPublicationPublishInteger(pub::Publication, val::Int)
     Utils.@invoke_and_check Lib.helicsPublicationPublishInteger(pub, val)
 end
 
 """
+Publish a Boolean Value
+
+# Arguments
+
+- `pub`: the publication to publish for
+- `val`: the boolean value to publish either `true` or `false`
 """
 function helicsPublicationPublishBoolean(pub::Publication, val::Bool)
     Utils.@invoke_and_check Lib.helicsPublicationPublishBoolean(pub, val ? 1 : 0)
 end
 
 """
+Publish a double floating point value
+
+# Arguments
+
+- `pub` the publication to publish for
+- `val` the numerical value to publish
 """
 function helicsPublicationPublishDouble(pub::Publication, val::Float64)
     Utils.@invoke_and_check Lib.helicsPublicationPublishDouble(pub, val)
 end
 
 """
+Publish a time value
+
+# Arguments
+
+- `pub`: the publication to publish for
+- `val`: the numerical value to publish
 """
 function helicsPublicationPublishTime(pub::Publication, val::HELICS.HELICS_TIME)
     Utils.@invoke_and_check Lib.helicsPublicationPublishTime(pub, val)
 end
 
 """
+Publish a single character
+
+# Arguments
+
+- `pub`: the publication to publish for
+- `val`: the numerical value to publish
 """
 function helicsPublicationPublishChar(pub::Publication, val::Char)
     Utils.@invoke_and_check Lib.helicsPublicationPublishChar(pub, val)
 end
 
 """
+Publish a complex value (or pair of values)
+
+# Arguments
+
+- `pub`: the publication to publish for
+- `c`: the complex number to publish
 """
 function helicsPublicationPublishComplex(pub::Publication, c::ComplexF64)
     Utils.@invoke_and_check Lib.helicsPublicationPublishComplex(pub, c.re, c.im)
 end
 
 """
+publish a vector of doubles
+
+# Arguments
+
+- `pub`: the publication to publish for
+- `vectorInput`: Vector of Float64 data
 """
 function helicsPublicationPublishVector(pub::Publication, vectorInput::Vector{Float64})
     vectorLength = length(vectorInput)
@@ -918,44 +1003,80 @@ function helicsPublicationPublishVector(pub::Publication, vectorInput::Vector{Fl
 end
 
 """
+Publish a named point
+
+# Arguments
+
+- `pub`: the publication to publish for
+- `str`: a String
+- `val`: a Float64 to publish
 """
 function helicsPublicationPublishNamedPoint(pub::Publication, str::String, val::Float64)
     Utils.@invoke_and_check Lib.helicsPublicationPublishNamedPoint(pub, str, val)
 end
 
 """
+Add a named input to the list of targets a publication publishes to
+
+# Arguments
+
+- `pub`: the publication to add the target for
+- `target`: the name of an input that the data should be sent to
 """
 function helicsPublicationAddTarget(pub::Publication, target::String)
     Utils.@invoke_and_check Lib.helicsPublicationAddTarget(pub, target)
 end
 
 """
+Add a publication to the list of data that an input subscribes to
+
+# Arguments
+
+- `ipt`: the named input to modify
+- `target`: the name of a publication that an input should subscribe to
 """
 function helicsInputAddTarget(ipt::Input, target::String)
     Utils.@invoke_and_check Lib.helicsInputAddTarget(ipt, target)
 end
 
 """
+Get the size of the raw value for subscription
+
+# Returns
+
+- the size of the raw data/string in bytes
 """
 function helicsInputGetRawValueSize(ipt::Input)::Int
     return Lib.helicsInputGetRawValueSize(ipt)
 end
 
 """
+Get the raw data for the latest value of a subscription
 """
 function helicsInputGetRawValue(ipt::Input, data::T)::T where T<:Any
+    error("Not implemented.")
     maxlen = Lib.helicsInputGetRawValueSize(ipt)
     actualSize = Ref(maxlen)
     return Utils.@invoke_and_check Lib.helicsInputGetRawValue(ipt, data, maxlen, actualSize)
 end
 
 """
+Get the size of a value for subscription assuming return as a string
+
+# Returns
+
+- the size of the string
 """
 function helicsInputGetStringSize(ipt::Input)::Int
     return Lib.helicsInputGetStringSize(ipt)
 end
 
 """
+Get a string value from a subscription
+
+# Arguments
+
+- `ipt`: the input to get the data for
 """
 function helicsInputGetString(ipt::Input)::String
     maxStringLen = helicsInputGetStringSize(ipt)
@@ -966,12 +1087,30 @@ function helicsInputGetString(ipt::Input)::String
 end
 
 """
+Get an integer value from a subscription
+
+# Arguments
+
+- `ipt`: the input to get the data for
+
+# Returns
+
+- an int64_t value with the current value of the input
 """
 function helicsInputGetInteger(ipt::Input)::Int
     return Utils.@invoke_and_check Lib.helicsInputGetInteger(ipt)
 end
 
 """
+Get a boolean value from a subscription
+
+# Arguments
+
+- `ipt`: the input to get the data for
+
+# Returns
+
+- a boolean value of current input value
 """
 function helicsInputGetBoolean(ipt::Input)::Bool
     r = Utils.@invoke_and_check Lib.helicsInputGetBoolean(ipt)
@@ -979,24 +1118,60 @@ function helicsInputGetBoolean(ipt::Input)::Bool
 end
 
 """
+Get a double value from a subscription
+
+# Arguments
+
+- `ipt`: the input to get the data for
+
+# Returns
+
+- the double value of the input
 """
 function helicsInputGetDouble(ipt::Input)::Float64
     return Utils.@invoke_and_check Lib.helicsInputGetDouble(ipt)
 end
 
 """
+Get a double value from a subscription
+
+# Arguments
+
+- `ipt`: the input to get the data for
+
+# Returns
+
+- the resulting double value
 """
 function helicsInputGetTime(ipt::Input)::Float64
     return Utils.@invoke_and_check Lib.helicsInputGetTime(ipt)
 end
 
 """
+Get a single character value from an input
+
+# Arguments
+
+- `ipt`: the input to get the data for
+
+# Returns
+
+- the resulting character value
 """
 function helicsInputGetChar(ipt::Input)::Char
     return Utils.@invoke_and_check Lib.helicsInputGetChar(ipt)
 end
 
 """
+Get a complex object from an input object
+
+# Arguments
+
+- `ipt`: the input to get the data for
+
+# Returns
+
+- `ComplexF64`
 """
 function helicsInputGetComplexObject(ipt::Input)::ComplexF64
     r = Utils.@invoke_and_check Lib.helicsInputGetComplexObject(ipt)
@@ -1004,6 +1179,15 @@ function helicsInputGetComplexObject(ipt::Input)::ComplexF64
 end
 
 """
+Get a pair of double forming a complex number from a subscriptions
+
+# Arguments
+
+- `ipt`: the input to get the data for
+
+# Returns
+
+- ComplexF64
 """
 function helicsInputGetComplex(ipt::Input)::ComplexF64
     real = Ref{Float64}(0)
@@ -1013,12 +1197,22 @@ function helicsInputGetComplex(ipt::Input)::ComplexF64
 end
 
 """
+Get the size of a value for subscription assuming return as an array of doubles
+
+# Returns
+
+- the number of double in a return vector
 """
 function helicsInputGetVectorSize(ipt::Input)::Int64
     return Lib.helicsInputGetVectorSize(ipt)
 end
 
 """
+Get a vector from a subscription
+
+# Arguments
+
+- `ipt`: the input to get the result for
 """
 function helicsInputGetVector(ipt::Input)::Vector{Float64}
     maxlen = Cint(helicsInputGetVectorSize(ipt))
@@ -1029,6 +1223,16 @@ function helicsInputGetVector(ipt::Input)::Vector{Float64}
 end
 
 """
+Get a named point from a subscription
+
+# Arguments
+
+- `ipt`: the input to get the result for
+
+# Returns
+
+- outputString storage for copying a null terminated string
+- val the double value for the named point
 """
 function helicsInputGetNamedPoint(ipt::Input)::Tuple{String, Float64}
     maxStringLen = helicsInputGetStringSize(ipt)
@@ -1040,6 +1244,12 @@ function helicsInputGetNamedPoint(ipt::Input)::Tuple{String, Float64}
 end
 
 """
+Set the default as a raw data array
+
+# Arguments
+
+- `ipt`: the input to set the default for
+- `data`: a pointer to the raw data to use for the default
 """
 function helicsInputSetDefaultRaw(ipt::Input, data)
     inputDataLength = length(data)
@@ -1047,48 +1257,96 @@ function helicsInputSetDefaultRaw(ipt::Input, data)
 end
 
 """
+Set the default as a string
+
+# Arguments
+
+- `ipt`: the input to set the default for
+- `str`: a pointer to the default string
 """
 function helicsInputSetDefaultString(ipt::Input, str::String)
     Utils.@invoke_and_check Lib.helicsInputSetDefaultString(ipt, str)
 end
 
 """
+Set the default as an integer
+
+# Arguments
+
+- `ipt`: the input to set the default for
+- `val`: the default integer
 """
 function helicsInputSetDefaultInteger(ipt::Input, val::Int)
     Utils.@invoke_and_check Lib.helicsInputSetDefaultInteger(ipt, val)
 end
 
 """
+Set the default as a boolean
+
+# Arguments
+
+- `ipt`: the input to set the default for
+- `val`: the default boolean value
 """
 function helicsInputSetDefaultBoolean(ipt::Input, val::Bool)
     Utils.@invoke_and_check Lib.helicsInputSetDefaultBoolean(ipt, val ? 1 : 0)
 end
 
 """
+Set the default as a double
+
+# Arguments
+
+- `ipt`: the input to set the default for
+- `val`: the default double value
 """
 function helicsInputSetDefaultTime(ipt::Input, val::HELICS.HELICS_TIME)
     Utils.@invoke_and_check Lib.helicsInputSetDefaultTime(ipt, val)
 end
 
 """
+Set the default as a double
+
+# Arguments
+
+- `ipt`: the input to set the default for
+- `val`: the default double value
 """
 function helicsInputSetDefaultChar(ipt::Input, val::Char)
     Utils.@invoke_and_check Lib.helicsInputSetDefaultChar(ipt, val)
 end
 
 """
+Set the default as a double
+
+# Arguments
+
+- `ipt`: the input to set the default for
+- `val`: the default double value
 """
 function helicsInputSetDefaultDouble(ipt::Input, val::Float64)
     Utils.@invoke_and_check Lib.helicsInputSetDefaultDouble(ipt, val)
 end
 
 """
+Set the default as a complex number
+
+# Arguments
+
+- `ipt`: the input to set the default for
+- `c`: the default ComplexF64
 """
 function helicsInputSetDefaultComplex(ipt::Input, c::ComplexF64)
     Utils.@invoke_and_check Lib.helicsInputSetDefaultComplex(ipt, c.re, c.im)
 end
 
 """
+Set the default as a vector of doubles
+
+# Arguments
+
+- `ipt`: the input to set the default for
+- `vectorInput`: an array of double data
 """
 function helicsInputSetDefaultVector(ipt::Input, vectorInput::Vector{Float64})
     vectorLength = length(vectorInput)
@@ -1096,126 +1354,305 @@ function helicsInputSetDefaultVector(ipt::Input, vectorInput::Vector{Float64})
 end
 
 """
+Set the default as a NamedPoint
+
+# Arguments
+
+- `ipt`: the input to set the default for
+- `str`: a pointer to a string representing the name
+- `val`: a double value for the value of the named point
 """
 function helicsInputSetDefaultNamedPoint(ipt::Input, str::String, val::Float64)
     Utils.@invoke_and_check Lib.helicsInputSetDefaultNamedPoint(ipt, str, val)
 end
 
 """
+Get the type of an input
+
+# Arguments
+
+- `ipt`: the input to query
+
+# Returns
+
+- a void enumeration, helics_ok if everything worked
 """
 function helicsInputGetType(ipt::Input)::String
+    # TODO: check documentation
     return unsafe_string(Lib.helicsInputGetType(ipt))
 end
 
 """
+Get the type of the publisher to an input is sending
+
+# Arguments
+
+- `ipt`: the input to query
+
+# Returns
+
+- a const char * with the type name
 """
 function helicsInputGetPublicationType(ipt::Input)::String
     return unsafe_string(Lib.helicsInputGetPublicationType(ipt))
 end
 
 """
+Get the type of a publication
+
+# Arguments
+
+- `pub`: the publication to query
+
+# Returns
+
+- a void enumeration, helics_ok if everything worked
 """
 function helicsPublicationGetType(pub::Publication)::String
     return unsafe_string(Lib.helicsPublicationGetType(pub))
 end
 
 """
+Get the key of an input
+
+# Arguments
+
+- `ipt`: the input to query
+
+# Returns
+
+- a void enumeration, helics_ok if everything worked
 """
 function helicsInputGetKey(ipt::Input)::String
     return unsafe_string(Lib.helicsInputGetKey(ipt))
 end
 
 """
+Get the key of a subscription
+
+# Returns
+
+a const char with the subscription key
 """
 function helicsSubscriptionGetKey(ipt::Input)::String
     return unsafe_string(Lib.helicsSubscriptionGetKey(ipt))
 end
 
 """
+Get the key of a publication
+
+this will be the global key used to identify the publication to the federation
+
+# Arguments
+
+- `pub`: the publication to query
+
+# Returns
+
+- a void enumeration, helics_ok if everything worked
 """
 function helicsPublicationGetKey(pub::Publication)::String
     return unsafe_string(Lib.helicsPublicationGetKey(pub))
 end
 
 """
+Get the units of an input
+
+# Arguments
+
+- `ipt`: the input to query
+
+# Returns
+
+- a void enumeration, helics_ok if everything worked
 """
 function helicsInputGetUnits(ipt::Input)::String
     return unsafe_string(Lib.helicsInputGetUnits(ipt))
 end
 
 """
+Get the units of the publication that an input is linked to
+
+# Arguments
+
+- `ipt`: the input to query
+
+# Returns
+
+- a void enumeration, helics_ok if everything worked
 """
 function helicsPublicationGetUnits(pub::Publication)::String
     return unsafe_string(Lib.helicsPublicationGetUnits(pub))
 end
 
 """
+Get the data in the info field of an input
+
+# Arguments
+
+- `inp`: the input to query
+
+# Returns
+
+- a string with the info field string
 """
 function helicsInputGetInfo(inp::Input)::String
     return unsafe_string(Lib.helicsInputGetInfo(inp))
 end
 
 """
+Set the data in the info field for an input
+
+# Arguments
+
+- `inp`: the input to query
+- `info`: the string to set
 """
 function helicsInputSetInfo(inp::Input, info::String)
     Utils.@invoke_and_check Lib.helicsInputSetInfo(inp, info)
 end
 
 """
+Get the data in the info field of an publication
+
+# Arguments
+
+- `pub`: the publication to query
+
+# Returns
+
+- a string with the info field string
 """
 function helicsPublicationGetInfo(pub::Publication)::String
     return unsafe_string(Lib.helicsPublicationGetInfo(pub))
 end
 
 """
+Set the data in the info field for an publication
+
+# Arguments
+
+- `pub`: the publication to set the info field for
+- `info`: the string to set
 """
 function helicsPublicationSetInfo(pub::Publication, info::String)
     Utils.@invoke_and_check Lib.helicsPublicationSetInfo(pub, info)
 end
 
 """
+Get the data in the info field of an input
+
+# Arguments
+
+- `inp`: the input to query
+- `option`: integer representation of the option in question see [`HELICS_HANDLE_OPTIONS`](@ref)
+
+# Returns
+
+- a string with the info field string
 """
 function helicsInputGetOption(inp::Input, option::Int)::Bool
     return Lib.helicsInputGetOption(inp, option::Int) == 1 ? true : false
 end
 
 """
+Set the data in the info field for an input
+
+# Arguments
+
+- `inp`: the input to query
+- `option`: the option to set for the input [`HELICS_HANDLE_OPTIONS`](@ref)
+- `value`: the value to set the option to
 """
 function helicsInputSetOption(inp::Input, option::Int, value::Bool)
     Utils.@invoke_and_check Lib.helicsInputSetOption(inp, option, value ? 1 : 0)
 end
 
 """
+Get the data in the info field of an publication
+
+# Arguments
+
+- `pub`: the publication to query
+- `option`: the value to query see [`HELICS_HANDLE_OPTIONS`](@ref)
+
+# Arguments
+
+- a string with the info field string
 """
 function helicsPublicationGetOption(pub::Publication, option::Int)::Bool
     return Lib.helicsPublicationGetOption(pub, option) == 1 ? true : false
 end
 
 """
+Set the data in the info field for an publication
+
+# Arguments
+
+- `pub`: the publication to query
+- `option`: integer code for the option to set [`HELICS_HANDLE_OPTIONS`](@ref)
+- `val`: the value to set the option to
 """
 function helicsPublicationSetOption(pub::Publication, option::Int, val::Bool)
     Utils.@invoke_and_check Lib.helicsPublicationSetOption(pub, option, val ? 1 : 0)
 end
 
 """
+Check if a particular subscription was updated
+
+# Arguments
+
+- `ipt`: the input to query
+
+# Returns
+
+- true if it has been updated since the last value retrieval
 """
 function helicsInputIsUpdated(ipt::Input)::Bool
     return Lib.helicsInputIsUpdated(ipt) == 1 ? true : false
 end
 
 """
+Get the last time a subscription was updated
+
+# Arguments
+
+- `ipt`: the input to query
+
+# Returns
+
+- Float64
 """
 function helicsInputLastUpdateTime(ipt::Input)::Float64
     return Lib.helicsInputLastUpdateTime(ipt)
 end
 
 """
+Get the number of publications in a federate
+
+
+# Arguments
+
+- `fed`: an existing [`Federate`](@ref)
+
+# Returns
+
+- (-1) if fed was not a valid federate otherwise returns the number of publications
 """
 function helicsFederateGetPublicationCount(fed::Federate)::Int
     return Lib.helicsFederateGetPublicationCount(fed)
 end
 
 """
+Get the number of subscriptions in a federate
+
+# Arguments
+
+- `fed`: an existing [`Federate`](@ref)
+
+# Returns
+
+- (-1) if fed was not a valid federate otherwise returns the number of subscriptions
 """
 function helicsFederateGetInputCount(fed::Federate)::Int
     return Lib.helicsFederateGetInputCount(fed)

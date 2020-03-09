@@ -619,66 +619,224 @@ function helicsFilterGetOption(filt::Filter, option::Int)::Bool
 end
 
 """
+Create a subscription
+
+The subscription becomes part of the federate and is destroyed when the federate is freed so there are no separate free
+functions for subscriptions and publications
+
+# Arguments
+
+- `fed`: the federate object in which to create a subscription must have been create with helicsCreateValueFederate or
+helicsCreateCombinationFederate
+- `key`: the identifier matching a publication to get a subscription for
+- `units`: a string listing the units of the subscription maybe NULL
+
+# Returns
+
+- an object containing the subscription
 """
 function helicsFederateRegisterSubscription(fed::Federate, key::String, units::String="")::Subscription
     return Utils.@invoke_and_check Lib.helicsFederateRegisterSubscription(fed, key, units)
 end
 
 """
+Register a publication with a known type
+
+The publication becomes part of the federate and is destroyed when the federate is freed so there are no separate free
+functions for subscriptions and publications
+
+# Arguments
+
+- `fed`: the federate object in which to create a publication
+- `key`: the identifier for the publication the global publication key will be prepended with the federate name
+- `type`: a code identifying the type of the input see /ref helics_data_type for available options
+- `units`: a string listing the units of the subscription maybe NULL
+
+# Returns
+
+- an object containing the publication
 """
 function helicsFederateRegisterPublication(fed::Federate, key::String, kind::Union{Int, HELICS.HELICS_DATA_TYPE}, units::String="")::Publication
     return Utils.@invoke_and_check Lib.helicsFederateRegisterPublication(fed, key, kind, units)
 end
 
 """
+Register a publication with a defined type
+
+The publication becomes part of the federate and is destroyed when the federate is freed so there are no separate free
+functions for subscriptions and publications
+
+# Arguments
+
+- `fed`: the federate object in which to create a publication
+- `key`: the identifier for the publication
+- `type`: a string labeling the type of the publication
+- `units`: a string listing the units of the subscription maybe NULL
+
+# Returns
+
+- an object containing the publication
 """
 function helicsFederateRegisterTypePublication(fed::Federate, key::String, kind::String, units::String="")::Publication
     return Utils.@invoke_and_check Lib.helicsFederateRegisterTypePublication(fed, key, kind, units)
 end
 
 """
+Register a global named publication with an arbitrary type
+
+# Arguments
+
+The publication becomes part of the federate and is destroyed when the federate is freed so there are no separate free
+functions for subscriptions and publications
+
+# Arguments
+
+- `fed`: the federate object in which to create a publication
+- `key`: the identifier for the publication
+- `type`: a code identifying the type of the input see /ref helics_data_type for available options
+- `units`: a string listing the units of the subscription maybe NULL
+
+# Returns
+
+- an object containing the publication
 """
 function helicsFederateRegisterGlobalPublication(fed::Federate, key::String, kind::Union{Int, HELICS.HELICS_DATA_TYPE}, units::String="")::Publication
     return Utils.@invoke_and_check Lib.helicsFederateRegisterGlobalPublication(fed, key, kind, units)
 end
 
 """
+Register a global publication with a defined type
+
+# Arguments
+
+The publication becomes part of the federate and is destroyed when the federate is freed so there are no separate free
+functions for subscriptions and publications
+
+- `fed`: the federate object in which to create a publication
+- `key`: the identifier for the publication
+- `type`: a string describing the expected type of the publication
+- `units`: a string listing the units of the subscription maybe NULL
+
+# Returns
+
+- an object containing the publication
 """
 function helicsFederateRegisterGlobalTypePublication(fed::Federate, key::String, kind::String, units::String="")::Publication
     return Utils.@invoke_and_check Lib.helicsFederateRegisterGlobalTypePublication(fed, key, kind, units)
 end
 
 """
+Register a named input
+
+The input becomes part of the federate and is destroyed when the federate is freed so there are no separate free
+functions for subscriptions, inputs, and publications
+
+# Arguments
+
+- `fed`: the federate object in which to create an input
+- `key`: the identifier for the publication the global input key will be prepended with the federate name
+- `type`: a code identifying the type of the input see [`HELICS_DATA_TYPE`](@ref) for available options
+- `units`: a string listing the units of the input maybe NULL
+
+# Returns
+
+- an object containing the input
 """
 function helicsFederateRegisterInput(fed::Federate, key::String, kind::Union{Int, HELICS.HELICS_DATA_TYPE}, units::String="")::Input
     return Utils.@invoke_and_check Lib.helicsFederateRegisterInput(fed, key, kind, units)
 end
 
 """
+Register an input with a defined type
+
+The input becomes part of the federate and is destroyed when the federate is freed so there are no separate free
+functions for subscriptions, inputs and publications
+
+# Arguments
+
+- `fed`: the federate object in which to create an input
+- `key`: the identifier for the input
+- `type`: a string describing the expected type of the input
+- `units`: a string listing the units of the input maybe NULL
+
+# Returns
+
+- object containing the publication
 """
 function helicsFederateRegisterTypeInput(fed::Federate, key::String, kind::String, units::String="")::Input
     return Utils.@invoke_and_check Lib.helicsFederateRegisterTypeInput(fed, key, kind, units)
 end
 
 """
+Register a global named input
+
+The publication becomes part of the federate and is destroyed when the federate is freed so there are no separate free
+functions for subscriptions and publications
+
+# Arguments
+
+- `fed`: the federate object in which to create a publication
+- `key`: the identifier for the publication
+- `type`: a code identifying the type of the input see /ref helics_data_type for available options
+- `units`: a string listing the units of the subscription maybe NULL
+
+# Returns
+
+- an object containing the publication
 """
 function helicsFederateRegisterGlobalInput(fed::Federate, key::String, kind::Union{Int, HELICS.HELICS_DATA_TYPE}, units::String="")::Input
     return Utils.@invoke_and_check Lib.helicsFederateRegisterGlobalInput(fed, key, kind, units)
 end
 
 """
+Register a global publication with an arbitrary type
+
+The publication becomes part of the federate and is destroyed when the federate is freed so there are no separate free
+functions for subscriptions and publications
+
+# Arguments
+
+- `fed`: the federate object in which to create a publication
+- `key`: the identifier for the publication
+- `type`: a string defining the type of the input
+- `units`: a string listing the units of the subscription maybe NULL
+
+# Returns
+
+- an object containing the publication
 """
 function helicsFederateRegisterGlobalTypeInput(fed::Federate, key::String, kind::String, units::String="")::Input
     return Utils.@invoke_and_check Lib.helicsFederateRegisterGlobalTypeInput(fed, key, kind, units)
 end
 
 """
+Get a publication object from a key
+
+# Arguments
+
+- `fed` the value federate object to use to get the publication
+- `key` the name of the publication
+
+# Returns
+
+- a helics_publication object, the object will not be valid and err will contain an error code if no publication with the
+specified key exists
 """
 function helicsFederateGetPublication(fed::Federate, key::String)::Publication
     return Utils.@invoke_and_check Lib.helicsFederateGetPublication(fed, key)
 end
 
 """
+Get a publication by its index typically already created via registerInterfaces file or something of that nature
+
+# Arguments
+
+- `fed` the federate object in which to create a publication
+- `index` the index of the publication to get
+
+# Returns
+
+- a helics_publication
 """
 function helicsFederateGetPublicationByIndex(fed::Federate, index::Int)::Publication
     return Utils.@invoke_and_check Lib.helicsFederateGetPublicationByIndex(fed, index)
@@ -1228,12 +1386,26 @@ function helicsBrokerDataLink(broker::Broker, source::String, target::String)
 end
 
 """
+Link a named filter to a source endpoint
+
+# Arguments
+
+- `broker` the broker to generate the connection from
+- `filter` the name of the filter (cannot be NULL)
+- `endpoint` the name of the endpoint to filter the data from (cannot be NULL)
 """
 function helicsBrokerAddSourceFilterToEndpoint(broker::Broker, filter::String, endpoint::String)
     Utils.@invoke_and_check Lib.helicsBrokerAddSourceFilterToEndpoint(broker, filter, endpoint)
 end
 
 """
+Link a named filter to a destination endpoint
+
+# Arguments
+
+- `broker` the broker to generate the connection from
+- `filter` the name of the filter (cannot be NULL)
+- `endpoint` the name of the endpoint to filter the data going to (cannot be NULL)
 """
 function helicsBrokerAddDestinationFilterToEndpoint(broker::Broker, filter::String, endpoint::String)
     Utils.@invoke_and_check Lib.helicsBrokerAddDestinationFilterToEndpoint(broker, filter, endpoint)

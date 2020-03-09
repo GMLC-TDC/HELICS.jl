@@ -366,7 +366,7 @@ end
     destroyBroker(broker)
 end
 
-@testset "Filter test types function3" begin
+@testset "Filter test types message filter function3" begin
 
     # broker = createBroker(2)
     # fFed, fedinfo = createMessageFederate(1, "filter")

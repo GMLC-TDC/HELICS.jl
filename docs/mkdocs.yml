@@ -24,6 +24,7 @@ extra:
   # version: 0.7.4
 
 markdown_extensions:
+    - smarty
     - admonition
     - codehilite
     - mdx_math
@@ -34,6 +35,7 @@ markdown_extensions:
     - footnotes
     - meta
     - toc
+    - sane_lists
 
 extra_css:
 - assets\Documenter.css

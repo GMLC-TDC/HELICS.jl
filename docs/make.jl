@@ -4,20 +4,19 @@ using Documenter, HELICS, DocumenterMarkdown
 cp(joinpath(@__DIR__, "../README.md"), joinpath(@__DIR__, "./src/index.md"), force=true, follow_symlinks=true)
 
 makedocs(
-         sitename="HELICS Julia documentation",
-         format = Markdown()
-        )
+    modules = [HELICS],
+    format = Documenter.HTML(
+        canonical = "https://gmlc-tdc.github.io/HELICS.jl/stable/",
+    ),
+    sitename = "HELICS.jl",
+    pages = [
+        "index.md",
+        "terminology.md",
+        "api.md",
+    ],
+)
 
 deploydocs(
     repo = "github.com/GMLC-TDC/HELICS.jl.git",
-    deps = Deps.pip(
-                   "mkdocs==0.17.5",
-                   "mkdocs-material==2.9.4",
-                   "python-markdown-math",
-                   "pygments",
-                   "pymdown-extensions",
-                   ),
-    make = () -> run(`mkdocs build`),
-    target = "site",
     push_preview = true
 )

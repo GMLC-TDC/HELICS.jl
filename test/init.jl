@@ -7,9 +7,8 @@ function createBroker(number=1)
     return broker
 end
 
-function setupFederate(name="A Core", number=1)
-    fedinitstring = "--broker=mainbroker --federates=$number --tick=0"
-    deltat = 0.01
+function setupFederateInfo(name="A Core", number=1, deltat=0.01)
+    fedinitstring = "--broker=mainbroker --federates=$number"
 
     # Create Federate Info object that describes the federate properties
     fedinfo = h.helicsCreateFederateInfo()
@@ -35,16 +34,16 @@ function setupFederate(name="A Core", number=1)
     return fedinfo
 end
 
-function createValueFederate(federates=1, name="A Federate")
-    fedinfo= setupFederate(name)
+function createValueFederate(federates=1, name="A Federate", deltat=0.01)
+    fedinfo= setupFederateInfo(name, federates, deltat)
     vFed = h.helicsCreateValueFederate("Test$name", fedinfo)
     @test vFed isa h.ValueFederate
     return vFed, fedinfo
 end
 
 
-function createMessageFederate(federates=1, name="A Federate")
-    fedinfo = setupFederate(name, federates)
+function createMessageFederate(federates=1, name="A Federate", deltat=0.01)
+    fedinfo = setupFederateInfo(name, federates, deltat)
     mFed = h.helicsCreateMessageFederate("Test$name", fedinfo)
     @test mFed isa h.MessageFederate
     return mFed, fedinfo

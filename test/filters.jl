@@ -368,136 +368,134 @@ end
 
 @testset "Filter test types message filter function3" begin
 
-    # broker = createBroker(2)
-    # fFed, fedinfo = createMessageFederate(1, "filter")
-    # mFed, fedinfo = createMessageFederate(1, "message")
+    broker = createBroker(2)
+    fFed, fedinfo = createMessageFederate(1, "filter", 1)
+    mFed, fedinfo = createMessageFederate(1, "message", 1)
 
-    # p1 = h.helicsFederateRegisterGlobalEndpoint(mFed, "port1", "")
-    # p2 = h.helicsFederateRegisterGlobalEndpoint(mFed, "port2", "random")
+    p1 = h.helicsFederateRegisterGlobalEndpoint(mFed, "port1", "")
+    p2 = h.helicsFederateRegisterGlobalEndpoint(mFed, "port2", "random")
 
-    # f1 = h.helicsFederateRegisterGlobalFilter(fFed, h.HELICS_FILTER_TYPE_CUSTOM, "filter1")
-    # h.helicsFilterAddSourceTarget(f1, "port1")
-    # f2 = h.helicsFederateRegisterGlobalFilter(fFed, h.HELICS_FILTER_TYPE_DELAY, "filter2")
-    # h.helicsFilterAddSourceTarget(f2, "port1")
+    f1 = h.helicsFederateRegisterGlobalFilter(fFed, h.HELICS_FILTER_TYPE_CUSTOM, "filter1")
+    h.helicsFilterAddSourceTarget(f1, "port1")
+    f2 = h.helicsFederateRegisterGlobalFilter(fFed, h.HELICS_FILTER_TYPE_DELAY, "filter2")
+    h.helicsFilterAddSourceTarget(f2, "port1")
 
-    # h.helicsFederateRegisterEndpoint(fFed, "fout", "")
-    # f3 = h.helicsFederateRegisterFilter(fFed, h.HELICS_FILTER_TYPE_RANDOM_DELAY, "filter3")
-    # h.helicsFilterAddSourceTarget(f3, "filter0/fout")
+    h.helicsFederateRegisterEndpoint(fFed, "fout", "")
+    f3 = h.helicsFederateRegisterFilter(fFed, h.HELICS_FILTER_TYPE_RANDOM_DELAY, "filter3")
+    h.helicsFilterAddSourceTarget(f3, "filter0/fout")
 
-    # h.helicsFilterSet(f2, "delay", 2.5)
+    h.helicsFilterSet(f2, "delay", 2.5)
 
-    # h.helicsFederateEnterExecutingModeAsync(fFed)
-    # h.helicsFederateEnterExecutingMode(mFed)
-    # h.helicsFederateEnterExecutingModeComplete(fFed)
+    h.helicsFederateEnterExecutingModeAsync(fFed)
+    h.helicsFederateEnterExecutingMode(mFed)
+    h.helicsFederateEnterExecutingModeComplete(fFed)
 
-    # state = h.helicsFederateGetState(fFed)
-    # @test state == h.HELICS_STATE_EXECUTION
+    state = h.helicsFederateGetState(fFed)
+    @test state == h.HELICS_STATE_EXECUTION
 
-    # data = "hello world"
-    # h.helicsEndpointSendMessageRaw(p1, "port2", data)
+    data = "hello world"
+    h.helicsEndpointSendMessageRaw(p1, "port2", data)
 
-    # h.helicsFederateRequestTimeAsync(mFed, 1.0)
-    # h.helicsFederateRequestTime(fFed, 1.0)
-    # h.helicsFederateRequestTimeComplete(mFed)
+    h.helicsFederateRequestTimeAsync(mFed, 1.0)
+    h.helicsFederateRequestTime(fFed, 1.0)
+    h.helicsFederateRequestTimeComplete(mFed)
 
-    # @test h.helicsFederateHasMessage(mFed) == false
+    @test h.helicsFederateHasMessage(mFed) == false
 
-    # h.helicsEndpointSendMessageRaw(p2, "port1", data)
-    # h.helicsFederateRequestTimeAsync(mFed, 2.0)
-    # println("############### Before fFed")
-    # h.helicsFederateRequestTime(fFed, 2.0)
-    # println("############### After fFed")
-    # h.helicsFederateRequestTimeComplete(mFed)
-    # @test h.helicsEndpointHasMessage(p2) == false
-    # # there may be something wrong here yet but this test isn't the one to find it and
-    # # this may prevent spurious errors for now.
-    # # std::this_thread::yield()
-    # h.helicsFederateRequestTimeAsync(mFed, 3.0)
-    # h.helicsFederateRequestTime(fFed, 3.0)
-    # h.helicsFederateRequestTimeComplete(mFed)
+    h.helicsEndpointSendMessageRaw(p2, "port1", data)
+    h.helicsFederateRequestTimeAsync(mFed, 2.0)
+    h.helicsFederateRequestTime(fFed, 2.0)
+    h.helicsFederateRequestTimeComplete(mFed)
+    @test h.helicsEndpointHasMessage(p2) == false
+    # there may be something wrong here yet but this test isn't the one to find it and
+    # this may prevent spurious errors for now.
+    # std::this_thread::yield()
+    h.helicsFederateRequestTimeAsync(mFed, 3.0)
+    h.helicsFederateRequestTime(fFed, 3.0)
+    h.helicsFederateRequestTimeComplete(mFed)
 
-    # @test h.helicsEndpointHasMessage(p2)
+    @test h.helicsEndpointHasMessage(p2)
 
-    # m2 = h.helicsEndpointGetMessage(p2)
-    # @test unsafe_string(m2.source) == "port1"
-    # @test unsafe_string(m2.original_source) == "port1"
-    # @test unsafe_string(m2.dest) == "port2"
-    # @test m2.length == length(data)
-    # @test m2.time == 2.5
+    m2 = h.helicsEndpointGetMessage(p2)
+    @test unsafe_string(m2.source) == "port1"
+    @test unsafe_string(m2.original_source) == "port1"
+    @test unsafe_string(m2.dest) == "port2"
+    @test m2.length == length(data)
+    @test m2.time == 2.5
 
-    # @test h.helicsEndpointHasMessage(p1) == true
-    # h.helicsFederateFinalize(mFed)
-    # h.helicsFederateFinalize(fFed)
-    # state = h.helicsFederateGetState(fFed)
-    # @test state == h.HELICS_STATE_FINALIZE
+    @test h.helicsEndpointHasMessage(p1) == true
+    h.helicsFederateFinalize(mFed)
+    h.helicsFederateFinalize(fFed)
+    state = h.helicsFederateGetState(fFed)
+    @test state == h.HELICS_STATE_FINALIZE
 
 end
 
 @testset "Filter test types clone test" begin
 
-    # broker = createBroker(3)
-    # sFed, fedinfo1 = createMessageFederate(1, "source")
-    # dFed, fedinfo2 = createMessageFederate(1, "dest")
-    # dcFed, fedinfo3 = createMessageFederate(1, "dest_clone")
-    #
-    # p1 = h.helicsFederateRegisterGlobalEndpoint(sFed, "src", "")
-    # p2 = h.helicsFederateRegisterGlobalEndpoint(dFed, "dest", "")
-    # p3 = h.helicsFederateRegisterGlobalEndpoint(dcFed, "cm", "")
-    #
-    # f1 = h.helicsFederateRegisterCloningFilter(dcFed, "")
-    # h.helicsFilterAddDeliveryEndpoint(f1, "cm")
-    # h.helicsFilterAddSourceTarget(f1, "src")
-    #
-    # h.helicsFederateEnterExecutingModeAsync(sFed)
-    # h.helicsFederateEnterExecutingModeAsync(dcFed)
-    # h.helicsFederateEnterExecutingMode(dFed)
-    # h.helicsFederateEnterExecutingModeComplete(sFed)
-    # h.helicsFederateEnterExecutingModeComplete(dcFed)
-    #
-    # state = h.helicsFederateGetState(sFed)
-    # @test state == h.HELICS_STATE_EXECUTION
-    # state = h.helicsFederateGetState(dcFed)
-    # @test state == h.HELICS_STATE_EXECUTION
-    # state = h.helicsFederateGetState(dFed)
-    # @test state == h.HELICS_STATE_EXECUTION
-    #
-    # data = repeat('a', 500)
-    # h.helicsEndpointSendMessageRaw(p1, "dest", data)
-    #
-    # h.helicsFederateRequestTimeAsync(sFed, 1.0)
-    # h.helicsFederateRequestTimeAsync(dcFed, 1.0)
-    # h.helicsFederateRequestTime(dFed, 1.0)
-    # h.helicsFederateRequestTimeComplete(sFed)
-    # h.helicsFederateRequestTimeComplete(dcFed)
-    #
-    # @test h.helicsFederateHasMessage(dFed)
-    #
-    # m2 = h.helicsEndpointGetMessage(p2)
-    # @test unsafe_string(m2.source) == "src"
-    # @test unsafe_string(m2.original_source) == "src"
-    # @test unsafe_string(m2.dest) == "dest"
-    # @test m2.length == length(data)
-    #
-    # @test h.helicsFederateHasMessage(dcFed)
-    #
-    # m2 = h.helicsEndpointGetMessage(p3)
-    # @test unsafe_string(m2.source) =="src"
-    # @test unsafe_string(m2.original_source) =="src"
-    # @test unsafe_string(m2.dest) =="cm"
-    # @test unsafe_string(m2.original_dest) =="dest"
-    # @test m2.length == length(data)
-    #
-    # h.helicsFederateFinalizeAsync(sFed)
-    # h.helicsFederateFinalizeAsync(dFed)
-    # h.helicsFederateFinalize(dcFed)
-    # h.helicsFederateFinalizeComplete(sFed)
-    # h.helicsFederateFinalizeComplete(dFed)
-    # state = h.helicsFederateGetState(sFed)
-    # @test state == h.HELICS_STATE_FINALIZE
-    #
-    # destroyFederate(sFed, fedinfo1)
-    # destroyFederate(dFed, fedinfo2)
-    # destroyFederate(dcFed, fedinfo3)
-    # destroyBroker(broker)
+    broker = createBroker(3)
+    sFed, fedinfo1 = createMessageFederate(1, "source", 1)
+    dFed, fedinfo2 = createMessageFederate(1, "dest", 1)
+    dcFed, fedinfo3 = createMessageFederate(1, "dest_clone", 1)
+
+    p1 = h.helicsFederateRegisterGlobalEndpoint(sFed, "src", "")
+    p2 = h.helicsFederateRegisterGlobalEndpoint(dFed, "dest", "")
+    p3 = h.helicsFederateRegisterGlobalEndpoint(dcFed, "cm", "")
+
+    f1 = h.helicsFederateRegisterCloningFilter(dcFed, "")
+    h.helicsFilterAddDeliveryEndpoint(f1, "cm")
+    h.helicsFilterAddSourceTarget(f1, "src")
+
+    h.helicsFederateEnterExecutingModeAsync(sFed)
+    h.helicsFederateEnterExecutingModeAsync(dcFed)
+    h.helicsFederateEnterExecutingMode(dFed)
+    h.helicsFederateEnterExecutingModeComplete(sFed)
+    h.helicsFederateEnterExecutingModeComplete(dcFed)
+
+    state = h.helicsFederateGetState(sFed)
+    @test state == h.HELICS_STATE_EXECUTION
+    state = h.helicsFederateGetState(dcFed)
+    @test state == h.HELICS_STATE_EXECUTION
+    state = h.helicsFederateGetState(dFed)
+    @test state == h.HELICS_STATE_EXECUTION
+
+    data = repeat('a', 500)
+    h.helicsEndpointSendMessageRaw(p1, "dest", data)
+
+    h.helicsFederateRequestTimeAsync(sFed, 1.0)
+    h.helicsFederateRequestTimeAsync(dcFed, 1.0)
+    h.helicsFederateRequestTime(dFed, 1.0)
+    h.helicsFederateRequestTimeComplete(sFed)
+    h.helicsFederateRequestTimeComplete(dcFed)
+
+    @test h.helicsFederateHasMessage(dFed)
+
+    m2 = h.helicsEndpointGetMessage(p2)
+    @test unsafe_string(m2.source) == "src"
+    @test unsafe_string(m2.original_source) == "src"
+    @test unsafe_string(m2.dest) == "dest"
+    @test m2.length == length(data)
+
+    @test h.helicsFederateHasMessage(dcFed)
+
+    m2 = h.helicsEndpointGetMessage(p3)
+    @test unsafe_string(m2.source) =="src"
+    @test unsafe_string(m2.original_source) =="src"
+    @test unsafe_string(m2.dest) =="cm"
+    @test unsafe_string(m2.original_dest) =="dest"
+    @test m2.length == length(data)
+
+    h.helicsFederateFinalizeAsync(sFed)
+    h.helicsFederateFinalizeAsync(dFed)
+    h.helicsFederateFinalize(dcFed)
+    h.helicsFederateFinalizeComplete(sFed)
+    h.helicsFederateFinalizeComplete(dFed)
+    state = h.helicsFederateGetState(sFed)
+    @test state == h.HELICS_STATE_FINALIZE
+
+    destroyFederate(sFed, fedinfo1)
+    destroyFederate(dFed, fedinfo2)
+    destroyFederate(dcFed, fedinfo3)
+    destroyBroker(broker)
 
 end

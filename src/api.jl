@@ -1,11 +1,10 @@
 import .Utils
 import DocStringExtensions
 
-DocStringExtensions.@template (FUNCTIONS, METHODS) =
-    """
-    $(DocStringExtensions.TYPEDSIGNATURES)
-    $(DocStringExtensions.DOCSTRING)
-    """
+DocStringExtensions.@template (FUNCTIONS, METHODS) = """
+                                                     $(DocStringExtensions.TYPEDSIGNATURES)
+                                                     $(DocStringExtensions.DOCSTRING)
+                                                     """
 
 # We want these enums to be made available in the HELICS api.
 # Manually typing these out is verbose and annoying
@@ -17,23 +16,28 @@ DocStringExtensions.@template (FUNCTIONS, METHODS) =
 # and so on ...
 
 for enum_name in [
-                 Lib.helics_iteration_request,
-                 Lib.helics_iteration_result,
-                 Lib.helics_federate_state,
-                 Lib.helics_data_type,
-                 Lib.helics_core_type,
-                 Lib.helics_federate_flags,
-                 Lib.helics_log_levels,
-                 Lib.helics_error_types,
-                 Lib.helics_properties,
-                 Lib.helics_handle_options,
-                 Lib.helics_filter_type,
-                 ]
+    Lib.helics_iteration_request,
+    Lib.helics_iteration_result,
+    Lib.helics_federate_state,
+    Lib.helics_data_type,
+    Lib.helics_core_type,
+    Lib.helics_federate_flags,
+    Lib.helics_log_levels,
+    Lib.helics_error_types,
+    Lib.helics_properties,
+    Lib.helics_handle_options,
+    Lib.helics_filter_type,
+]
     # Hacks to not populate namespace
-    eval(:(const $(Symbol(uppercase(split(String(Symbol(enum_name)), ".")[end]))) = $enum_name))
+    eval(
+        :(
+            const $(Symbol(uppercase(split(String(Symbol(enum_name)), ".")[end]))) =
+                $enum_name
+        ),
+    )
 
     for (_sym, ans) in Lib.CEnum.name_value_pairs(enum_name)
-        eval( :(const $(Symbol(uppercase(String(_sym)))) = Lib.$_sym) )
+        eval(:(const $(Symbol(uppercase(String(_sym)))) = Lib.$_sym))
     end
 
 end
@@ -103,7 +107,7 @@ $( join(map(x -> "- `" * uppercase(String(x[1])) * "`: " * string(x[2]), Lib.CEn
 """
 HELICS.HELICS_FILTER_TYPE
 
-const HELICS_TIME = Union{Int, Float64}
+const HELICS_TIME = Union{Int,Float64}
 const CFunction = Ptr{Cvoid}
 
 """

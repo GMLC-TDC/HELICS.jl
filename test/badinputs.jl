@@ -296,6 +296,42 @@ end
 
 end
 
+@testset "Bad Inputs Core Link" begin
+    broker = createBroker(1)
+    vFed1, fedinfo = createValueFederate(1, "fed0")
+
+    # register the publications
+
+    h.helicsFederateRegisterGlobalTypePublication(vFed1, "pub1", "custom1", "")
+
+    h.helicsFederateRegisterTypeInput(vFed1, "inp1", "custom2", "")
+
+    fed2 = h.helicsGetFederateByName(h.helicsFederateGetName(vFed1))
+    @test h.helicsFederateGetName(fed2) == h.helicsFederateGetName(vFed1)
+
+    @test_throws h.HELICSErrorInvalidArgument fed3 = h.helicsGetFederateByName("fed_unknown")
+
+    cr = h.helicsFederateGetCoreObject(vFed1)
+    h.helicsCoreDataLink(cr, "pub1", "fed0/inp1")
+
+    @test_throws h.HELICSErrorInvalidArgument h.helicsCoreMakeConnections(cr, "unknownfile.json")
+
+    # TODO: This test should throw an error
+    # @test_throws h.HELICSErrorInvalidArgument h.helicsCoreDataLink(cr, "pub1", "")
+    @test_broken false
+
+    cr2 = h.helicsCoreClone(cr)
+    @test h.helicsCoreGetAddress(cr2) == h.helicsCoreGetAddress(cr)
+
+    # TODO: this should error as well
+    h.helicsFederateEnterExecutingMode(vFed1)
+    @test_broken false
+
+    h.helicsFederateFinalize(vFed1)
+
+    destroyFederate(vFed1, fedinfo)
+    destroyBroker(broker)
+end
 
 @testset "Bad Inputs broker link" begin
 
@@ -323,7 +359,10 @@ end
     h.helicsFederateFinalize(vFed1)
 
     destroyFederate(vFed1, fedinfo)
+
+    h.helicsBrokerWaitForDisconnect(broker, 200)
+
     destroyBroker(broker)
 
-
+    @test_throws h.HELICSErrorInvalidObject h.helicsBrokerWaitForDisconnect(broker, 200)
 end

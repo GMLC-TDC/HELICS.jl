@@ -394,6 +394,7 @@ end
     # register the publications
 
     h.helicsFederateInfoSetSeparator(fedinfo, '-')
+    h.helicsFederateSetSeparator(vFed1, '-')
 
     h.helicsFederateRegisterGlobalTypePublication(vFed1, "pub1", "custom1", "");
 

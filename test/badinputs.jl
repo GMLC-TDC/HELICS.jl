@@ -47,3 +47,19 @@ end
     h.helicsFederateFinalize(mFed1)
 
 end
+
+@testset "Bad Input filter core tests" begin
+
+    broker = createBroker(1)
+    mFed1, fedinfo = createMessageFederate(1, "test")
+
+    cr = h.helicsFederateGetCoreObject(mFed1)
+
+    filt1 = h.helicsCoreRegisterFilter(cr, h.HELICS_FILTER_TYPE_DELAY, "filt1")
+    @test_throws h.HELICSErrorRegistrationFailure filt2 = h.helicsCoreRegisterFilter(cr, h.HELICS_FILTER_TYPE_DELAY, "filt1")
+    h.helicsFilterSetOption(filt1, h.HELICS_HANDLE_OPTION_CONNECTION_OPTIONAL, true)
+    @test h.helicsFilterGetOption(filt1, h.HELICS_HANDLE_OPTION_CONNECTION_OPTIONAL)
+    h.helicsFederateFinalize(mFed1)
+    h.helicsCoreDestroy(cr)
+
+end

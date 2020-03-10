@@ -682,7 +682,7 @@ Set the data in the info field for an filter
 - `option`: the option to set [`HELICS_HANDLE_OPTIONS`](@ref)
 - `value`: the value of the option (helics_true or helics_false)
 """
-function helicsFilterSetOption(filt::Filter, option::Int, value::Bool)
+function helicsFilterSetOption(filt::Filter, option::Union{Int,HELICS.HELICS_HANDLE_OPTIONS}, value::Bool)
     @invoke_and_check Lib.helicsFilterSetOption(filt, option, value ? 1 : 0)
 end
 
@@ -694,7 +694,7 @@ Get a handle option for the [`Filter`](@ref)
 - `filt`: the given [`Filter`](@ref) to query
 - `option`: the option to query [`HELICS_HANDLE_OPTIONS`](@ref)
 """
-function helicsFilterGetOption(filt::Filter, option::Int)::Bool
+function helicsFilterGetOption(filt::Filter, option::Union{Int,HELICS.HELICS_HANDLE_OPTIONS})::Bool
     return Lib.helicsFilterGetOption(filt, option) == 1 ? true : false
 end
 

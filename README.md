@@ -6,11 +6,11 @@
 
 **This package is now available for Windows, Mac, and Linux.**
 
-### Documentation
+## Documentation
 
 The documentation for the development latest of this package is [here](https://gmlc-tdc.github.io/HELICS.jl/latest/).
 
-### Installation
+## Installation
 
 Use the Julia package manager to install HELICS.jl
 
@@ -53,14 +53,14 @@ or specific branch,
 
 if these features haven't been merged to `master` yet.
 
-### Troubleshooting
+## Troubleshooting
 
 This package interfaces with HELICS, so a good understanding of HELICS will help troubleshooting.
 There are plenty of useful resources located [here](https://helics.readthedocs.io/en/latest/).
 
 If you are having issues using this Julia interface, feel free to open an issue on GitHub [here](https://github.com/GMLC-TDC/HELICS.jl/issues/new).
 
-### Acknowledgements
+## Acknowledgements
 
 This work was initially developed as an extension to work done as part of the Scalable Integrated Infrastructure Planning (SIIP) initiative at the U.S. Department of Energy's National Renewable Energy Laboratory ([NREL](https://www.nrel.gov/)).
 

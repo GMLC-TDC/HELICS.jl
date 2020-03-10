@@ -32,3 +32,36 @@ end
     h.helicsBrokerDisconnect(brk)
 
 end
+
+@testset "System Test Federate Global Value" begin
+
+    brk = h.helicsCreateBroker("inproc", "gbrokerc", "--root")
+    cr = h.helicsCreateCore("inproc", "gcore", "--broker=gbrokerc")
+
+    # test creation of federateInfo from command line arguments
+    argv = [
+        ""
+        "--corename=gcore"
+        "--type=test"
+        "--period=1.0"
+    ]
+
+    fi = h.helicsCreateFederateInfo()
+    h.helicsFederateInfoLoadFromArgs(fi, argv)
+
+    fed = h.helicsCreateValueFederate("fed0", fi)
+
+    argv[4] = "--period=frogs" #this is meant to generate an error in command line processing
+
+    fi2 = h.helicsFederateInfoClone(fi)
+    @test_throws h.HELICSErrorInvalidArgument h.helicsFederateInfoLoadFromArgs(fi2, argv)
+
+    h.helicsFederateInfoFree(fi2)
+    h.helicsFederateInfoFree(fi)
+
+    h.helicsBrokerDisconnect(brk)
+    h.helicsCoreDisconnect(cr)
+
+    @test h.helicsBrokerIsConnected(brk) == false
+
+end

@@ -2278,8 +2278,8 @@ Load a [`FederateInfo`](@ref) from command line arguments
 - `argc`: the number of command line arguments
 - `argv`: an array of strings from the command line
 """
-function helicsFederateInfoLoadFromArgs(fi::FederateInfo, argc::Int, argv::Vector{<:AbstractString})
-    @invoke_and_check Lib.helicsFederateInfoLoadFromArgs(fi, argc, argv)
+function helicsFederateInfoLoadFromArgs(fi::FederateInfo, argv::Vector{<:AbstractString})
+    @invoke_and_check Lib.helicsFederateInfoLoadFromArgs(fi, length(argv), argv)
 end
 
 """

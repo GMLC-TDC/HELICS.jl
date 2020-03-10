@@ -2729,9 +2729,9 @@ this call allows for finer grain control of the iterative process then [`helicsF
 - the iteration specification of the result
 """
 function helicsFederateRequestTimeIterative(fed::Federate, requestTime::HELICS.HELICS_TIME, iterate::Union{Int, HELICS.HELICS_ITERATION_REQUEST})::Tuple{Float64, HELICS.HELICS_ITERATION_RESULT}
-    outIteration = Ref{HELICS.HELICS_ITERATION_RESULT}(0)
+    outIteration = Ref(HELICS.HELICS_ITERATION_RESULT(0))
     t = @invoke_and_check Lib.helicsFederateRequestTimeIterative(fed, requestTime, iterate, outIteration)
-    return t, outIteration
+    return t, outIteration[]
 end
 
 """

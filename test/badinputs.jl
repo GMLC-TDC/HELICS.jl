@@ -114,3 +114,34 @@ end
     @test_throws h.HELICSErrorInvalidFunctionCall h.helicsPublicationPublishNamedPoint(pubid, "hello world", 2.0)
 
 end
+
+@testset "Bad Input tests raw tests" begin
+
+    broker = createBroker(1)
+    vFed1, fedinfo = createValueFederate(1, "test")
+
+    pubid = h.helicsFederateRegisterPublication(vFed1, "pub1", h.HELICS_DATA_TYPE_RAW, "")
+
+    subid = h.helicsFederateRegisterGlobalInput(vFed1, "inp1", h.HELICS_DATA_TYPE_RAW, "")
+
+    h.helicsPublicationAddTarget(pubid, "inp1")
+
+    h.helicsFederateSetTimeProperty(vFed1, h.HELICS_PROPERTY_TIME_PERIOD, 1.0)
+
+    h.helicsFederateEnterExecutingMode(vFed1)
+
+    h.helicsPublicationPublishDouble(pubid, 27.0)
+    h.helicsFederateRequestNextStep(vFed1)
+    h.helicsInputGetRawValue(subid)
+
+    s = h.helicsInputGetString(subid)
+    @test s == "0.000000"
+    val = h.helicsInputGetComplexObject(subid)
+    @test val == 0.0 + 0.0im
+
+    h.helicsFederateFinalize(vFed1)
+
+    t, res = h.helicsFederateRequestTimeIterative(vFed1, 1.0, h.HELICS_ITERATION_REQUEST_NO_ITERATION)
+    @test res == h.HELICS_ITERATION_RESULT_HALTED
+
+end

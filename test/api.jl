@@ -26,6 +26,7 @@ end
 @testset "Core API tests" begin
 
     core1 = h.helicsCreateCore("inproc", "core1", "--autobroker")
+    @test h.helicsCoreIsValid(core1) == true
     core2 = h.helicsCoreClone(core1)
     @test occursin("core1", h.helicsCoreGetIdentifier(core1))
 

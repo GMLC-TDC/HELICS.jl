@@ -46,8 +46,6 @@ include("init.jl")
     destroyFederate(fFed, fedinfo1)
     destroyFederate(mFed, fedinfo2)
     destroyBroker(broker)
-
-
 end
 
 
@@ -99,6 +97,35 @@ end
 
 end
 
+@testset "Filter Types tests core fitler registration" begin
+
+    core1 = h.helicsCreateCore("inproc", "core1", "--autobroker")
+
+    core2 = h.helicsCoreClone(core1)
+
+    core1IdentifierString = h.helicsCoreGetIdentifier(core1)
+
+    @test core1IdentifierString == "core1"
+
+    sourceFilter1 = h.helicsCoreRegisterFilter(core1, h.HELICS_FILTER_TYPE_DELAY, "core1SourceFilter")
+
+    h.helicsFilterAddSourceTarget(sourceFilter1, "ep1")
+    destinationFilter1 = h.helicsCoreRegisterFilter(core1, h.HELICS_FILTER_TYPE_DELAY, "core1DestinationFilter")
+
+    h.helicsFilterAddDestinationTarget(destinationFilter1, "ep2")
+    cloningFilter1 = h.helicsCoreRegisterCloningFilter(core1, "ep3")
+
+    h.helicsFilterRemoveDeliveryEndpoint(cloningFilter1, "ep3")
+    core1IsConnected = h.helicsCoreIsConnected(core1)
+    @test core1IsConnected != 0
+    h.helicsCoreSetReadyToInit(core1)
+    h.helicsCoreDisconnect(core1)
+    h.helicsCoreDisconnect(core2)
+    h.helicsCoreFree(core1)
+    h.helicsCoreFree(core2)
+    h.helicsCloseLibrary()
+
+end
 
 @testset "Filter Type Tests message filter function" begin
 

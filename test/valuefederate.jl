@@ -415,3 +415,98 @@ end
 
 end
 
+@testset "ValueFederate default value tests" begin
+    broker = createBroker()
+    vFed1, fedinfo = createValueFederate(1, "fed0")
+
+    inp_raw1 = h.helicsFederateRegisterInput(vFed1, "key1", h.HELICS_DATA_TYPE_RAW, "raw")
+    inp_raw2 = h.helicsFederateRegisterInput(vFed1, "key2", h.HELICS_DATA_TYPE_RAW, "raw")
+
+    inp_bool = h.helicsFederateRegisterInput(vFed1, "key3", h.HELICS_DATA_TYPE_BOOLEAN, "")
+
+    inp_time = h.helicsFederateRegisterInput(vFed1, "key4", h.HELICS_DATA_TYPE_TIME, "")
+
+    inp_char = h.helicsFederateRegisterInput(vFed1, "key5", h.HELICS_DATA_TYPE_STRING, "")
+
+    inp_vect = h.helicsFederateRegisterInput(vFed1, "key6", h.HELICS_DATA_TYPE_VECTOR, "V")
+
+    inp_double = h.helicsFederateRegisterInput(vFed1, "key7", h.HELICS_DATA_TYPE_DOUBLE, "kW")
+
+    inp_double2 = h.helicsFederateRegisterInput(vFed1, "key8", h.HELICS_DATA_TYPE_DOUBLE, "")
+
+    inp_np = h.helicsFederateRegisterInput(vFed1, "key9", h.HELICS_DATA_TYPE_NAMED_POINT, "")
+
+    h.helicsInputSetMinimumChange(inp_double, 1100.0)
+    h.helicsInputSetDefaultDouble(inp_double, 10000.0)
+
+    h.helicsInputSetOption(inp_double2, h.HELICS_HANDLE_OPTION_CONNECTION_REQUIRED, true)
+
+    pub = h.helicsFederateRegisterPublication(vFed1, "", h.HELICS_DATA_TYPE_INT, "MW")
+    h.helicsPublicationSetOption(pub, h.HELICS_HANDLE_OPTION_CONNECTION_REQUIRED, true)
+    h.helicsPublicationAddTarget(pub, "Testfed0/key7")
+    h.helicsPublicationAddTarget(pub, "Testfed0/key8")
+
+    h.helicsInputSetDefaultRaw(inp_raw1, "")
+    data = "this is a string"
+    h.helicsInputSetDefaultRaw(inp_raw2, data)
+
+    h.helicsInputSetDefaultBoolean(inp_bool, true)
+
+    h.helicsInputSetDefaultTime(inp_time, 12.3)
+    h.helicsInputSetDefaultChar(inp_char, 'q')
+    h.helicsInputSetDefaultVector(inp_vect, Float64[])
+    h.helicsInputSetDefaultNamedPoint(inp_np, data, 15.7)
+
+    h.helicsFederateEnterExecutingMode(vFed1)
+    @test h.helicsInputGetInjectionUnits(inp_double) == "MW"
+    @test h.helicsInputGetInjectionUnits(inp_double2) == "MW"
+    @test h.helicsInputGetType(inp_double) == "double"
+    @test h.helicsInputGetPublicationType(inp_double) == "int64"
+
+    c2 = h.helicsInputGetChar(inp_char)
+    @test c2 == 'q'
+    h.helicsInputGetVector(inp_vect)
+
+    optset = h.helicsInputGetOption(inp_double2, h.HELICS_HANDLE_OPTION_CONNECTION_REQUIRED)
+    @test optset == true
+
+    optset = h.helicsPublicationGetOption(pub, h.HELICS_HANDLE_OPTION_CONNECTION_REQUIRED)
+    @test optset == true
+    h.helicsPublicationPublishInteger(pub, 12)
+
+    h.helicsFederateRequestNextStep(vFed1)
+    @test h.helicsInputGetDouble(inp_double) == 12000.0
+    @test h.helicsInputGetDouble(inp_double2) == 12.0
+
+    h.helicsPublicationPublishInteger(pub, 13)
+
+    h.helicsFederateRequestNextStep(vFed1)
+    @test h.helicsInputIsUpdated(inp_double) == false
+    @test h.helicsInputIsUpdated(inp_double2) == true
+
+    @test h.helicsInputGetDouble(inp_double) == 12000.0
+    @test h.helicsInputGetDouble(inp_double2) == 13.0
+
+    h.helicsPublicationPublishInteger(pub, 15)
+
+    h.helicsFederateRequestNextStep(vFed1)
+
+    @test h.helicsInputIsUpdated(inp_double) == true
+    @test h.helicsInputIsUpdated(inp_double2) == true
+
+    h.helicsInputClearUpdate(inp_double)
+    h.helicsInputClearUpdate(inp_double2)
+
+    @test h.helicsInputIsUpdated(inp_double) == false
+    @test h.helicsInputIsUpdated(inp_double2) == false
+
+    _, rval = h.helicsInputGetNamedPoint(inp_np)
+    @test rval == 15.7
+
+    out, rval = h.helicsInputGetNamedPoint(inp_np)
+    @test out == "this is a string"
+    @test rval == 15.7
+
+    h.helicsFederateFinalize(vFed1)
+
+end

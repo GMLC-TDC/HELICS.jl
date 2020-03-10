@@ -1332,7 +1332,7 @@ Set the default as a raw data array
 """
 function helicsInputSetDefaultRaw(ipt::Input, data)
     inputDataLength = length(data)
-    @invoke_and_check Lib.helicsInputSetDefaultRaw(ipt, data, inputDataLength)
+    @invoke_and_check Lib.helicsInputSetDefaultRaw(ipt, pointer(data), inputDataLength)
 end
 
 """
@@ -1630,8 +1630,8 @@ Get the data in the info field of an [`Input`](@ref)
 
 - a string with the info field string
 """
-function helicsInputGetOption(inp::Input, option::Int)::Bool
-    return Lib.helicsInputGetOption(inp, option::Int) == 1 ? true : false
+function helicsInputGetOption(inp::Input, option::Union{Int,HELICS.HELICS_HANDLE_OPTIONS})::Bool
+    return Lib.helicsInputGetOption(inp, option) == 1 ? true : false
 end
 
 """
@@ -1643,7 +1643,7 @@ Set the data in the info field for an [`Input`](@ref)
 - `option`: the option to set for the [`Input`](@ref) [`HELICS_HANDLE_OPTIONS`](@ref)
 - `value`: the value to set the option to
 """
-function helicsInputSetOption(inp::Input, option::Int, value::Bool)
+function helicsInputSetOption(inp::Input, option::Union{Int,HELICS.HELICS_HANDLE_OPTIONS}, value::Bool)
     @invoke_and_check Lib.helicsInputSetOption(inp, option, value ? 1 : 0)
 end
 
@@ -1659,7 +1659,7 @@ Get the data in the info field of an publication
 
 - a string with the info field string
 """
-function helicsPublicationGetOption(pub::Publication, option::Int)::Bool
+function helicsPublicationGetOption(pub::Publication, option::Union{Int,HELICS.HELICS_HANDLE_OPTIONS})::Bool
     return Lib.helicsPublicationGetOption(pub, option) == 1 ? true : false
 end
 
@@ -1672,7 +1672,7 @@ Set the data in the info field for an publication
 - `option`: integer code for the option to set [`HELICS_HANDLE_OPTIONS`](@ref)
 - `val`: the value to set the option to
 """
-function helicsPublicationSetOption(pub::Publication, option::Int, val::Bool)
+function helicsPublicationSetOption(pub::Publication, option::Union{Int,HELICS.HELICS_HANDLE_OPTIONS}, val::Bool)
     @invoke_and_check Lib.helicsPublicationSetOption(pub, option, val ? 1 : 0)
 end
 

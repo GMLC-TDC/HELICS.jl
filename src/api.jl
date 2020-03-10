@@ -1796,8 +1796,7 @@ end
 """
 """
 function helicsCreateCoreFromArgs(kind::String, name::String, argv::Vector{<:AbstractString})::Core
-    argc = length(argv)
-    return @invoke_and_check Lib.helicsCreateCoreFromArgs(kind, name, argc, argv)
+    return @invoke_and_check Lib.helicsCreateCoreFromArgs(kind, name, length(argv), argv)
 end
 
 """
@@ -1847,8 +1846,8 @@ end
 
 """
 """
-function helicsCreateBrokerFromArgs(kind::String, name::String, argc::Int, argv::Vector{<:AbstractString})::Broker
-    return @invoke_and_check Lib.helicsCreateBrokerFromArgs(kind, name, argc, argv)
+function helicsCreateBrokerFromArgs(kind::String, name::String, argv::Vector{<:AbstractString})::Broker
+    return @invoke_and_check Lib.helicsCreateBrokerFromArgs(kind, name, length(argv), argv)
 end
 
 """

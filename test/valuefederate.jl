@@ -175,8 +175,10 @@ end
 @testset "ValueFederate subscription and publication registration" begin
 
     broker = createBroker()
-    vFed, fedinfo = createValueFederate()
+    vFed, fedinfo = createValueFederate(1, "fed0")
 
+    pubid = h.helicsFederateRegisterPublication(vFed, "pub1", h.HELICS_DATA_TYPE_STRING, "")
+    pubid2 = h.helicsFederateRegisterGlobalPublication(vFed, "pub2", h.HELICS_DATA_TYPE_INT, "volts")
     pubid3 = h.helicsFederateRegisterTypePublication(vFed, "pub3", "double", "V")
 
     subid1 = h.helicsFederateRegisterSubscription(vFed, "sub1", "")
@@ -202,6 +204,45 @@ end
     @test sub_units == "V"
     sub_type = h.helicsInputGetType(subid2)
     @test sub_type == ""
+
+    subid_b = h.helicsFederateGetSubscription(vFed, "sub1")
+    tmp = h.helicsSubscriptionGetKey(subid_b)
+    @test tmp == "sub1"
+    # check the getSubscriptionByIndex function
+    subid_c = h.helicsFederateGetInputByIndex(vFed, 2)
+    tmp = h.helicsInputGetUnits(subid_c)
+    @test tmp == "V"
+    # check publications
+
+    sv = h.helicsPublicationGetKey(pubid)
+    sv2 = h.helicsPublicationGetKey(pubid2)
+    @test sv == "Testfed0/pub1"
+    @test sv2 == "pub2"
+    pub3name = h.helicsPublicationGetKey(pubid3)
+    @test pub3name == "Testfed0/pub3"
+
+    type = h.helicsPublicationGetType(pubid3)
+    @test type == "double"
+    units = h.helicsPublicationGetUnits(pubid3)
+    @test units == "V"
+
+    # check the getSubscription function
+
+    pubid_b = h.helicsFederateGetPublication(vFed, "Testfed0/pub1")
+    tmp = h.helicsPublicationGetType(pubid_b)
+    @test tmp == "string"
+    # check the getSubscriptionByIndex function
+    pubid_c = h.helicsFederateGetPublicationByIndex(vFed, 1)
+    tmp = h.helicsPublicationGetUnits(pubid_c)
+    @test tmp == "volts"
+
+    #this one should be invalid
+    @test_throws h.HELICSErrorInvalidArgument pubid_d = h.helicsFederateGetPublicationByIndex(vFed, 5)
+
+    h.helicsFederateFinalize(vFed)
+
+    state = h.helicsFederateGetState(vFed)
+    @test state == h.HELICS_STATE_FINALIZE
 
     destroyFederate(vFed, fedinfo)
     destroyBroker(broker)

@@ -290,7 +290,7 @@ HELICS_PROPERTY_TIME_OFFSET
 HELICS_PROPERTY_TIME_RT_LAG
 """the property controlling real time lead for a federate the max time a federate can be ahead of real time"""
 HELICS_PROPERTY_TIME_RT_LEAD
-"""the property controlling real time tolerance for a federate sets both rt_lag and rt_lead"""
+"""the property controlling real time tolerance for a federate sets both [`HELICS_PROPERTY_RT_LAG`](@ref) and [`HELICS_PROPERTY_RT_LEAD`](@ref)"""
 HELICS_PROPERTY_TIME_RT_TOLERANCE
 """the property controlling input delay for a federate"""
 HELICS_PROPERTY_TIME_INPUT_DELAY

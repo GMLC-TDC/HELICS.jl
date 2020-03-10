@@ -78,12 +78,16 @@ end
 
     message = h.helicsEndpointGetMessageObject(epid2)
 
+    @test h.helicsMessageGetMessageID(message) == 55
+    @test h.helicsMessageIsValid(message) == true
     @test h.helicsMessageGetString(message) == "random-data"
     @test h.helicsMessageGetRawDataSize(message) == 11
     @test h.helicsMessageGetOriginalDestination(message) == ""
     @test h.helicsMessageGetOriginalSource(message) == "TestA Federate/ep1"
     @test h.helicsMessageGetSource(message) == "TestA Federate/ep1"
     @test h.helicsMessageGetTime(message) == 1.0
+    @test_broken false
+    # h.helicsMessageGetRawData(message) crashes
 
     destroyFederate(mFed, fedinfo)
     destroyBroker(broker)
@@ -170,7 +174,9 @@ end
 
     msg = h.helicsEndpointGetMessageObject(epid2)
     @test h.helicsMessageGetRawDataSize(msg) == 500
-
+    # @show h.helicsMessageGetRawData(msg)
+    @test_broken false
+    # segfaults
     rdata = h.helicsMessageGetRawDataPointer(msg)
     @test Char(unsafe_load(Ptr{Cchar}(rdata), 245)) == 'a'
 
@@ -232,6 +238,11 @@ end
 
     tres = h.helicsFederateGetTimeProperty(vFed1, h.HELICS_PROPERTY_TIME_PERIOD)
     @test tres == 0.1
+
+    # m = h.helicsEndpointGetMessageObject(ept1)
+    # @show h.helicsMessageGetRawData(m)
+    # TODO: null pointer received from C
+    @test_broken false
 
     gtime = h.helicsFederateRequestTimeComplete(vFed2)
     @test gtime == 2.0

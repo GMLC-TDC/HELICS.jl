@@ -143,3 +143,52 @@ end
     @test h.helicsBrokerIsConnected(brk) == false
 
 end
+
+@testset "System Tests Core Logging" begin
+    lfile = "log.txt";
+    rm(lfile, force=true)
+    core = h.helicsCreateCore("inproc", "clog", "--autobroker --log_level=trace")
+    h.helicsCoreSetLogFile(core, lfile)
+    h.helicsCoreDisconnect(core)
+    h.helicsCloseLibrary()
+    @test isfile(lfile)
+    rm(lfile, force=true)
+end
+
+@testset "System Tests Broker Logging" begin
+    lfile = "log.txt";
+    rm(lfile, force=true)
+    broker = h.helicsCreateBroker("inproc", "blog", "--log_level=trace")
+    h.helicsBrokerSetLogFile(broker, lfile)
+    h.helicsBrokerDisconnect(broker)
+    h.helicsCloseLibrary()
+    @test isfile(lfile)
+    rm(lfile, force=true)
+end
+
+@testset "System Tests Federate Logging" begin
+
+    lfile = "log.txt"
+    rm(lfile, force=true)
+    core = h.helicsCreateCore("inproc", "clogf", "--autobroker --log_level=trace")
+
+    fi = h.helicsCreateFederateInfo()
+    h.helicsFederateInfoSetBrokerKey(fi, "key")
+    h.helicsFederateInfoSetCoreName(fi, "clogf")
+    fed = h.helicsCreateValueFederate("f1", fi)
+    h.helicsFederateSetLogFile(fed, lfile)
+    h.helicsFederateLogLevelMessage(fed, 7, "hello")
+    h.helicsFederateLogErrorMessage(fed, "hello")
+    h.helicsFederateLogDebugMessage(fed, "hello")
+    h.helicsFederateLogWarningMessage(fed, "hello")
+    h.helicsFederateClearMessages(fed)
+    h.helicsCoreSetLogFile(core, lfile)
+    h.helicsCoreDisconnect(core)
+    h.helicsFederateFinalize(fed)
+    h.helicsFederateInfoFree(fi)
+    h.helicsCloseLibrary()
+
+    @test isfile(lfile)
+    rm(lfile, force=true)
+
+end

@@ -59,6 +59,39 @@ end
     h.helicsFederateInfoFree(fi2)
     h.helicsFederateInfoFree(fi)
 
+    globalVal = "this is a string constant that functions as a global"
+    globalVal2 = "this is a second string constant that functions as a global"
+    h.helicsFederateSetGlobal(fed, "testglobal", globalVal)
+    q = h.helicsCreateQuery("global", "testglobal")
+    res = h.helicsQueryExecute(q, fed)
+    @test res == globalVal
+    h.helicsFederateSetGlobal(fed, "testglobal2", globalVal2)
+    h.helicsQueryFree(q)
+    q = h.helicsCreateQuery("global", "testglobal2")
+    h.helicsQueryExecuteAsync(q, fed)
+    while (h.helicsQueryIsCompleted(q) == false)
+        sleep(0.20)
+    end
+    res = h.helicsQueryExecuteComplete(q)
+    @test res == globalVal2
+
+    q2 = h.helicsCreateQuery("", "isinit")
+    h.helicsQueryExecuteAsync(q2, fed)
+    while (h.helicsQueryIsCompleted(q2) == false)
+        sleep(0.20)
+    end
+    res = h.helicsQueryExecuteComplete(q2)
+    @test res == "false"
+
+    h.helicsFederateFinalize(fed)
+
+    h.helicsCoreDisconnect(cr)
+    h.helicsBrokerDisconnect(brk)
+
+    h.helicsQueryFree(q)
+    h.helicsQueryFree(q2)
+    @test h.helicsBrokerIsConnected(brk) == false
+
     h.helicsBrokerDisconnect(brk)
     h.helicsCoreDisconnect(cr)
 

@@ -2836,7 +2836,7 @@ Set a flag for the [`Federate`](@ref)
 - `flag`: the flag to change
 - `flagValue`: the new value of the flag 0 for false !=0 for true
 """
-function helicsFederateSetFlagOption(fed::Federate, flag::Union{Int, HELICS.HELICS_FEDERATE_FLAGS}, flagValue::Bool)
+function helicsFederateSetFlagOption(fed::Federate, flag::Union{Int, HELICS.HELICS_FEDERATE_FLAGS, HELICS.HELICS_HANDLE_OPTIONS}, flagValue::Bool)
     @invoke_and_check Lib.helicsFederateSetFlagOption(fed, flag, flagValue ? 1 : 0)
 end
 
@@ -2891,8 +2891,9 @@ Get a flag value for a [`Federate`](@ref)
 
 - the value of the flag
 """
-function helicsFederateGetFlagOption(fed::Federate, flag::Union{Int, HELICS.HELICS_FEDERATE_FLAGS})::Bool
-    return @invoke_and_check Lib.helicsFederateGetFlagOption(fed, flag)
+function helicsFederateGetFlagOption(fed::Federate, flag::Union{Int, HELICS.HELICS_FEDERATE_FLAGS, HELICS.HELICS_HANDLE_OPTIONS})::Bool
+    r = @invoke_and_check Lib.helicsFederateGetFlagOption(fed, flag)
+    return r == 1 ? true : false
 end
 
 """

@@ -385,3 +385,31 @@ end
     @test_throws h.HELICSErrorInvalidObject destroyFederate(vFed1, fedinfo)
     destroyBroker(broker)
 end
+
+
+@testset "Bad Inputs init error 5" begin
+
+    broker = createBroker(1)
+    vFed1, fedinfo = createValueFederate(1, "fed0")
+    # register the publications
+
+    h.helicsFederateRegisterGlobalTypePublication(vFed1, "pub1", "custom1", "");
+
+    subid = h.helicsFederateRegisterTypeInput(vFed1, "inp1", "custom2", "");
+
+    h.helicsInputAddTarget(subid, "pub1");
+
+    h.helicsFederateSetTimeProperty(vFed1, h.HELICS_PROPERTY_TIME_PERIOD, 1.0);
+
+    @test_throws h.HELICSErrorConnectionFailure resIt = h.helicsFederateEnterExecutingModeIterative(vFed1, h.HELICS_ITERATION_REQUEST_NO_ITERATION);
+
+    @test_throws h.HELICSErrorInvalidFunctionCall h.helicsFederateRequestTimeIterativeAsync(vFed1, 1.0, h.HELICS_ITERATION_REQUEST_NO_ITERATION);
+
+    h.helicsFederateFinalize(vFed1);
+
+    destroyFederate(vFed1, fedinfo)
+
+    destroyBroker(broker)
+
+
+end

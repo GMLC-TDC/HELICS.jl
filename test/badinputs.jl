@@ -365,3 +365,20 @@ end
     destroyBroker(broker)
 
 end
+
+
+@testset "Bad Inputs frees" begin
+    broker = createBroker(1)
+    vFed1, fedinfo = createValueFederate(1, "fed0")
+
+    fi = h.helicsCreateFederateInfo()
+    h.helicsFederateInfoSetBroker(fi, "broker test")
+    h.helicsFederateEnterInitializingMode(vFed1)
+    h.helicsFederateFinalize(vFed1)
+
+    h.helicsFederateInfoFree(fi)
+    h.helicsFederateFree(vFed1)
+
+    @test_throws h.HELICSErrorInvalidObject destroyFederate(vFed1, fedinfo)
+    destroyBroker(broker)
+end

@@ -2360,7 +2360,7 @@ this is only used if the core is automatically created, the [`Broker`](@ref) inf
 - `fi`: the [`FederateInfo`](@ref) object to alter
 - `broker`: a string which defined the connection information for a broker either a name or an address
 """
-function helicsFederateInfoSetBroker(fi::FederateInfo, broker::Broker)
+function helicsFederateInfoSetBroker(fi::FederateInfo, broker::String)
     @invoke_and_check Lib.helicsFederateInfoSetBroker(fi, broker)
 end
 

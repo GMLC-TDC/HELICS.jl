@@ -175,7 +175,7 @@ HELICS_CORE_TYPE_INPROC
 """an explicit core type that is recognized but explicitly doesn't exist, for testing and a few other assorted reasons"""
 HELICS_CORE_TYPE_NULL
 """
-**Pick a core type depending on compile configuration usually either ZMQ if available or TCP**
+**Pick a core type depending on compile configuration**
 $(_enum_doc_string(HELICS.HELICS_CORE_TYPE))
 """
 HELICS.HELICS_CORE_TYPE

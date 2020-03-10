@@ -1,6 +1,6 @@
 # API
 
-This is the Julia API for the HELICS library version:
+This is the Julia API for the HELICS library.
 
 ```@repl
 using HELICS; const h = HELICS;

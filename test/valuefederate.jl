@@ -550,4 +550,42 @@ end
 
     h.helicsFederateFinalize(vFed1)
 
+    destroyFederate(vFed1, fedinfo)
+    destroyBroker(broker)
+
+end
+
+@testset "ValueFederate test info filed" begin
+
+    broker = createBroker()
+    vFed, fedinfo = createValueFederate(1, "fed0")
+
+    h.helicsFederateSetFlagOption(vFed, h.HELICS_HANDLE_OPTION_CONNECTION_OPTIONAL, true)
+    # register the publications/subscriptions
+
+    subid1 = h.helicsFederateRegisterSubscription(vFed, "sub1", "")
+    pubid1 = h.helicsFederateRegisterTypePublication(vFed, "pub1", "string", "")
+    pubid2 = h.helicsFederateRegisterGlobalTypePublication(vFed, "pub2", "string", "")
+
+    # Set info fields
+    h.helicsInputSetInfo(subid1, "sub1_test")
+    h.helicsPublicationSetInfo(pubid1, "pub1_test")
+    h.helicsPublicationSetInfo(pubid2, "pub2_test")
+    h.helicsFederateEnterExecutingMode(vFed)
+
+    @test h.helicsInputGetInfo(subid1) == "sub1_test"
+    @test h.helicsPublicationGetInfo(pubid1) == "pub1_test"
+    @test h.helicsPublicationGetInfo(pubid2) == "pub2_test"
+
+    cr = h.helicsFederateGetCoreObject(vFed)
+    h.helicsFederateFinalize(vFed)
+
+    wait = h.helicsCoreWaitForDisconnect(cr, 70)
+    if (wait == false)
+        wait = h.helicsCoreWaitForDisconnect(cr, 500)
+    end
+    @test wait == true
+
+    destroyFederate(vFed, fedinfo)
+    destroyBroker(broker)
 end

@@ -1755,7 +1755,7 @@ end
 """
 Clear an error object
 """
-function helicsErrorClear(err::Lib.helics_error)
+function helicsErrorClear(err::Ref{Lib.helics_error})
     Lib.helicsErrorClear(err)
 end
 

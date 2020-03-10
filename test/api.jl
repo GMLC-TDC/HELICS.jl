@@ -8,6 +8,10 @@ include("init.jl")
     address_string = h.helicsBrokerGetAddress(broker1)
     occursin("tcp://127.0.0.1:23404", address_string)
     occursin("broker1", h.helicsBrokerGetIdentifier(broker1))
+    err = Ref(h.helicsErrorInitialize())
+    h.helicsErrorClear(err)
+    @test err[].error_code == 0
+    @test unsafe_string(err[].message) == ""
     @test h.helicsBrokerIsValid(broker1) == 1
     @test h.helicsBrokerIsConnected(broker1) == 1
     h.helicsBrokerDisconnect(broker1)

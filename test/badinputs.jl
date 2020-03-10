@@ -295,3 +295,35 @@ end
     destroyBroker(broker)
 
 end
+
+
+@testset "Bad Inputs broker link" begin
+
+    broker = createBroker(1)
+    vFed1, fedinfo = createValueFederate(1, "fed0")
+
+    # register the publications
+
+    h.helicsFederateRegisterGlobalTypePublication(vFed1, "pub1", "custom1", "")
+
+    h.helicsFederateRegisterTypeInput(vFed1, "inp1", "custom2", "")
+
+    br = h.helicsBrokerClone(broker)
+
+    h.helicsBrokerDataLink(br, "pub1", "Testfed0/inp1")
+
+    # TODO: This test should throw an error
+    # @test_throws h.HELICSErrorInvalidArgument h.helicsBrokerDataLink(br, "pub1", "")
+    @test_broken false
+
+    @test_throws h.HELICSErrorInvalidArgument h.helicsBrokerMakeConnections(br, "unknownfile.json")
+
+    @test_throws h.HELICSErrorConnectionFailure h.helicsFederateEnterExecutingMode(vFed1)
+
+    h.helicsFederateFinalize(vFed1)
+
+    destroyFederate(vFed1, fedinfo)
+    destroyBroker(broker)
+
+
+end

@@ -33,6 +33,28 @@ end
 
 end
 
+@testset "System Test Broker Global Value" begin
+
+    brk = h.helicsCreateBroker("inproc", "gbroker", "--root")
+    globalVal = "this is a string constant that functions as a global"
+    globalVal2 = "this is a second string constant that functions as a global"
+    h.helicsBrokerSetGlobal(brk, "testglobal", globalVal)
+    q = h.helicsCreateQuery("global", "testglobal")
+    res = h.helicsQueryBrokerExecute(q, brk)
+    @test res == globalVal
+
+    h.helicsBrokerSetGlobal(brk, "testglobal2", globalVal2)
+    h.helicsQueryFree(q)
+    q = h.helicsCreateQuery("global", "testglobal2")
+    res = h.helicsQueryBrokerExecute(q, brk)
+    @test res == globalVal2
+
+    h.helicsBrokerDisconnect(brk)
+    h.helicsQueryFree(q)
+    @test h.helicsBrokerIsConnected(brk) == false
+
+end
+
 @testset "System Test Core Global Value" begin
 
     brk = h.helicsCreateBroker("zmq", "gbrokerc", "--root")

@@ -2910,7 +2910,7 @@ debug and trace only do anything if they were enabled in the compilation
 
 - the value of the property
 """
-function helicsFederateGetIntegerProperty(fed::Federate, intProperty::Union{Int, HELICS.HELICS_HANDLE_OPTIONS})::Int
+function helicsFederateGetIntegerProperty(fed::Federate, intProperty::Union{Int, HELICS.HELICS_PROPERTIES, HELICS.HELICS_HANDLE_OPTIONS})::Int
     return @invoke_and_check Lib.helicsFederateGetIntegerProperty(fed, intProperty)
 end
 

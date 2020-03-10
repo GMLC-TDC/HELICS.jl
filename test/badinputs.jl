@@ -241,3 +241,57 @@ end
     destroyBroker(broker)
 
 end
+
+@testset "Bad Inputs input tests" begin
+
+    broker = createBroker(1)
+    vFed1, fedinfo = createValueFederate(1, "fed0")
+
+    # register the publications
+
+    pubid = h.helicsFederateRegisterGlobalPublication(vFed1, "pub1", h.HELICS_DATA_TYPE_DOUBLE, "")
+
+    subid = h.helicsFederateRegisterInput(vFed1, "inp1", h.HELICS_DATA_TYPE_DOUBLE, "")
+    @test_throws h.HELICSErrorRegistrationFailure subid2 = h.helicsFederateRegisterInput(vFed1, "inp1", h.HELICS_DATA_TYPE_DOUBLE, "")
+
+    h.helicsInputAddTarget(subid, "pub1")
+
+    vf2 = h.helicsFederateClone(vFed1)
+    @test h.helicsFederateGetName(vFed1) == h.helicsFederateGetName(vf2)
+
+    h.helicsFederateSetTimeProperty(vFed1, h.HELICS_PROPERTY_TIME_PERIOD, 1.0)
+
+    @test_throws h.HELICSErrorInvalidObject ept = h.helicsFederateRegisterEndpoint(vFed1, "ept1", "")
+
+    h.helicsFederateEnterInitializingMode(vFed1)
+
+    h.helicsPublicationPublishDouble(pubid, 27.0)
+
+    comp = h.helicsFederateEnterExecutingModeIterative(vFed1, h.HELICS_ITERATION_REQUEST_FORCE_ITERATION)
+    @test comp == h.HELICS_ITERATION_RESULT_ITERATING
+    val = h.helicsInputGetDouble(subid)
+    @test val == 27.0
+    valt = h.helicsInputGetTime(subid)
+    @test valt == 27.0
+
+    comp = h.helicsFederateEnterExecutingModeIterative(vFed1, h.HELICS_ITERATION_REQUEST_ITERATE_IF_NEEDED)
+
+    @test comp == h.HELICS_ITERATION_RESULT_NEXT_STEP
+
+    val2 = h.helicsInputGetDouble(subid)
+    @test val2 == val
+    #expect error entering initializing Mode again
+    @test_throws h.HELICSErrorInvalidFunctionCall h.helicsFederateEnterInitializingMode(vFed1)
+
+    #expect error entering initializing Mode again
+    @test_throws h.HELICSErrorInvalidFunctionCall h.helicsFederateEnterInitializingModeAsync(vFed1)
+
+    #expect error entering initializing Mode again
+    @test_throws h.HELICSErrorInvalidFunctionCall h.helicsFederateEnterInitializingModeComplete(vFed1)
+
+    h.helicsFederateFinalize(vFed1)
+
+    destroyFederate(vFed1, fedinfo)
+    destroyBroker(broker)
+
+end

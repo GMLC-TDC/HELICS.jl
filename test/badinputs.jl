@@ -405,6 +405,8 @@ end
 
     @test_throws h.HELICSErrorInvalidFunctionCall h.helicsFederateRequestTimeIterativeAsync(vFed1, 1.0, h.HELICS_ITERATION_REQUEST_NO_ITERATION);
 
+    @test_throws h.HELICSErrorInvalidFunctionCall res = h.helicsFederateRequestTimeIterativeComplete(vFed1)
+
     h.helicsFederateFinalize(vFed1);
 
     destroyFederate(vFed1, fedinfo)

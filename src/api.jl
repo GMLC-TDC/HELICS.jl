@@ -2794,7 +2794,7 @@ Complete an iterative time request asynchronous call
 - `outIterate`  the iteration specification of the result
 """
 function helicsFederateRequestTimeIterativeComplete(fed::Federate)::Tuple{Float64, HELICS.HELICS_ITERATION_RESULT}
-    return outIterate = Ref{HELICS.HELICS_ITERATION_RESULT}(0)
+    outIterate = Ref(HELICS.HELICS_ITERATION_RESULT(0))
     t = @invoke_and_check Lib.helicsFederateRequestTimeIterativeComplete(fed, outIterate)
     return t, outIterate[]
 end

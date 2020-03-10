@@ -826,3 +826,17 @@ end
     destroyBroker(broker)
 
 end
+
+@testset "Filter test file load" begin
+
+    filename = joinpath(@__DIR__, "filters.json")
+    mFed = h.helicsCreateMessageFederateFromConfig(filename)
+
+    name = h.helicsFederateGetName(mFed)
+    @test name == "filterFed"
+
+    @test h.helicsFederateGetEndpointCount(mFed) == 3
+    h.helicsFederateFinalize(mFed)
+    h.helicsFederateFree(mFed)
+
+end

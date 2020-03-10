@@ -45,3 +45,7 @@ end
 @testset "System Test" begin
     include("systemtests.jl")
 end
+
+@testset "Iteration Test" begin
+    include("iteration.jl")
+end

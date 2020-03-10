@@ -393,6 +393,8 @@ end
     vFed1, fedinfo = createValueFederate(1, "fed0")
     # register the publications
 
+    h.helicsFederateInfoSetSeparator(fedinfo, '-')
+
     h.helicsFederateRegisterGlobalTypePublication(vFed1, "pub1", "custom1", "");
 
     subid = h.helicsFederateRegisterTypeInput(vFed1, "inp1", "custom2", "");
@@ -413,5 +415,14 @@ end
 
     destroyBroker(broker)
 
+end
+
+@testset "Bad Inputs misc tests" begin
+
+    @test h.helicsGetPropertyIndex("") == -1
+    @test h.helicsGetPropertyIndex("not_a_property") == -1
+
+    @test h.helicsGetOptionIndex("") == -1
+    @test h.helicsGetOptionIndex("not_a_property") == -1
 
 end

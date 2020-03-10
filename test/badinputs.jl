@@ -364,5 +364,4 @@ end
 
     destroyBroker(broker)
 
-    @test_throws h.HELICSErrorInvalidObject h.helicsBrokerWaitForDisconnect(broker, 200)
 end

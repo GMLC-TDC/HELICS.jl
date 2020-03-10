@@ -978,7 +978,7 @@ Publish raw data from bytes
 - `pub`: the [`Publication`](@ref) to publish for
 - `data`: the raw data
 """
-function helicsPublicationPublishRaw(pub::Publication, data::Cstring)
+function helicsPublicationPublishRaw(pub::Publication, data::String)
     inputDataLength = length(data)
     data = pointer(data)
     @invoke_and_check Lib.helicsPublicationPublishRaw(pub, data, inputDataLength)
@@ -1132,11 +1132,12 @@ end
 """
 Get the raw data for the latest value of a [`Subscription`](@ref)
 """
-function helicsInputGetRawValue(ipt::Input, data::T)::T where T<:Any
-    error("Not implemented.")
+function helicsInputGetRawValue(ipt::Input)::String
     maxlen = Lib.helicsInputGetRawValueSize(ipt)
     actualSize = Ref(maxlen)
-    return @invoke_and_check Lib.helicsInputGetRawValue(ipt, data, maxlen, actualSize)
+    data = Ref(repeat(" ", maxlen))
+    @invoke_and_check Lib.helicsInputGetRawValue(ipt, data, maxlen, actualSize)
+    return data[]
 end
 
 """
@@ -2619,8 +2620,16 @@ function helicsFederateEnterExecutingModeIterative(fed::Federate, iterate::Union
 end
 
 """
+Request an iterative entry to the execution mode
+
+This call allows for finer grain control of the iterative process then [`helicsFederateRequestTime`](@ref) it takes a time and and iteration request and return a time and iteration status
+
+# Arguments
+
+- `fed`: the [`Federate`](@ref) to make the request of
+- `iterate`: the requested iteration mode
 """
-function helicsFederateEnterExecutingModeIterativeAsync(fed::Federate, iterate::Union{Int, HELICS.HELICS_ITERATION_REQUEST})::HELICS.HELICS_ITERATION_RESULT
+function helicsFederateEnterExecutingModeIterativeAsync(fed::Federate, iterate::Union{Int, HELICS.HELICS_ITERATION_REQUEST})
     return @invoke_and_check Lib.helicsFederateEnterExecutingModeIterativeAsync(fed, iterate)
 end
 

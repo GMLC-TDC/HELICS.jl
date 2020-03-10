@@ -25,3 +25,25 @@ include("init.jl")
     h.helicsFederateFinalize(mFed1)
     @test_throws h.HELICSErrorInvalidFunctionCall h.helicsEndpointSendMessage(ept1, mess0)
 end
+
+@testset "Bad Input filter test4" begin
+
+    broker = createBroker(1)
+    mFed1, fedinfo = createMessageFederate(1, "test")
+
+    filt1 = h.helicsFederateRegisterCloningFilter(mFed1, "filt1")
+    @test_throws h.HELICSErrorRegistrationFailure filt2 = h.helicsFederateRegisterCloningFilter(mFed1, "filt1")
+
+    @test_throws h.HELICSErrorInvalidArgument h.helicsFilterSetString(filt1, "unknown", "string")
+
+    h.helicsFederateRegisterGlobalEndpoint(mFed1, "ept1", "")
+
+    h.helicsFilterAddDeliveryEndpoint(filt1, "ept1")
+    h.helicsFilterAddSourceTarget(filt1, "ept1")
+    h.helicsFilterAddDestinationTarget(filt1, "ept1")
+    h.helicsFilterRemoveTarget(filt1, "ept1")
+
+    @test_throws h.HELICSErrorInvalidArgument h.helicsFilterSet(filt1, "unknown", 10.0)
+    h.helicsFederateFinalize(mFed1)
+
+end

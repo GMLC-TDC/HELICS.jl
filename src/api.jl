@@ -13,7 +13,7 @@ const HELICS_TIME_MAXTIME = typemax(Int)
 """
 Create an [`Endpoint`](@ref)
 
-The [`Endpoint`](@ref) becomes part of the [`Federate`](@ref) and is destroyed when the federate is freed so there are no separate free functions for endpoints.
+The [`Endpoint`](@ref) becomes part of the [`Federate`](@ref) and is destroyed when the [`Federate`](@ref) is freed so there are no separate free functions for endpoints.
 
 # Arguments
 
@@ -54,7 +54,7 @@ Get an [`Endpoint`](@ref) object from a name
 
 # Arguments
 
-- `fed`: The message federate object to use to get the [`Endpoint`](@ref)
+- `fed`: The [`Federate`](@ref) to use to get the [`Endpoint`](@ref)
 - `name`: The name of the [`Endpoint`](@ref)
 
 # Returns
@@ -76,7 +76,6 @@ Get an [`Endpoint`](@ref) by its index typically already created via helicsFeder
 # Returns
 
 - a [`Endpoint`](@ref), which will be NULL if an invalid index
-
 """
 function helicsFederateGetEndpointByIndex(fed::Federate, index::Int)::Endpoint
     return Utils.@invoke_and_check Lib.helicsFederateGetEndpointByIndex(fed, index)
@@ -89,7 +88,6 @@ Set the default destination for an [`Endpoint`](@ref) if no other endpoint is gi
 
 - `endpoint`: The [`Endpoint`](@ref) to set the destination for
 - `dest`: A string naming the desired default endpoint
-
 """
 function helicsEndpointSetDefaultDestination(endpoint::Endpoint, dest::String)
     Utils.@invoke_and_check Lib.helicsEndpointSetDefaultDestination(endpoint, dest)
@@ -147,7 +145,7 @@ Send a message object from a specific endpoint
 # Arguments
 
 - `endpoint`: The [`Endpoint`](@ref) to send the data from
-- `message`: The actual message to send
+- `message`: The [`Message`](@ref) to send
 """
 function helicsEndpointSendMessage(endpoint::Endpoint, message::Message)
     Utils.@invoke_and_check Lib.helicsEndpointSendMessage(endpoint, message)
@@ -159,7 +157,7 @@ Send a message object from a specific endpoint
 # Arguments
 
 - `endpoint`: The [`Endpoint`](@ref) to send the data from
-- `message`: The actual message to send
+- `message`: The [`Message`](@ref) to send
 """
 function helicsEndpointSendMessageObject(endpoint::Endpoint, message::Message)
     Utils.@invoke_and_check Lib.helicsEndpointSendMessageObject(endpoint, message)
@@ -325,7 +323,7 @@ Get the number of endpoints in a [`Federate`](@ref)
 
 # Arguments
 
-- `fed`: The message federate to query
+- `fed`: The [`Federate`](@ref) to query
 
 # Returns
 
@@ -340,7 +338,7 @@ Get the data in the info field of an filter
 
 # Arguments
 
-- `end`: The filter to query
+- `end`: The [`Filter`](@ref) to query
 
 # Returns
 
@@ -368,7 +366,6 @@ Set a handle option on an [`Endpoint`](@ref)
 - `end`: The [`Endpoint`](@ref) to modify
 - `option`: Integer code for the option to set [`HELICS_HANDLE_OPTIONS`](@ref)
 - `value`: The value to set the option
-
 """
 function helicsEndpointSetOption(_end::Endpoint, option::Union{Int, HELICS.HELICS_HANDLE_OPTIONS}, value::Bool)
     Utils.@invoke_and_check Lib.helicsEndpointSetOption(_end, option, value ? 1 : 0)
@@ -394,7 +391,7 @@ a few extra features of name matching to function on the [`Federate`](@ref) inte
 
 - `fed`: the fed to register through
 - `type`: the type of filter to create [`HELICS_FILTER_TYPE`](@ref)
-- `name`: the name of the filter (can be NULL)
+- `name`: the name of the [`Filter`](@ref) (can be NULL)
 
 # Returns
 
@@ -414,7 +411,7 @@ a few extra features of name matching to function on the [`Federate`](@ref) inte
 
 - `fed`: the fed to register through
 - `type`: the type of filter to create [`HELICS_FILTER_TYPE`](@ref)
-- `name`: the name of the filter (can be NULL)
+- `name`: the name of the [`Filter`](@ref) (can be NULL)
 
 # Returns
 
@@ -433,7 +430,7 @@ through other functions
 # Arguments
 
 - `fed`: the fed to register through
-- `name`: the name of the filter (can be NULL)
+- `name`: the name of the [`Filter`](@ref) (can be NULL)
 
 # Returns
 
@@ -452,7 +449,7 @@ through other functions
 # Arguments
 
 - `fed`: the fed to register through
-- `name`: the name of the filter (can be NULL)
+- `name`: the name of the [`Filter`](@ref) (can be NULL)
 
 # Returns
 
@@ -472,7 +469,7 @@ a few extra features of name matching to function on the [`Federate`](@ref) inte
 
 - `core` the core to register through
 - `type` the type of filter to create [`HELICS_FILTER_TYPE`](@ref)
-- `name` the name of the filter (can be NULL)
+- `name` the name of the [`Filter`](@ref) (can be NULL)
 
 # Returns
 
@@ -491,7 +488,7 @@ through other functions
 # Arguments
 
 - `core`: the core to register through
-- `name`: the name of the filter (can be NULL)
+- `name`: the name of the [`Filter`](@ref) (can be NULL)
 
 # Returns
 
@@ -506,7 +503,7 @@ Get a the number of filters registered through a [`Federate`](@ref)
 
 # Arguments
 
-- `fed`: the [`Federate`](@ref) to use to get the filter
+- `fed`: the [`Federate`](@ref) to use to get the [`Filter`](@ref)
 
 # Returns
 
@@ -517,12 +514,12 @@ function helicsFederateGetFilterCount(fed::Federate)::Int
 end
 
 """
-Get a filter by its name typically already created via helicsFederateRegisterInterfaces file or something of that nature
+Get a [`Filter`](@ref) by its name typically already created via helicsFederateRegisterInterfaces file or something of that nature
 
 # Arguments
 
-- `fed`: the [`Federate`](@ref) to use to get the filter
-- `name`: the name of the filter
+- `fed`: the [`Federate`](@ref) to use to get the [`Filter`](@ref)
+- `name`: the name of the [`Filter`](@ref)
 
 # Returns
 
@@ -533,7 +530,7 @@ function helicsFederateGetFilter(fed::Federate, name::String)::Filter
 end
 
 """
-Get a filter by its index typically already created via helicsFederateRegisterInterfaces file or something of that nature
+Get a [`Filter`](@ref) by its index typically already created via helicsFederateRegisterInterfaces file or something of that nature
 
 # Arguments
 
@@ -547,26 +544,26 @@ function helicsFederateGetFilterByIndex(fed::Federate, index::Int)::Filter
 end
 
 """
-Get the name of the filter and store in the given string
+Get the name of the [`Filter`](@ref) and store in the given string
 
 # Arguments
 
-- `filt`: the given filter
+- `filt`: the given [`Filter`](@ref)
 
 # Returns
 
-- a string with the name of the filter
+- a string with the name of the [`Filter`](@ref)
 """
 function helicsFilterGetName(filt::Filter)::String
     return unsafe_string(Lib.helicsFilterGetName(filt))
 end
 
 """
-Set a property on a filter
+Set a property on a [`Filter`](@ref)
 
 # Arguments
 
-- `filt`: the filter to modify
+- `filt`: the [`Filter`](@ref) to modify
 - `prop`: a string containing the property to set
 - `val`: a numerical value of the property
 """
@@ -575,11 +572,11 @@ function helicsFilterSet(filt::Filter, prop::String, val::Float64)
 end
 
 """
-Set a string property on a filter
+Set a string property on a [`Filter`](@ref)
 
 # Arguments
 
-- `filt`: the filter to modify
+- `filt`: the [`Filter`](@ref) to modify
 - `prop`: a string containing the property to set
 - `val`: a string containing the new value
 """
@@ -588,13 +585,13 @@ function helicsFilterSetString(filt::Filter, prop::String, val::String)
 end
 
 """
-Add a destination target to a filter
+Add a destination target to a [`Filter`](@ref)
 
 All messages going to a destination are copied to the delivery address(es)
 
 # Arguments
 
-- `filt`: the given filter to add a destination target
+- `filt`: the given [`Filter`](@ref) to add a destination target
 - `dest`: the name of the [`Endpoint`](@ref) to add as a destination target
 """
 function helicsFilterAddDestinationTarget(filt::Filter, dest::String)
@@ -602,11 +599,11 @@ function helicsFilterAddDestinationTarget(filt::Filter, dest::String)
 end
 
 """
-Add a source target to a filter
+Add a source target to a [`Filter`](@ref)
 
 All messages coming from a source are copied to the delivery address(es)
 
-- `filt`: the given filter
+- `filt`: the given [`Filter`](@ref)
 - `source`: the name of the [`Endpoint`](@ref) to add as a source target
 """
 function helicsFilterAddSourceTarget(filt::Filter, source::String)
@@ -620,7 +617,7 @@ All cloned messages are sent to the delivery address(es)
 
 # Arguments
 
-- `filt`: the given filter
+- `filt`: the given [`Filter`](@ref)
 - `deliveryEndpoint`: the name of the [`Endpoint`](@ref) to deliver messages to
 """
 function helicsFilterAddDeliveryEndpoint(filt::Filter, deliveryEndpoint::String)
@@ -628,9 +625,9 @@ function helicsFilterAddDeliveryEndpoint(filt::Filter, deliveryEndpoint::String)
 end
 
 """
-Remove a destination target from a filter
+Remove a destination target from a [`Filter`](@ref)
 
-- `filt`: the given filter
+- `filt`: the given [`Filter`](@ref)
 - `target`: the named endpoint to remove as a target
 """
 function helicsFilterRemoveTarget(filt::Filter, target::String)
@@ -642,7 +639,7 @@ Remove a delivery destination from a cloning filter
 
 # Arguments
 
-- `filt`: the given filter (must be a cloning filter)
+- `filt`: the given [`Filter`](@ref) (must be a cloning filter)
 - `deliveryEndpoint`: a string with the deliverEndpoint to remove
 """
 function helicsFilterRemoveDeliveryEndpoint(filt::Filter, deliveryEndpoint::String)
@@ -654,7 +651,7 @@ Get the data in the info field of an filter
 
 # Arguments
 
-- `filt`: the given filter
+- `filt`: the given [`Filter`](@ref)
 
 # Returns
 
@@ -669,7 +666,7 @@ Set the data in the info field for an filter
 
 # Arguments
 
-- `filt`: the given filter
+- `filt`: the given [`Filter`](@ref)
 - `info`: the string to set
 """
 function helicsFilterSetInfo(filt::Filter, info::String)
@@ -681,7 +678,7 @@ Set the data in the info field for an filter
 
 # Arguments
 
-- `filt`: the given filter
+- `filt`: the given [`Filter`](@ref)
 - `option`: the option to set [`HELICS_HANDLE_OPTIONS`](@ref)
 - `value`: the value of the option (helics_true or helics_false)
 """
@@ -690,11 +687,11 @@ function helicsFilterSetOption(filt::Filter, option::Int, value::Bool)
 end
 
 """
-Get a handle option for the filter
+Get a handle option for the [`Filter`](@ref)
 
 # Arguments
 
-- `filt`: the given filter to query
+- `filt`: the given [`Filter`](@ref) to query
 - `option`: the option to query [`HELICS_HANDLE_OPTIONS`](@ref)
 """
 function helicsFilterGetOption(filt::Filter, option::Int)::Bool
@@ -704,7 +701,7 @@ end
 """
 Create a [`Subscription`](@ref)
 
-The [`Subscription`](@ref) becomes part of the [`Federate`](@ref) and is destroyed when the federate is freed so there are no separate free
+The [`Subscription`](@ref) becomes part of the [`Federate`](@ref) and is destroyed when the [`Federate`](@ref) is freed so there are no separate free
 functions for subscriptions and publications
 
 # Arguments
@@ -724,7 +721,7 @@ end
 """
 Register a [`Publication`](@ref) with a known type
 
-The [`Publication`](@ref) becomes part of the [`Federate`](@ref) and is destroyed when the federate is freed so there are no separate free
+The [`Publication`](@ref) becomes part of the [`Federate`](@ref) and is destroyed when the [`Federate`](@ref) is freed so there are no separate free
 functions for subscriptions and publications
 
 # Arguments
@@ -745,7 +742,7 @@ end
 """
 Register a [`Publication`](@ref) with a defined type
 
-The [`Publication`](@ref) becomes part of the [`Federate`](@ref) and is destroyed when the federate is freed so there are no separate free
+The [`Publication`](@ref) becomes part of the [`Federate`](@ref) and is destroyed when the [`Federate`](@ref) is freed so there are no separate free
 functions for subscriptions and publications
 
 # Arguments
@@ -768,7 +765,7 @@ Register a global named publication with an arbitrary type
 
 # Arguments
 
-The [`Publication`](@ref) becomes part of the [`Federate`](@ref) and is destroyed when the federate is freed so there are no separate free
+The [`Publication`](@ref) becomes part of the [`Federate`](@ref) and is destroyed when the [`Federate`](@ref) is freed so there are no separate free
 functions for subscriptions and publications
 
 # Arguments
@@ -791,7 +788,7 @@ Register a global publication with a defined type
 
 # Arguments
 
-The [`Publication`](@ref) becomes part of the [`Federate`](@ref) and is destroyed when the federate is freed so there are no separate free
+The [`Publication`](@ref) becomes part of the [`Federate`](@ref) and is destroyed when the [`Federate`](@ref) is freed so there are no separate free
 functions for subscriptions and publications
 
 - `fed`: the [`Federate`](@ref) in which to create a [`Publication`](@ref)
@@ -810,7 +807,7 @@ end
 """
 Register a named input
 
-The [`Input`](@ref) becomes part of the [`Federate`](@ref) and is destroyed when the federate is freed so there are no separate free
+The [`Input`](@ref) becomes part of the [`Federate`](@ref) and is destroyed when the [`Federate`](@ref) is freed so there are no separate free
 functions for subscriptions, inputs, and publications
 
 # Arguments
@@ -831,7 +828,7 @@ end
 """
 Register an [`Input`](@ref) with a defined type
 
-The [`Input`](@ref) becomes part of the [`Federate`](@ref) and is destroyed when the federate is freed so there are no separate free
+The [`Input`](@ref) becomes part of the [`Federate`](@ref) and is destroyed when the [`Federate`](@ref) is freed so there are no separate free
 functions for subscriptions, inputs and publications
 
 # Arguments
@@ -852,7 +849,7 @@ end
 """
 Register a global named input
 
-The [`Publication`](@ref) becomes part of the [`Federate`](@ref) and is destroyed when the federate is freed so there are no separate free
+The [`Publication`](@ref) becomes part of the [`Federate`](@ref) and is destroyed when the [`Federate`](@ref) is freed so there are no separate free
 functions for subscriptions and publications
 
 # Arguments
@@ -873,7 +870,7 @@ end
 """
 Register a global publication with an arbitrary type
 
-The [`Publication`](@ref) becomes part of the [`Federate`](@ref) and is destroyed when the federate is freed so there are no separate free
+The [`Publication`](@ref) becomes part of the [`Federate`](@ref) and is destroyed when the [`Federate`](@ref) is freed so there are no separate free
 functions for subscriptions and publications
 
 # Arguments
@@ -1773,7 +1770,6 @@ Returns true if core/broker type specified is available in current compilation.
 - a `Bool`
 
 possible options include "test","zmq","udp","ipc","interprocess","tcp","default", "mpi"
-
 """
 function helicsIsCoreTypeAvailable(kind::String)::Bool
     return Lib.helicsIsCoreTypeAvailable(kind) == 1 ? true : false
@@ -1791,7 +1787,6 @@ Create a core object
 # Returns
 
 - a [`Core`](@ref) object if the core is invalid err will contain some indication
-
 """
 function helicsCreateCore(kind::String, name::String, initString::String)::Core
     return Utils.@invoke_and_check Lib.helicsCreateCore(kind, name, initString)
@@ -1843,7 +1838,6 @@ Create a broker object
 # Returns
 
 - a [`Broker`](@ref) object, will be NULL if there was an error indicated in the err object
-
 """
 function helicsCreateBroker(kind::String, name::String, initString::String)::Broker
     return Utils.@invoke_and_check Lib.helicsCreateBroker(kind, name, initString)
@@ -1898,7 +1892,6 @@ Link a named publication and named input using a broker
 - `broker`: the [`Broker`](@ref) to generate the connection from
 - `source`: the name of the [`Publication`](@ref) (cannot be NULL)
 - `target`: the name of the target to send the [`Publication`](@ref) data (cannot be NULL)
-
 """
 function helicsBrokerDataLink(broker::Broker, source::String, target::String)
     Utils.@invoke_and_check Lib.helicsBrokerDataLink(broker, source, target)
@@ -1910,7 +1903,7 @@ Link a named filter to a source endpoint
 # Arguments
 
 - `broker` the [`Broker`](@ref) to generate the connection from
-- `filter` the name of the filter (cannot be NULL)
+- `filter` the name of the [`Filter`](@ref) (cannot be NULL)
 - `endpoint` the name of the [`Endpoint`](@ref) to filter the data from (cannot be NULL)
 """
 function helicsBrokerAddSourceFilterToEndpoint(broker::Broker, filter::String, endpoint::String)
@@ -1923,7 +1916,7 @@ Link a named filter to a destination endpoint
 # Arguments
 
 - `broker` the [`Broker`](@ref) to generate the connection from
-- `filter` the name of the filter (cannot be NULL)
+- `filter` the name of the [`Filter`](@ref) (cannot be NULL)
 - `endpoint` the name of the [`Endpoint`](@ref) to filter the data going to (cannot be NULL)
 """
 function helicsBrokerAddDestinationFilterToEndpoint(broker::Broker, filter::String, endpoint::String)
@@ -1941,7 +1934,6 @@ Wait for the [`Broker`](@ref) to disconnect
 # Returns
 
 - `true` if the disconnect was successful, `false` if there was a timeout
-
 """
 function helicsBrokerWaitForDisconnect(broker::Broker, msToWait::Int)::Bool
     r = Utils.@invoke_and_check Lib.helicsBrokerWaitForDisconnect(broker, msToWait)
@@ -1967,7 +1959,6 @@ Link a named publication and named input using a core
 - `core`: the core to generate the connection from
 - `source`: the name of the [`Publication`](@ref) (cannot be NULL)
 - `target`: the named of the target to send the [`Publication`](@ref) data (cannot be NULL)
-
 """
 function helicsCoreDataLink(core::Core, source::String, target::String)
     Utils.@invoke_and_check Lib.helicsCoreDataLink(core, source, target)
@@ -1979,9 +1970,8 @@ Link a named filter to a source endpoint
 # Arguments
 
 - `core`: the core to generate the connection from
-- `filter`: the name of the filter (cannot be NULL)
+- `filter`: the name of the [`Filter`](@ref) (cannot be NULL)
 - `endpoint`: the name of the [`Endpoint`](@ref) to filter the data from (cannot be NULL)
-
 """
 function helicsCoreAddSourceFilterToEndpoint(core::Core, filter::String, endpoint::String)
     Utils.@invoke_and_check Lib.helicsCoreAddSourceFilterToEndpoint(core, filter, endpoint)
@@ -2003,7 +1993,6 @@ Get an identifier for the [`Broker`](@ref)
 # Returns
 
 - a string containing the identifier for the [`Broker`](@ref)
-
 """
 function helicsBrokerGetIdentifier(broker::Broker)::String
     return unsafe_string(Lib.helicsBrokerGetIdentifier(broker))
@@ -2019,7 +2008,6 @@ Get an identifier for the core
 # Returns
 
 - a string with the identifier of the core
-
 """
 function helicsCoreGetIdentifier(core::Core)::String
     return unsafe_string(Lib.helicsCoreGetIdentifier(core))
@@ -2035,7 +2023,6 @@ Get the network address associated with a broker
 # Returns
 
 - a string with the network address of the [`Broker`](@ref)
-
 """
 function helicsBrokerGetAddress(broker::Broker)::String
     return unsafe_string(Lib.helicsBrokerGetAddress(broker))
@@ -2049,7 +2036,6 @@ this function is used for cores that have filters but no federates so there need
 # Arguments
 
 - `core`: the core object to enable init values for
-
 """
 function helicsCoreSetReadyToInit(core::Core)
     Utils.@invoke_and_check Lib.helicsCoreSetReadyToInit(core)
@@ -2065,7 +2051,6 @@ Get an identifier for the core
 # Returns
 
 - a void enumeration indicating any error condition
-
 """
 function helicsCoreDisconnect(core::Core)
     Utils.@invoke_and_check Lib.helicsCoreDisconnect(core)
@@ -2095,7 +2080,6 @@ Disconnect a broker
 # Arguments
 
 - `broker`: the [`Broker`](@ref) to disconnect
-
 """
 function helicsBrokerDisconnect(broker::Broker)
     Utils.@invoke_and_check Lib.helicsBrokerDisconnect(broker)
@@ -2148,8 +2132,7 @@ Create a value federate from a [`FederateInfo`](@ref) object
 
 # Returns
 
-- an opaque value [`Federate`](@ref)
-
+- [`ValueFederate`](@ref)
 """
 function helicsCreateValueFederate(fedName::String, fi::FederateInfo)::ValueFederate
     return Utils.@invoke_and_check Lib.helicsCreateValueFederate(fedName, fi)
@@ -2166,8 +2149,7 @@ Create a value federate from a JSON file, JSON string, or TOML file
 
 # Returns
 
-- an opaque value [`Federate`](@ref)
-
+- [`ValueFederate`](@ref)
 """
 function helicsCreateValueFederateFromConfig(configFile::String)::ValueFederate
     return Utils.@invoke_and_check Lib.helicsCreateValueFederateFromConfig(configFile)
@@ -2185,8 +2167,7 @@ Create a [`MessageFederate`](@ref) from a [`FederateInfo`](@ref) object
 
 # Returns
 
-- an opaque [`MessageFederate`](@ref)
-
+- [`MessageFederate`](@ref)
 """
 function helicsCreateMessageFederate(fedName::String, fi::FederateInfo)::MessageFederate
     return Utils.@invoke_and_check Lib.helicsCreateMessageFederate(fedName, fi)
@@ -2203,8 +2184,7 @@ Create a [`MessageFederate`](@ref) from a JSON file or JSON string or TOML file
 
 # Returns
 
-- an opaque [`MessageFederate`](@ref)
-
+- [`MessageFederate`](@ref)
 """
 function helicsCreateMessageFederateFromConfig(configFile::String)::MessageFederate
     return Utils.@invoke_and_check Lib.helicsCreateMessageFederateFromConfig(configFile)
@@ -2222,8 +2202,7 @@ Create a [`CombinationFederate`](@ref) from a [`FederateInfo`](@ref) object
 
 # Returns
 
-- an opaque [`ValueFederate`](@ref)
-
+- [`ValueFederate`](@ref)
 """
 function helicsCreateCombinationFederate(fedName::String, fi::FederateInfo)::CombinationFederate
     return Utils.@invoke_and_check Lib.helicsCreateCombinationFederate(fedName, fi)
@@ -2240,8 +2219,7 @@ Create a [`CombinationFederate`](@ref) from a JSON file or JSON string
 
 # Returns
 
-- an opaque [`CombinationFederate`](@ref)
-
+- [`CombinationFederate`](@ref)
 """
 function helicsCreateCombinationFederateFromConfig(configFile::String)::CombinationFederate
     return Utils.@invoke_and_check Lib.helicsCreateCombinationFederateFromConfig(configFile)
@@ -2270,7 +2248,6 @@ Create a [`FederateInfo`](@ref) object for specifying federate information when 
 # Returns
 
 - a [`FederateInfo`](@ref) object which is a reference to the created object
-
 """
 function helicsCreateFederateInfo()::FederateInfo
     return Lib.helicsCreateFederateInfo()
@@ -2286,7 +2263,6 @@ Create a [`FederateInfo`](@ref) object from an existing one and clone the inform
 # Returns
 
 - a [`FederateInfo`](@ref) object which is a reference to the created object
-
 """
 function helicsFederateInfoClone(fi::FederateInfo)::FederateInfo
     return Utils.@invoke_and_check Lib.helicsFederateInfoClone(fi)
@@ -2300,7 +2276,6 @@ Load a [`FederateInfo`](@ref) from command line arguments
 - `fi`: a [`FederateInfo`](@ref) object
 - `argc`: the number of command line arguments
 - `argv`: an array of strings from the command line
-
 """
 function helicsFederateInfoLoadFromArgs(fi::FederateInfo, argc::Int, argv::Vector{<:AbstractString})
     Utils.@invoke_and_check Lib.helicsFederateInfoLoadFromArgs(fi, argc, argv)
@@ -2331,7 +2306,6 @@ Set the name of the core to link to for a [`Federate`](@ref)
 
 - `fi`: the [`FederateInfo`](@ref) object to alter
 - `corename`: the identifier for a core to link to
-
 """
 function helicsFederateInfoSetCoreName(fi::FederateInfo, corename::String)
     Utils.@invoke_and_check Lib.helicsFederateInfoSetCoreName(fi, corename)
@@ -2344,7 +2318,6 @@ Set the initialization string for the core usually in the form of command line a
 
 - `fi`: the [`FederateInfo`](@ref) object to alter
 - `coreInit`: a string with the core initialization strings
-
 """
 function helicsFederateInfoSetCoreInitString(fi::FederateInfo, coreInit::String)
     Utils.@invoke_and_check Lib.helicsFederateInfoSetCoreInitString(fi, coreInit)
@@ -2359,7 +2332,6 @@ valid values available by definitions in api-data.h
 
 - `fi`: the [`FederateInfo`](@ref) object to alter
 - `coretype`: an numerical code for a core type see /ref helics_core_type
-
 """
 function helicsFederateInfoSetCoreType(fi::FederateInfo, coretype::Union{Int, HELICS.HELICS_CORE_TYPE})
     Utils.@invoke_and_check Lib.helicsFederateInfoSetCoreType(fi, coretype)
@@ -2372,7 +2344,6 @@ Set the core type from a string
 
 - `fi`: the [`FederateInfo`](@ref) object to alter
 - `coretype`: a string naming a core type
-
 """
 function helicsFederateInfoSetCoreTypeFromString(fi::FederateInfo, coretype::String)
     Utils.@invoke_and_check Lib.helicsFederateInfoSetCoreTypeFromString(fi, coretype)
@@ -2387,7 +2358,6 @@ this is only used if the core is automatically created, the [`Broker`](@ref) inf
 
 - `fi`: the [`FederateInfo`](@ref) object to alter
 - `broker`: a string which defined the connection information for a broker either a name or an address
-
 """
 function helicsFederateInfoSetBroker(fi::FederateInfo, broker::Broker)
     Utils.@invoke_and_check Lib.helicsFederateInfoSetBroker(fi, broker)
@@ -2402,7 +2372,6 @@ this is only used if the core is automatically created, the [`Broker`](@ref) inf
 
 - `fi`: the [`FederateInfo`](@ref) object to alter
 - `brokerPort`: the integer port number to use for connection with a broker
-
 """
 function helicsFederateInfoSetBrokerPort(fi::FederateInfo, brokerPort::Int)
     Utils.@invoke_and_check Lib.helicsFederateInfoSetBrokerPort(fi, brokerPort)
@@ -2417,7 +2386,6 @@ this is only used if the core is automatically created, the port information wil
 
 - `fi`: the [`FederateInfo`](@ref) object to alter
 - `localPort`: a string with the port information to use as the local server port can be a number or "auto" or "os_local"
-
 """
 function helicsFederateInfoSetLocalPort(fi::FederateInfo, localPort::Int)
     Utils.@invoke_and_check Lib.helicsFederateInfoSetLocalPort(fi, localPort)
@@ -2433,7 +2401,6 @@ Get a property index for use in [`helicsFederateInfoSetFlagOption`](@ref), [`hel
 # Returns
 
 - an int with the property code (-1) if not a valid property
-
 """
 function helicsGetPropertyIndex(val::String)::Int
     return Lib.helicsGetPropertyIndex(val)
@@ -2449,7 +2416,6 @@ Get an option index for use in [`helicsPublicationSetOption`](@ref), [`helicsInp
 # Returns
 
 - an int with the option index (-1) if not a valid property
-
 """
 function helicsGetOptionIndex(val::String)::Int
     return Lib.helicsGetOptionIndex(val)
@@ -2465,7 +2431,6 @@ valid flags are available [`HELICS_FEDERATE_FLAGS`](@ref)
 - `fi`: the [`FederateInfo`](@ref) object to alter
 - `flag`: a numerical index for a flag
 - `value`: the desired value of the flag `true` or `false`
-
 """
 function helicsFederateInfoSetFlagOption(fi::FederateInfo, flag::Union{Int, HELICS.HELICS_FEDERATE_FLAGS}, value::Bool)
     Utils.@invoke_and_check Lib.helicsFederateInfoSetFlagOption(fi, flag, value ? 1 : 0)
@@ -2480,7 +2445,6 @@ the separator character is the separation character for local publications/endpo
 
 - `fi`: the [`FederateInfo`](@ref) object to alter
 - `separator`: the character to use as a separator
-
 """
 function helicsFederateInfoSetSeparator(fi::FederateInfo, separator::Char)
     Utils.@invoke_and_check Lib.helicsFederateInfoSetSeparator(fi, separator)
@@ -2505,14 +2469,13 @@ Load interfaces from a file
 
 - `fed`: the [`Federate`](@ref) to which to load interfaces
 - `file`: the name of a file to load the interfaces from either JSON, or TOML
-
 """
 function helicsFederateRegisterInterfaces(fed::Federate, file::String)
     Utils.@invoke_and_check Lib.helicsFederateRegisterInterfaces(fed, file)
 end
 
 """
-Finalize the [`Federate`](@ref) this function halts all communication in the federate and disconnects it from the core
+Finalize the [`Federate`](@ref) this function halts all communication in the [`Federate`](@ref) and disconnects it from the core
 """
 function helicsFederateFinalize(fed::Federate)
     Utils.@invoke_and_check Lib.helicsFederateFinalize(fed)
@@ -2533,7 +2496,7 @@ function helicsFederateFinalizeComplete(fed::Federate)
 end
 
 """
-Release the memory associated withe a [`Federate`](@ref)
+Release the memory associated with a [`Federate`](@ref)
 """
 function helicsFederateFree(fed::Federate)
     Lib.helicsFederateFree(fed)
@@ -2555,7 +2518,6 @@ the initialization state allows initial values to be set and received if the ite
 # Arguments
 
 - `fed`: the [`Federate`](@ref) to operate on
-
 """
 function helicsFederateEnterInitializingMode(fed::Federate)
     Utils.@invoke_and_check Lib.helicsFederateEnterInitializingMode(fed)
@@ -2568,7 +2530,6 @@ The function [`helicsFederateFinalize`](@ref) must be called to finish the opera
 # Arguments
 
 - `fed`: the [`Federate`](@ref) to operate on
-
 """
 function helicsFederateEnterInitializingModeAsync(fed::Federate)
     Utils.@invoke_and_check Lib.helicsFederateEnterInitializingModeAsync(fed)
@@ -2609,7 +2570,6 @@ this call is blocking until granted entry by the core object for an asynchronous
 # Arguments
 
 - `fed`: a [`Federate`](@ref) to change modes
-
 """
 function helicsFederateEnterExecutingMode(fed::Federate)
     Utils.@invoke_and_check Lib.helicsFederateEnterExecutingMode(fed)
@@ -2624,7 +2584,6 @@ Call [`helicsFederateEnterExecutingModeComplete`](@ref) to finish the call seque
 # Arguments
 
 - `fed`: the [`Federate`](@ref) to complete the call
-
 """
 function helicsFederateEnterExecutingModeAsync(fed::Federate)
     Utils.@invoke_and_check Lib.helicsFederateEnterExecutingModeAsync(fed)
@@ -2636,7 +2595,6 @@ Complete the call to [`helicsFederateEnterExecutingModeAsync`](@ref)
 # Arguments
 
 - `fed`: the [`Federate`](@ref) to complete the call
-
 """
 function helicsFederateEnterExecutingModeComplete(fed::Federate)
     Utils.@invoke_and_check Lib.helicsFederateEnterExecutingModeComplete(fed)
@@ -2655,7 +2613,6 @@ this call allows for finer grain control of the iterative process then [`helicsF
 # Returns
 
 - an iteration structure with field containing the time and iteration status
-
 """
 function helicsFederateEnterExecutingModeIterative(fed::Federate, iterate::Union{Int, HELICS.HELICS_ITERATION_REQUEST})::HELICS.HELICS_ITERATION_RESULT
     return Utils.@invoke_and_check Lib.helicsFederateEnterExecutingModeIterative(fed, iterate)
@@ -2677,7 +2634,6 @@ Complete the asynchronous iterative call into ExecutionModel
 # Returns
 
 - an iteration object containing the iteration time and iteration_status
-
 """
 function helicsFederateEnterExecutingModeIterativeComplete(fed::Federate)::HELICS.HELICS_ITERATION_RESULT
     return Utils.@invoke_and_check Lib.helicsFederateEnterExecutingModeIterativeComplete(fed)
@@ -2708,7 +2664,6 @@ Get the core object associated with a [`Federate`](@ref)
 # Returns
 
 - a [`Core`](@ref) object
-
 """
 function helicsFederateGetCoreObject(fed::Federate)::Core
     return Utils.@invoke_and_check Lib.helicsFederateGetCoreObject(fed)
@@ -2763,7 +2718,6 @@ this call allows for finer grain control of the iterative process then [`helicsF
 
 - the granted time
 - the iteration specification of the result
-
 """
 function helicsFederateRequestTimeIterative(fed::Federate, requestTime::HELICS.HELICS_TIME, iterate::Union{Int, HELICS.HELICS_ITERATION_REQUEST})::Tuple{Float64, HELICS.HELICS_ITERATION_RESULT}
     outIteration = Ref{HELICS.HELICS_ITERATION_RESULT}(0)
@@ -2779,7 +2733,6 @@ Call [`helicsFederateRequestTimeComplete`](@ref) to finish the call
 
 - `fed`: the [`Federate`](@ref) to make the request of
 - `requestTime`: the next requested time
-
 """
 function helicsFederateRequestTimeAsync(fed::Federate, requestTime::HELICS.HELICS_TIME)
     Utils.@invoke_and_check Lib.helicsFederateRequestTimeAsync(fed, requestTime)
@@ -2814,7 +2767,6 @@ this call allows for finer grain control of the iterative process then [`helicsF
 # Returns
 
 - a void object with a return code of the result
-
 """
 function helicsFederateRequestTimeIterativeAsync(fed::Federate, requestTime::HELICS.HELICS_TIME, iterate::Union{Int, HELICS.HELICS_ITERATION_REQUEST})
     Utils.@invoke_and_check Lib.helicsFederateRequestTimeIterativeAsync(fed, requestTime, iterate)
@@ -2831,7 +2783,6 @@ Complete an iterative time request asynchronous call
 
 - the granted time
 - `outIterate`  the iteration specification of the result
-
 """
 function helicsFederateRequestTimeIterativeComplete(fed::Federate)::Tuple{Float64, HELICS.HELICS_ITERATION_RESULT}
     return outIterate = Ref{HELICS.HELICS_ITERATION_RESULT}(0)
@@ -2849,7 +2800,6 @@ Get the name of the [`Federate`](@ref)
 # Returns
 
 - a string with the name
-
 """
 function helicsFederateGetName(fed::Federate)::String
     return unsafe_string(Lib.helicsFederateGetName(fed))
@@ -2863,7 +2813,6 @@ Set a time based property for a [`Federate`](@ref)
 - `fed`: the [`Federate`](@ref) set the property for
 - `timeProperty`: a integer code for a time property
 - `time`: the requested value of the property
-
 """
 function helicsFederateSetTimeProperty(fed::Federate, timeProperty::Union{Int, HELICS.HELICS_PROPERTIES}, time::HELICS.HELICS_TIME)
     Utils.@invoke_and_check Lib.helicsFederateSetTimeProperty(fed, timeProperty, time)
@@ -2877,7 +2826,6 @@ Set a flag for the [`Federate`](@ref)
 - `fed`: the [`Federate`](@ref) to alter a flag for
 - `flag`: the flag to change
 - `flagValue`: the new value of the flag 0 for false !=0 for true
-
 """
 function helicsFederateSetFlagOption(fed::Federate, flag::Union{Int, HELICS.HELICS_FEDERATE_FLAGS}, flagValue::Bool)
     Utils.@invoke_and_check Lib.helicsFederateSetFlagOption(fed, flag, flagValue ? 1 : 0)
@@ -2892,7 +2840,6 @@ the separator character is the separation character for local publications/endpo
 
 - `fed`: the [`FederateInfo`](@ref) object to alter
 - `separator`: the character to use as a separator
-
 """
 function helicsFederateSetSeparator(fed::Federate, separator::Char)
     Utils.@invoke_and_check Lib.helicsFederateSetSeparator(fed, separator)
@@ -2906,7 +2853,6 @@ Set an integer based property of a [`Federate`](@ref)
 - `fed`: the [`Federate`](@ref) to change the property for
 - `intProperty`: the property to set
 - `propertyVal`: the value of the property
-
 """
 function helicsFederateSetIntegerProperty(fed::Federate, intProperty::Union{Int, HELICS.HELICS_PROPERTIES}, propertyVal::Int)
     Utils.@invoke_and_check Lib.helicsFederateSetIntegerProperty(fed, intProperty, propertyVal)
@@ -2919,7 +2865,6 @@ Get the current value of a time based property in a [`Federate`](@ref)
 
 - `fed`: the [`Federate`](@ref) query
 - `timeProperty`: the property to query
-
 """
 function helicsFederateGetTimeProperty(fed::Federate, timeProperty::Union{Int, HELICS.HELICS_PROPERTIES})::Float64
     return Utils.@invoke_and_check Lib.helicsFederateGetTimeProperty(fed, timeProperty)
@@ -2936,7 +2881,6 @@ Get a flag value for a [`Federate`](@ref)
 # Returns
 
 - the value of the flag
-
 """
 function helicsFederateGetFlagOption(fed::Federate, flag::Union{Int, HELICS.HELICS_FEDERATE_FLAGS})::Bool
     return Utils.@invoke_and_check Lib.helicsFederateGetFlagOption(fed, flag)
@@ -2955,7 +2899,6 @@ debug and trace only do anything if they were enabled in the compilation
 # Returns
 
 - the value of the property
-
 """
 function helicsFederateGetIntegerProperty(fed::Federate, intProperty::Union{Int, HELICS.HELICS_HANDLE_OPTIONS})::Int
     return Utils.@invoke_and_check Lib.helicsFederateGetIntegerProperty(fed, intProperty)
@@ -2971,7 +2914,6 @@ Get the current time of the [`Federate`](@ref)
 # Returns
 
 - the current time of the [`Federate`](@ref)
-
 """
 function helicsFederateGetCurrentTime(fed::Federate)::Float64
     return Utils.@invoke_and_check Lib.helicsFederateGetCurrentTime(fed)
@@ -2987,7 +2929,6 @@ this overwrites any previous value for this name
 - `fed`: the [`Federate`](@ref) to set the global through
 - `valueName`: the name of the global to set
 - `value`: the value of the global
-
 """
 function helicsFederateSetGlobal(fed::Federate, valueName::String, value::String)
     Utils.@invoke_and_check Lib.helicsFederateSetGlobal(fed, valueName, value)
@@ -3003,7 +2944,6 @@ this overwrites any previous value for this name
 - `core`: the core to set the global through
 - `valueName`: the name of the global to set
 - `value`: the value of the global
-
 """
 function helicsCoreSetGlobal(core::Core, valueName::String, value::String)
     Utils.@invoke_and_check Lib.helicsCoreSetGlobal(core, valueName, value)
@@ -3019,7 +2959,6 @@ this overwrites any previous value for this name
 - `broker`: the [`Broker`](@ref) to set the global through
 - `valueName`: the name of the global to set
 - `value`: the value of the global
-
 """
 function helicsBrokerSetGlobal(broker::Broker, valueName::String, value::String)
     Utils.@invoke_and_check Lib.helicsBrokerSetGlobal(broker, valueName, value)
@@ -3034,7 +2973,6 @@ a [`Query`](@ref) consists of a target and query string
 
 - `target`: the name of the target to query
 - `query`: the query string to make of the target
-
 """
 function helicsCreateQuery(target::String, query::String)::Query
     return Lib.helicsCreateQuery(target, query)
@@ -3054,7 +2992,6 @@ the call will block until the [`Query`](@ref) finishes which may require communi
 
 - a string. String will remain valid until the [`Query`](@ref) is freed or executed again
 the return will be nullptr if fed or [`Query`](@ref) is an invalid object, the return string will be "#invalid" if the [`Query`](@ref) itself was invalid
-
 """
 function helicsQueryExecute(query::Query, fed::Federate)::String
     r = Utils.@invoke_and_check Lib.helicsQueryExecute(query, fed)
@@ -3075,7 +3012,6 @@ the call will block until the [`Query`](@ref) finishes which may require communi
 
 - a string. String will remain valid until the [`Query`](@ref) is freed or executed again
 the return will be nullptr if fed or [`Query`](@ref) is an invalid object, the return string will be "#invalid" if the [`Query`](@ref) itself was invalid
-
 """
 function helicsQueryCoreExecute(query::Query, core::Core)::String
     r = Utils.@invoke_and_check Lib.helicsQueryCoreExecute(query, core)
@@ -3096,7 +3032,6 @@ the call will block until the [`Query`](@ref) finishes which may require communi
 
 - a string. String will remain valid until the [`Query`](@ref) is freed or executed again
 the return will be nullptr if fed or [`Query`](@ref) is an invalid object, the return string will be "#invalid" if the [`Query`](@ref) itself was invalid
-
 """
 function helicsQueryBrokerExecute(query::Query, broker::Broker)::String
     r = Utils.@invoke_and_check Lib.helicsQueryBrokerExecute(query, broker)
@@ -3110,7 +3045,6 @@ Execute a [`Query`](@ref) in a non-blocking call
 
 - `query`: the [`Query`](@ref) to use in the query
 - `fed`: a [`Federate`](@ref) to send the [`Query`](@ref) through
-
 """
 function helicsQueryExecuteAsync(query::Query, fed::Federate)
     Utils.@invoke_and_check Lib.helicsQueryExecuteAsync(query, fed)
@@ -3129,7 +3063,6 @@ the function will block until the [`Query`](@ref) completes [`helicsQueryIsCompl
 
 - a string. String will remain valid until the [`Query`](@ref) is freed or executed again
 the return will be nullptr if [`Query`](@ref) is an invalid object
-
 """
 function helicsQueryExecuteComplete(query::Query)::String
     r = Utils.@invoke_and_check Lib.helicsQueryExecuteComplete(query)
@@ -3148,7 +3081,6 @@ this function should usually be called after a QueryExecuteAsync function has be
 # Returns
 
 - will return `true` if an asynchronous [`Query`](@ref) has complete or a regular [`Query`](@ref) call was made with a result and `false` if an asynchronous [`Query`](@ref) has not completed or is invalid
-
 """
 function helicsQueryIsCompleted(query::Query)::Bool
     return Lib.helicsQueryIsCompleted(query) == 1 ? true : false

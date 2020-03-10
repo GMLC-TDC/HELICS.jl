@@ -2388,7 +2388,7 @@ this is only used if the core is automatically created, the port information wil
 - `fi`: the [`FederateInfo`](@ref) object to alter
 - `localPort`: a string with the port information to use as the local server port can be a number or "auto" or "os_local"
 """
-function helicsFederateInfoSetLocalPort(fi::FederateInfo, localPort::Int)
+function helicsFederateInfoSetLocalPort(fi::FederateInfo, localPort::String)
     @invoke_and_check Lib.helicsFederateInfoSetLocalPort(fi, localPort)
 end
 

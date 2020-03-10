@@ -376,6 +376,9 @@ end
     h.helicsFederateEnterInitializingMode(vFed1)
     h.helicsFederateFinalize(vFed1)
 
+    h.helicsFederateInfoSetBrokerPort(fi, 8929)
+    h.helicsFederateInfoSetLocalPort(fi, "8229")
+
     h.helicsFederateInfoFree(fi)
     h.helicsFederateFree(vFed1)
 

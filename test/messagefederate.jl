@@ -216,6 +216,9 @@ end
     # check that the request is only granted at the appropriate period
     @test gtime == 1.0
 
+    @test h.helicsFederateGetFlagOption(vFed1, h.HELICS_FLAG_IGNORE_TIME_MISMATCH_WARNINGS) == true
+    @test h.helicsFederateGetFlagOption(vFed2, h.HELICS_FLAG_IGNORE_TIME_MISMATCH_WARNINGS) == true
+
     h.helicsEndpointSendMessageRaw(ept1, "e2", "test1")
     h.helicsFederateRequestTimeAsync(vFed1, 1.9)
     gtime = h.helicsFederateRequestTimeComplete(vFed2)

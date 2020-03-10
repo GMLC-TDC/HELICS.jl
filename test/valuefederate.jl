@@ -589,3 +589,20 @@ end
     destroyFederate(vFed, fedinfo)
     destroyBroker(broker)
 end
+
+
+@testset "ValueFederate test file load" begin
+
+    filename = joinpath(@__DIR__, "valuefederate.json")
+    vFed = h.helicsCreateValueFederateFromConfig(filename)
+
+    name = h.helicsFederateGetName(vFed)
+    @test name == "valueFed"
+
+    @test h.helicsFederateGetInputCount(vFed) == 3
+    @test h.helicsFederateGetPublicationCount(vFed) == 2
+
+    h.helicsFederateFinalize(vFed)
+    h.helicsFederateFree(vFed)
+
+end

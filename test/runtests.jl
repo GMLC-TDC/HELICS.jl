@@ -41,3 +41,7 @@ end
 @testset "Bad Inputs" begin
     include("badinputs.jl")
 end
+
+@testset "System Test" begin
+    include("systemtests.jl")
+end

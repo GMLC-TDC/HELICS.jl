@@ -1795,7 +1795,8 @@ end
 
 """
 """
-function helicsCreateCoreFromArgs(kind::String, name::String, argc::Int, argv::Vector{<:AbstractString})::Core
+function helicsCreateCoreFromArgs(kind::String, name::String, argv::Vector{<:AbstractString})::Core
+    argc = length(argv)
     return @invoke_and_check Lib.helicsCreateCoreFromArgs(kind, name, argc, argv)
 end
 

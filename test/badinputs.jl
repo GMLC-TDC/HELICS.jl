@@ -24,6 +24,10 @@ include("init.jl")
 
     h.helicsFederateFinalize(mFed1)
     @test_throws h.HELICSErrorInvalidFunctionCall h.helicsEndpointSendMessage(ept1, mess0)
+
+    destroyFederate(mFed1, fedinfo)
+    destroyBroker(broker)
+
 end
 
 @testset "Bad Input filter test4" begin
@@ -46,6 +50,9 @@ end
     @test_throws h.HELICSErrorInvalidArgument h.helicsFilterSet(filt1, "unknown", 10.0)
     h.helicsFederateFinalize(mFed1)
 
+    destroyFederate(mFed1, fedinfo)
+    destroyBroker(broker)
+
 end
 
 @testset "Bad Input filter core tests" begin
@@ -62,6 +69,8 @@ end
     h.helicsFederateFinalize(mFed1)
     h.helicsCoreDestroy(cr)
 
+    destroyFederate(mFed1, fedinfo)
+    destroyBroker(broker)
 end
 
 
@@ -113,6 +122,8 @@ end
 
     @test_throws h.HELICSErrorInvalidFunctionCall h.helicsPublicationPublishNamedPoint(pubid, "hello world", 2.0)
 
+    destroyFederate(vFed1, fedinfo)
+    destroyBroker(broker)
 end
 
 @testset "Bad Input tests raw tests" begin
@@ -144,6 +155,8 @@ end
     t, res = h.helicsFederateRequestTimeIterative(vFed1, 1.0, h.HELICS_ITERATION_REQUEST_NO_ITERATION)
     @test res == h.HELICS_ITERATION_RESULT_HALTED
 
+    destroyFederate(vFed1, fedinfo)
+    destroyBroker(broker)
 end
 
 @testset "Bad Input duplicate publication and input pathways" begin
@@ -176,6 +189,9 @@ end
     @test messages == 0
 
     h.helicsFederateFinalize(vFed1)
+
+    destroyFederate(vFed1, fedinfo)
+    destroyBroker(broker)
 
 end
 
@@ -220,5 +236,8 @@ end
     @test_throws h.HELICSErrorInvalidArgument inp5 = h.helicsFederateGetInputByIndex(vFed1, 4)
 
     h.helicsFederateFinalize(vFed1)
+
+    destroyFederate(vFed1, fedinfo)
+    destroyBroker(broker)
 
 end

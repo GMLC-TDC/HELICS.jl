@@ -19,9 +19,11 @@ function snakecase_to_camelcase(s::Symbol)
     s = Symbol(s)
 end
 
+abstract type HELICSException <: Exception end
+
 for (sym, ans) in Lib.CEnum.name_value_pairs(Lib.helics_error_types)
     sym = snakecase_to_camelcase(sym)
-    eval(:(struct $sym <: Exception
+    eval(:(struct $sym <: HELICSException
                msg::String
            end))
     eval(:(export $sym))

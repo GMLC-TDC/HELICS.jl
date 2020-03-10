@@ -145,3 +145,80 @@ end
     @test res == h.HELICS_ITERATION_RESULT_HALTED
 
 end
+
+@testset "Bad Input duplicate publication and input pathways" begin
+
+    broker = createBroker(1)
+    vFed1, fedinfo = createValueFederate(1, "fed0")
+
+    pubid = h.helicsFederateRegisterTypePublication(vFed1, "pub1", "string", "")
+
+    @test_throws h.HELICSErrorRegistrationFailure pubid2 = h.helicsFederateRegisterTypePublication(vFed1, "pub1", "string", "")
+
+    subid = h.helicsFederateRegisterGlobalTypeInput(vFed1, "inp1", "string", "")
+    @test_throws h.HELICSErrorRegistrationFailure subid2 = h.helicsFederateRegisterGlobalTypeInput(vFed1, "inp1", "string", "")
+
+    @test_throws h.HELICSErrorInvalidObject ept = h.helicsFederateRegisterEndpoint(vFed1, "ept1", "")
+
+    h.helicsInputAddTarget(subid, "Testfed0/pub1")
+
+    h.helicsFederateSetTimeProperty(vFed1, h.HELICS_PROPERTY_TIME_PERIOD, 1.0)
+
+    h.helicsFederateEnterExecutingMode(vFed1)
+
+    h.helicsPublicationPublishDouble(pubid, 27.0)
+    h.helicsFederateRequestNextStep(vFed1)
+    str = h.helicsInputGetString(subid)
+    @test str[1] == '2'
+    @test str[2] == '7'
+
+    messages = h.helicsFederatePendingMessages(vFed1)
+    @test messages == 0
+
+    h.helicsFederateFinalize(vFed1)
+
+end
+
+@testset "Bad input init error" begin
+    broker = createBroker(1)
+    vFed1, fedinfo = createValueFederate(1, "fed0")
+
+    # register the publications
+
+    # the types here don't match which causes an error when initializing the federation
+    h.helicsFederateRegisterGlobalTypePublication(vFed1, "pub1", "custom1", "")
+
+    subid = h.helicsFederateRegisterTypeInput(vFed1, "inp1", "custom2", "")
+    k1 = h.helicsInputGetKey(subid)
+
+    # check some other calls
+    inp2 = h.helicsFederateGetInput(vFed1, "inp1")
+    k2 = h.helicsInputGetKey(inp2)
+    @test k1 == k2
+
+    inp3 = h.helicsFederateGetInputByIndex(vFed1, 0)
+    k3 = h.helicsInputGetKey(inp3)
+    @test k1 == k3
+
+    h.helicsInputAddTarget(subid, "pub1")
+
+    h.helicsFederateSetTimeProperty(vFed1, h.HELICS_PROPERTY_TIME_PERIOD, 1.0)
+
+    # unknown publication
+    @test_throws h.HELICSErrorInvalidArgument pub3 = h.helicsFederateGetPublication(vFed1, "unknown")
+
+    # error in this call from the mismatch
+    @test_throws h.HELICSErrorConnectionFailure h.helicsFederateEnterInitializingMode(vFed1)
+
+    @test_throws h.HELICSErrorInvalidFunctionCall h.helicsFederateRequestTimeAdvance(vFed1, 0.1)
+
+    # unknown input
+    @test_throws h.HELICSErrorInvalidArgument inp4 = h.helicsFederateGetInput(vFed1, "unknown")
+
+    # invalid input index
+    # TODO: does this test segfault some times?
+    @test_throws h.HELICSErrorInvalidArgument inp5 = h.helicsFederateGetInputByIndex(vFed1, 4)
+
+    h.helicsFederateFinalize(vFed1)
+
+end

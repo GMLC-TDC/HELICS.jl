@@ -2843,11 +2843,11 @@ end
 """
 Set the separator character in a [`Federate`](@ref)
 
-the separator character is the separation character for local publications/endpoints in creating their global name. for example if the separator character is '/'  then a local endpoint would have a globally reachable name of fedName/localName.
+The separator character is the separation character for local publications/endpoints in creating their global name. for example if the separator character is '/'  then a local endpoint would have a globally reachable name of fedName/localName.
 
 # Arguments
 
-- `fed`: the [`FederateInfo`](@ref) object to alter
+- `fed`: the [`Federate`](@ref) object to alter
 - `separator`: the character to use as a separator
 """
 function helicsFederateSetSeparator(fed::Federate, separator::Char)

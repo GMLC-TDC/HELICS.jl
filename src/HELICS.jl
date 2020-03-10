@@ -29,6 +29,7 @@ include("wrapper.jl")
 
 include("utils.jl")
 
+include("enums.jl")
 include("api.jl")
 
 const HELICS_LIBRARY_VERSION = VersionNumber(split(helicsGetVersion())[1])

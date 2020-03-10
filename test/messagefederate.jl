@@ -189,3 +189,52 @@ end
     destroyBroker(broker)
 
 end
+
+
+@testset "MessageFederate timing tests" begin
+
+    broker = createBroker(1)
+    vFed1, fedinfo1 = createMessageFederate(1, "fed0")
+    vFed2, fedinfo2 = createMessageFederate(1, "fed1")
+
+    h.helicsFederateSetTimeProperty(vFed1, h.HELICS_PROPERTY_TIME_PERIOD, 0.1)
+    h.helicsFederateSetTimeProperty(vFed2, h.HELICS_PROPERTY_TIME_PERIOD, 0.1)
+
+    h.helicsFederateSetTimeProperty(vFed2, h.HELICS_PROPERTY_TIME_INPUT_DELAY, 0.1)
+
+    h.helicsFederateSetFlagOption(vFed1, h.HELICS_FLAG_IGNORE_TIME_MISMATCH_WARNINGS, true)
+    h.helicsFederateSetFlagOption(vFed2, h.HELICS_FLAG_IGNORE_TIME_MISMATCH_WARNINGS, true)
+
+    ept1 = h.helicsFederateRegisterGlobalEndpoint(vFed1, "e1", "")
+    h.helicsFederateRegisterGlobalEndpoint(vFed2, "e2", "")
+
+    h.helicsFederateEnterExecutingModeAsync(vFed1)
+    h.helicsFederateEnterExecutingMode(vFed2)
+    h.helicsFederateEnterExecutingModeComplete(vFed1)
+    h.helicsFederateRequestTimeAsync(vFed2, 2.0)
+    gtime = h.helicsFederateRequestTime(vFed1, 1.0)
+    # check that the request is only granted at the appropriate period
+    @test gtime == 1.0
+
+    h.helicsEndpointSendMessageRaw(ept1, "e2", "test1")
+    h.helicsFederateRequestTimeAsync(vFed1, 1.9)
+    gtime = h.helicsFederateRequestTimeComplete(vFed2)
+    @test gtime == 1.1 # the message should show up at the next available time point after the impact window
+    h.helicsFederateRequestTimeAsync(vFed2, 2.0)
+    gtime = h.helicsFederateRequestTimeComplete(vFed1)
+    @test gtime == 1.9
+
+    tres = h.helicsFederateGetTimeProperty(vFed1, h.HELICS_PROPERTY_TIME_PERIOD)
+    @test tres == 0.1
+
+    gtime = h.helicsFederateRequestTimeComplete(vFed2)
+    @test gtime == 2.0
+    h.helicsFederateFinalize(vFed1)
+    h.helicsFederateFinalize(vFed2)
+
+    destroyFederate(vFed1, fedinfo1)
+    destroyFederate(vFed2, fedinfo2)
+    destroyBroker(broker)
+
+
+end

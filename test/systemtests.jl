@@ -33,6 +33,29 @@ end
 
 end
 
+@testset "System Test Core Global Value" begin
+
+    brk = h.helicsCreateBroker("zmq", "gbrokerc", "--root")
+    cr = h.helicsCreateCore("zmq", "gcore", "--broker=gbrokerc")
+
+    globalVal = "this is a string constant that functions as a global"
+    globalVal2 = "this is a second string constant that functions as a global"
+
+    h.helicsCoreSetGlobal(cr, "testglobal", globalVal)
+
+    # q = h.helicsCreateQuery("global", "testglobal")
+    # TODO: This hangs on core execute
+    # res = h.helicsQueryCoreExecute(q, cr)
+    # @test res == globalVal
+    # h.helicsQueryFree(q)
+    @test_broken false
+
+    h.helicsCoreDisconnect(cr)
+    h.helicsBrokerDisconnect(brk)
+
+    @test h.helicsBrokerIsConnected(brk) == false
+
+end
 @testset "System Test Federate Global Value" begin
 
     brk = h.helicsCreateBroker("inproc", "gbrokerc", "--root")

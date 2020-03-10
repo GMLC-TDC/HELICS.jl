@@ -31,7 +31,7 @@ include("init.jl")
     tmp = h.helicsFilterGetName(f1_c)
     @test tmp == "Testfilter/c4"
 
-    @test_throws HELICS.Utils.HelicsErrorInvalidArgument f1_n = h.helicsFederateGetFilterByIndex(fFed, -2)
+    @test_throws h.HELICSErrorInvalidArgument f1_n = h.helicsFederateGetFilterByIndex(fFed, -2)
 
     h.helicsFederateEnterExecutingModeAsync(fFed)
     h.helicsFederateEnterExecutingMode(mFed)
@@ -313,7 +313,7 @@ end
     h.helicsFilterAddSourceTarget(f2, "port2")
     h.helicsFilterSet(f2, "delay", 2.5)
     # this is expected to fail since a regular filter doesn't have a delivery endpoint
-    @test_throws h.Utils.HelicsErrorInvalidObject h.helicsFilterAddDeliveryEndpoint(f2, "port1")
+    @test_throws h.HELICSErrorInvalidObject h.helicsFilterAddDeliveryEndpoint(f2, "port1")
 
     h.helicsFederateEnterExecutingModeAsync(fFed)
     h.helicsFederateEnterExecutingMode(mFed)

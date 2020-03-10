@@ -37,3 +37,7 @@ end
 @testset "Filters" begin
     include("filters.jl")
 end
+
+@testset "Bad Inputs" begin
+    include("badinputs.jl")
+end

@@ -24,9 +24,9 @@ version = "0.8.1"
 
 [[HELICS_jll]]
 deps = ["Libdl", "Pkg", "ZeroMQ_jll"]
-git-tree-sha1 = "20cfc2da076373f2d533c2efde782b85329db273"
+git-tree-sha1 = "ba6496d63e13489e1ba8f533fa889f9412f1cdda"
 uuid = "ef3b0bb0-9dc6-5204-90f3-946fd7d0da3e"
-version = "2.4.1+0"
+version = "2.4.1+1"
 
 [[InteractiveUtils]]
 deps = ["Markdown"]

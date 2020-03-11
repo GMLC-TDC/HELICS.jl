@@ -87,7 +87,7 @@ end
     argv = [
         ""
         "--corename=gcore"
-        "--type=test"
+        "--type=inproc"
         "--period=1.0"
     ]
 

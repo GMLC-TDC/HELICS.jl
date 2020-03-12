@@ -3747,7 +3747,7 @@ function helicsFederatePublishJSON(fed::Federate, json::String)
 end
 
 """
-request the next time for federate execution
+Request the next time for federate execution
 
 # Arguments
 

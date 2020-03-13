@@ -208,7 +208,7 @@ HELICS_FLAG_SINGLE_THREAD_FEDERATE
 HELICS_FLAG_SLOW_RESPONDING
 """used to delay a core from entering initialization mode even if it would otherwise be ready"""
 HELICS_FLAG_DELAY_INIT_ENTRY
-"""used to clear the [`HELICS_DELAY_INIT_ENTRY`](@ref) flag in cores"""
+"""used to clear the [`HELICS_DELAY_INIT_ENTRY`](@ref HELICS.HELICS_FEDERATE_FLAGS) flag in cores"""
 HELICS_FLAG_ENABLE_INIT_ENTRY
 """used to not display warnings on mismatched requested times"""
 HELICS_FLAG_IGNORE_TIME_MISMATCH_WARNINGS

@@ -217,6 +217,10 @@ end
 function helicsMessageAppendData(message, data, inputDataLength, err)
     ccall((:helicsMessageAppendData, libhelicsSharedLib), Cvoid, (helics_message_object, Ptr{Cvoid}, Cint, Ptr{helics_error}), message, data, inputDataLength, err)
 end
+
+function helicsMessageCopy(source_message, dest_message, err)
+    ccall((:helicsMessageCopy, libhelicsSharedLib), Cvoid, (helics_message_object, helics_message_object, Ptr{helics_error}), source_message, dest_message, err)
+end
 # Julia wrapper for header: MessageFilters.h
 # Automatically generated using Clang.jl
 
@@ -1132,6 +1136,10 @@ end
 function helicsFederateSetLoggingCallback(fed, logger, userdata, err)
     ccall((:helicsFederateSetLoggingCallback, libhelicsSharedLib), Cvoid, (helics_federate, Ptr{Cvoid}, Ptr{Cvoid}, Ptr{helics_error}), fed, logger, userdata, err)
 end
+
+function helicsFilterSetCustomCallback(filter, filtCall, userdata, err)
+    ccall((:helicsFilterSetCustomCallback, libhelicsSharedLib), Cvoid, (helics_filter, Ptr{Cvoid}, Ptr{Cvoid}, Ptr{helics_error}), filter, filtCall, userdata, err)
+end
 # Julia wrapper for header: helics_export.h
 # Automatically generated using Clang.jl
 
@@ -1140,4 +1148,3 @@ end
 
 # Julia wrapper for header: helics_enums.h
 # Automatically generated using Clang.jl
-

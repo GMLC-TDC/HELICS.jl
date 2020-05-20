@@ -166,12 +166,12 @@ end
 
     @test h.helicsEndpointHasMessage(p2) == true
 
-    m2 = h.helicsEndpointGetMessage(p2)
-    @test unsafe_string(m2.source) == "port1"
-    @test unsafe_string(m2.original_source) == "port1"
-    @test unsafe_string(m2.dest) == "port2"
-    @test m2.length == length(data)
-    @test m2.time == 2.5
+    m2 = h.helicsEndpointGetMessageObject(p2)
+    @test h.helicsMessageGetSource(m2) == "port1"
+    @test h.helicsMessageGetOriginalSource(m2) == "port1"
+    @test h.helicsMessageGetDestination(m2) == "port2"
+    @test h.helicsMessageGetRawDataSize(m2) == length(data)
+    @test h.helicsMessageGetTime(m2) == 2.5
 
     h.helicsFederateRequestTime(mFed, 3.0)
     h.helicsFederateRequestTimeComplete(fFed)
@@ -298,12 +298,12 @@ end
     h.helicsFederateRequestTime(mFed, 3.0)
     @test h.helicsEndpointHasMessage(p2) == true
 
-    m2 = h.helicsEndpointGetMessage(p2)
-    @test unsafe_string(m2.source) == "port1"
-    @test unsafe_string(m2.original_source) == "port1"
-    @test unsafe_string(m2.dest) == "port2"
-    @test m2.length == length(data)
-    @test m2.time == 2.5
+    m2 = h.helicsEndpointGetMessageObject(p2)
+    @test h.helicsMessageGetSource(m2) == "port1"
+    @test h.helicsMessageGetOriginalSource(m2) == "port1"
+    @test h.helicsMessageGetDestination(m2) == "port2"
+    @test h.helicsMessageGetRawDataSize(m2) == length(data)
+    @test h.helicsMessageGetTime(m2) == 2.5
 
     h.helicsFederateRequestTimeComplete(fFed)
     h.helicsFederateRequestTimeComplete(fFed2)
@@ -314,7 +314,6 @@ end
     h.helicsFederateFinalizeComplete(fFed)
     state = h.helicsFederateGetState(fFed)
     @test state == h.HELICS_STATE_FINALIZE
-
 
     destroyFederate(fFed, fedinfo1)
     destroyFederate(fFed2, fedinfo2)

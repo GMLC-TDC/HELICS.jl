@@ -3960,6 +3960,6 @@ Check if a [`Input`](@ref) is valid.
 
 @return `true` if the [`Input`](@ref) object represents a valid input.
 """
-function helicsInputIsValid(ipt)
+function helicsInputIsValid(ipt)::Bool
     Lib.helicsInputIsValid(ipt)
 end

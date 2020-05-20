@@ -18,6 +18,10 @@ function helicsFederateGetEndpointByIndex(fed, index, err)
     ccall((:helicsFederateGetEndpointByIndex, libhelicsSharedLib), helics_endpoint, (helics_federate, Cint, Ptr{helics_error}), fed, index, err)
 end
 
+function helicsEndpointIsValid(endpoint)
+    ccall((:helicsEndpointIsValid, libhelicsSharedLib), helics_bool, (helics_endpoint,), endpoint)
+end
+
 function helicsEndpointSetDefaultDestination(endpoint, dest, err)
     ccall((:helicsEndpointSetDefaultDestination, libhelicsSharedLib), Cvoid, (helics_endpoint, Cstring, Ptr{helics_error}), endpoint, dest, err)
 end
@@ -40,6 +44,10 @@ end
 
 function helicsEndpointSendMessageObject(endpoint, message, err)
     ccall((:helicsEndpointSendMessageObject, libhelicsSharedLib), Cvoid, (helics_endpoint, helics_message_object, Ptr{helics_error}), endpoint, message, err)
+end
+
+function helicsEndpointSendMessageObjectZeroCopy(endpoint, message, err)
+    ccall((:helicsEndpointSendMessageObjectZeroCopy, libhelicsSharedLib), Cvoid, (helics_endpoint, helics_message_object, Ptr{helics_error}), endpoint, message, err)
 end
 
 function helicsEndpointSubscribe(endpoint, key, err)
@@ -261,6 +269,10 @@ function helicsFederateGetFilterByIndex(fed, index, err)
     ccall((:helicsFederateGetFilterByIndex, libhelicsSharedLib), helics_filter, (helics_federate, Cint, Ptr{helics_error}), fed, index, err)
 end
 
+function helicsFilterIsValid(filt)
+    ccall((:helicsFilterIsValid, libhelicsSharedLib), helics_bool, (helics_filter,), filt)
+end
+
 function helicsFilterGetName(filt)
     ccall((:helicsFilterGetName, libhelicsSharedLib), Cstring, (helics_filter,), filt)
 end
@@ -380,6 +392,10 @@ function helicsFederatePublishJSON(fed, json, err)
     ccall((:helicsFederatePublishJSON, libhelicsSharedLib), Cvoid, (helics_federate, Cstring, Ptr{helics_error}), fed, json, err)
 end
 
+function helicsPublicationIsValid(pub)
+    ccall((:helicsPublicationIsValid, libhelicsSharedLib), helics_bool, (helics_publication,), pub)
+end
+
 function helicsPublicationPublishRaw(pub, data, inputDataLength, err)
     ccall((:helicsPublicationPublishRaw, libhelicsSharedLib), Cvoid, (helics_publication, Ptr{Cvoid}, Cint, Ptr{helics_error}), pub, data, inputDataLength, err)
 end
@@ -422,6 +438,10 @@ end
 
 function helicsPublicationAddTarget(pub, target, err)
     ccall((:helicsPublicationAddTarget, libhelicsSharedLib), Cvoid, (helics_publication, Cstring, Ptr{helics_error}), pub, target, err)
+end
+
+function helicsInputIsValid(ipt)
+    ccall((:helicsInputIsValid, libhelicsSharedLib), helics_bool, (helics_input,), ipt)
 end
 
 function helicsInputAddTarget(ipt, target, err)

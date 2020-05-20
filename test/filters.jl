@@ -370,12 +370,12 @@ end
 
     @test h.helicsEndpointHasMessage(p2) == true
 
-    m2 = h.helicsEndpointGetMessage(p2)
-    @test unsafe_string(m2.source) == "port1"
-    @test unsafe_string(m2.original_source) == "port1"
-    @test unsafe_string(m2.dest) == "port2"
-    @test m2.length == length(data)
-    @test m2.time == 2.5
+    m2 = h.helicsEndpointGetMessageObject(p2)
+    @test h.helicsMessageGetSource(m2) == "port1"
+    @test h.helicsMessageGetOriginalSource(m2) == "port1"
+    @test h.helicsMessageGetDestination(m2) == "port2"
+    @test h.helicsMessageGetRawDataSize(m2) == length(data)
+    @test h.helicsMessageGetTime(m2) == 2.5
 
     @test h.helicsEndpointHasMessage(p1) == false
 
@@ -442,12 +442,12 @@ end
 
     @test h.helicsEndpointHasMessage(p2)
 
-    m2 = h.helicsEndpointGetMessage(p2)
-    @test unsafe_string(m2.source) == "port1"
-    @test unsafe_string(m2.original_source) == "port1"
-    @test unsafe_string(m2.dest) == "port2"
-    @test m2.length == length(data)
-    @test m2.time == 2.5
+    m2 = h.helicsEndpointGetMessageObject(p2)
+    @test h.helicsMessageGetSource(m2) == "port1"
+    @test h.helicsMessageGetOriginalSource(m2) == "port1"
+    @test h.helicsMessageGetDestination(m2) == "port2"
+    @test h.helicsMessageGetRawDataSize(m2) == length(data)
+    @test h.helicsMessageGetTime(m2) == 2.5
 
     @test h.helicsEndpointHasMessage(p1) == true
     h.helicsFederateFinalize(mFed)
@@ -500,20 +500,20 @@ end
 
     @test h.helicsFederateHasMessage(dFed)
 
-    m2 = h.helicsEndpointGetMessage(p2)
-    @test unsafe_string(m2.source) == "src"
-    @test unsafe_string(m2.original_source) == "src"
-    @test unsafe_string(m2.dest) == "dest"
-    @test m2.length == length(data)
+    m2 = h.helicsEndpointGetMessageObject(p2)
+    @test h.helicsMessageGetSource(m2) == "src"
+    @test h.helicsMessageGetOriginalSource(m2) == "src"
+    @test h.helicsMessageGetDestination(m2) == "dest"
+    @test h.helicsMessageGetRawDataSize(m2) == length(data)
 
     @test h.helicsFederateHasMessage(dcFed)
 
-    m2 = h.helicsEndpointGetMessage(p3)
-    @test unsafe_string(m2.source) =="src"
-    @test unsafe_string(m2.original_source) =="src"
-    @test unsafe_string(m2.dest) =="cm"
-    @test unsafe_string(m2.original_dest) =="dest"
-    @test m2.length == length(data)
+    m2 = h.helicsEndpointGetMessageObject(p3)
+    @test h.helicsMessageGetSource(m2) == "src"
+    @test h.helicsMessageGetOriginalSource(m2) == "src"
+    @test h.helicsMessageGetDestination(m2) == "cm"
+    @test h.helicsMessageGetOriginalDestination(m2) == "dest"
+    @test h.helicsMessageGetRawDataSize(m2) == length(data)
 
     h.helicsFederateFinalizeAsync(sFed)
     h.helicsFederateFinalizeAsync(dFed)
@@ -573,20 +573,21 @@ end
 
     @test h.helicsFederateHasMessage(dFed) == true
 
-    m2 = h.helicsEndpointGetMessage(p2)
-    @test unsafe_string(m2.source) == "src"
-    @test unsafe_string(m2.original_source) == "src"
-    @test unsafe_string(m2.dest) == "dest"
-    @test m2.length == length(data)
+    m2 = h.helicsEndpointGetMessageObject(p2)
+    @test h.helicsMessageGetSource(m2) == "src"
+    @test h.helicsMessageGetOriginalSource(m2) == "src"
+    @test h.helicsMessageGetDestination(m2) == "dest"
+    @test h.helicsMessageGetRawDataSize(m2) == length(data)
 
     @test h.helicsFederateHasMessage(dcFed) == true
 
-    m2 = h.helicsEndpointGetMessage(p3)
-    @test unsafe_string(m2.source) == "src"
-    @test unsafe_string(m2.original_source) == "src"
-    @test unsafe_string(m2.dest) == "cm"
-    @test unsafe_string(m2.original_dest) == "dest"
-    @test m2.length == length(data)
+    m2 = h.helicsEndpointGetMessageObject(p3)
+    @test h.helicsMessageGetSource(m2) == "src"
+    @test h.helicsMessageGetOriginalSource(m2) == "src"
+    @test h.helicsMessageGetDestination(m2) == "cm"
+    @test h.helicsMessageGetOriginalDestination(m2) == "dest"
+    @test h.helicsMessageGetRawDataSize(m2) == length(data)
+
 
     h.helicsFederateFinalizeAsync(sFed)
     h.helicsFederateFinalizeAsync(dFed)
@@ -638,20 +639,20 @@ end
 
     @test h.helicsFederateHasMessage(dFed) == true
 
-    m2 = h.helicsEndpointGetMessage(p2)
-    @test unsafe_string(m2.source) == "src"
-    @test unsafe_string(m2.original_source) == "src"
-    @test unsafe_string(m2.dest) == "dest"
-    @test m2.length == length(data)
+    m2 = h.helicsEndpointGetMessageObject(p2)
+    @test h.helicsMessageGetSource(m2) == "src"
+    @test h.helicsMessageGetOriginalSource(m2) == "src"
+    @test h.helicsMessageGetDestination(m2) == "dest"
+    @test h.helicsMessageGetRawDataSize(m2) == length(data)
 
     @test h.helicsFederateHasMessage(dcFed) == true
 
-    m2 = h.helicsEndpointGetMessage(p3)
-    @test unsafe_string(m2.source) == "src"
-    @test unsafe_string(m2.original_source) == "src"
-    @test unsafe_string(m2.dest) == "cm"
-    @test unsafe_string(m2.original_dest) == "dest"
-    @test m2.length == length(data)
+    m2 = h.helicsEndpointGetMessageObject(p3)
+    @test h.helicsMessageGetSource(m2) == "src"
+    @test h.helicsMessageGetOriginalSource(m2) == "src"
+    @test h.helicsMessageGetDestination(m2) == "cm"
+    @test h.helicsMessageGetOriginalDestination(m2) == "dest"
+    @test h.helicsMessageGetRawDataSize(m2) == length(data)
 
     h.helicsFederateFinalizeAsync(sFed)
     h.helicsFederateFinalizeAsync(dFed)
@@ -711,7 +712,7 @@ end
 
     # auto dFedExec = [&]() {
     #     h.helicsFederateRequestTime(dFed, 1.0)
-    #     m2 = h.helicsEndpointGetMessage(p2)
+    #     m2 = h.helicsEndpointGetMessageObject(p2)
     #     h.helicsFederateFinalize(dFed, "")
     # }
 
@@ -723,7 +724,7 @@ end
     #         std::this_thread::sleep_for(std::chrono::milliseconds(50))
     #         h.helicsFederateRequestTime(dcFed, 4.0)
     #     }
-    #     m3 = h.helicsEndpointGetMessage(p3)
+    #     m3 = h.helicsEndpointGetMessageObject(p3)
     #     h.helicsFederateFinalize(dcFed)
     # }
 
@@ -790,29 +791,29 @@ end
 
     @test h.helicsFederateHasMessage(dFed) == true
 
-    m2 = h.helicsEndpointGetMessage(p2)
-    @test unsafe_string(m2.source) == "src"
-    @test unsafe_string(m2.original_source) == "src"
-    @test unsafe_string(m2.dest) == "dest"
-    @test m2.length == length(data)
+    m2 = h.helicsEndpointGetMessageObject(p2)
+
+    @test h.helicsMessageGetSource(m2) == "src"
+    @test h.helicsMessageGetOriginalSource(m2) == "src"
+    @test h.helicsMessageGetDestination(m2) == "dest"
+    @test h.helicsMessageGetRawDataSize(m2) == length(data)
 
     h.helicsFederateFinalizeAsync(sFed)
     h.helicsFederateFinalizeAsync(dFed)
 
-    @test_broken false
-    # @test h.helicsFederateHasMessage(dcFed) == false
-    # Returns true on CI
+    @test h.helicsFederateHasMessage(dcFed) == false
 
     h.helicsFederateRequestTime(dcFed, 2.0)
 
     @test h.helicsFederateHasMessage(dcFed) == true
 
-    m2 = h.helicsEndpointGetMessage(p3)
-    @test unsafe_string(m2.source) == "src"
-    @test unsafe_string(m2.original_source) == "src"
-    @test unsafe_string(m2.dest) == "cm"
-    @test unsafe_string(m2.original_dest) == "dest"
-    @test m2.length == length(data)
+    m2 = h.helicsEndpointGetMessageObject(p3)
+    @test h.helicsMessageGetSource(m2) == "src"
+    @test h.helicsMessageGetOriginalSource(m2) == "src"
+    @test h.helicsMessageGetDestination(m2) == "cm"
+    @test h.helicsMessageGetOriginalDestination(m2) == "dest"
+    @test h.helicsMessageGetRawDataSize(m2) == length(data)
+
     res2 = h.helicsFederateHasMessage(dcFed)
 
     h.helicsFederateFinalize(dcFed)

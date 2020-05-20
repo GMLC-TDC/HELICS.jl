@@ -138,21 +138,21 @@ end
 end
 
 @cenum helics_error_types::Int32 begin
-    helics_ok = 0
-    helics_error_registration_failure = -1
-    helics_error_connection_failure = -2
-    helics_error_invalid_object = -3
-    helics_error_invalid_argument = -4
-    helics_error_discard = -5
-    helics_error_system_failure = -6
-    helics_warning = -8
-    helics_error_invalid_state_transition = -9
-    helics_error_invalid_function_call = -10
-    helics_error_execution_failure = -14
-    helics_error_insufficient_space = -18
-    helics_error_other = -101
     helics_error_fatal = -404
     helics_error_external_type = -203
+    helics_error_other = -101
+    helics_error_insufficient_space = -18
+    helics_error_execution_failure = -14
+    helics_error_invalid_function_call = -10
+    helics_error_invalid_state_transition = -9
+    helics_warning = -8
+    helics_error_system_failure = -6
+    helics_error_discard = -5
+    helics_error_invalid_argument = -4
+    helics_error_invalid_object = -3
+    helics_error_connection_failure = -2
+    helics_error_registration_failure = -1
+    helics_ok = 0
 end
 
 @cenum helics_properties::UInt32 begin

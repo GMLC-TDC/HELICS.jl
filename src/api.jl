@@ -279,7 +279,7 @@ Receive a communication message for any endpoint in the [`Federate`](@ref)
 The return order will be in order of endpoint creation.
 So all messages that are available for the first endpoint, then all for the second, and so on within a single endpoint the messages are ordered by time, then `source_id`, then order of arrival
 
-Returns
+# Returns
 
 - a [`Message`](@ref) which references the
 data in the message
@@ -3754,7 +3754,7 @@ Request the next time for federate execution
 - `fed`: The [`Federate`](@ref) to make the request of
 - `timeDelta`: The requested amount of time to advance
 
-Returns
+# Returns
 
 - the time granted to the [`Federate`](@ref), will return maximum time if the simulation has terminated invalid
 """
@@ -3862,7 +3862,7 @@ A global error halts the co-simulation completely
 - `error_string`: a string describing the error
 """
 function helicsFederateGlobalError(fed::Federate, error_code::Integer, error_string::String)
-    helicsFederateGlobalError(fed, code, error_string)
+    Lib.helicsFederateGlobalError(fed, code, error_string)
 end
 
 """
@@ -3877,7 +3877,7 @@ This will propagate through the co-simulation but not necessarily halt the co-si
 - `error_string`: a string describing the error
 """
 function helicsFederateLocalError(fed::Federate, error_code::Integer, error_string::String)
-    helicsFederateLocalError(fed, code, error_string)
+    Lib.helicsFederateLocalError(fed, code, error_string)
 end
 
 """
@@ -3890,4 +3890,76 @@ Add a time dependency for a [`Federate`](@ref).  The [`Federate`](@ref) will dep
 """
 function helicsFederateAddDependency(fed::Federate, fedName::String)
     @invoke_and_check helicsFederateAddDependency(fed, fedName)
+end
+
+"""
+Check if an endpoint is valid.
+
+# Arguments
+
+- `endpoint`: The [`Endpoint`](@ref) object to check.
+
+# Returns
+
+`true` if the `Endpoint` object represents a valid endpoint.
+"""
+function helicsEndpointIsValid(endpoint::Endpoint)::Bool
+    Lib.helicsEndpointIsValid(endpoint)
+end
+
+"""
+Send a [`Message`](@ref) object from a specific endpoint, the message will not be copied and the message object will no longer be valid after the call.
+
+# Arguments
+
+- `endpoint`: The [`Endpoint`](@ref) to send the data from.
+- `message`: The actual [`Message`](@ref) to send which will be copied.
+"""
+function helicsEndpointSendMessageObjectZeroCopy(endpoint::Endpoint, message::Message)
+    @invoke_and_check Lib.helicsEndpointSendMessageObjectZeroCopy(endpoint, message)
+end
+
+"""
+Check if a [`Filter`](@ref) is valid.
+
+# Arguments
+
+- `filt`: The [`Filter`](@ref) object to check.
+
+# Returns
+
+@return `true` if the [`Filter`](@ref) object represents a valid filter.
+"""
+function helicsFilterIsValid(filt::Filter)::Bool
+    Lib.helicsFilterIsValid(filt)
+end
+
+"""
+Check if a [`Publication`](@ref) is valid.
+
+# Arguments
+
+- `pub`: The [`Publication`](@ref) object to check.
+
+# Returns
+
+@return `true` if the [`Publication`](@ref) object represents a valid publication.
+"""
+function helicsPublicationIsValid(pub::Publication)::Bool
+    Lib.helicsPublicationIsValid(pub)
+end
+
+"""
+Check if a [`Input`](@ref) is valid.
+
+# Arguments
+
+- `ipt`: The [`Input`](@ref) object to check.
+
+# Returns
+
+@return `true` if the [`Input`](@ref) object represents a valid input.
+"""
+function helicsInputIsValid(ipt)
+    Lib.helicsInputIsValid(ipt)
 end

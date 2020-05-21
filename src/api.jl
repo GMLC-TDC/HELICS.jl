@@ -1455,7 +1455,7 @@ Get the type of an [`Input`](@ref)
 
 # Returns
 
-- a void enumeration, helics_ok if everything worked
+- A string with the type name
 """
 function helicsInputGetType(ipt::Input)::String
     # TODO: check documentation
@@ -1471,7 +1471,7 @@ Get the type of the publisher to an [`Input`](@ref) is sending
 
 # Returns
 
-- a const char * with the type name
+- A string with the type name
 """
 function helicsInputGetPublicationType(ipt::Input)::String
     return unsafe_string(Lib.helicsInputGetPublicationType(ipt))
@@ -1486,7 +1486,7 @@ Get the type of a [`Publication`](@ref)
 
 # Returns
 
-- a void enumeration, helics_ok if everything worked
+- A string with the type name
 """
 function helicsPublicationGetType(pub::Publication)::String
     return unsafe_string(Lib.helicsPublicationGetType(pub))
@@ -1501,7 +1501,7 @@ Get the key of an [`Input`](@ref)
 
 # Returns
 
-- a void enumeration, helics_ok if everything worked
+- A string with the type name
 """
 function helicsInputGetKey(ipt::Input)::String
     return unsafe_string(Lib.helicsInputGetKey(ipt))
@@ -1512,7 +1512,7 @@ Get the key of a [`Subscription`](@ref)
 
 # Returns
 
-a const char with the [`Subscription`](@ref) key
+- a string with the [`Subscription`](@ref) key
 """
 function helicsSubscriptionGetKey(ipt::Input)::String
     return unsafe_string(Lib.helicsSubscriptionGetKey(ipt))

@@ -1069,7 +1069,7 @@ function helicsPublicationPublishComplex(pub::Publication, c::ComplexF64)
 end
 
 """
-publish a vector of doubles
+Publish a vector of doubles
 
 # Arguments
 

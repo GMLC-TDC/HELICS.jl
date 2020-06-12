@@ -3964,7 +3964,6 @@ function helicsInputIsValid(ipt)::Bool
     Lib.helicsInputIsValid(ipt)
 end
 
-
 function helicsEndpointCreateMessageObject(endpoint::Endpoint)
     @invoke_and_check Lib.helicsEndpointCreateMessageObject(endpoint)
 end

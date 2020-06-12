@@ -3963,3 +3963,40 @@ Check if a [`Input`](@ref) is valid.
 function helicsInputIsValid(ipt)::Bool
     Lib.helicsInputIsValid(ipt)
 end
+
+
+function helicsEndpointCreateMessageObject(endpoint::Endpoint)
+    @invoke_and_check Lib.helicsEndpointCreateMessageObject(endpoint)
+end
+
+function helicsMessageClone(message)
+    @invoke_and_check Lib.helicsMessageClone(message)
+end
+
+function helicsMessageFree(message)
+    Lib.helicsMessageFree(message)
+end
+
+function helicsGetBuildFlags()
+    unsafe_string(Lib.helicsGetBuildFlags())
+end
+
+function helicsGetCompilerVersion()
+    unsafe_string(Lib.helicsGetCompilerVersion())
+end
+
+function helicsGetFlagIndex(val::String)
+    Lib.helicsGetFlagIndex(val)
+end
+
+function helicsGetOptionValue(val::String)
+    Lib.helicsGetOptionValue(val)
+end
+
+function helicsQuerySetTarget(query::Query, target::String)
+    @invoke_and_check Lib.helicsQuerySetTarget(query, target)
+end
+
+function helicsQuerySetQueryString(query::Query, queryString::String)
+    @invoke_and_check Lib.helicsQuerySetQueryString(query, queryString)
+end

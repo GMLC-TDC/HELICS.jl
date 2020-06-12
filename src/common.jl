@@ -81,6 +81,7 @@ const HELICS_DEPRECATED_NO_EXPORT = HELICS_NO_EXPORT
     helics_data_type_boolean = 7
     helics_data_type_time = 8
     helics_data_type_raw = 25
+    helics_data_type_multi = 33
     helics_data_type_any = 25262
 end
 
@@ -170,6 +171,18 @@ end
     helics_property_int_console_log_level = 274
 end
 
+@cenum helics_multi_input_mode::UInt32 begin
+    helics_multi_input_no_op = 0
+    helics_multi_input_vectorize_operation = 1
+    helics_multi_input_and_operation = 2
+    helics_multi_input_or_operation = 3
+    helics_multi_input_sum_operation = 4
+    helics_multi_input_diff_operation = 5
+    helics_multi_input_max_operation = 6
+    helics_multi_input_min_operation = 7
+    helics_multi_input_average_operation = 8
+end
+
 @cenum helics_handle_options::UInt32 begin
     helics_handle_option_connection_required = 397
     helics_handle_option_connection_optional = 402
@@ -178,9 +191,13 @@ end
     helics_handle_option_buffer_data = 411
     helics_handle_option_strict_type_checking = 414
     helics_handle_option_ignore_unit_mismatch = 447
-    helics_handle_option_only_transmit_on_change = 6
-    helics_handle_option_only_update_on_change = 8
+    helics_handle_option_only_transmit_on_change = 452
+    helics_handle_option_only_update_on_change = 454
     helics_handle_option_ignore_interrupts = 475
+    helics_handle_option_multi_input_handling_method = 507
+    helics_handle_option_input_priority_location = 510
+    helics_handle_option_clear_priority_list = 512
+    helics_handle_option_connections = 522
 end
 
 @cenum helics_filter_type::UInt32 begin

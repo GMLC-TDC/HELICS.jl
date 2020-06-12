@@ -78,6 +78,10 @@ function helicsEndpointGetMessageObject(endpoint)
     ccall((:helicsEndpointGetMessageObject, libhelicsSharedLib), helics_message_object, (helics_endpoint,), endpoint)
 end
 
+function helicsEndpointCreateMessageObject(endpoint, err)
+    ccall((:helicsEndpointCreateMessageObject, libhelicsSharedLib), helics_message_object, (helics_endpoint, Ptr{helics_error}), endpoint, err)
+end
+
 function helicsFederateGetMessage(fed)
     ccall((:helicsFederateGetMessage, libhelicsSharedLib), helics_message, (helics_federate,), fed)
 end
@@ -119,11 +123,11 @@ function helicsEndpointSetInfo(_end, info, err)
 end
 
 function helicsEndpointSetOption(_end, option, value, err)
-    ccall((:helicsEndpointSetOption, libhelicsSharedLib), Cvoid, (helics_endpoint, Cint, helics_bool, Ptr{helics_error}), _end, option, value, err)
+    ccall((:helicsEndpointSetOption, libhelicsSharedLib), Cvoid, (helics_endpoint, Cint, Cint, Ptr{helics_error}), _end, option, value, err)
 end
 
 function helicsEndpointGetOption(_end, option)
-    ccall((:helicsEndpointGetOption, libhelicsSharedLib), helics_bool, (helics_endpoint, Cint), _end, option)
+    ccall((:helicsEndpointGetOption, libhelicsSharedLib), Cint, (helics_endpoint, Cint), _end, option)
 end
 
 function helicsMessageGetSource(message)
@@ -229,6 +233,14 @@ end
 function helicsMessageCopy(source_message, dest_message, err)
     ccall((:helicsMessageCopy, libhelicsSharedLib), Cvoid, (helics_message_object, helics_message_object, Ptr{helics_error}), source_message, dest_message, err)
 end
+
+function helicsMessageClone(message, err)
+    ccall((:helicsMessageClone, libhelicsSharedLib), helics_message_object, (helics_message_object, Ptr{helics_error}), message, err)
+end
+
+function helicsMessageFree(message)
+    ccall((:helicsMessageFree, libhelicsSharedLib), Cvoid, (helics_message_object,), message)
+end
 # Julia wrapper for header: MessageFilters.h
 # Automatically generated using Clang.jl
 
@@ -314,11 +326,11 @@ function helicsFilterSetInfo(filt, info, err)
 end
 
 function helicsFilterSetOption(filt, option, value, err)
-    ccall((:helicsFilterSetOption, libhelicsSharedLib), Cvoid, (helics_filter, Cint, helics_bool, Ptr{helics_error}), filt, option, value, err)
+    ccall((:helicsFilterSetOption, libhelicsSharedLib), Cvoid, (helics_filter, Cint, Cint, Ptr{helics_error}), filt, option, value, err)
 end
 
 function helicsFilterGetOption(filt, option)
-    ccall((:helicsFilterGetOption, libhelicsSharedLib), helics_bool, (helics_filter, Cint), filt, option)
+    ccall((:helicsFilterGetOption, libhelicsSharedLib), Cint, (helics_filter, Cint), filt, option)
 end
 # Julia wrapper for header: ValueFederate.h
 # Automatically generated using Clang.jl
@@ -601,19 +613,19 @@ function helicsPublicationSetInfo(pub, info, err)
 end
 
 function helicsInputGetOption(inp, option)
-    ccall((:helicsInputGetOption, libhelicsSharedLib), helics_bool, (helics_input, Cint), inp, option)
+    ccall((:helicsInputGetOption, libhelicsSharedLib), Cint, (helics_input, Cint), inp, option)
 end
 
 function helicsInputSetOption(inp, option, value, err)
-    ccall((:helicsInputSetOption, libhelicsSharedLib), Cvoid, (helics_input, Cint, helics_bool, Ptr{helics_error}), inp, option, value, err)
+    ccall((:helicsInputSetOption, libhelicsSharedLib), Cvoid, (helics_input, Cint, Cint, Ptr{helics_error}), inp, option, value, err)
 end
 
 function helicsPublicationGetOption(pub, option)
-    ccall((:helicsPublicationGetOption, libhelicsSharedLib), helics_bool, (helics_publication, Cint), pub, option)
+    ccall((:helicsPublicationGetOption, libhelicsSharedLib), Cint, (helics_publication, Cint), pub, option)
 end
 
 function helicsPublicationSetOption(pub, option, val, err)
-    ccall((:helicsPublicationSetOption, libhelicsSharedLib), Cvoid, (helics_publication, Cint, helics_bool, Ptr{helics_error}), pub, option, val, err)
+    ccall((:helicsPublicationSetOption, libhelicsSharedLib), Cvoid, (helics_publication, Cint, Cint, Ptr{helics_error}), pub, option, val, err)
 end
 
 function helicsPublicationSetMinimumChange(pub, tolerance, err)
@@ -652,6 +664,14 @@ end
 
 function helicsGetVersion()
     ccall((:helicsGetVersion, libhelicsSharedLib), Cstring, ())
+end
+
+function helicsGetBuildFlags()
+    ccall((:helicsGetBuildFlags, libhelicsSharedLib), Cstring, ())
+end
+
+function helicsGetCompilerVersion()
+    ccall((:helicsGetCompilerVersion, libhelicsSharedLib), Cstring, ())
 end
 
 function helicsErrorInitialize()
@@ -890,8 +910,16 @@ function helicsGetPropertyIndex(val)
     ccall((:helicsGetPropertyIndex, libhelicsSharedLib), Cint, (Cstring,), val)
 end
 
+function helicsGetFlagIndex(val)
+    ccall((:helicsGetFlagIndex, libhelicsSharedLib), Cint, (Cstring,), val)
+end
+
 function helicsGetOptionIndex(val)
     ccall((:helicsGetOptionIndex, libhelicsSharedLib), Cint, (Cstring,), val)
+end
+
+function helicsGetOptionValue(val)
+    ccall((:helicsGetOptionValue, libhelicsSharedLib), Cint, (Cstring,), val)
 end
 
 function helicsFederateInfoSetFlagOption(fi, flag, value, err)
@@ -1132,6 +1160,14 @@ end
 
 function helicsQueryIsCompleted(query)
     ccall((:helicsQueryIsCompleted, libhelicsSharedLib), helics_bool, (helics_query,), query)
+end
+
+function helicsQuerySetTarget(query, target, err)
+    ccall((:helicsQuerySetTarget, libhelicsSharedLib), Cvoid, (helics_query, Cstring, Ptr{helics_error}), query, target, err)
+end
+
+function helicsQuerySetQueryString(query, queryString, err)
+    ccall((:helicsQuerySetQueryString, libhelicsSharedLib), Cvoid, (helics_query, Cstring, Ptr{helics_error}), query, queryString, err)
 end
 
 function helicsQueryFree(query)

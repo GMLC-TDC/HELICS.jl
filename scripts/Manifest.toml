@@ -16,9 +16,9 @@ version = "0.11.0"
 
 [[DataStructures]]
 deps = ["InteractiveUtils", "OrderedCollections"]
-git-tree-sha1 = "af6d9c86e191c917c2276fbede1137e8ea20157f"
+git-tree-sha1 = "be680f1ad03c0a03796aa3fda5a2180df7f83b46"
 uuid = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
-version = "0.17.17"
+version = "0.17.18"
 
 [[Dates]]
 deps = ["Printf"]
@@ -30,9 +30,9 @@ uuid = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 
 [[DocStringExtensions]]
 deps = ["LibGit2", "Markdown", "Pkg", "Test"]
-git-tree-sha1 = "88bb0edb352b16608036faadcc071adda068582a"
+git-tree-sha1 = "c5714d9bcdba66389612dc4c47ed827c64112997"
 uuid = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
-version = "0.8.1"
+version = "0.8.2"
 
 [[HELICS]]
 deps = ["CEnum", "DocStringExtensions", "HELICS_jll", "Libdl"]
@@ -42,9 +42,9 @@ version = "0.7.1"
 
 [[HELICS_jll]]
 deps = ["Libdl", "Pkg", "ZeroMQ_jll"]
-git-tree-sha1 = "abb2dc9f3db4b5429690e6e5d80d5a32e033e165"
+git-tree-sha1 = "6bb1b26eb342e020d3f0718cb182dd3f9bc8fece"
 uuid = "ef3b0bb0-9dc6-5204-90f3-946fd7d0da3e"
-version = "2.5.1+0"
+version = "2.5.2+0"
 
 [[InteractiveUtils]]
 deps = ["Markdown"]

@@ -238,8 +238,8 @@ HELICS_FLAG_STRICT_CONFIG_CHECKING
 """specify that the federate should use json serialization for all data types"""
 HELICS_FLAG_USE_JSON_SERIALIZATION
 """specify that the federate is event triggered-meaning (all/most) events are triggered by incoming events"""
-HELICS_FLAG_EVENT_TRIGGERED,
-"""specify that that federate should capture the profiling data to the local federate logging system"""
+HELICS_FLAG_EVENT_TRIGGERED
+"""specify that federate should capture the profiling data to the local federate logging system"""
 HELICS_FLAG_LOCAL_PROFILING_CAPTURE
 """specify that the federate is a callback based federate using callbacks for execution"""
 HELICS_FLAG_CALLBACK_FEDERATE

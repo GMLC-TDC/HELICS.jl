@@ -38,7 +38,7 @@ function invoke_and_check(f::Function, args...)
         return r
     elseif err.error_code == -8
         func = String(nameof(f))
-        c = Lib.helics_error_types(err.error_code)
+        c = Lib.HelicsErrorTypes(err.error_code)
         @warn "`$func` returned warning `$(unsafe_string(err.message))`"
         return r
     else

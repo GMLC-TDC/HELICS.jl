@@ -2957,14 +2957,14 @@ end
 """
 Return an initialized error object
 """
-function helicsErrorInitialize()::Lib.helics_error
+function helicsErrorInitialize()::Lib.HelicsError
     return Lib.helicsErrorInitialize()
 end
 
 """
 Clear an error object
 """
-function helicsErrorClear(err::Ref{Lib.helics_error})
+function helicsErrorClear(err::Ref{Lib.HelicsError})
     Lib.helicsErrorClear(err)
 end
 

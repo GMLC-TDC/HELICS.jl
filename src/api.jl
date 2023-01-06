@@ -303,7 +303,7 @@ convert a named point to serialized bytes
 
 - Int32 Bytes serialized.
 """
-function helicsNamedPointToBytes(name::String value::Int64, data::DataBuffer)::Int32
+function helicsNamedPointToBytes(name::String, value::Int64, data::DataBuffer)::Int32
 	return Lib.helicsVectorToBytes(name, value, data)
 end
 

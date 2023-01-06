@@ -822,7 +822,7 @@ after the call.
 - `message`: The [`Message`](@ref) to send
 """
 function helicsEndpointSendMessageZeroCopy(endpoint::Endpoint, message::Message)
-    @invoke_and_check Lib.helicsEndpointSendMessageZeroCopy(endpoint, message))
+    @invoke_and_check Lib.helicsEndpointSendMessageZeroCopy(endpoint, message)
 end
 
 """

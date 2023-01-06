@@ -5556,7 +5556,7 @@ to specific queries with answers specific to a federate.
 - `queryResult`: A callback with signature HelicsIterationRequest(void *userdata)
 """
 function helicsQueryBufferFill(buffer::QueryBuffer, queryResult::String)
-	strSize = CInt(length(queryResult)
+	strSize = CInt(length(queryResult))
     @invoke_and_check Lib.helicsQueryBufferFill(buffer, queryResult, strSize)
 end
 

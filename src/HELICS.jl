@@ -32,7 +32,7 @@ include("utils.jl")
 include("enums.jl")
 include("api.jl")
 
-const HELICS_LIBRARY_VERSION = VersionNumber(split(helicsGetVersion())[1])
-const HELICS_PACKAGE_VERSION = VersionNumber(match(r"version\s*=\s*\"(.+)\"", read(joinpath(@__DIR__, "..", "Project.toml"), String)).captures[1])
+#const HELICS_LIBRARY_VERSION = VersionNumber(split(helicsGetVersion())[1])
+#const HELICS_PACKAGE_VERSION = VersionNumber(match(r"version\s*=\s*\"(.+)\"", read(joinpath(@__DIR__, "..", "Project.toml"), String)).captures[1])
 
 end # module

@@ -1,211 +1,250 @@
 # Automatically generated using Clang.jl
 
 
-const helics_input = Ptr{Cvoid}
-const helics_publication = Ptr{Cvoid}
-const helics_endpoint = Ptr{Cvoid}
-const helics_filter = Ptr{Cvoid}
-const helics_core = Ptr{Cvoid}
-const helics_broker = Ptr{Cvoid}
-const helics_federate = Ptr{Cvoid}
-const helics_federate_info = Ptr{Cvoid}
-const helics_query = Ptr{Cvoid}
-const helics_message_object = Ptr{Cvoid}
-const helics_time = Cdouble
-const helics_bool = Cint
+# Skipping MacroDefinition: HELICS_DEPRECATED __attribute__ ( ( deprecated ) )
 
-@cenum helics_iteration_request::UInt32 begin
-    helics_iteration_request_no_iteration = 0
-    helics_iteration_request_force_iteration = 1
-    helics_iteration_request_iterate_if_needed = 2
+const HELICS_BIG_NUMBER = 9.223372036854774e9
+
+@cenum HelicsCoreTypes::UInt32 begin
+    HELICS_CORE_TYPE_DEFAULT = 0
+    HELICS_CORE_TYPE_ZMQ = 1
+    HELICS_CORE_TYPE_MPI = 2
+    HELICS_CORE_TYPE_TEST = 3
+    HELICS_CORE_TYPE_INTERPROCESS = 4
+    HELICS_CORE_TYPE_IPC = 5
+    HELICS_CORE_TYPE_TCP = 6
+    HELICS_CORE_TYPE_UDP = 7
+    HELICS_CORE_TYPE_ZMQ_SS = 10
+    HELICS_CORE_TYPE_NNG = 9
+    HELICS_CORE_TYPE_TCP_SS = 11
+    HELICS_CORE_TYPE_HTTP = 12
+    HELICS_CORE_TYPE_WEBSOCKET = 14
+    HELICS_CORE_TYPE_INPROC = 18
+    HELICS_CORE_TYPE_NULL = 66
+    HELICS_CORE_TYPE_EMPTY = 77
 end
 
-@cenum helics_iteration_result::UInt32 begin
-    helics_iteration_result_next_step = 0
-    helics_iteration_result_error = 1
-    helics_iteration_result_halted = 2
-    helics_iteration_result_iterating = 3
+@cenum HelicsDataTypes::Int32 begin
+    HELICS_DATA_TYPE_UNKNOWN = -1
+    HELICS_DATA_TYPE_STRING = 0
+    HELICS_DATA_TYPE_DOUBLE = 1
+    HELICS_DATA_TYPE_INT = 2
+    HELICS_DATA_TYPE_COMPLEX = 3
+    HELICS_DATA_TYPE_VECTOR = 4
+    HELICS_DATA_TYPE_COMPLEX_VECTOR = 5
+    HELICS_DATA_TYPE_NAMED_POINT = 6
+    HELICS_DATA_TYPE_BOOLEAN = 7
+    HELICS_DATA_TYPE_TIME = 8
+    HELICS_DATA_TYPE_CHAR = 9
+    HELICS_DATA_TYPE_RAW = 25
+    HELICS_DATA_TYPE_JSON = 30
+    HELICS_DATA_TYPE_MULTI = 33
+    HELICS_DATA_TYPE_ANY = 25262
 end
 
-@cenum helics_federate_state::UInt32 begin
-    helics_state_startup = 0
-    helics_state_initialization = 1
-    helics_state_execution = 2
-    helics_state_finalize = 3
-    helics_state_error = 4
-    helics_state_pending_init = 5
-    helics_state_pending_exec = 6
-    helics_state_pending_time = 7
-    helics_state_pending_iterative_time = 8
-    helics_state_pending_finalize = 9
+@cenum HelicsFederateFlags::UInt32 begin
+    HELICS_FLAG_OBSERVER = 0
+    HELICS_FLAG_UNINTERRUPTIBLE = 1
+    HELICS_FLAG_INTERRUPTIBLE = 2
+    HELICS_FLAG_SOURCE_ONLY = 4
+    HELICS_FLAG_ONLY_TRANSMIT_ON_CHANGE = 6
+    HELICS_FLAG_ONLY_UPDATE_ON_CHANGE = 8
+    HELICS_FLAG_WAIT_FOR_CURRENT_TIME_UPDATE = 10
+    HELICS_FLAG_RESTRICTIVE_TIME_POLICY = 11
+    HELICS_FLAG_ROLLBACK = 12
+    HELICS_FLAG_FORWARD_COMPUTE = 14
+    HELICS_FLAG_REALTIME = 16
+    HELICS_FLAG_SINGLE_THREAD_FEDERATE = 27
+    HELICS_FLAG_MULTI_THREAD_CORE = 28
+    HELICS_FLAG_SINGLE_THREAD_CORE = 29
+    HELICS_FLAG_IGNORE_TIME_MISMATCH_WARNINGS = 67
+    HELICS_FLAG_STRICT_CONFIG_CHECKING = 75
+    HELICS_FLAG_USE_JSON_SERIALIZATION = 79
+    HELICS_FLAG_EVENT_TRIGGERED = 81
+    HELICS_FLAG_LOCAL_PROFILING_CAPTURE = 96
+    HELICS_FLAG_CALLBACK_FEDERATE = 103
+    HELICS_FLAG_AUTOMATED_TIME_REQUEST = 106
+end
+
+@cenum HelicsCoreFlags::UInt32 begin
+    HELICS_FLAG_DELAY_INIT_ENTRY = 45
+    HELICS_FLAG_ENABLE_INIT_ENTRY = 47
+    HELICS_FLAG_IGNORE = 999
+end
+
+@cenum HelicsFlags::UInt32 begin
+    HELICS_FLAG_SLOW_RESPONDING = 29
+    HELICS_FLAG_DEBUGGING = 31
+    HELICS_FLAG_TERMINATE_ON_ERROR = 72
+    HELICS_FLAG_FORCE_LOGGING_FLUSH = 88
+    HELICS_FLAG_DUMPLOG = 89
+    HELICS_FLAG_PROFILING = 93
+    HELICS_FLAG_PROFILING_MARKER = 95
+    HELICS_FLAG_ALLOW_REMOTE_CONTROL = 109
+    HELICS_FLAG_DISABLE_REMOTE_CONTROL = 110
+end
+
+@cenum HelicsLogLevels::Int32 begin
+    HELICS_LOG_LEVEL_DUMPLOG = -10
+    HELICS_LOG_LEVEL_NO_PRINT = -4
+    HELICS_LOG_LEVEL_ERROR = 0
+    HELICS_LOG_LEVEL_PROFILING = 2
+    HELICS_LOG_LEVEL_WARNING = 3
+    HELICS_LOG_LEVEL_SUMMARY = 6
+    HELICS_LOG_LEVEL_CONNECTIONS = 9
+    HELICS_LOG_LEVEL_INTERFACES = 12
+    HELICS_LOG_LEVEL_TIMING = 15
+    HELICS_LOG_LEVEL_DATA = 18
+    HELICS_LOG_LEVEL_DEBUG = 21
+    HELICS_LOG_LEVEL_TRACE = 24
+end
+
+@cenum HelicsErrorTypes::Int32 begin
+    HELICS_ERROR_FATAL = -404
+    HELICS_ERROR_EXTERNAL_TYPE = -203
+    HELICS_ERROR_OTHER = -101
+    HELICS_USER_EXCEPTION = -29
+    HELICS_ERROR_INSUFFICIENT_SPACE = -18
+    HELICS_ERROR_EXECUTION_FAILURE = -14
+    HELICS_ERROR_INVALID_FUNCTION_CALL = -10
+    HELICS_ERROR_INVALID_STATE_TRANSITION = -9
+    HELICS_WARNING = -8
+    HELICS_ERROR_SYSTEM_FAILURE = -6
+    HELICS_ERROR_DISCARD = -5
+    HELICS_ERROR_INVALID_ARGUMENT = -4
+    HELICS_ERROR_INVALID_OBJECT = -3
+    HELICS_ERROR_CONNECTION_FAILURE = -2
+    HELICS_ERROR_REGISTRATION_FAILURE = -1
+    HELICS_OK = 0
+    HELICS_ERROR_USER_ABORT = 130
+    HELICS_ERROR_TERMINATED = 143
+end
+
+@cenum HelicsProperties::UInt32 begin
+    HELICS_PROPERTY_TIME_DELTA = 137
+    HELICS_PROPERTY_TIME_PERIOD = 140
+    HELICS_PROPERTY_TIME_OFFSET = 141
+    HELICS_PROPERTY_TIME_RT_LAG = 143
+    HELICS_PROPERTY_TIME_RT_LEAD = 144
+    HELICS_PROPERTY_TIME_RT_TOLERANCE = 145
+    HELICS_PROPERTY_TIME_INPUT_DELAY = 148
+    HELICS_PROPERTY_TIME_OUTPUT_DELAY = 150
+    HELICS_PROPERTY_TIME_STOPTIME = 152
+    HELICS_PROPERTY_TIME_GRANT_TIMEOUT = 161
+    HELICS_PROPERTY_INT_MAX_ITERATIONS = 259
+    HELICS_PROPERTY_INT_LOG_LEVEL = 271
+    HELICS_PROPERTY_INT_FILE_LOG_LEVEL = 272
+    HELICS_PROPERTY_INT_CONSOLE_LOG_LEVEL = 274
+    HELICS_PROPERTY_INT_LOG_BUFFER = 276
+    HELICS_PROPERTY_INT_INDEX_GROUP = 282
+end
+
+@cenum HelicsMultiInputModes::UInt32 begin
+    HELICS_MULTI_INPUT_NO_OP = 0
+    HELICS_MULTI_INPUT_VECTORIZE_OPERATION = 1
+    HELICS_MULTI_INPUT_AND_OPERATION = 2
+    HELICS_MULTI_INPUT_OR_OPERATION = 3
+    HELICS_MULTI_INPUT_SUM_OPERATION = 4
+    HELICS_MULTI_INPUT_DIFF_OPERATION = 5
+    HELICS_MULTI_INPUT_MAX_OPERATION = 6
+    HELICS_MULTI_INPUT_MIN_OPERATION = 7
+    HELICS_MULTI_INPUT_AVERAGE_OPERATION = 8
+end
+
+@cenum HelicsHandleOptions::UInt32 begin
+    HELICS_HANDLE_OPTION_CONNECTION_REQUIRED = 397
+    HELICS_HANDLE_OPTION_CONNECTION_OPTIONAL = 402
+    HELICS_HANDLE_OPTION_SINGLE_CONNECTION_ONLY = 407
+    HELICS_HANDLE_OPTION_MULTIPLE_CONNECTIONS_ALLOWED = 409
+    HELICS_HANDLE_OPTION_BUFFER_DATA = 411
+    HELICS_HANDLE_OPTION_STRICT_TYPE_CHECKING = 414
+    HELICS_HANDLE_OPTION_IGNORE_UNIT_MISMATCH = 447
+    HELICS_HANDLE_OPTION_ONLY_TRANSMIT_ON_CHANGE = 452
+    HELICS_HANDLE_OPTION_ONLY_UPDATE_ON_CHANGE = 454
+    HELICS_HANDLE_OPTION_IGNORE_INTERRUPTS = 475
+    HELICS_HANDLE_OPTION_MULTI_INPUT_HANDLING_METHOD = 507
+    HELICS_HANDLE_OPTION_INPUT_PRIORITY_LOCATION = 510
+    HELICS_HANDLE_OPTION_CLEAR_PRIORITY_LIST = 512
+    HELICS_HANDLE_OPTION_CONNECTIONS = 522
+    HELICS_HANDLE_OPTION_TIME_RESTRICTED = 557
+end
+
+@cenum HelicsFilterTypes::UInt32 begin
+    HELICS_FILTER_TYPE_CUSTOM = 0
+    HELICS_FILTER_TYPE_DELAY = 1
+    HELICS_FILTER_TYPE_RANDOM_DELAY = 2
+    HELICS_FILTER_TYPE_RANDOM_DROP = 3
+    HELICS_FILTER_TYPE_REROUTE = 4
+    HELICS_FILTER_TYPE_CLONE = 5
+    HELICS_FILTER_TYPE_FIREWALL = 6
+end
+
+@cenum HelicsTranslatorTypes::UInt32 begin
+    HELICS_TRANSLATOR_TYPE_CUSTOM = 0
+    HELICS_TRANSLATOR_TYPE_JSON = 11
+    HELICS_TRANSLATOR_TYPE_BINARY = 12
+end
+
+@cenum HelicsSequencingModes::UInt32 begin
+    HELICS_SEQUENCING_MODE_FAST = 0
+    HELICS_SEQUENCING_MODE_ORDERED = 1
+    HELICS_SEQUENCING_MODE_DEFAULT = 2
 end
 
 
-struct helics_complex
+const HelicsInput = Ptr{Cvoid}
+const HelicsPublication = Ptr{Cvoid}
+const HelicsEndpoint = Ptr{Cvoid}
+const HelicsFilter = Ptr{Cvoid}
+const HelicsTranslator = Ptr{Cvoid}
+const HelicsCore = Ptr{Cvoid}
+const HelicsBroker = Ptr{Cvoid}
+const HelicsFederate = Ptr{Cvoid}
+const HelicsFederateInfo = Ptr{Cvoid}
+const HelicsQuery = Ptr{Cvoid}
+const HelicsDataBuffer = Ptr{Cvoid}
+const HelicsQueryBuffer = Ptr{Cvoid}
+const HelicsMessage = Ptr{Cvoid}
+const HelicsTime = Cdouble
+const HelicsBool = Cint
+
+@cenum HelicsIterationRequest::UInt32 begin
+    HELICS_ITERATION_REQUEST_NO_ITERATION = 0
+    HELICS_ITERATION_REQUEST_FORCE_ITERATION = 1
+    HELICS_ITERATION_REQUEST_ITERATE_IF_NEEDED = 2
+    HELICS_ITERATION_REQUEST_HALT_OPERATIONS = 5
+    HELICS_ITERATION_REQUEST_ERROR = 7
+end
+
+@cenum HelicsIterationResult::UInt32 begin
+    HELICS_ITERATION_RESULT_NEXT_STEP = 0
+    HELICS_ITERATION_RESULT_ERROR = 1
+    HELICS_ITERATION_RESULT_HALTED = 2
+    HELICS_ITERATION_RESULT_ITERATING = 3
+end
+
+@cenum HelicsFederateState::Int32 begin
+    HELICS_STATE_UNKNOWN = -1
+    HELICS_STATE_STARTUP = 0
+    HELICS_STATE_INITIALIZATION = 1
+    HELICS_STATE_EXECUTION = 2
+    HELICS_STATE_FINALIZE = 3
+    HELICS_STATE_ERROR = 4
+    HELICS_STATE_PENDING_INIT = 5
+    HELICS_STATE_PENDING_EXEC = 6
+    HELICS_STATE_PENDING_TIME = 7
+    HELICS_STATE_PENDING_ITERATIVE_TIME = 8
+    HELICS_STATE_PENDING_FINALIZE = 9
+    HELICS_STATE_FINISHED = 10
+end
+
+
+struct HelicsComplex
     real::Cdouble
     imag::Cdouble
 end
 
-mutable struct helics_message
-    time::helics_time
-    data::Cstring
-    length::Int64
-    messageID::Int32
-    flags::Int16
-    original_source::Cstring
-    source::Cstring
-    dest::Cstring
-    original_dest::Cstring
-end
-
-struct helics_error
+struct HelicsError
     error_code::Int32
     message::Cstring
-end
-
-# Skipping MacroDefinition: HELICS_EXPORT __attribute__ ( ( visibility ( "default" ) ) )
-# Skipping MacroDefinition: HELICS_NO_EXPORT __attribute__ ( ( visibility ( "hidden" ) ) )
-# Skipping MacroDefinition: HELICS_DEPRECATED __attribute__ ( ( __deprecated__ ) )
-
-const HELICS_DEPRECATED_EXPORT = HELICS_EXPORT
-const HELICS_DEPRECATED_NO_EXPORT = HELICS_NO_EXPORT
-
-@cenum helics_data_type::UInt32 begin
-    helics_data_type_string = 0
-    helics_data_type_double = 1
-    helics_data_type_int = 2
-    helics_data_type_complex = 3
-    helics_data_type_vector = 4
-    helics_data_type_complex_vector = 5
-    helics_data_type_named_point = 6
-    helics_data_type_boolean = 7
-    helics_data_type_time = 8
-    helics_data_type_raw = 25
-    helics_data_type_multi = 33
-    helics_data_type_any = 25262
-end
-
-
-const helics_data_type_char = helics_data_type_string
-
-@cenum helics_core_type::UInt32 begin
-    helics_core_type_default = 0
-    helics_core_type_zmq = 1
-    helics_core_type_mpi = 2
-    helics_core_type_test = 3
-    helics_core_type_interprocess = 4
-    helics_core_type_ipc = 5
-    helics_core_type_tcp = 6
-    helics_core_type_udp = 7
-    helics_core_type_zmq_test = 10
-    helics_core_type_nng = 9
-    helics_core_type_tcp_ss = 11
-    helics_core_type_http = 12
-    helics_core_type_websocket = 14
-    helics_core_type_inproc = 18
-    helics_core_type_null = 66
-end
-
-@cenum helics_federate_flags::UInt32 begin
-    helics_flag_observer = 0
-    helics_flag_uninterruptible = 1
-    helics_flag_interruptible = 2
-    helics_flag_source_only = 4
-    helics_flag_only_transmit_on_change = 6
-    helics_flag_only_update_on_change = 8
-    helics_flag_wait_for_current_time_update = 10
-    helics_flag_restrictive_time_policy = 11
-    helics_flag_rollback = 12
-    helics_flag_forward_compute = 14
-    helics_flag_realtime = 16
-    helics_flag_single_thread_federate = 27
-    helics_flag_slow_responding = 29
-    helics_flag_delay_init_entry = 45
-    helics_flag_enable_init_entry = 47
-    helics_flag_ignore_time_mismatch_warnings = 67
-    helics_flag_terminate_on_error = 72
-end
-
-@cenum helics_log_levels::Int32 begin
-    helics_log_level_no_print = -1
-    helics_log_level_error = 0
-    helics_log_level_warning = 1
-    helics_log_level_summary = 2
-    helics_log_level_connections = 3
-    helics_log_level_interfaces = 4
-    helics_log_level_timing = 5
-    helics_log_level_data = 6
-    helics_log_level_trace = 7
-end
-
-@cenum helics_error_types::Int32 begin
-    helics_error_fatal = -404
-    helics_error_external_type = -203
-    helics_error_other = -101
-    helics_error_insufficient_space = -18
-    helics_error_execution_failure = -14
-    helics_error_invalid_function_call = -10
-    helics_error_invalid_state_transition = -9
-    helics_warning = -8
-    helics_error_system_failure = -6
-    helics_error_discard = -5
-    helics_error_invalid_argument = -4
-    helics_error_invalid_object = -3
-    helics_error_connection_failure = -2
-    helics_error_registration_failure = -1
-    helics_ok = 0
-end
-
-@cenum helics_properties::UInt32 begin
-    helics_property_time_delta = 137
-    helics_property_time_period = 140
-    helics_property_time_offset = 141
-    helics_property_time_rt_lag = 143
-    helics_property_time_rt_lead = 144
-    helics_property_time_rt_tolerance = 145
-    helics_property_time_input_delay = 148
-    helics_property_time_output_delay = 150
-    helics_property_int_max_iterations = 259
-    helics_property_int_log_level = 271
-    helics_property_int_file_log_level = 272
-    helics_property_int_console_log_level = 274
-end
-
-@cenum helics_multi_input_mode::UInt32 begin
-    helics_multi_input_no_op = 0
-    helics_multi_input_vectorize_operation = 1
-    helics_multi_input_and_operation = 2
-    helics_multi_input_or_operation = 3
-    helics_multi_input_sum_operation = 4
-    helics_multi_input_diff_operation = 5
-    helics_multi_input_max_operation = 6
-    helics_multi_input_min_operation = 7
-    helics_multi_input_average_operation = 8
-end
-
-@cenum helics_handle_options::UInt32 begin
-    helics_handle_option_connection_required = 397
-    helics_handle_option_connection_optional = 402
-    helics_handle_option_single_connection_only = 407
-    helics_handle_option_multiple_connections_allowed = 409
-    helics_handle_option_buffer_data = 411
-    helics_handle_option_strict_type_checking = 414
-    helics_handle_option_ignore_unit_mismatch = 447
-    helics_handle_option_only_transmit_on_change = 452
-    helics_handle_option_only_update_on_change = 454
-    helics_handle_option_ignore_interrupts = 475
-    helics_handle_option_multi_input_handling_method = 507
-    helics_handle_option_input_priority_location = 510
-    helics_handle_option_clear_priority_list = 512
-    helics_handle_option_connections = 522
-end
-
-@cenum helics_filter_type::UInt32 begin
-    helics_filter_type_custom = 0
-    helics_filter_type_delay = 1
-    helics_filter_type_random_delay = 2
-    helics_filter_type_random_drop = 3
-    helics_filter_type_reroute = 4
-    helics_filter_type_clone = 5
-    helics_filter_type_firewall = 6
 end

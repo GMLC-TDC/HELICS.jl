@@ -4,7 +4,7 @@ import ..Lib
 export invoke_and_check
 export @invoke_and_check
 
-const MAPPING = Lib.CEnum.namemap(Lib.helics_error_types)
+const MAPPING = Lib.CEnum.namemap(Lib.HelicsErrorTypes)
 
 function snakecase_to_camelcase(s::String)
     s = replace(s, r"['`]"=>"")
@@ -21,7 +21,7 @@ end
 
 abstract type HELICSException <: Exception end
 
-for (sym, ans) in Lib.CEnum.name_value_pairs(Lib.helics_error_types)
+for (sym, ans) in Lib.CEnum.name_value_pairs(Lib.HelicsErrorTypes)
     sym = snakecase_to_camelcase(sym)
     eval(:(struct $sym <: HELICSException
                msg::String

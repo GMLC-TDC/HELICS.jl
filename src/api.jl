@@ -1055,10 +1055,10 @@ end
 Set a handle option on an [`Endpoint`](@ref)
 
 - `endpoint`: The [`Endpoint`](@ref) to modify
-- `option`: Integer code for the option to set [`HELICS_HANDLE_OPTIONS`](@ref)
+- `option`: Integer code for the option to set [`HelicsHandleOptions`](@ref)
 - `value`: The value to set the option
 """
-function helicsEndpointSetOption(endpoint::Endpoint, option::Union{Int, HELICS.HELICS_HANDLE_OPTIONS}, value::Bool)
+function helicsEndpointSetOption(endpoint::Endpoint, option::Union{Int, HELICS.HelicsHandleOptions}, value::Bool)
     @invoke_and_check Lib.helicsEndpointSetOption(endpoint, option, value ? 1 : 0)
 end
 
@@ -1066,9 +1066,9 @@ end
 Get a handle option on an [`Endpoint`](@ref)
 
 - `endpoint`: The [`Endpoint`](@ref) to modify
-- `option`: Integer code for the option to set [`HELICS_HANDLE_OPTIONS`](@ref)
+- `option`: Integer code for the option to set [`HelicsHandleOptions`](@ref)
 """
-function helicsEndpointGetOption(endpoint::Endpoint, option::Union{Int, HELICS.HELICS_HANDLE_OPTIONS})::Bool
+function helicsEndpointGetOption(endpoint::Endpoint, option::Union{Int, HELICS.HelicsHandleOptions})::Bool
     return Lib.helicsEndpointGetOption(endpoint, option)
 end
 
@@ -1131,14 +1131,14 @@ a few extra features of name matching to function on the [`Federate`](@ref) inte
 # Arguments
 
 - `fed`: the fed to register through
-- `type`: the type of filter to create [`HELICS_FILTER_TYPE`](@ref)
+- `type`: the type of filter to create [`HelicsFilterTypes`](@ref)
 - `name`: the name of the [`Filter`](@ref) (can be NULL)
 
 # Returns
 
 - a [`Filter`](@ref) object
 """
-function helicsFederateRegisterFilter(fed::Federate, kind::Union{Int, HELICS.HELICS_FILTER_TYPE}, name::String)::Filter
+function helicsFederateRegisterFilter(fed::Federate, kind::Union{Int, HELICS.HelicsFilterTypes}, name::String)::Filter
     return @invoke_and_check Lib.helicsFederateRegisterFilter(fed, kind, name)
 end
 
@@ -1151,14 +1151,14 @@ a few extra features of name matching to function on the [`Federate`](@ref) inte
 # Arguments
 
 - `fed`: the fed to register through
-- `type`: the type of filter to create [`HELICS_FILTER_TYPE`](@ref)
+- `type`: the type of filter to create [`HelicsFilterTypes`](@ref)
 - `name`: the name of the [`Filter`](@ref) (can be NULL)
 
 # Returns
 
 - a [`Filter`](@ref) object
 """
-function helicsFederateRegisterGlobalFilter(fed::Federate, kind::Union{Int, HELICS.HELICS_FILTER_TYPE}, name::String)::Filter
+function helicsFederateRegisterGlobalFilter(fed::Federate, kind::Union{Int, HELICS.HelicsFilterTypes}, name::String)::Filter
     return @invoke_and_check Lib.helicsFederateRegisterGlobalFilter(fed, kind, name)
 end
 
@@ -1209,14 +1209,14 @@ a few extra features of name matching to function on the [`Federate`](@ref) inte
 # Arguments
 
 - `core` the core to register through
-- `type` the type of filter to create [`HELICS_FILTER_TYPE`](@ref)
+- `type` the type of filter to create [`HelicsFilterTypes`](@ref)
 - `name` the name of the [`Filter`](@ref) (can be NULL)
 
 # Returns
 
 - a [`Filter`](@ref) object
 """
-function helicsCoreRegisterFilter(core::Core, kind::Union{Int, HELICS.HELICS_FILTER_TYPE}, name::String)::Filter
+function helicsCoreRegisterFilter(core::Core, kind::Union{Int, HELICS.HelicsFilterTypes}, name::String)::Filter
     return @invoke_and_check Lib.helicsCoreRegisterFilter(core, kind, name)
 end
 
@@ -1448,10 +1448,10 @@ Set the data in the info field for an filter
 # Arguments
 
 - `filt`: the given [`Filter`](@ref)
-- `option`: the option to set [`HELICS_HANDLE_OPTIONS`](@ref)
+- `option`: the option to set [`HelicsHandleOptions`](@ref)
 - `value`: the value of the option (helics_true or helics_false)
 """
-function helicsFilterSetOption(filt::Filter, option::Union{Int,HELICS.HELICS_HANDLE_OPTIONS}, value::Bool)
+function helicsFilterSetOption(filt::Filter, option::Union{Int,HELICS.HelicsHandleOptions}, value::Bool)
     @invoke_and_check Lib.helicsFilterSetOption(filt, option, value ? 1 : 0)
 end
 
@@ -1461,9 +1461,9 @@ Get a handle option for the [`Filter`](@ref)
 # Arguments
 
 - `filt`: the given [`Filter`](@ref) to query
-- `option`: the option to query [`HELICS_HANDLE_OPTIONS`](@ref)
+- `option`: the option to query [`HelicsHandleOptions`](@ref)
 """
-function helicsFilterGetOption(filt::Filter, option::Union{Int,HELICS.HELICS_HANDLE_OPTIONS})::Bool
+function helicsFilterGetOption(filt::Filter, option::Union{Int,HELICS.HelicsHandleOptions})::Bool
     return Lib.helicsFilterGetOption(filt, option) == 1 ? true : false
 end
 
@@ -1756,7 +1756,7 @@ Set an option value for a translator.
 # Arguments
 
 - `trans`: the [`Translator`](@ref) to set the option for
-- `option`: The option to set /ref helics_handle_options.
+- `option`: The option to set /ref HelicsHandleOptions.
 - `value`: The value of the option, commonly 0 for false or 1 for true.
 """
 function helicsTranslatorSetOption(trans::Translator, option::Int, value::Int)
@@ -1769,7 +1769,7 @@ Get a handle option for the translator.
 # Arguments
 
 - `trans`: the [`Translator`](@ref) to set the info field for.
-- `option`: The option to query /ref helics_handle_options.
+- `option`: The option to query /ref HelicsHandleOptions.
 """
 function helicsTranslatorGetOption(trans::Translator, option::Int)::Int
     return Lib.helicsTranslatorGetOption(trans, option)
@@ -1805,14 +1805,14 @@ functions for subscriptions and publications
 
 - `fed`: the [`Federate`](@ref) in which to create a [`Publication`](@ref)
 - `key`: the identifier for the [`Publication`](@ref) the global publication key will be prepended with the [`Federate`](@ref) name
-- `type`: a code identifying the type of the [`Input`](@ref) see [`HELICS_DATA_TYPE`](@ref) for available options
+- `type`: a code identifying the type of the [`Input`](@ref) see [`HelicsDataTypes`](@ref) for available options
 - `units`: a string listing the units of the [`Subscription`](@ref) maybe NULL
 
 # Returns
 
 - the [`Publication`](@ref)
 """
-function helicsFederateRegisterPublication(fed::Federate, key::String, kind::Union{Int, HELICS.HELICS_DATA_TYPE}, units::String="")::Publication
+function helicsFederateRegisterPublication(fed::Federate, key::String, kind::Union{Int, HELICS.HelicsDataTypes}, units::String="")::Publication
     return @invoke_and_check Lib.helicsFederateRegisterPublication(fed, key, kind, units)
 end
 
@@ -1849,14 +1849,14 @@ functions for subscriptions and publications
 
 - `fed`: the [`Federate`](@ref) in which to create a [`Publication`](@ref)
 - `key`: the identifier for the [`Publication`](@ref)
-- `type`: a code identifying the type of the [`Input`](@ref) see [`HELICS_DATA_TYPE`](@ref) for available options
+- `type`: a code identifying the type of the [`Input`](@ref) see [`HelicsDataTypes`](@ref) for available options
 - `units`: a string listing the units of the [`Subscription`](@ref) maybe NULL
 
 # Returns
 
 - the [`Publication`](@ref)
 """
-function helicsFederateRegisterGlobalPublication(fed::Federate, key::String, kind::Union{Int, HELICS.HELICS_DATA_TYPE}, units::String="")::Publication
+function helicsFederateRegisterGlobalPublication(fed::Federate, key::String, kind::Union{Int, HELICS.HelicsDataTypes}, units::String="")::Publication
     return @invoke_and_check Lib.helicsFederateRegisterGlobalPublication(fed, key, kind, units)
 end
 
@@ -1891,14 +1891,14 @@ functions for subscriptions, inputs, and publications
 
 - `fed`: the [`Federate`](@ref) in which to create an [`Input`](@ref)
 - `key`: the identifier for the [`Publication`](@ref) the global input key will be prepended with the [`Federate`](@ref) name
-- `type`: a code identifying the type of the [`Input`](@ref) see [`HELICS_DATA_TYPE`](@ref) for available options
+- `type`: a code identifying the type of the [`Input`](@ref) see [`HelicsDataTypes`](@ref) for available options
 - `units`: a string listing the units of the [`Input`](@ref) maybe NULL
 
 # Returns
 
 - the [`Input`](@ref)
 """
-function helicsFederateRegisterInput(fed::Federate, key::String, kind::Union{Int, HELICS.HELICS_DATA_TYPE}, units::String="")::Input
+function helicsFederateRegisterInput(fed::Federate, key::String, kind::Union{Int, HELICS.HelicsDataTypes}, units::String="")::Input
     return @invoke_and_check Lib.helicsFederateRegisterInput(fed, key, kind, units)
 end
 
@@ -1933,14 +1933,14 @@ functions for subscriptions and publications
 
 - `fed`: the [`Federate`](@ref) in which to create a [`Publication`](@ref)
 - `key`: the identifier for the [`Publication`](@ref)
-- `type`: a code identifying the type of the [`Input`](@ref) see [`HELICS_DATA_TYPE`](@ref) for available options
+- `type`: a code identifying the type of the [`Input`](@ref) see [`HelicsDataTypes`](@ref) for available options
 - `units`: a string listing the units of the [`Subscription`](@ref) maybe NULL
 
 # Returns
 
 - the [`Publication`](@ref)
 """
-function helicsFederateRegisterGlobalInput(fed::Federate, key::String, kind::Union{Int, HELICS.HELICS_DATA_TYPE}, units::String="")::Input
+function helicsFederateRegisterGlobalInput(fed::Federate, key::String, kind::Union{Int, HELICS.HelicsDataTypes}, units::String="")::Input
     return @invoke_and_check Lib.helicsFederateRegisterGlobalInput(fed, key, kind, units)
 end
 
@@ -2833,13 +2833,13 @@ Get the data in the info field of an [`Input`](@ref)
 # Arguments
 
 - `inp`: the [`Input`](@ref) to query
-- `option`: integer representation of the option in question see [`HELICS_HANDLE_OPTIONS`](@ref)
+- `option`: integer representation of the option in question see [`HelicsHandleOptions`](@ref)
 
 # Returns
 
 - a string with the info field string
 """
-function helicsInputGetOption(inp::Input, option::Union{Int,HELICS.HELICS_HANDLE_OPTIONS})::Bool
+function helicsInputGetOption(inp::Input, option::Union{Int,HELICS.HelicsHandleOptions})::Bool
     return Lib.helicsInputGetOption(inp, option) == 1 ? true : false
 end
 
@@ -2849,10 +2849,10 @@ Set the data in the info field for an [`Input`](@ref)
 # Arguments
 
 - `inp`: the [`Input`](@ref) to query
-- `option`: the option to set for the [`Input`](@ref) [`HELICS_HANDLE_OPTIONS`](@ref)
+- `option`: the option to set for the [`Input`](@ref) [`HelicsHandleOptions`](@ref)
 - `value`: the value to set the option to
 """
-function helicsInputSetOption(inp::Input, option::Union{Int,HELICS.HELICS_HANDLE_OPTIONS}, value::Bool)
+function helicsInputSetOption(inp::Input, option::Union{Int,HELICS.HelicsHandleOptions}, value::Bool)
     @invoke_and_check Lib.helicsInputSetOption(inp, option, value ? 1 : 0)
 end
 
@@ -2862,13 +2862,13 @@ Get the data in the info field of an publication
 # Arguments
 
 - `pub`: the [`Publication`](@ref) to query
-- `option`: the value to query see [`HELICS_HANDLE_OPTIONS`](@ref)
+- `option`: the value to query see [`HelicsHandleOptions`](@ref)
 
 # Arguments
 
 - a string with the info field string
 """
-function helicsPublicationGetOption(pub::Publication, option::Union{Int,HELICS.HELICS_HANDLE_OPTIONS})::Bool
+function helicsPublicationGetOption(pub::Publication, option::Union{Int,HELICS.HelicsHandleOptions})::Bool
     return Lib.helicsPublicationGetOption(pub, option) == 1 ? true : false
 end
 
@@ -2878,10 +2878,10 @@ Set the data in the info field for an publication
 # Arguments
 
 - `pub`: the [`Publication`](@ref) to query
-- `option`: integer code for the option to set [`HELICS_HANDLE_OPTIONS`](@ref)
+- `option`: integer code for the option to set [`HelicsHandleOptions`](@ref)
 - `val`: the value to set the option to
 """
-function helicsPublicationSetOption(pub::Publication, option::Union{Int,HELICS.HELICS_HANDLE_OPTIONS}, val::Bool)
+function helicsPublicationSetOption(pub::Publication, option::Union{Int,HELICS.HelicsHandleOptions}, val::Bool)
     @invoke_and_check Lib.helicsPublicationSetOption(pub, option, val ? 1 : 0)
 end
 
@@ -3694,9 +3694,9 @@ valid values available by definitions in api-data.h
 # Arguments
 
 - `fi`: the [`FederateInfo`](@ref) object to alter
-- `coretype`: an numerical code for a core type see /ref helics_core_type
+- `coretype`: an numerical code for a core type see /ref HelicsCoreTypes
 """
-function helicsFederateInfoSetCoreType(fi::FederateInfo, coretype::Union{Int, HELICS.HELICS_CORE_TYPE})
+function helicsFederateInfoSetCoreType(fi::FederateInfo, coretype::Union{Int, HELICS.HelicsCoreTypes})
     @invoke_and_check Lib.helicsFederateInfoSetCoreType(fi, coretype)
 end
 
@@ -3787,7 +3787,7 @@ end
 """
 Set a flag in the info structure
 
-valid flags are available [`HELICS_FEDERATE_FLAGS`](@ref)
+valid flags are available [`HelicsFederateFlags`](@ref)
 
 # Arguments
 
@@ -3795,7 +3795,7 @@ valid flags are available [`HELICS_FEDERATE_FLAGS`](@ref)
 - `flag`: a numerical index for a flag
 - `value`: the desired value of the flag `true` or `false`
 """
-function helicsFederateInfoSetFlagOption(fi::FederateInfo, flag::Union{Int, HELICS.HELICS_FEDERATE_FLAGS}, value::Bool)
+function helicsFederateInfoSetFlagOption(fi::FederateInfo, flag::Union{Int, HELICS.HelicsFederateFlags}, value::Bool)
     @invoke_and_check Lib.helicsFederateInfoSetFlagOption(fi, flag, value ? 1 : 0)
 end
 
@@ -3815,13 +3815,13 @@ end
 
 """
 """
-function helicsFederateInfoSetTimeProperty(fi::FederateInfo, timeProperty::Union{Int, HELICS.HELICS_PROPERTIES}, propertyValue::HELICS.HELICS_TIME)
+function helicsFederateInfoSetTimeProperty(fi::FederateInfo, timeProperty::Union{Int, HELICS.HelicsProperties}, propertyValue::HELICS.HELICS_TIME)
     @invoke_and_check Lib.helicsFederateInfoSetTimeProperty(fi, timeProperty, propertyValue)
 end
 
 """
 """
-function helicsFederateInfoSetIntegerProperty(fi::FederateInfo, intProperty::Union{Int, HELICS.HELICS_PROPERTIES}, propertyValue::Int)
+function helicsFederateInfoSetIntegerProperty(fi::FederateInfo, intProperty::Union{Int, HELICS.HelicsProperties}, propertyValue::Int)
     @invoke_and_check Lib.helicsFederateInfoSetIntegerProperty(fi, intProperty, propertyValue)
 end
 
@@ -4038,7 +4038,7 @@ this call allows for finer grain control of the iterative process then [`helicsF
 
 - an iteration structure with field containing the time and iteration status
 """
-function helicsFederateEnterExecutingModeIterative(fed::Federate, iterate::Union{Int, HELICS.HELICS_ITERATION_REQUEST})::HELICS.HELICS_ITERATION_RESULT
+function helicsFederateEnterExecutingModeIterative(fed::Federate, iterate::Union{Int, HELICS.HelicsIterationRequest})::HELICS.HelicsIterationResult
     return @invoke_and_check Lib.helicsFederateEnterExecutingModeIterative(fed, iterate)
 end
 
@@ -4052,7 +4052,7 @@ This call allows for finer grain control of the iterative process then [`helicsF
 - `fed`: the [`Federate`](@ref) to make the request of
 - `iterate`: the requested iteration mode
 """
-function helicsFederateEnterExecutingModeIterativeAsync(fed::Federate, iterate::Union{Int, HELICS.HELICS_ITERATION_REQUEST})
+function helicsFederateEnterExecutingModeIterativeAsync(fed::Federate, iterate::Union{Int, HELICS.HelicsIterationRequest})
     return @invoke_and_check Lib.helicsFederateEnterExecutingModeIterativeAsync(fed, iterate)
 end
 
@@ -4067,7 +4067,7 @@ Complete the asynchronous iterative call into ExecutionModel
 
 - an iteration object containing the iteration time and iteration_status
 """
-function helicsFederateEnterExecutingModeIterativeComplete(fed::Federate)::HELICS.HELICS_ITERATION_RESULT
+function helicsFederateEnterExecutingModeIterativeComplete(fed::Federate)::HELICS.HelicsIterationResult
     return @invoke_and_check Lib.helicsFederateEnterExecutingModeIterativeComplete(fed)
 end
 
@@ -4082,7 +4082,7 @@ Get the current state of a [`Federate`](@ref)
 
 - state the resulting state if void return helics_ok
 """
-function helicsFederateGetState(fed::Federate)::HELICS.HELICS_FEDERATE_STATE
+function helicsFederateGetState(fed::Federate)::HELICS.HelicsFederateState
     return @invoke_and_check Lib.helicsFederateGetState(fed)
 end
 
@@ -4151,8 +4151,8 @@ this call allows for finer grain control of the iterative process then [`helicsF
 - the granted time
 - the iteration specification of the result
 """
-function helicsFederateRequestTimeIterative(fed::Federate, requestTime::HELICS.HELICS_TIME, iterate::Union{Int, HELICS.HELICS_ITERATION_REQUEST})::Tuple{Float64, HELICS.HELICS_ITERATION_RESULT}
-    outIteration = Ref(HELICS.HELICS_ITERATION_RESULT(0))
+function helicsFederateRequestTimeIterative(fed::Federate, requestTime::HELICS.HELICS_TIME, iterate::Union{Int, HELICS.HelicsIterationRequest})::Tuple{Float64, HELICS.HelicsIterationResult}
+    outIteration = Ref(HELICS.HelicsIterationResult(0))
     t = @invoke_and_check Lib.helicsFederateRequestTimeIterative(fed, requestTime, iterate, outIteration)
     return t, outIteration[]
 end
@@ -4200,7 +4200,7 @@ this call allows for finer grain control of the iterative process then [`helicsF
 
 - a void object with a return code of the result
 """
-function helicsFederateRequestTimeIterativeAsync(fed::Federate, requestTime::HELICS.HELICS_TIME, iterate::Union{Int, HELICS.HELICS_ITERATION_REQUEST})
+function helicsFederateRequestTimeIterativeAsync(fed::Federate, requestTime::HELICS.HELICS_TIME, iterate::Union{Int, HELICS.HelicsIterationRequest})
     @invoke_and_check Lib.helicsFederateRequestTimeIterativeAsync(fed, requestTime, iterate)
 end
 
@@ -4216,8 +4216,8 @@ Complete an iterative time request asynchronous call
 - the granted time
 - `outIterate`  the iteration specification of the result
 """
-function helicsFederateRequestTimeIterativeComplete(fed::Federate)::Tuple{Float64, HELICS.HELICS_ITERATION_RESULT}
-    outIterate = Ref(HELICS.HELICS_ITERATION_RESULT(0))
+function helicsFederateRequestTimeIterativeComplete(fed::Federate)::Tuple{Float64, HELICS.HelicsIterationResult}
+    outIterate = Ref(HELICS.HelicsIterationResult(0))
     t = @invoke_and_check Lib.helicsFederateRequestTimeIterativeComplete(fed, outIterate)
     return t, outIterate[]
 end
@@ -4258,7 +4258,7 @@ Set a time based property for a [`Federate`](@ref)
 - `timeProperty`: a integer code for a time property
 - `time`: the requested value of the property
 """
-function helicsFederateSetTimeProperty(fed::Federate, timeProperty::Union{Int, HELICS.HELICS_PROPERTIES}, time::HELICS.HELICS_TIME)
+function helicsFederateSetTimeProperty(fed::Federate, timeProperty::Union{Int, HELICS.HelicsProperties}, time::HELICS.HELICS_TIME)
     @invoke_and_check Lib.helicsFederateSetTimeProperty(fed, timeProperty, time)
 end
 
@@ -4271,7 +4271,7 @@ Set a flag for the [`Federate`](@ref)
 - `flag`: the flag to change
 - `flagValue`: the new value of the flag 0 for false !=0 for true
 """
-function helicsFederateSetFlagOption(fed::Federate, flag::Union{Int, HELICS.HELICS_FEDERATE_FLAGS, HELICS.HELICS_HANDLE_OPTIONS}, flagValue::Bool)
+function helicsFederateSetFlagOption(fed::Federate, flag::Union{Int, HELICS.HelicsFederateFlags, HELICS.HelicsHandleOptions}, flagValue::Bool)
     @invoke_and_check Lib.helicsFederateSetFlagOption(fed, flag, flagValue ? 1 : 0)
 end
 
@@ -4298,7 +4298,7 @@ Set an integer based property of a [`Federate`](@ref)
 - `intProperty`: the property to set
 - `propertyVal`: the value of the property
 """
-function helicsFederateSetIntegerProperty(fed::Federate, intProperty::Union{Int, HELICS.HELICS_PROPERTIES}, propertyVal::Int)
+function helicsFederateSetIntegerProperty(fed::Federate, intProperty::Union{Int, HELICS.HelicsProperties}, propertyVal::Int)
     @invoke_and_check Lib.helicsFederateSetIntegerProperty(fed, intProperty, propertyVal)
 end
 
@@ -4310,7 +4310,7 @@ Get the current value of a time based property in a [`Federate`](@ref)
 - `fed`: the [`Federate`](@ref) query
 - `timeProperty`: the property to query
 """
-function helicsFederateGetTimeProperty(fed::Federate, timeProperty::Union{Int, HELICS.HELICS_PROPERTIES})::Float64
+function helicsFederateGetTimeProperty(fed::Federate, timeProperty::Union{Int, HELICS.HelicsProperties})::Float64
     return @invoke_and_check Lib.helicsFederateGetTimeProperty(fed, timeProperty)
 end
 
@@ -4326,7 +4326,7 @@ Get a flag value for a [`Federate`](@ref)
 
 - the value of the flag
 """
-function helicsFederateGetFlagOption(fed::Federate, flag::Union{Int, HELICS.HELICS_FEDERATE_FLAGS, HELICS.HELICS_HANDLE_OPTIONS})::Bool
+function helicsFederateGetFlagOption(fed::Federate, flag::Union{Int, HELICS.HelicsFederateFlags, HELICS.HelicsHandleOptions})::Bool
     r = @invoke_and_check Lib.helicsFederateGetFlagOption(fed, flag)
     return r == 1 ? true : false
 end
@@ -4339,13 +4339,13 @@ debug and trace only do anything if they were enabled in the compilation
 # Arguments
 
 - `fed`: the [`Federate`](@ref) to get the flag for
-- `intProperty`: a code for the property to set [`HELICS_HANDLE_OPTIONS`](@ref)
+- `intProperty`: a code for the property to set [`HelicsHandleOptions`](@ref)
 
 # Returns
 
 - the value of the property
 """
-function helicsFederateGetIntegerProperty(fed::Federate, intProperty::Union{Int, HELICS.HELICS_PROPERTIES, HELICS.HELICS_HANDLE_OPTIONS})::Int
+function helicsFederateGetIntegerProperty(fed::Federate, intProperty::Union{Int, HELICS.HelicsProperties, HELICS.HelicsHandleOptions})::Int
     return @invoke_and_check Lib.helicsFederateGetIntegerProperty(fed, intProperty)
 end
 
@@ -4977,7 +4977,7 @@ Set a flag on a message
 - `flag`: An index of a flag to set on the message
 - `flagValue`: The desired value of the flag
 """
-function helicsMessageSetFlagOption(message::Message, flag::Union{Int, HELICS_FEDERATE_FLAGS}, flagValue::Bool)
+function helicsMessageSetFlagOption(message::Message, flag::Union{Int, HelicsFederateFlags}, flagValue::Bool)
     @invoke_and_check Lib.helicsMessageSetFlagOption(message, flag, flagValue)
 end
 
@@ -5205,10 +5205,10 @@ Log a message through a [`Federate`](@ref)
 # Arguments
 
 - `fed`: The [`Federate`](@ref) to set the global through
-- `loglevel`: The level of the message to log. See [`HELICS_LOG_LEVELS`](@ref)
+- `loglevel`: The level of the message to log. See [`HelicsLogLevels`](@ref)
 - `logmessage`: The message to put in the log
 """
-function helicsFederateLogLevelMessage(fed::Federate, loglevel::Union{Int, HELICS_LOG_LEVELS}, logmessage::String)
+function helicsFederateLogLevelMessage(fed::Federate, loglevel::Union{Int, HelicsLogLevels}, logmessage::String)
     @invoke_and_check Lib.helicsFederateLogLevelMessage(fed, loglevel, logmessage)
 end
 

@@ -24,19 +24,18 @@ for enum_name in [
 	Lib.HelicsFlags,
 	Lib.HelicsMultiInputModes,
 	Lib.HelicsTranslatorTypes,
-	Lib.HelicsSequencingModes,
-	
+	Lib.HelicsSequencingModes
 ]
     # Hacks to not populate namespace
     eval(
         :(
-            const $(Symbol(uppercase(split(String(Symbol(enum_name)), ".")[end]))) =
+            const $(Symbol(split(String(Symbol(enum_name)), ".")[end])) =
                 $enum_name
         ),
     )
 
     for (_sym, ans) in Lib.CEnum.name_value_pairs(enum_name)
-        eval(:(const $(Symbol(uppercase(String(_sym)))) = Lib.$_sym))
+        eval(:(const $(Symbol(String(_sym))) = Lib.$_sym))
     end
 
 end
@@ -57,7 +56,7 @@ function _enum_doc_string(enum_type)
 
     for (name, value) in CEnum.name_value_pairs(enum_type)
 
-        n = uppercase(String(name))
+        n = String(name)
         d = strip(string(Docs.doc(Base.Docs.Binding(HELICS, Symbol(n)))))
         v = string(value)
 

@@ -2664,6 +2664,7 @@ Get the target of an [`Input`](@ref)
 # Returns
 
 - A string of the input target
+"""
 function helicsSubscriptionGetTarget(ipt::Input)::String
     return unsafe_string(Lib.helicsSubscriptionGetTarget(ipt))
 end

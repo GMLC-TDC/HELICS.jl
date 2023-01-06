@@ -11,47 +11,47 @@ const CFunction = Ptr{Cvoid}
 const HELICS_TIME_MAXTIME = typemax(Int)
 
 """
-Create an [`HelicsDataBuffer`](@ref)
+Create an [`DataBuffer`](@ref)
 
 # Arguments
 
-- `initialCapaciy`: the initial capacity of the [`HelicsDataBuffer`](@ref)
+- `initialCapaciy`: the initial capacity of the [`DataBuffer`](@ref)
 
 # Returns
 
-- [`HelicsDataBuffer`](@ref)
+- [`DataBuffer`](@ref)
 """
-function helicsCreateDataBuffer(initialCapacity::Int32)::HelicsDataBuffer
+function helicsCreateDataBuffer(initialCapacity::Int32)::DataBuffer
     return Lib.helicsCreateDataBuffer(initialCapacity)
 end
 
 """
-Check if [`HelicsDataBuffer`](@ref) is valid
+Check if [`DataBuffer`](@ref) is valid
 
 # Arguments
 
-- `data`: the [`HelicsDataBuffer`](@ref) to check
+- `data`: the [`DataBuffer`](@ref) to check
 
 # Returns
 
 - a boolean
 """
-function helicsDataBufferIsValid(data::HelicsDataBuffer)::Bool
-    return Lib.helicsDataBufferIsValid(data) == 1 ? true : false
+function DataBufferIsValid(data::DataBuffer)::Bool
+    return Lib.DataBufferIsValid(data) == 1 ? true : false
 end
 
 """
-Wrap data in [`HelicsDataBuffer`](@ref)
+Wrap data in [`DataBuffer`](@ref)
 
 # Arguments
 
-- `data`: the data to place in a [`HelicsDataBuffer`](@ref)
+- `data`: the data to place in a [`DataBuffer`](@ref)
 
 # Returns
 
-- [`HelicsDataBuffer`](@ref)
+- [`DataBuffer`](@ref)
 """
-function helicsWrapDataInBuffer(data::String)::HelicsDataBuffer
+function helicsWrapDataInBuffer(data::String)::DataBuffer
 	dataSize = length(data)
 	dataCapacity = dataSize + 1
 	dataPtr = pointer(data)
@@ -59,90 +59,90 @@ function helicsWrapDataInBuffer(data::String)::HelicsDataBuffer
 end
 
 """
-Free a [`HelicsDataBuffer`](@ref)
+Free a [`DataBuffer`](@ref)
 
 # Arguments
 
-- `data`: the [`HelicsDataBuffer`](@ref)
+- `data`: the [`DataBuffer`](@ref)
 """
-function helicsDataBufferFree(data::HelicsDataBuffer)
-    Lib.helicsDataBufferFree(data)
+function DataBufferFree(data::DataBuffer)
+    Lib.DataBufferFree(data)
 end
 
 """
-Get size of a[`HelicsDataBuffer`](@ref)
+Get size of a[`DataBuffer`](@ref)
 
 # Arguments
 
-- `data`: the [`HelicsDataBuffer`](@ref)
+- `data`: the [`DataBuffer`](@ref)
 
 # Returns
 
 - Int32
 """
-function helicsDataBufferSize(data::HelicsDataBuffer)::Int32
-	return Lib.helicsDataBufferSize(data)
+function DataBufferSize(data::DataBuffer)::Int32
+	return Lib.DataBufferSize(data)
 end
 
 """
-Get capacity of a[`HelicsDataBuffer`](@ref)
+Get capacity of a[`DataBuffer`](@ref)
 
 # Arguments
 
-- `data`: the [`HelicsDataBuffer`](@ref)
+- `data`: the [`DataBuffer`](@ref)
 
 # Returns
 
 - Int32
 """
-function helicsDataBufferCapacity(data::HelicsDataBuffer)::Int32
-	return Lib.helicsDataBufferCapacity(data)
+function DataBufferCapacity(data::DataBuffer)::Int32
+	return Lib.DataBufferCapacity(data)
 end
 
 """
-Get a pointer to the raw data in a [`HelicsDataBuffer`](@ref)
+Get a pointer to the raw data in a [`DataBuffer`](@ref)
 
 # Arguments
 
-- `data`: the [`HelicsDataBuffer`](@ref)
+- `data`: the [`DataBuffer`](@ref)
 
 # Returns
 
 - Ptr{Cvoid} 
 """
-function helicsDataBufferData(data::HelicsDataBuffer)::Ptr{Cvoid}
-	return Lib.helicsDataBufferData(data)
+function DataBufferData(data::DataBuffer)::Ptr{Cvoid}
+	return Lib.DataBufferData(data)
 end
 
 """
-Increase [`HelicsDataBuffer`](@ref) capacity without reallocating memory
+Increase [`DataBuffer`](@ref) capacity without reallocating memory
 
 # Arguments
 
-- `data`: the [`HelicsDataBuffer`](@ref)
+- `data`: the [`DataBuffer`](@ref)
 - `newCapacity`: the new capacity
 
 # Returns
 
 - true is successful else false
 """
-function helicsDataBufferReserve(data::HelicsDataBuffer, newCapacity::Int32)::Bool
-	return Lib.helicsDataBufferReserve(data) == 1 ? true : false
+function DataBufferReserve(data::DataBuffer, newCapacity::Int32)::Bool
+	return Lib.DataBufferReserve(data) == 1 ? true : false
 end
 
 """
-copy and existing HelicsDataBuffer to and new one
+copy and existing DataBuffer to and new one
 
 # Arguments
 
-- `data`: the [`HelicsDataBuffer`](@ref) to copy
+- `data`: the [`DataBuffer`](@ref) to copy
 
 # Returns
 
-- [`HelicsDataBuffer`](@ref)
+- [`DataBuffer`](@ref)
 """
-function helicsDataBufferClone(data::HelicsDataBuffer)::HelicsDataBuffer
-	return Lib.helicsDataBufferClone(data)
+function DataBufferClone(data::DataBuffer)::DataBuffer
+	return Lib.DataBufferClone(data)
 end
 
 """
@@ -151,13 +151,13 @@ convert an integer to serialized bytes
 # Arguments
 
 - `value`: the Int64 to convert
-- `data`: the HelicsDataBuffer to hold the serialized bytes
+- `data`: the DataBuffer to hold the serialized bytes
 
 # Returns
 
 - Int32 Bytes serialized.
 """
-function helicsIntegerToBytes(value::Int64, data::HelicsDataBuffer)::Int32
+function helicsIntegerToBytes(value::Int64, data::DataBuffer)::Int32
 	return Lib.helicsIntegerToBytes(value, data)
 end
 
@@ -167,13 +167,13 @@ convert a double to serialized bytes
 # Arguments
 
 - `value`: the Float64 to convert
-- `data`: the HelicsDataBuffer to hold the serialized bytes
+- `data`: the DataBuffer to hold the serialized bytes
 
 # Returns
 
 - Int32 Bytes serialized.
 """
-function helicsDoubleToBytes(value::Float64, data::HelicsDataBuffer)::Int32
+function helicsDoubleToBytes(value::Float64, data::DataBuffer)::Int32
 	return Lib.helicsDoubleToBytes(value, data)
 end
 
@@ -183,13 +183,13 @@ convert a string to serialized bytes
 # Arguments
 
 - `value`: the string to convert
-- `data`: the HelicsDataBuffer to hold the serialized bytes
+- `data`: the DataBuffer to hold the serialized bytes
 
 # Returns
 
 - Int32 Bytes serialized.
 """
-function helicsStringToBytes(value::String, data::HelicsDataBuffer)::Int32
+function helicsStringToBytes(value::String, data::DataBuffer)::Int32
 	return Lib.helicsStringToBytes(value, data)
 end
 
@@ -199,13 +199,13 @@ convert a raw string to serialized bytes
 # Arguments
 
 - `value`: the raw string to convert
-- `data`: the HelicsDataBuffer to hold the serialized bytes
+- `data`: the DataBuffer to hold the serialized bytes
 
 # Returns
 
 - Int32 Bytes serialized.
 """
-function helicsRawStringToBytes(value::String, data::HelicsDataBuffer)::Int32
+function helicsRawStringToBytes(value::String, data::DataBuffer)::Int32
 	return Lib.helicsRawStringToBytes(value, data)
 end
 
@@ -215,13 +215,13 @@ convert a boolean to serialized bytes
 # Arguments
 
 - `value`: the boolean to convert
-- `data`: the HelicsDataBuffer to hold the serialized bytes
+- `data`: the DataBuffer to hold the serialized bytes
 
 # Returns
 
 - Int32 Bytes serialized.
 """
-function helicsBooleanToBytes(value::Bool, data::HelicsDataBuffer)::Int32
+function helicsBooleanToBytes(value::Bool, data::DataBuffer)::Int32
 	return Lib.helicsBooleanToBytes(value ? 1 : 0, data)
 end
 
@@ -231,13 +231,13 @@ convert a char to serialized bytes
 # Arguments
 
 - `value`: the char to convert
-- `data`: the HelicsDataBuffer to hold the serialized bytes
+- `data`: the DataBuffer to hold the serialized bytes
 
 # Returns
 
 - Int32 Bytes serialized.
 """
-function helicsCharToBytes(value::Char, data::HelicsDataBuffer)::Int32
+function helicsCharToBytes(value::Char, data::DataBuffer)::Int32
 	return Lib.helicsCharToBytes(value, data)
 end
 
@@ -247,13 +247,13 @@ convert a HelicsTime to serialized bytes
 # Arguments
 
 - `value`: the HelicsTime to convert
-- `data`: the HelicsDataBuffer to hold the serialized bytes
+- `data`: the DataBuffer to hold the serialized bytes
 
 # Returns
 
 - Int32 Bytes serialized.
 """
-function helicsTimeToBytes(value::HELICS.HELICS_TIME, data::HelicsDataBuffer)::Int32
+function helicsTimeToBytes(value::HELICS.HELICS_TIME, data::DataBuffer)::Int32
 	return Lib.helicsTimeToBytes(value, data)
 end
 
@@ -263,13 +263,13 @@ convert a complex to serialized bytes
 # Arguments
 
 - `value`: the complex to convert
-- `data`: the HelicsDataBuffer to hold the serialized bytes
+- `data`: the DataBuffer to hold the serialized bytes
 
 # Returns
 
 - Int32 Bytes serialized.
 """
-function helicsComplexToBytes(value::ComplexF64, data::HelicsDataBuffer)::Int32
+function helicsComplexToBytes(value::ComplexF64, data::DataBuffer)::Int32
 	return Lib.helicsComplexToBytes(value.re, value.im, data)
 end
 
@@ -279,13 +279,13 @@ convert a vector of doubles to serialized bytes
 # Arguments
 
 - `value`: the vector of doubles to convert
-- `data`: the HelicsDataBuffer to hold the serialized bytes
+- `data`: the DataBuffer to hold the serialized bytes
 
 # Returns
 
 - Int32 Bytes serialized.
 """
-function helicsVectorToBytes(value::Vector{Float64}, data::HelicsDataBuffer)::Int32
+function helicsVectorToBytes(value::Vector{Float64}, data::DataBuffer)::Int32
 	dataSize = length(value)
 	return Lib.helicsVectorToBytes(value, dataSize, data)
 end
@@ -297,13 +297,13 @@ convert a named point to serialized bytes
 
 - `name`: the name of the point of doubles to convert
 - `value`: the integer value of the point to convert
-- `data`: the HelicsDataBuffer to hold the serialized bytes
+- `data`: the DataBuffer to hold the serialized bytes
 
 # Returns
 
 - Int32 Bytes serialized.
 """
-function helicsNamedPointToBytes(name::String value::Int64, data::HelicsDataBuffer)::Int32
+function helicsNamedPointToBytes(name::String value::Int64, data::DataBuffer)::Int32
 	return Lib.helicsVectorToBytes(name, value, data)
 end
 
@@ -313,13 +313,13 @@ convert a vector of complex values to serialized bytes
 # Arguments
 
 - `value`: the vector to convert
-- `data`: the HelicsDataBuffer to hold the serialized bytes
+- `data`: the DataBuffer to hold the serialized bytes
 
 # Returns
 
 - Int32 Bytes serialized.
 """
-function helicsComplexVectorToBytes(value::Vector{ComplexF64}, data::HelicsDataBuffer)::Int32
+function helicsComplexVectorToBytes(value::Vector{ComplexF64}, data::DataBuffer)::Int32
 	complexDataSize = length(value)
 	doubleValue = Vector{Float64}(undef, 0)
 	for v in value
@@ -331,232 +331,232 @@ function helicsComplexVectorToBytes(value::Vector{ComplexF64}, data::HelicsDataB
 end
 
 """
-return the an integer value of the data type of a HelicsDataBuffer.
+return the an integer value of the data type of a DataBuffer.
 
 # Arguments
 
-- `data`: the HelicsDataBuffer
+- `data`: the DataBuffer
 
 # Returns
 
 - Int data type integer value.
 """
-function helicsDataBufferType(data::HelicsDataBuffer)::Int
-	return Lib.helicsDataBufferType(data)
+function DataBufferType(data::DataBuffer)::Int
+	return Lib.DataBufferType(data)
 end
 
 """
-Get data from HelicsDataBuffer as an integer.
+Get data from DataBuffer as an integer.
 
 # Arguments
 
-- `data`: the HelicsDataBuffer
+- `data`: the DataBuffer
 
 # Returns
 
 - Int64
 """
-function helicsDataBufferToInteger(data::HelicsDataBuffer)::Int64
-	return Lib.helicsDataBufferToInteger(data)
+function DataBufferToInteger(data::DataBuffer)::Int64
+	return Lib.DataBufferToInteger(data)
 end
 
 """
-Get data from HelicsDataBuffer as a double.
+Get data from DataBuffer as a double.
 
 # Arguments
 
-- `data`: the HelicsDataBuffer
+- `data`: the DataBuffer
 
 # Returns
 
 - Float64
 """
-function helicsDataBufferToDouble(data::HelicsDataBuffer)::Float64
-	return Lib.helicsDataBufferToDouble(data)
+function DataBufferToDouble(data::DataBuffer)::Float64
+	return Lib.DataBufferToDouble(data)
 end
 
 """
-Get data from HelicsDataBuffer as a boolean.
+Get data from DataBuffer as a boolean.
 
 # Arguments
 
-- `data`: the HelicsDataBuffer
+- `data`: the DataBuffer
 
 # Returns
 
 - Bool
 """
-function helicsDataBufferToBoolean(data::HelicsDataBuffer)::Bool
-	return Lib.helicsDataBufferToBoolean(data) == 1 ? true : false
+function DataBufferToBoolean(data::DataBuffer)::Bool
+	return Lib.DataBufferToBoolean(data) == 1 ? true : false
 end
 
 """
-Get data from HelicsDataBuffer as a single char.
+Get data from DataBuffer as a single char.
 
 # Arguments
 
-- `data`: the HelicsDataBuffer
+- `data`: the DataBuffer
 
 # Returns
 
 - Char
 """
-function helicsDataBufferToChar(data::HelicsDataBuffer)::Char
-	return Lib.helicsDataBufferToChar(data)
+function DataBufferToChar(data::DataBuffer)::Char
+	return Lib.DataBufferToChar(data)
 end
 
 """
-Get size of string data size from HelicsDataBuffer.
+Get size of string data size from DataBuffer.
 
 # Arguments
 
-- `data`: the HelicsDataBuffer
+- `data`: the DataBuffer
 
 # Returns
 
 - Int
 """
-function helicsDataBufferStringSize(data::HelicsDataBuffer)::Int
-	return Lib.helicsDataBufferStringSize(data)
+function DataBufferStringSize(data::DataBuffer)::Int
+	return Lib.DataBufferStringSize(data)
 end
 
 """
-Get string data from HelicsDataBuffer.
+Get string data from DataBuffer.
 
 # Arguments
 
-- `data`: the HelicsDataBuffer
+- `data`: the DataBuffer
 
 # Returns
 
 - String
 """
-function helicsDataBufferToString(data::HelicsDataBuffer)::String
-	maxStringLen = helicsDataBufferStringSize(data)
+function DataBufferToString(data::DataBuffer)::String
+	maxStringLen = DataBufferStringSize(data)
     outputString = repeat(" ", maxStringLen + 2)
     actualLength = Ref{Int32}(maxStringLen)
-	Lib.helicsDataBufferToString(data, outputString, maxStringLen, actualLength)
+	Lib.DataBufferToString(data, outputString, maxStringLen, actualLength)
 	return outputString[1:actualLength[]-1]
 end
 
 """
-Get raw string data from HelicsDataBuffer.
+Get raw string data from DataBuffer.
 
 # Arguments
 
-- `data`: the HelicsDataBuffer
+- `data`: the DataBuffer
 
 # Returns
 
 - String
 """
-function helicsDataBufferToRawString(data::HelicsDataBuffer)::String
-	maxStringLen = helicsDataBufferStringSize(data)
+function DataBufferToRawString(data::DataBuffer)::String
+	maxStringLen = DataBufferStringSize(data)
     outputString = repeat(" ", maxStringLen)
     actualLength = Ref{Int32}(maxStringLen)
-	Lib.helicsDataBufferToRawString(data, outputString, maxStringLen, actualLength)
+	Lib.DataBufferToRawString(data, outputString, maxStringLen, actualLength)
 	return outputString[1:actualLength[]]
 end
 
 """
-Get data from HelicsDataBuffer as a HELICS.HelicsTime.
+Get data from DataBuffer as a HELICS.HelicsTime.
 
 # Arguments
 
-- `data`: the HelicsDataBuffer
+- `data`: the DataBuffer
 
 # Returns
 
 - Float64
 """
-function helicsDataBufferToTime(data::HelicsDataBuffer)::Float64
-	return Lib.helicsDataBufferToTime(data)
+function DataBufferToTime(data::DataBuffer)::Float64
+	return Lib.DataBufferToTime(data)
 end
 
 """
-Get data from HelicsDataBuffer as a complex.
+Get data from DataBuffer as a complex.
 
 # Arguments
 
-- `data`: the HelicsDataBuffer
+- `data`: the DataBuffer
 
 # Returns
 
 - ComplexF64
 """
-function helicsDataBufferToComplex(data::HelicsDataBuffer)::ComplexF64
+function DataBufferToComplex(data::DataBuffer)::ComplexF64
 	real = Ref{Float64}(0)
     imag = Ref{Float64}(0)
-    Lib.helicsDataBufferToComplex(data, real, imag)
+    Lib.DataBufferToComplex(data, real, imag)
     return real[] + im * imag[]
 end
 
 """
-Get HelicsComplex data from HelicsDataBuffer.
+Get HelicsComplex data from DataBuffer.
 
 # Arguments
 
-- `data`: the HelicsDataBuffer
+- `data`: the DataBuffer
 
 # Returns
 
 - ComplexF64
 """
-function helicsDataBufferToComplexObject(data::HelicsDataBuffer)::ComplexF64
-    r = Lib.helicsDataBufferToComplexObject(data, real, imag)
+function DataBufferToComplexObject(data::DataBuffer)::ComplexF64
+    r = Lib.DataBufferToComplexObject(data, real, imag)
     return r.real + im * r.imag
 end
 
 """
-Get size of vector data size from HelicsDataBuffer.
+Get size of vector data size from DataBuffer.
 
 # Arguments
 
-- `data`: the HelicsDataBuffer
+- `data`: the DataBuffer
 
 # Returns
 
 - Int
 """
-function helicsDataBufferVectorSize(data::HelicsDataBuffer)::Int
-	return Lib.helicsDataBufferVectorSize(data)
+function DataBufferVectorSize(data::DataBuffer)::Int
+	return Lib.DataBufferVectorSize(data)
 end
 
 """
-Get vector of doubles from HelicsDataBuffer.
+Get vector of doubles from DataBuffer.
 
 # Arguments
 
-- `data`: the HelicsDataBuffer
+- `data`: the DataBuffer
 
 # Returns
 
 - Vector{Float64}
 """
-function helicsDataBufferToVector(data::HelicsDataBuffer)::Vector{Float64}
-	maxlen = Cint(helicsDataBufferVectorSize(data))
+function DataBufferToVector(data::DataBuffer)::Vector{Float64}
+	maxlen = Cint(DataBufferVectorSize(data))
 	values = Vector{Float64}(undef, maxlen)
 	actualSize = Ref(maxlen)
-    Lib.helicsDataBufferToVector(data, values, maxlen, actualSize)
+    Lib.DataBufferToVector(data, values, maxlen, actualSize)
     return values[1:actualSize[]]
 end
 
 """
-Get vector of complex values from HelicsDataBuffer.
+Get vector of complex values from DataBuffer.
 
 # Arguments
 
-- `data`: the HelicsDataBuffer
+- `data`: the DataBuffer
 
 # Returns
 
 - Vector{ComplexF64}
 """
-function helicsDataBufferToComplexVector(data::HelicsDataBuffer)::Vector{ComplexF64}
-	maxlen = Cint(helicsDataBufferVectorSize(data))
+function DataBufferToComplexVector(data::DataBuffer)::Vector{ComplexF64}
+	maxlen = Cint(DataBufferVectorSize(data))
 	doubleValues = Vector{Float64}(undef, maxlen)
 	actualSize = Ref(maxlen)
-    Lib.helicsDataBufferToComplexVector(data, doubleValues, maxlen, actualSize)
+    Lib.DataBufferToComplexVector(data, doubleValues, maxlen, actualSize)
 	complexValues = Vector{ComplexF64}(undef, 0)
 	for i = 1:actualSize[]/2
 		push!(complexValues, doubleValues[2*i-1] + im * doubleValues[2*i])
@@ -565,39 +565,39 @@ function helicsDataBufferToComplexVector(data::HelicsDataBuffer)::Vector{Complex
 end
 
 """
-Get a named point from HelicsDataBuffer.
+Get a named point from DataBuffer.
 
 # Arguments
 
-- `data`: the HelicsDataBuffer
+- `data`: the DataBuffer
 
 # Returns
 
 - Tuple{String, Float64}
 """
-function helicsDataBufferToNamedPoint(data::HelicsDataBuffer)::Tuple{String, Float64}
-	maxStringLength = helicsDataBufferStringSize(data)
+function DataBufferToNamedPoint(data::DataBuffer)::Tuple{String, Float64}
+	maxStringLength = DataBufferStringSize(data)
 	outputString = repeat(" ", maxStringLength + 2)
 	actualLength = Ref{Int32}(maxStringLength)
 	val = Ref{Float64}(0.0)
-    Lib.helicsDataBufferToNamedPoint(data, outputString, maxStringLength, actualLength, val)
+    Lib.DataBufferToNamedPoint(data, outputString, maxStringLength, actualLength, val)
     return outputString[1:actualLength[]-1], val[]
 end
 
 """
-change data type of HelicsDataBuffer.
+change data type of DataBuffer.
 
 # Arguments
 
-- `data`: the HelicsDataBuffer
+- `data`: the DataBuffer
 -`newDataType`: integer of data type you want to change data to.
 
 # Returns
 
 - Bool, true if successful otherwise false
 """
-function helicsDataBufferConvertToType(data::HelicsDataBuffer, newDataType::Int)::Bool
-    return Lib.helicsDataBufferConvertToType(data, newDataType) == 1 ? true : false
+function DataBufferConvertToType(data::DataBuffer, newDataType::Int)::Bool
+    return Lib.DataBufferConvertToType(data, newDataType) == 1 ? true : false
 end
 
 """
@@ -5333,9 +5333,9 @@ Add a pair of custom callbacks for running a translator operation in the C share
 # Arguments
 
 - `translator`: the [`Translator`](@ref) to set a callback for.
-- `toMessageCall`: A callback with signature void(HelicsDataBuffer, HelicsMessage, void *);
+- `toMessageCall`: A callback with signature void(DataBuffer, HelicsMessage, void *);
                    The function arguments are raw Value data, the messageObject to fill out and a pointer to user data.
-- `toValueCall`: A callback with signature void(HelicsMessage, HelicsDataBuffer, void *);
+- `toValueCall`: A callback with signature void(HelicsMessage, DataBuffer, void *);
  *                 The function arguments are a message object, the data buffer to fill out and a pointer to user data.
 - `userdata`: a point to user data that is passed to the function when executing
 """

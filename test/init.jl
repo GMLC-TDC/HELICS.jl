@@ -1,5 +1,5 @@
 function createBroker(number=1)
-    initstring = "-f $number --name=mainbroker --loglevel=0"
+    initstring = "-f $number --name=mainbroker --loglevel=ERROR"
     @test_throws h.HELICSErrorInvalidArgument broker = h.helicsCreateBroker("mq", "", initstring)
     broker = h.helicsCreateBroker("zmq", "", initstring)
     @test broker isa h.Broker
@@ -55,7 +55,7 @@ function destroyBroker(broker)
 end
 
 function destroyFederate(fed, fedinfo, broker=nothing)
-    h.helicsFederateFinalize(fed)
+    h.helicsFederateDisconnect(fed)
     state = h.helicsFederateGetState(fed)
     if broker !== nothing
         while (h.helicsBrokerIsConnected(broker))

@@ -3,7 +3,7 @@ include("init.jl")
 @testset "Broker API tests" begin
 
     @test h.helicsIsCoreTypeAvailable("zmq") == 1
-    broker1 = h.helicsCreateBroker("zmq", "broker1", "--federates 3 --loglevel 1")
+    broker1 = h.helicsCreateBroker("zmq", "broker1", "-f 3 --loglevel ERROR")
     broker2 = h.helicsBrokerClone(broker1)
     address_string = h.helicsBrokerGetAddress(broker1)
     occursin("tcp://127.0.0.1:23404", address_string)
@@ -61,7 +61,7 @@ end
 @testset "Logging API tests" begin
 
     fi = h.helicsCreateFederateInfo()
-    broker = h.helicsCreateBroker("zmq", "broker", "--federates 1 --loglevel 1")
+    broker = h.helicsCreateBroker("zmq", "broker", "--federates 1 --loglevel ERROR")
     h.helicsFederateInfoSetCoreInitString(fi, "--federates 1")
 
     h.helicsFederateInfoSetIntegerProperty(fi, h.HELICS_PROPERTY_INT_LOG_LEVEL, 5)
@@ -82,7 +82,7 @@ end
     h.helicsFederateLogInfoMessage(fed, "test MEXAGE")
     h.helicsFederateRequestNextStep(fed)
 
-    h.helicsFederateFinalize(fed)
+    h.helicsFederateDisconnect(fed)
 
     @test userdata.x == 9
 
@@ -120,7 +120,7 @@ end
             h.HELICS_PROPERTY_TIME_OFFSET, 0.1)
     h.helicsFederateInfoFree(fedInfo1)
 
-    broker3 = h.helicsCreateBroker("zmq", "broker3", "--federates 1 --loglevel 1")
+    broker3 = h.helicsCreateBroker("zmq", "broker3", "--federates 1 --loglevel ERROR")
     fedInfo2 = h.helicsCreateFederateInfo()
     coreInitString = "--federates 1"
     h.helicsFederateInfoSetCoreInitString(fedInfo2, coreInitString)
@@ -214,21 +214,21 @@ end
     h.helicsFederateEnterExecutingModeAsync(fed1)
     h.helicsFederateEnterExecutingModeComplete(fed1)
 
-    mesg1 = h.helicsFederateCreateMessageObject(fed1)
+    mesg1 = h.helicsFederateCreateMessage(fed1)
     h.helicsMessageSetString(mesg1, "Hello")
     h.helicsMessageSetSource(mesg1, "fed1/Ep1")
     h.helicsMessageSetOriginalSource(mesg1, "fed1/Ep1")
     h.helicsMessageSetDestination(mesg1, "Ep2")
     h.helicsMessageSetOriginalDestination(mesg1, "Ep2")
 
-    h.helicsEndpointSendMessageObject(ep1, mesg1)
-    mesg1 = h.helicsFederateCreateMessageObject(fed1)
+    h.helicsEndpointSendMessage(ep1, mesg1)
+    mesg1 = h.helicsFederateCreateMessage(fed1)
     h.helicsMessageSetString(mesg1, "There")
     h.helicsMessageSetSource(mesg1, "fed1/Ep1")
     h.helicsMessageSetOriginalSource(mesg1, "fed1/Ep1")
     h.helicsMessageSetDestination(mesg1, "Ep2")
     h.helicsMessageSetOriginalDestination(mesg1, "Ep2")
-    h.helicsEndpointSendMessageObject(ep1, mesg1)
+    h.helicsEndpointSendMessage(ep1, mesg1)
     h.helicsEndpointSetDefaultDestination(ep2, "fed1/Ep1")
 
     ep1NameString = h.helicsEndpointGetName(ep1)
@@ -237,7 +237,7 @@ end
     @test ep1NameString == "fed1/Ep1"
     @test ep1TypeString == "string"
 
-    coreFed1 = h.helicsFederateGetCoreObject(fed1)
+    coreFed1 = h.helicsFederateGetCore(fed1)
 
     fed1Time = h.helicsFederateGetCurrentTime(fed1)
     @test fed1Time == 0.0
@@ -267,12 +267,12 @@ end
 
     returnTime = h.helicsFederateRequestTimeComplete(fed1)
     @test returnTime == 1.0
-    ep2MsgCount = h.helicsEndpointPendingMessages(ep2)
+    ep2MsgCount = h.helicsEndpointPendingMessageCount(ep2)
     @test ep2MsgCount == 2
     ep2HasMsg = h.helicsEndpointHasMessage(ep2)
     @test ep2HasMsg == 1
 
-    msg2 = h.helicsEndpointGetMessageObject(ep2)
+    msg2 = h.helicsEndpointGetMessage(ep2)
     @test h.helicsMessageGetTime(msg2) == 1.0
     @test h.helicsMessageGetString(msg2) == "Hello"
     @test h.helicsMessageGetOriginalSource(msg2) == "fed1/Ep1"
@@ -280,12 +280,12 @@ end
     @test h.helicsMessageGetDestination(msg2) == "Ep2"
     @test h.helicsMessageGetOriginalDestination(msg2) == "Ep2"
 
-    fed1MsgCount = h.helicsFederatePendingMessages(fed1)
+    fed1MsgCount = h.helicsFederatePendingMessageCount(fed1)
     @test fed1MsgCount == 1
 
     @test h.helicsFederateHasMessage(fed1) == 1
 
-    msg3 = h.helicsFederateGetMessageObject(fed1)
+    msg3 = h.helicsFederateGetMessage(fed1)
     @test h.helicsMessageGetTime(msg3) == 1.0
     @test h.helicsMessageGetString(msg3) == "There"
     @test h.helicsMessageGetOriginalSource(msg3) == "fed1/Ep1"
@@ -313,10 +313,10 @@ end
 
     @test_broken h.helicsInputGetVector(sub6) == [4.5, 56.5]
 
-    h.helicsFederateFinalize(fed1)
-    h.helicsFederateFinalize(fed2)
+    h.helicsFederateDisconnect(fed1)
+    h.helicsFederateDisconnect(fed2)
     h.helicsFederateFree(fed1)
-    h.helicsFederateFinalize(fed2)
+    h.helicsFederateDisconnect(fed2)
     h.helicsFederateFree(fed2)
     h.helicsFederateInfoFree(fedInfo2)
     h.helicsBrokerDisconnect(broker3)

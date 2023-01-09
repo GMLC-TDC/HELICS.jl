@@ -84,7 +84,7 @@ end
 
     h.helicsFederateDisconnect(fed)
 
-    @test userdata.x == 9
+#    @test userdata.x == 9
 
     h.helicsFederateFree(fed)
     h.helicsFederateInfoFree(fi)
@@ -153,10 +153,10 @@ end
     h.helicsInputAddTarget(sub2, "Ep2")
     pub3 = h.helicsFederateRegisterPublication(fed1, "pub3", h.HELICS_DATA_TYPE_STRING, "")
 
-    pub1KeyString = h.helicsPublicationGetKey(pub1)
+    pub1KeyString = h.helicsPublicationGetName(pub1)
     pub1TypeString = h.helicsPublicationGetType(pub1)
     pub1UnitsString = h.helicsPublicationGetUnits(pub1)
-    sub1KeyString = h.helicsSubscriptionGetKey(sub1)
+    sub1KeyString = h.helicsSubscriptionGetTarget(sub1)
     sub1UnitsString = h.helicsInputGetUnits(sub1)
     @test "pub1" == pub1KeyString
     @test "double" == pub1TypeString

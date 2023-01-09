@@ -948,7 +948,7 @@ The message is empty and isValid will return false since there is no data associ
 - a [`Message`](@ref) object containing the message data
 """
 function helicsFederateCreateMessage(fed::Federate)::Message
-    return Lib.helicsFederateCreateMessage(fed)
+    return @invoke_and_check Lib.helicsFederateCreateMessage(fed)
 end
 
 """

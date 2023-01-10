@@ -1,21 +1,8 @@
 {
-  "coreinit": "--autobroker",
-  "corename": "the name of the core",
-  "coretype": "inproc",
-  "globals": [
-    [
-      "global1",
-      "this is a global1 value"
-    ],
-    [
-      "global2",
-      "this is another global value"
-    ]
-  ],
   "input_delay": 0,
   "inputs": [
     {
-      "key": "ipt2",
+      "name": "ipt2",
       "required": true,
       "target": "pub1",
       "type": "double"
@@ -33,12 +20,12 @@
     {
       "global": true,
       "info": "this is an information string for use by the application",
-      "key": "pub1",
+      "name": "pub1",
       "type": "double",
       "unit": "m"
     },
     {
-      "key": "pub2",
+      "name": "pub2",
       "type": "double"
     }
   ],
@@ -46,12 +33,12 @@
   "source_only": false,
   "subscriptions": [
     {
-      "key": "pub1",
+      "target": "pub1",
       "required": true
     },
     {
       "info": "this is an information string for use by the application",
-      "key": "fedName/pub2",
+      "target": "fedName/pub2",
       "shortcut": "pubshortcut"
     }
   ],

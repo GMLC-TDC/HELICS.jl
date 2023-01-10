@@ -36,8 +36,8 @@ Check if [`DataBuffer`](@ref) is valid
 
 - a boolean
 """
-function DataBufferIsValid(data::DataBuffer)::Bool
-    return Lib.DataBufferIsValid(data) == 1 ? true : false
+function helicsDataBufferIsValid(data::DataBuffer)::Bool
+    return Lib.helicsDataBufferIsValid(data) == 1 ? true : false
 end
 
 """
@@ -65,8 +65,8 @@ Free a [`DataBuffer`](@ref)
 
 - `data`: the [`DataBuffer`](@ref)
 """
-function DataBufferFree(data::DataBuffer)
-    Lib.DataBufferFree(data)
+function helicsDataBufferFree(data::DataBuffer)
+    Lib.helicsDataBufferFree(data)
 end
 
 """
@@ -80,8 +80,8 @@ Get size of a[`DataBuffer`](@ref)
 
 - Int32
 """
-function DataBufferSize(data::DataBuffer)::Int32
-	return Lib.DataBufferSize(data)
+function helicsDataBufferSize(data::DataBuffer)::Int32
+	return Lib.helicsDataBufferSize(data)
 end
 
 """
@@ -95,8 +95,8 @@ Get capacity of a[`DataBuffer`](@ref)
 
 - Int32
 """
-function DataBufferCapacity(data::DataBuffer)::Int32
-	return Lib.DataBufferCapacity(data)
+function helicsDataBufferCapacity(data::DataBuffer)::Int32
+	return Lib.helicsDataBufferCapacity(data)
 end
 
 """
@@ -110,8 +110,8 @@ Get a pointer to the raw data in a [`DataBuffer`](@ref)
 
 - Ptr{Cvoid} 
 """
-function DataBufferData(data::DataBuffer)::Ptr{Cvoid}
-	return Lib.DataBufferData(data)
+function helicsDataBufferData(data::DataBuffer)::Ptr{Cvoid}
+	return Lib.helicsDataBufferData(data)
 end
 
 """
@@ -126,8 +126,8 @@ Increase [`DataBuffer`](@ref) capacity without reallocating memory
 
 - true is successful else false
 """
-function DataBufferReserve(data::DataBuffer, newCapacity::Int32)::Bool
-	return Lib.DataBufferReserve(data) == 1 ? true : false
+function helicsDataBufferReserve(data::DataBuffer, newCapacity::Int32)::Bool
+	return Lib.helicsDataBufferReserve(data) == 1 ? true : false
 end
 
 """
@@ -141,8 +141,8 @@ copy and existing DataBuffer to and new one
 
 - [`DataBuffer`](@ref)
 """
-function DataBufferClone(data::DataBuffer)::DataBuffer
-	return Lib.DataBufferClone(data)
+function helicsDataBufferClone(data::DataBuffer)::DataBuffer
+	return Lib.helicsDataBufferClone(data)
 end
 
 """
@@ -341,8 +341,8 @@ return the an integer value of the data type of a DataBuffer.
 
 - Int data type integer value.
 """
-function DataBufferType(data::DataBuffer)::Int
-	return Lib.DataBufferType(data)
+function helicsDataBufferType(data::DataBuffer)::Int
+	return Lib.helicsDataBufferType(data)
 end
 
 """
@@ -356,8 +356,8 @@ Get data from DataBuffer as an integer.
 
 - Int64
 """
-function DataBufferToInteger(data::DataBuffer)::Int64
-	return Lib.DataBufferToInteger(data)
+function helicsDataBufferToInteger(data::DataBuffer)::Int64
+	return Lib.helicsDataBufferToInteger(data)
 end
 
 """
@@ -371,8 +371,8 @@ Get data from DataBuffer as a double.
 
 - Float64
 """
-function DataBufferToDouble(data::DataBuffer)::Float64
-	return Lib.DataBufferToDouble(data)
+function helicsDataBufferToDouble(data::DataBuffer)::Float64
+	return Lib.helicsDataBufferToDouble(data)
 end
 
 """
@@ -386,8 +386,8 @@ Get data from DataBuffer as a boolean.
 
 - Bool
 """
-function DataBufferToBoolean(data::DataBuffer)::Bool
-	return Lib.DataBufferToBoolean(data) == 1 ? true : false
+function helicsDataBufferToBoolean(data::DataBuffer)::Bool
+	return Lib.helicsDataBufferToBoolean(data) == 1 ? true : false
 end
 
 """
@@ -401,8 +401,8 @@ Get data from DataBuffer as a single char.
 
 - Char
 """
-function DataBufferToChar(data::DataBuffer)::Char
-	return Lib.DataBufferToChar(data)
+function helicsDataBufferToChar(data::DataBuffer)::Char
+	return Lib.helicsDataBufferToChar(data)
 end
 
 """
@@ -416,8 +416,8 @@ Get size of string data size from DataBuffer.
 
 - Int
 """
-function DataBufferStringSize(data::DataBuffer)::Int
-	return Lib.DataBufferStringSize(data)
+function helicsDataBufferStringSize(data::DataBuffer)::Int
+	return Lib.helicsDataBufferStringSize(data)
 end
 
 """
@@ -431,11 +431,11 @@ Get string data from DataBuffer.
 
 - String
 """
-function DataBufferToString(data::DataBuffer)::String
+function helicsDataBufferToString(data::DataBuffer)::String
 	maxStringLen = DataBufferStringSize(data)
     outputString = repeat(" ", maxStringLen + 2)
     actualLength = Ref{Int32}(maxStringLen)
-	Lib.DataBufferToString(data, outputString, maxStringLen, actualLength)
+	Lib.helicsDataBufferToString(data, outputString, maxStringLen, actualLength)
 	return outputString[1:actualLength[]-1]
 end
 
@@ -450,11 +450,11 @@ Get raw string data from DataBuffer.
 
 - String
 """
-function DataBufferToRawString(data::DataBuffer)::String
+function helicsDataBufferToRawString(data::DataBuffer)::String
 	maxStringLen = DataBufferStringSize(data)
     outputString = repeat(" ", maxStringLen)
     actualLength = Ref{Int32}(maxStringLen)
-	Lib.DataBufferToRawString(data, outputString, maxStringLen, actualLength)
+	Lib.helicsDataBufferToRawString(data, outputString, maxStringLen, actualLength)
 	return outputString[1:actualLength[]]
 end
 
@@ -469,8 +469,8 @@ Get data from DataBuffer as a HELICS.HelicsTime.
 
 - Float64
 """
-function DataBufferToTime(data::DataBuffer)::Float64
-	return Lib.DataBufferToTime(data)
+function helicsDataBufferToTime(data::DataBuffer)::Float64
+	return Lib.helicsDataBufferToTime(data)
 end
 
 """
@@ -484,10 +484,10 @@ Get data from DataBuffer as a complex.
 
 - ComplexF64
 """
-function DataBufferToComplex(data::DataBuffer)::ComplexF64
+function helicsDataBufferToComplex(data::DataBuffer)::ComplexF64
 	real = Ref{Float64}(0)
     imag = Ref{Float64}(0)
-    Lib.DataBufferToComplex(data, real, imag)
+    Lib.helicsDataBufferToComplex(data, real, imag)
     return real[] + im * imag[]
 end
 
@@ -502,8 +502,8 @@ Get HelicsComplex data from DataBuffer.
 
 - ComplexF64
 """
-function DataBufferToComplexObject(data::DataBuffer)::ComplexF64
-    r = Lib.DataBufferToComplexObject(data, real, imag)
+function helicsDataBufferToComplexObject(data::DataBuffer)::ComplexF64
+    r = Lib.helicsDataBufferToComplexObject(data, real, imag)
     return r.real + im * r.imag
 end
 
@@ -518,8 +518,8 @@ Get size of vector data size from DataBuffer.
 
 - Int
 """
-function DataBufferVectorSize(data::DataBuffer)::Int
-	return Lib.DataBufferVectorSize(data)
+function helicsDataBufferVectorSize(data::DataBuffer)::Int
+	return Lib.helicsDataBufferVectorSize(data)
 end
 
 """
@@ -533,11 +533,11 @@ Get vector of doubles from DataBuffer.
 
 - Vector{Float64}
 """
-function DataBufferToVector(data::DataBuffer)::Vector{Float64}
+function helicsDataBufferToVector(data::DataBuffer)::Vector{Float64}
 	maxlen = Cint(DataBufferVectorSize(data))
 	values = Vector{Float64}(undef, maxlen)
 	actualSize = Ref(maxlen)
-    Lib.DataBufferToVector(data, values, maxlen, actualSize)
+    Lib.helicsDataBufferToVector(data, values, maxlen, actualSize)
     return values[1:actualSize[]]
 end
 
@@ -552,11 +552,11 @@ Get vector of complex values from DataBuffer.
 
 - Vector{ComplexF64}
 """
-function DataBufferToComplexVector(data::DataBuffer)::Vector{ComplexF64}
+function helicsDataBufferToComplexVector(data::DataBuffer)::Vector{ComplexF64}
 	maxlen = Cint(DataBufferVectorSize(data))
 	doubleValues = Vector{Float64}(undef, maxlen)
 	actualSize = Ref(maxlen)
-    Lib.DataBufferToComplexVector(data, doubleValues, maxlen, actualSize)
+    Lib.helicsDataBufferToComplexVector(data, doubleValues, maxlen, actualSize)
 	complexValues = Vector{ComplexF64}(undef, 0)
 	for i = 1:actualSize[]/2
 		push!(complexValues, doubleValues[2*i-1] + im * doubleValues[2*i])
@@ -575,12 +575,12 @@ Get a named point from DataBuffer.
 
 - Tuple{String, Float64}
 """
-function DataBufferToNamedPoint(data::DataBuffer)::Tuple{String, Float64}
+function helicsDataBufferToNamedPoint(data::DataBuffer)::Tuple{String, Float64}
 	maxStringLength = DataBufferStringSize(data)
 	outputString = repeat(" ", maxStringLength + 2)
 	actualLength = Ref{Int32}(maxStringLength)
 	val = Ref{Float64}(0.0)
-    Lib.DataBufferToNamedPoint(data, outputString, maxStringLength, actualLength, val)
+    Lib.helicsDataBufferToNamedPoint(data, outputString, maxStringLength, actualLength, val)
     return outputString[1:actualLength[]-1], val[]
 end
 
@@ -596,8 +596,8 @@ change data type of DataBuffer.
 
 - Bool, true if successful otherwise false
 """
-function DataBufferConvertToType(data::DataBuffer, newDataType::Int)::Bool
-    return Lib.DataBufferConvertToType(data, newDataType) == 1 ? true : false
+function helicsDataBufferConvertToType(data::DataBuffer, newDataType::Int)::Bool
+    return Lib.helicsDataBufferConvertToType(data, newDataType) == 1 ? true : false
 end
 
 """

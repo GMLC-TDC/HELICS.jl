@@ -1,7 +1,7 @@
 using Clang
 
-#using HELICS
-#const HELICS_jll = HELICS.Lib.HELICS_jll
+using HELICS
+const HELICS_jll = HELICS.Lib.HELICS_jll
 
 # LIBCLANG_HEADERS are those headers to be wrapped.
 #const LIBHELICS_INCLUDE = [
@@ -10,7 +10,7 @@ using Clang
 #                          ]
 const LIBHELICS_INCLUDE = [normpath(joinpath(HELICS_jll.artifact_dir, "include", "helics"))]
 
-const LIBHELICS_HEADERS = String["helics.h"]
+const LIBHELICS_HEADERS = String[joinpath(HELICS_jll.artifact_dir,"include","helics","helics.h")]
 
 #for folder in LIBHELICS_INCLUDE
 #    for header in readdir(folder)

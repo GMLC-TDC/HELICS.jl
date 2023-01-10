@@ -263,10 +263,10 @@ end
     pub6Vector = [ 4.5, 56.5 ]
     h.helicsPublicationPublishVector(pub6, pub6Vector)
     sleep(0.500)
-    h.helicsFederateRequestTimeAsync(fed1, 1.0)
+    h.helicsFederateRequestTimeAsync(fed1, 5.0)
 
     returnTime = h.helicsFederateRequestTimeComplete(fed1)
-    @test returnTime == 1.0
+    @test returnTime == 5.0
     ep2MsgCount = h.helicsEndpointPendingMessageCount(ep2)
     @test ep2MsgCount == 2
     ep2HasMsg = h.helicsEndpointHasMessage(ep2)

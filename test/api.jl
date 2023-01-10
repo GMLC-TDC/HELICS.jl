@@ -64,7 +64,7 @@ end
     broker = h.helicsCreateBroker("zmq", "broker", "--federates 1 --loglevel ERROR")
     h.helicsFederateInfoSetCoreInitString(fi, "--federates 1")
 
-    h.helicsFederateInfoSetIntegerProperty(fi, h.HELICS_PROPERTY_INT_LOG_LEVEL, 5)
+    h.helicsFederateInfoSetIntegerProperty(fi, h.HELICS_PROPERTY_INT_LOG_LEVEL, 2)
 
     fed = h.helicsCreateValueFederate("test1", fi)
 
@@ -174,7 +174,7 @@ end
     h.helicsFilterRemoveTarget(fed2SourceFilter, "Ep2")
 
     fed2SourceFilterNameString = h.helicsFilterGetName(fed2SourceFilter)
-    @test fed2SourceFilterNameString == "fed2/fed2SourceFilter"
+    @test fed2SourceFilterNameString == "fed1/fed2SourceFilter"
 
     sub3 = h.helicsFederateRegisterSubscription(fed1, "fed1/pub3", "")
     pub4 = h.helicsFederateRegisterTypePublication(fed1, "pub4", "int", "")

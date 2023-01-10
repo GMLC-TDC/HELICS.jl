@@ -14,8 +14,7 @@ end
 
 function snakecase_to_camelcase(s::Symbol)
     s = String(s)
-    s = snakecase_to_camelcase(s)
-    s = replace(s, "Helics" => "HELICS")
+#    s = replace(s, "Helics" => "HELICS")
     s = Symbol(s)
 end
 

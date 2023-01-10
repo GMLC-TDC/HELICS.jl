@@ -1,6 +1,6 @@
 function createBroker(number=1)
     initstring = "-f $number --name=mainbroker --loglevel=ERROR"
-    @test_throws h.HELICS_ERROR_INVALID_ARGUMENT broker = h.helicsCreateBroker("mq", "", initstring)
+    @test_throws h.Utils.HELICS_ERROR_INVALID_ARGUMENT broker = h.helicsCreateBroker("mq", "", initstring)
     broker = h.helicsCreateBroker("zmq", "", initstring)
     @test broker isa h.Broker
     @test h.helicsBrokerIsConnected(broker) == true

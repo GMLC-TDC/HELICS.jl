@@ -62,9 +62,9 @@ end
 
     fi = h.helicsCreateFederateInfo()
     broker = h.helicsCreateBroker("zmq", "broker", "--federates 1 --loglevel ERROR")
-    h.helicsFederateInfoSetCoreInitString(fi, "--federates 1")
+    h.helicsFederateInfoSetCoreInitString(fi, "--federates 1 --loglevel SUMMARY")
 
-    h.helicsFederateInfoSetIntegerProperty(fi, h.HELICS_PROPERTY_INT_LOG_LEVEL, 2)
+#    h.helicsFederateInfoSetIntegerProperty(fi, h.HELICS_PROPERTY_INT_LOG_LEVEL, 2)
 
     fed = h.helicsCreateValueFederate("test1", fi)
 
@@ -264,10 +264,10 @@ end
     pub6Vector = [ 4.5, 56.5 ]
     h.helicsPublicationPublishVector(pub6, pub6Vector)
     sleep(0.500)
-    h.helicsFederateRequestTimeAsync(fed1, 1.0)
+    h.helicsFederateRequestTimeAsync(fed1, 2.0)
 
     returnTime = h.helicsFederateRequestTimeComplete(fed1)
-    @test returnTime == 1.0
+    @test returnTime == 2.0
     ep2MsgCount = h.helicsEndpointPendingMessageCount(ep2)
     @test ep2MsgCount == 2
     ep2HasMsg = h.helicsEndpointHasMessage(ep2)

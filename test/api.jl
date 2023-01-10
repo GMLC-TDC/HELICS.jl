@@ -84,7 +84,7 @@ end
 
     h.helicsFederateDisconnect(fed)
 
-#    @test userdata.x == 9
+    @test userdata.x == 9
 
     h.helicsFederateFree(fed)
     h.helicsFederateInfoFree(fi)
@@ -132,16 +132,17 @@ end
     fed3 = h.helicsGetFederateByName("fed1")
     h.helicsFederateSetFlagOption(fed2, 1, false)
 
-    h.helicsFederateSetTimeProperty(fed2, h.HELICS_PROPERTY_TIME_INPUT_DELAY, 1.0)
+    h.helicsFederateSetTimeProperty(fed1, h.HELICS_PROPERTY_TIME_INPUT_DELAY, 0.0)
+	h.helicsFededrateSetTimeProperty(fed1, h.HELICS_PROPERTY_TIME_OFFSET, 0.0)
     h.helicsFederateSetIntegerProperty(fed1, h.HELICS_PROPERTY_INT_LOG_LEVEL, 1)
-    h.helicsFederateSetIntegerProperty(fed2, h.HELICS_PROPERTY_INT_MAX_ITERATIONS, 100)
+    h.helicsFederateSetIntegerProperty(fed1, h.HELICS_PROPERTY_INT_MAX_ITERATIONS, 100)
     h.helicsFederateSetTimeProperty(fed2, h.HELICS_PROPERTY_TIME_OUTPUT_DELAY, 1.0)
     h.helicsFederateSetTimeProperty(fed2, h.HELICS_PROPERTY_TIME_PERIOD, 0.0)
     h.helicsFederateSetTimeProperty(fed2, h.HELICS_PROPERTY_TIME_DELTA, 1.0)
 
-    fed1CloningFilter = h.helicsFederateRegisterCloningFilter(fed1, "fed1/Ep1")
-    fed1DestinationFilter = h.helicsFederateRegisterFilter(fed1, h.HELICS_FILTER_TYPE_DELAY, "fed1DestinationFilter")
-    h.helicsFilterAddDestinationTarget(fed1DestinationFilter, "ep2")
+    fed2CloningFilter = h.helicsFederateRegisterCloningFilter(fed2, "fed2/Ep1")
+    fed2DestinationFilter = h.helicsFederateRegisterFilter(fed2, h.HELICS_FILTER_TYPE_DELAY, "fed2DestinationFilter")
+    h.helicsFilterAddDestinationTarget(fed2DestinationFilter, "ep2")
 
     ep1 = h.helicsFederateRegisterEndpoint(fed1, "Ep1", "string")
     ep2 = h.helicsFederateRegisterGlobalEndpoint(fed1, "Ep2", "string")
@@ -164,16 +165,16 @@ end
     @test "pub1" == sub1KeyString
     @test "" == sub1UnitsString
 
-    fed1SourceFilter = h.helicsFederateRegisterFilter(fed1,
-            h.HELICS_FILTER_TYPE_DELAY, "fed1SourceFilter")
-    h.helicsFilterAddSourceTarget(fed1SourceFilter, "Ep2")
-    h.helicsFilterAddDestinationTarget(fed1SourceFilter, "fed1/Ep1")
-    h.helicsFilterRemoveTarget(fed1SourceFilter, "fed1/Ep1")
-    h.helicsFilterAddSourceTarget(fed1SourceFilter, "Ep2")
-    h.helicsFilterRemoveTarget(fed1SourceFilter, "Ep2")
+    fed2SourceFilter = h.helicsFederateRegisterFilter(fed2,
+            h.HELICS_FILTER_TYPE_DELAY, "fed2SourceFilter")
+    h.helicsFilterAddSourceTarget(fed2SourceFilter, "Ep2")
+    h.helicsFilterAddDestinationTarget(fed2SourceFilter, "fed2/Ep1")
+    h.helicsFilterRemoveTarget(fed2SourceFilter, "fed2/Ep1")
+    h.helicsFilterAddSourceTarget(fed2SourceFilter, "Ep2")
+    h.helicsFilterRemoveTarget(fed2SourceFilter, "Ep2")
 
-    fed1SourceFilterNameString = h.helicsFilterGetName(fed1SourceFilter)
-    @test fed1SourceFilterNameString == "fed1/fed1SourceFilter"
+    fed2SourceFilterNameString = h.helicsFilterGetName(fed2SourceFilter)
+    @test fed2SourceFilterNameString == "fed2/fed2SourceFilter"
 
     sub3 = h.helicsFederateRegisterSubscription(fed1, "fed1/pub3", "")
     pub4 = h.helicsFederateRegisterTypePublication(fed1, "pub4", "int", "")
@@ -263,10 +264,10 @@ end
     pub6Vector = [ 4.5, 56.5 ]
     h.helicsPublicationPublishVector(pub6, pub6Vector)
     sleep(0.500)
-    h.helicsFederateRequestTimeAsync(fed1, 5.0)
+    h.helicsFederateRequestTimeAsync(fed1, 1.0)
 
     returnTime = h.helicsFederateRequestTimeComplete(fed1)
-    @test returnTime == 5.0
+    @test returnTime == 1.0
     ep2MsgCount = h.helicsEndpointPendingMessageCount(ep2)
     @test ep2MsgCount == 2
     ep2HasMsg = h.helicsEndpointHasMessage(ep2)
@@ -308,7 +309,7 @@ end
     @test_broken h.helicsInputGetBoolean(sub5) == 1
     @test_broken h.helicsInputGetString(sub3) == "Mayhem"
 
-    sub3ValueSize = h.helicsInputGetRawValueSize(sub3)
+    sub3ValueSize = h.helicsInputGetStringSize(sub3)
     @test_broken sub3ValueSize == 6
 
     @test_broken h.helicsInputGetVector(sub6) == [4.5, 56.5]

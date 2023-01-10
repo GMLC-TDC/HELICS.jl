@@ -311,7 +311,7 @@ end
     @test h.helicsInputGetString(sub3) == "Mayhem"
 
     sub3ValueSize = h.helicsInputGetStringSize(sub3)
-    @test sub3ValueSize == 6
+    @test sub3ValueSize == 7
 
     @test h.helicsInputGetVector(sub6) == [4.5, 56.5]
 

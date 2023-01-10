@@ -133,7 +133,7 @@ end
     h.helicsFederateSetFlagOption(fed2, 1, false)
 
     h.helicsFederateSetTimeProperty(fed1, h.HELICS_PROPERTY_TIME_INPUT_DELAY, 0.0)
-	h.helicsFededrateSetTimeProperty(fed1, h.HELICS_PROPERTY_TIME_OFFSET, 0.0)
+	h.helicsFederateSetTimeProperty(fed1, h.HELICS_PROPERTY_TIME_OFFSET, 0.0)
     h.helicsFederateSetIntegerProperty(fed1, h.HELICS_PROPERTY_INT_LOG_LEVEL, 1)
     h.helicsFederateSetIntegerProperty(fed1, h.HELICS_PROPERTY_INT_MAX_ITERATIONS, 100)
     h.helicsFederateSetTimeProperty(fed2, h.HELICS_PROPERTY_TIME_OUTPUT_DELAY, 1.0)

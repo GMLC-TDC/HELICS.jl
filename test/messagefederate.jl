@@ -127,10 +127,10 @@ end
     @test granted_time == 1.0
     @test complete_time == 1.0
 
-    res = h.helicsEndpointPendingMessages(epid2)
+    res = h.helicsEndpointPendingMessageCount(epid2)
     @test res == 3
 
-    res = h.helicsFederatePendingMessages(mFed2)
+    res = h.helicsFederatePendingMessageCount(mFed2)
     @test res == 3
 
     @test h.helicsEndpointGetDefaultDestination(epid1) == "ep2"

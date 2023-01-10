@@ -62,7 +62,7 @@ end
 
     data = "random-data"
 
-    h.helicsEndpointSendEventRaw(epid1, "ep2", data, 1.0)
+    h.helicsEndpointSendBytes(epid1, "ep2", data, 1.0)
 
     granted_time = h.helicsFederateRequestTime(mFed, 2.0)
     @test granted_time == 1.0
@@ -76,12 +76,12 @@ end
     res = h.helicsEndpointHasMessage(epid2)
     @test res == true
 
-    message = h.helicsEndpointGetMessageObject(epid2)
+    message = h.helicsEndpointGetMessage(epid2)
 
     @test h.helicsMessageGetMessageID(message) == 55
     @test h.helicsMessageIsValid(message) == true
     @test h.helicsMessageGetString(message) == "random-data"
-    @test h.helicsMessageGetRawDataSize(message) == 11
+    @test h.helicsMessageGetByteCount(message) == 11
     @test h.helicsMessageGetOriginalDestination(message) == ""
     @test h.helicsMessageGetOriginalSource(message) == "TestA Federate/ep1"
     @test h.helicsMessageGetSource(message) == "TestA Federate/ep1"
@@ -116,9 +116,9 @@ end
 
     h.helicsEndpointSetDefaultDestination(epid1, "ep2");
 
-    h.helicsEndpointSendMessageRaw(epid1, "", "a")
-    h.helicsEndpointSendMessageRaw(epid1, "", "a")
-    h.helicsEndpointSendMessageRaw(epid1, "", "a")
+    h.helicsEndpointSendBytes(epid1, "a")
+    h.helicsEndpointSendBytes(epid1, "a")
+    h.helicsEndpointSendBytes(epid1, "a")
 
     h.helicsFederateRequestTimeAsync(mFed1, 1.0)
     granted_time = h.helicsFederateRequestTime(mFed2, 1.0)
@@ -158,13 +158,13 @@ end
 
     @test h.helicsFederateGetState(mFed1) == h.HELICS_STATE_EXECUTION
 
-    msg = h.helicsFederateCreateMessageObject(mFed1)
+    msg = h.helicsFederateCreateMessage(mFed1)
     h.helicsMessageSetDestination(msg, "ep2")
     h.helicsMessageGetDestination(msg) == "ep2"
     h.helicsMessageSetData(msg, repeat("a", 500))
     h.helicsMessageSetTime(msg, 0.0)
 
-    h.helicsEndpointSendMessageObject(epid1, msg)
+    h.helicsEndpointSendMessage(epid1, msg)
     time = h.helicsFederateRequestTime(mFed1, 1.0)
     @test time == 1.0
 
@@ -172,12 +172,12 @@ end
     @test h.helicsEndpointHasMessage(epid1) == false
     @test h.helicsEndpointHasMessage(epid2) == true
 
-    msg = h.helicsEndpointGetMessageObject(epid2)
-    @test h.helicsMessageGetRawDataSize(msg) == 500
-    # @show h.helicsMessageGetRawData(msg)
+    msg = h.helicsEndpointGetMessage(epid2)
+    @test h.helicsMessageGetByteCount(msg) == 500
+    # @show h.helicsMessageGeBytes(msg)
     @test_broken false
     # segfaults
-    rdata = h.helicsMessageGetRawDataPointer(msg)
+    rdata = h.helicsMessageGetBytesPointer(msg)
     @test Char(unsafe_load(Ptr{Cchar}(rdata), 245)) == 'a'
 
     h.helicsFederateFinalize(mFed1)
@@ -228,7 +228,7 @@ end
     @test h.helicsFederateGetFlagOption(vFed1, h.HELICS_FLAG_IGNORE_TIME_MISMATCH_WARNINGS) == true
     @test h.helicsFederateGetFlagOption(vFed2, h.HELICS_FLAG_IGNORE_TIME_MISMATCH_WARNINGS) == true
 
-    h.helicsEndpointSendMessageRaw(ept1, "e2", "test1")
+    h.helicsEndpointSendBytesTo(ept1, "test1", "e2")
     h.helicsFederateRequestTimeAsync(vFed1, 1.9)
     gtime = h.helicsFederateRequestTimeComplete(vFed2)
     @test gtime >= 1.1 # the message should show up at the next available time point after the impact window
@@ -239,7 +239,7 @@ end
     tres = h.helicsFederateGetTimeProperty(vFed1, h.HELICS_PROPERTY_TIME_PERIOD)
     @test tres == 0.1
 
-    # m = h.helicsEndpointGetMessageObject(ept1)
+    # m = h.helicsEndpointGetMessage(ept1)
     # @show h.helicsMessageGetRawData(m)
     # TODO: null pointer received from C
     @test_broken false

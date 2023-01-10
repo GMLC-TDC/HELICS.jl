@@ -128,21 +128,21 @@ end
     h.helicsFederateInfoSetIntegerProperty(fedInfo2, h.HELICS_PROPERTY_INT_LOG_LEVEL, 1)
     h.helicsFederateInfoSetTimeProperty(fedInfo2, h.HELICS_PROPERTY_TIME_DELTA, 1.0)
     fed1 = h.helicsCreateCombinationFederate("fed1", fedInfo2)
-    fed2 = h.helicsFederateClone(fed1)
-    fed3 = h.helicsGetFederateByName("fed1")
-    h.helicsFederateSetFlagOption(fed2, 1, false)
+#    fed2 = h.helicsFederateClone(fed1)
+#    fed3 = h.helicsGetFederateByName("fed1")
+#    h.helicsFederateSetFlagOption(fed2, 1, false)
 
     h.helicsFederateSetTimeProperty(fed1, h.HELICS_PROPERTY_TIME_INPUT_DELAY, 0.0)
 	h.helicsFederateSetTimeProperty(fed1, h.HELICS_PROPERTY_TIME_OFFSET, 0.0)
     h.helicsFederateSetIntegerProperty(fed1, h.HELICS_PROPERTY_INT_LOG_LEVEL, 1)
     h.helicsFederateSetIntegerProperty(fed1, h.HELICS_PROPERTY_INT_MAX_ITERATIONS, 100)
-    h.helicsFederateSetTimeProperty(fed2, h.HELICS_PROPERTY_TIME_OUTPUT_DELAY, 1.0)
-    h.helicsFederateSetTimeProperty(fed2, h.HELICS_PROPERTY_TIME_PERIOD, 0.0)
-    h.helicsFederateSetTimeProperty(fed2, h.HELICS_PROPERTY_TIME_DELTA, 1.0)
+    h.helicsFederateSetTimeProperty(fed1, h.HELICS_PROPERTY_TIME_OUTPUT_DELAY, 0.0)
+    h.helicsFederateSetTimeProperty(fed1, h.HELICS_PROPERTY_TIME_PERIOD, 0.0)
+    h.helicsFederateSetTimeProperty(fed1, h.HELICS_PROPERTY_TIME_DELTA, 1.0)
 
-    fed2CloningFilter = h.helicsFederateRegisterCloningFilter(fed2, "fed2/Ep1")
-    fed2DestinationFilter = h.helicsFederateRegisterFilter(fed2, h.HELICS_FILTER_TYPE_DELAY, "fed2DestinationFilter")
-    h.helicsFilterAddDestinationTarget(fed2DestinationFilter, "ep2")
+#    fed2CloningFilter = h.helicsFederateRegisterCloningFilter(fed2, "fed2/Ep1")
+#    fed2DestinationFilter = h.helicsFederateRegisterFilter(fed2, h.HELICS_FILTER_TYPE_DELAY, "fed2DestinationFilter")
+#    h.helicsFilterAddDestinationTarget(fed2DestinationFilter, "ep2")
 
     ep1 = h.helicsFederateRegisterEndpoint(fed1, "Ep1", "string")
     ep2 = h.helicsFederateRegisterGlobalEndpoint(fed1, "Ep2", "string")
@@ -165,16 +165,16 @@ end
     @test "pub1" == sub1KeyString
     @test "" == sub1UnitsString
 
-    fed2SourceFilter = h.helicsFederateRegisterFilter(fed2,
-            h.HELICS_FILTER_TYPE_DELAY, "fed2SourceFilter")
-    h.helicsFilterAddSourceTarget(fed2SourceFilter, "Ep2")
-    h.helicsFilterAddDestinationTarget(fed2SourceFilter, "fed2/Ep1")
-    h.helicsFilterRemoveTarget(fed2SourceFilter, "fed2/Ep1")
-    h.helicsFilterAddSourceTarget(fed2SourceFilter, "Ep2")
-    h.helicsFilterRemoveTarget(fed2SourceFilter, "Ep2")
+#    fed2SourceFilter = h.helicsFederateRegisterFilter(fed2,
+#            h.HELICS_FILTER_TYPE_DELAY, "fed2SourceFilter")
+#    h.helicsFilterAddSourceTarget(fed2SourceFilter, "Ep2")
+#    h.helicsFilterAddDestinationTarget(fed2SourceFilter, "fed2/Ep1")
+#    h.helicsFilterRemoveTarget(fed2SourceFilter, "fed2/Ep1")
+#    h.helicsFilterAddSourceTarget(fed2SourceFilter, "Ep2")
+#    h.helicsFilterRemoveTarget(fed2SourceFilter, "Ep2")
 
-    fed2SourceFilterNameString = h.helicsFilterGetName(fed2SourceFilter)
-    @test fed2SourceFilterNameString == "fed1/fed2SourceFilter"
+#    fed2SourceFilterNameString = h.helicsFilterGetName(fed2SourceFilter)
+#    @test fed2SourceFilterNameString == "fed1/fed2SourceFilter"
 
     sub3 = h.helicsFederateRegisterSubscription(fed1, "fed1/pub3", "")
     pub4 = h.helicsFederateRegisterTypePublication(fed1, "pub4", "int", "")

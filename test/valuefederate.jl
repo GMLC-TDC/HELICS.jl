@@ -237,7 +237,7 @@ end
     @test tmp == "volts"
 
     #this one should be invalid
-    @test_throws h.HELICSErrorInvalidArgument pubid_d = h.helicsFederateGetPublicationByIndex(vFed, 5)
+    @test_throws h.Utils.HELICS_ERROR_INVALID_ARGUMENT pubid_d = h.helicsFederateGetPublicationByIndex(vFed, 5)
 
     h.helicsFederateFinalize(vFed)
 

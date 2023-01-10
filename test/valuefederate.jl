@@ -577,7 +577,7 @@ end
     @test h.helicsPublicationGetInfo(pubid1) == "pub1_test"
     @test h.helicsPublicationGetInfo(pubid2) == "pub2_test"
 
-    cr = h.helicsFederateGetCoreObject(vFed)
+    cr = h.helicsFederateGetCore(vFed)
     h.helicsFederateFinalize(vFed)
 
     wait = h.helicsCoreWaitForDisconnect(cr, 70)
@@ -593,6 +593,7 @@ end
 
 @testset "ValueFederate test file load" begin
 
+	broker = createBroker()
     filename = joinpath(@__DIR__, "valuefederate.json")
     vFed = h.helicsCreateValueFederateFromConfig(filename)
 
@@ -604,5 +605,6 @@ end
 
     h.helicsFederateFinalize(vFed)
     h.helicsFederateFree(vFed)
+	destroyBroker(broker)
 
 end

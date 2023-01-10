@@ -198,7 +198,7 @@ end
     h.helicsInputSetDefaultString(sub3, "default")
     sub6Default = [ 3.4, 90.9, 4.5 ]
     h.helicsInputSetDefaultVector(sub6, sub6Default)
-    h.helicsEndpointSubscribe(ep2, "fed1/pub3")
+#    h.helicsEndpointSubscribe(ep2, "fed1/pub3")
     h.helicsFederateEnterInitializingModeAsync(fed1)
     rs = h.helicsFederateIsAsyncOperationCompleted(fed1)
     if (rs == 0)

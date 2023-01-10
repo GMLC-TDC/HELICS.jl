@@ -62,7 +62,7 @@ end
 
     data = "random-data"
 
-    h.helicsEndpointSendBytes(epid1, "ep2", data, 1.0)
+    h.helicsEndpointSendBytesToAt(epid1, data, "ep2", 1.0)
 
     granted_time = h.helicsFederateRequestTime(mFed, 2.0)
     @test granted_time == 1.0

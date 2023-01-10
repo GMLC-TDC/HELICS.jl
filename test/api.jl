@@ -275,7 +275,7 @@ end
     @test ep2HasMsg == 1
 
     msg2 = h.helicsEndpointGetMessage(ep2)
-    @test h.helicsMessageGetTime(msg2) == 1.0
+    @test h.helicsMessageGetTime(msg2) == 0.0
     @test h.helicsMessageGetString(msg2) == "Hello"
     @test h.helicsMessageGetOriginalSource(msg2) == "fed1/Ep1"
     @test h.helicsMessageGetSource(msg2) == "fed1/Ep1"
@@ -288,7 +288,7 @@ end
     @test h.helicsFederateHasMessage(fed1) == 1
 
     msg3 = h.helicsFederateGetMessage(fed1)
-    @test h.helicsMessageGetTime(msg3) == 1.0
+    @test h.helicsMessageGetTime(msg3) == 0.0
     @test h.helicsMessageGetString(msg3) == "There"
     @test h.helicsMessageGetOriginalSource(msg3) == "fed1/Ep1"
     @test h.helicsMessageGetSource(msg3) == "fed1/Ep1"
@@ -296,24 +296,24 @@ end
     @test h.helicsMessageGetOriginalDestination(msg3) == "Ep2"
 
     sub1Updated = h.helicsInputIsUpdated(sub1)
-    @test_broken sub1Updated == 1
+    @test sub1Updated == 1
 
-    @test_broken h.helicsInputLastUpdateTime(sub2) == 1.0
+    @test h.helicsInputLastUpdateTime(sub2) == 1.0
 
-    @test_broken h.helicsInputGetComplex(sub2) == 5.6 - im * 0.67
+    @test h.helicsInputGetComplex(sub2) == 5.6 - im * 0.67
 
-    @test_broken h.helicsInputGetDouble(sub1) == 457.234
-    @test_broken h.helicsInputGetInteger(sub4) == 1
+    @test h.helicsInputGetDouble(sub1) == 457.234
+    @test h.helicsInputGetInteger(sub4) == 1
     sub7PointString, sub7DoubleValue = h.helicsInputGetNamedPoint(sub7)
-    @test_broken sub7PointString == "Blah Blah"
+    @test sub7PointString == "Blah Blah"
     @test sub7DoubleValue == 20.0
-    @test_broken h.helicsInputGetBoolean(sub5) == 1
-    @test_broken h.helicsInputGetString(sub3) == "Mayhem"
+    @test h.helicsInputGetBoolean(sub5) == 1
+    @test h.helicsInputGetString(sub3) == "Mayhem"
 
     sub3ValueSize = h.helicsInputGetStringSize(sub3)
-    @test_broken sub3ValueSize == 6
+    @test sub3ValueSize == 6
 
-    @test_broken h.helicsInputGetVector(sub6) == [4.5, 56.5]
+    @test h.helicsInputGetVector(sub6) == [4.5, 56.5]
 
     h.helicsFederateDisconnect(fed1)
 #    h.helicsFederateDisconnect(fed2)

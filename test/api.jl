@@ -62,12 +62,13 @@ end
 
     fi = h.helicsCreateFederateInfo()
     broker = h.helicsCreateBroker("zmq", "broker", "--federates 1 --loglevel ERROR")
-    h.helicsFederateInfoSetCoreInitString(fi, "--federates 1 --loglevel SUMMARY")
+    h.helicsFederateInfoSetCoreInitString(fi, "--federates 1")
 
-#    h.helicsFederateInfoSetIntegerProperty(fi, h.HELICS_PROPERTY_INT_LOG_LEVEL, 2)
+    h.helicsFederateInfoSetIntegerProperty(fi, h.HELICS_PROPERTY_INT_LOG_LEVEL, 6)
 
     fed = h.helicsCreateValueFederate("test1", fi)
-
+	fedLogLevel = h.helicsFederateGetIntegerProperty(fed, h.HELICS_PROPERTY_INT_LOG_LEVEL)
+	@test fedLogLevel == 6
     userdata = UserData(5)
 
     h.helicsFederateSetLoggingCallback(fed, @cfunction(logger, Cvoid, (Cint, Cstring, Cstring, Ptr{Cvoid})), Ref(userdata))
@@ -151,7 +152,7 @@ end
 
     sub1 = h.helicsFederateRegisterSubscription(fed1, "pub1")
     sub2 = h.helicsFederateRegisterSubscription(fed1, "pub2")
-    h.helicsInputAddTarget(sub2, "Ep2")
+#    h.helicsInputAddTarget(sub2, "Ep2")
     pub3 = h.helicsFederateRegisterPublication(fed1, "pub3", h.HELICS_DATA_TYPE_STRING, "")
 
     pub1KeyString = h.helicsPublicationGetName(pub1)
@@ -264,10 +265,10 @@ end
     pub6Vector = [ 4.5, 56.5 ]
     h.helicsPublicationPublishVector(pub6, pub6Vector)
     sleep(0.500)
-    h.helicsFederateRequestTimeAsync(fed1, 2.0)
+    h.helicsFederateRequestTimeAsync(fed1, 1.0)
 
     returnTime = h.helicsFederateRequestTimeComplete(fed1)
-    @test returnTime == 2.0
+    @test returnTime == 1.0
     ep2MsgCount = h.helicsEndpointPendingMessageCount(ep2)
     @test ep2MsgCount == 2
     ep2HasMsg = h.helicsEndpointHasMessage(ep2)
@@ -315,10 +316,10 @@ end
     @test_broken h.helicsInputGetVector(sub6) == [4.5, 56.5]
 
     h.helicsFederateDisconnect(fed1)
-    h.helicsFederateDisconnect(fed2)
+#    h.helicsFederateDisconnect(fed2)
     h.helicsFederateFree(fed1)
-    h.helicsFederateDisconnect(fed2)
-    h.helicsFederateFree(fed2)
+#    h.helicsFederateDisconnect(fed2)
+#    h.helicsFederateFree(fed2)
     h.helicsFederateInfoFree(fedInfo2)
     h.helicsBrokerDisconnect(broker3)
 

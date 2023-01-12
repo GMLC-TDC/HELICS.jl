@@ -9,7 +9,7 @@
 
     argv = ["--name=gcore2", "--log-level=what_logs?"]
 
-    @test_throws h.HELICSErrorInvalidArgument cr2 = h.helicsCreateCoreFromArgs("inproc", "", argv)
+    @test_throws h.Utils.HELICS_ERROR_INVALID_ARGUMENT cr2 = h.helicsCreateCoreFromArgs("inproc", "", argv)
 
     h.helicsBrokerDisconnect(brk)
     h.helicsCoreDisconnect(cr)
@@ -27,7 +27,7 @@ end
     argv[2] = "--name=gbrokerc2"
     argv[3] = "--log-level=what_logs?"
 
-    @test_throws h.HELICSErrorInvalidArgument brk2 = h.helicsCreateBrokerFromArgs("inproc", "", argv)
+    @test_throws h.Utils.HELICS_ERROR_INVALID_ARGUMENT brk2 = h.helicsCreateBrokerFromArgs("inproc", "", argv)
 
     h.helicsBrokerDisconnect(brk)
 
@@ -99,7 +99,7 @@ end
     argv[4] = "--period=frogs" #this is meant to generate an error in command line processing
 
     fi2 = h.helicsFederateInfoClone(fi)
-    @test_throws h.HELICSErrorInvalidArgument h.helicsFederateInfoLoadFromArgs(fi2, argv)
+    @test_throws h.Utils.HELICS_ERROR_INVALID_ARGUMENT h.helicsFederateInfoLoadFromArgs(fi2, argv)
 
     h.helicsFederateInfoFree(fi2)
     h.helicsFederateInfoFree(fi)

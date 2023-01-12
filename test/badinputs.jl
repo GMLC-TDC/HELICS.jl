@@ -10,11 +10,9 @@ include("init.jl")
     h.helicsFederateEnterExecutingMode(mFed1)
     h.helicsEndpointSetDefaultDestination(ept1, "ept1")
 
-    mess0 = h.helicsEndpointGetMessage(ept1)
-    @test mess0.length == 0
+    @test_throws ErrorException h.helicsEndpointGetMessage(ept1)
 
-    mess0 = h.helicsFederateGetMessage(mFed1)
-    @test mess0.length == 0
+    @test_throws ErrorException h.helicsFederateGetMessage(mFed1)
 
     h.helicsEndpointSendMessage(ept1, mess0)
 

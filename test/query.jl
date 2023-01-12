@@ -17,7 +17,7 @@ include("init.jl")
 
     q1 = h.helicsCreateQuery("Testfed0", "publications")
     res = h.helicsQueryCoreExecute(q1, core)
-    @test res == "[pub1;Testfed0/pub2]"
+    @test res == "[\"pub1\";\"Testfed0/pub2\"]"
     # res = h.helicsQueryExecute(q1, vFed2)
     # @test res == "[pub1;Testfed0/pub2]"
     h.helicsQueryFree(q1)
@@ -55,10 +55,10 @@ end
     name1 = h.helicsFederateGetName(vFed1)
     name2 = h.helicsFederateGetName(vFed2)
 
-    @test "[$name1;$name2]" == res
+    @test "[\"$name1\";\"$name2\"]" == res
 
     res = h.helicsQueryExecute(q1, vFed1)
-    @test "[$name1;$name2]" == res
+    @test "[\"$name1\";\"$name2\"]" == res
 
     h.helicsFederateEnterInitializingModeAsync(vFed1)
     h.helicsFederateEnterInitializingMode(vFed2)

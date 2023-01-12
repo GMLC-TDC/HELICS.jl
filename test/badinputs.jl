@@ -13,7 +13,7 @@ include("init.jl")
     @test_throws ErrorException h.helicsEndpointGetMessage(ept1)
 
     @test_throws ErrorException h.helicsFederateGetMessage(mFed1)
-	mess0 = helicsEndpointCreateMessage(ept1)
+	mess0 = h.helicsEndpointCreateMessage(ept1)
     h.helicsFederateDisconnect(mFed1)
     @test_throws h.Utils.HELICS_ERROR_INVAlID_FUNCTION_CALL h.helicsEndpointSendMessage(ept1, mess0)
 

@@ -4789,7 +4789,7 @@ Check if a flag is set on a message.
 - true if set otherwise false
 """
 function helicsMessageGetFlagOption(message::Message, flag::Int)::Bool
-    return Lib.helicsMessageGetFlagOption(message) == 1 ? true : false
+    return Lib.helicsMessageGetFlagOption(message, flag) == 1 ? true : false
 end
 
 """

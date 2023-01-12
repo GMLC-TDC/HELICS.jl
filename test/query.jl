@@ -13,7 +13,7 @@ include("init.jl")
     h.helicsFederateEnterInitializingMode(vFed2)
     h.helicsFederateEnterInitializingModeComplete(vFed1)
 
-    core = h.helicsFederateGetCoreObject(vFed1)
+    core = h.helicsFederateGetCore(vFed1)
 
     q1 = h.helicsCreateQuery("Testfed0", "publications")
     res = h.helicsQueryCoreExecute(q1, core)
@@ -33,9 +33,9 @@ include("init.jl")
     # h.helicsQueryFree(q1)
 
     h.helicsCoreFree(core)
-    h.helicsFederateFinalizeAsync(vFed1)
-    h.helicsFederateFinalize(vFed2)
-    h.helicsFederateFinalizeComplete(vFed1)
+    h.helicsFederateDisconnectAsync(vFed1)
+    h.helicsFederateDisconnect(vFed2)
+    h.helicsFederateDisconnectComplete(vFed1)
 
     destroyFederate(vFed1, fedinfo1)
     destroyFederate(vFed2, fedinfo2)
@@ -48,7 +48,7 @@ end
     broker = createBroker(2)
     vFed1, fedinfo1 = createValueFederate(1, "fed0")
     vFed2, fedinfo2 = createValueFederate(1, "fed1")
-    core = h.helicsFederateGetCoreObject(vFed1)
+    core = h.helicsFederateGetCore(vFed1)
 
     q1 = h.helicsCreateQuery("root", "federates")
     res = h.helicsQueryCoreExecute(q1, core)
@@ -65,9 +65,9 @@ end
     h.helicsFederateEnterInitializingModeComplete(vFed1)
     h.helicsQueryFree(q1)
     h.helicsCoreFree(core)
-    h.helicsFederateFinalizeAsync(vFed1)
-    h.helicsFederateFinalize(vFed2)
-    h.helicsFederateFinalizeComplete(vFed1)
+    h.helicsFederateDisconnectAsync(vFed1)
+    h.helicsFederateDisconnect(vFed2)
+    h.helicsFederateDisconnectComplete(vFed1)
 
     destroyFederate(vFed1, fedinfo1)
     destroyFederate(vFed2, fedinfo2)

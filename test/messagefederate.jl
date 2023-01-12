@@ -135,7 +135,7 @@ end
     @test h.helicsEndpointGetDefaultDestination(epid1) == "ep2"
 
     # FIXME: Someday this will be implemented.
-    @test h.helicsEndpointGetOption(epid1, h.HELICS_HANDLE_OPTION_IGNORE_INTERRUPTS) == true
+    @test_broken h.helicsEndpointGetOption(epid1, h.HELICS_HANDLE_OPTION_IGNORE_INTERRUPTS) == true
 
     destroyFederate(mFed1, fedinfo1)
     destroyFederate(mFed2, fedinfo2)

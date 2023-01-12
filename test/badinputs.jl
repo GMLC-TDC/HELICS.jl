@@ -15,7 +15,7 @@ include("init.jl")
     @test_throws ErrorException h.helicsFederateGetMessage(mFed1)
 	mess0 = h.helicsEndpointCreateMessage(ept1)
     h.helicsFederateDisconnect(mFed1)
-    @test_throws h.Utils.HELICS_ERROR_INVAlID_FUNCTION_CALL h.helicsEndpointSendMessage(ept1, mess0)
+    @test_throws h.Utils.HELICS_ERROR_INVALID_FUNCTION_CALL h.helicsEndpointSendMessage(ept1, mess0)
 
     destroyFederate(mFed1, fedinfo)
     destroyBroker(broker)
@@ -100,19 +100,19 @@ end
 
     h.helicsFederateDisconnect(vFed1)
 
-    @test_throws h.Utils.HELICS_ERROR_INVAlID_FUNCTION_CALL h.helicsPublicationPublishBytes(pubid, str)
-    @test_throws h.Utils.HELICS_ERROR_INVAlID_FUNCTION_CALL h.helicsPublicationPublishString(pubid, str)
-    @test_throws h.Utils.HELICS_ERROR_INVAlID_FUNCTION_CALL h.helicsPublicationPublishInteger(pubid, 5)
-    @test_throws h.Utils.HELICS_ERROR_INVAlID_FUNCTION_CALL h.helicsPublicationPublishBoolean(pubid, true)
-    @test_throws h.Utils.HELICS_ERROR_INVAlID_FUNCTION_CALL h.helicsPublicationPublishDouble(pubid, 39.2)
-    @test_throws h.Utils.HELICS_ERROR_INVAlID_FUNCTION_CALL h.helicsPublicationPublishTime(pubid, 19.2)
-    @test_throws h.Utils.HELICS_ERROR_INVAlID_FUNCTION_CALL h.helicsPublicationPublishChar(pubid, 'a')
+    @test_throws h.Utils.HELICS_ERROR_INVALID_FUNCTION_CALL h.helicsPublicationPublishBytes(pubid, str)
+    @test_throws h.Utils.HELICS_ERROR_INVALID_FUNCTION_CALL h.helicsPublicationPublishString(pubid, str)
+    @test_throws h.Utils.HELICS_ERROR_INVALID_FUNCTION_CALL h.helicsPublicationPublishInteger(pubid, 5)
+    @test_throws h.Utils.HELICS_ERROR_INVALID_FUNCTION_CALL h.helicsPublicationPublishBoolean(pubid, true)
+    @test_throws h.Utils.HELICS_ERROR_INVALID_FUNCTION_CALL h.helicsPublicationPublishDouble(pubid, 39.2)
+    @test_throws h.Utils.HELICS_ERROR_INVALID_FUNCTION_CALL h.helicsPublicationPublishTime(pubid, 19.2)
+    @test_throws h.Utils.HELICS_ERROR_INVALID_FUNCTION_CALL h.helicsPublicationPublishChar(pubid, 'a')
 
-    @test_throws h.Utils.HELICS_ERROR_INVAlID_FUNCTION_CALL h.helicsPublicationPublishComplex(pubid, 2.5 + -9.8im)
+    @test_throws h.Utils.HELICS_ERROR_INVALID_FUNCTION_CALL h.helicsPublicationPublishComplex(pubid, 2.5 + -9.8im)
 
-    @test_throws h.Utils.HELICS_ERROR_INVAlID_FUNCTION_CALL h.helicsPublicationPublishVector(pubid, [1.3, 2.9])
+    @test_throws h.Utils.HELICS_ERROR_INVALID_FUNCTION_CALL h.helicsPublicationPublishVector(pubid, [1.3, 2.9])
 
-    @test_throws h.Utils.HELICS_ERROR_INVAlID_FUNCTION_CALL h.helicsPublicationPublishNamedPoint(pubid, "hello world", 2.0)
+    @test_throws h.Utils.HELICS_ERROR_INVALID_FUNCTION_CALL h.helicsPublicationPublishNamedPoint(pubid, "hello world", 2.0)
 
     destroyFederate(vFed1, fedinfo)
     destroyBroker(broker)
@@ -218,7 +218,7 @@ end
     # error in this call from the mismatch
     @test_throws h.Utils.HELICS_ERROR_CONNECTION_FAILUURE h.helicsFederateEnterInitializingMode(vFed1)
 
-    @test_throws h.Utils.HELICS_ERROR_INVAlID_FUNCTION_CALL h.helicsFederateRequestTimeAdvance(vFed1, 0.1)
+    @test_throws h.Utils.HELICS_ERROR_INVALID_FUNCTION_CALL h.helicsFederateRequestTimeAdvance(vFed1, 0.1)
 
     # unknown input
     @test_throws h.Utils.HELICS_ERROR_INVALID_ARGUMENT inp4 = h.helicsFederateGetInput(vFed1, "unknown")
@@ -273,13 +273,13 @@ end
     val2 = h.helicsInputGetDouble(subid)
     @test val2 == val
     #expect error entering initializing Mode again
-    @test_throws h.Utils.HELICS_ERROR_INVAlID_FUNCTION_CALL h.helicsFederateEnterInitializingMode(vFed1)
+    @test_throws h.Utils.HELICS_ERROR_INVALID_FUNCTION_CALL h.helicsFederateEnterInitializingMode(vFed1)
 
     #expect error entering initializing Mode again
-    @test_throws h.Utils.HELICS_ERROR_INVAlID_FUNCTION_CALL h.helicsFederateEnterInitializingModeAsync(vFed1)
+    @test_throws h.Utils.HELICS_ERROR_INVALID_FUNCTION_CALL h.helicsFederateEnterInitializingModeAsync(vFed1)
 
     #expect error entering initializing Mode again
-    @test_throws h.Utils.HELICS_ERROR_INVAlID_FUNCTION_CALL h.helicsFederateEnterInitializingModeComplete(vFed1)
+    @test_throws h.Utils.HELICS_ERROR_INVALID_FUNCTION_CALL h.helicsFederateEnterInitializingModeComplete(vFed1)
 
     h.helicsFederateDisconnect(vFed1)
 
@@ -398,9 +398,9 @@ end
 
     @test_throws h.Utils.HELICS_ERROR_CONNECTION_FAILUURE resIt = h.helicsFederateEnterExecutingModeIterative(vFed1, h.HELICS_ITERATION_REQUEST_NO_ITERATION);
 
-    @test_throws h.Utils.HELICS_ERROR_INVAlID_FUNCTION_CALL h.helicsFederateRequestTimeIterativeAsync(vFed1, 1.0, h.HELICS_ITERATION_REQUEST_NO_ITERATION);
+    @test_throws h.Utils.HELICS_ERROR_INVALID_FUNCTION_CALL h.helicsFederateRequestTimeIterativeAsync(vFed1, 1.0, h.HELICS_ITERATION_REQUEST_NO_ITERATION);
 
-    @test_throws h.Utils.HELICS_ERROR_INVAlID_FUNCTION_CALL res = h.helicsFederateRequestTimeIterativeComplete(vFed1)
+    @test_throws h.Utils.HELICS_ERROR_INVALID_FUNCTION_CALL res = h.helicsFederateRequestTimeIterativeComplete(vFed1)
 
     h.helicsFederateDisconnect(vFed1);
 

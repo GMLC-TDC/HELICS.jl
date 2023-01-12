@@ -339,7 +339,7 @@ end
     h.helicsFilterAddSourceTarget(f2, "port2")
     h.helicsFilterSet(f2, "delay", 2.5)
     # this is expected to fail since a regular filter doesn't have a delivery endpoint
-    @test_throws h.HELICSErrorInvalidObject h.helicsFilterAddDeliveryEndpoint(f2, "port1")
+    @test_throws h.Utils.HELICS_ERROR_INVALID_OBJECT h.helicsFilterAddDeliveryEndpoint(f2, "port1")
 
     h.helicsFederateEnterExecutingModeAsync(fFed)
     h.helicsFederateEnterExecutingMode(mFed)

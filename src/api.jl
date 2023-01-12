@@ -1069,7 +1069,7 @@ Get a handle option on an [`Endpoint`](@ref)
 - `option`: Integer code for the option to set [`HelicsHandleOptions`](@ref)
 """
 function helicsEndpointGetOption(endpoint::Endpoint, option::Union{Int, HELICS.HelicsHandleOptions})::Bool
-    return Lib.helicsEndpointGetOption(endpoint, option)
+    return Lib.helicsEndpointGetOption(endpoint, option) == 1 ? true : false
 end
 
 """

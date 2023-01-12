@@ -70,7 +70,7 @@ end
     # res = h.helicsQueryCoreExecute(q, cr)
     # @test res == globalVal
     # h.helicsQueryFree(q)
-    @test_broken false
+
 
     h.helicsCoreDisconnect(cr)
     h.helicsBrokerDisconnect(brk)

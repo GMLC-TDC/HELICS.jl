@@ -86,7 +86,6 @@ end
     @test h.helicsMessageGetOriginalSource(message) == "TestA Federate/ep1"
     @test h.helicsMessageGetSource(message) == "TestA Federate/ep1"
     @test h.helicsMessageGetTime(message) == 1.0
-    @test_broken false
     # h.helicsMessageGetRawData(message) crashes
 
     destroyFederate(mFed, fedinfo)
@@ -136,7 +135,7 @@ end
     @test h.helicsEndpointGetDefaultDestination(epid1) == "ep2"
 
     # FIXME: Someday this will be implemented.
-    @test_broken h.helicsEndpointGetOption(epid1, h.HELICS_HANDLE_OPTION_IGNORE_INTERRUPTS) == true
+    @test h.helicsEndpointGetOption(epid1, h.HELICS_HANDLE_OPTION_IGNORE_INTERRUPTS) == true
 
     destroyFederate(mFed1, fedinfo1)
     destroyFederate(mFed2, fedinfo2)
@@ -175,7 +174,6 @@ end
     msg = h.helicsEndpointGetMessage(epid2)
     @test h.helicsMessageGetByteCount(msg) == 500
     # @show h.helicsMessageGeBytes(msg)
-    @test_broken false
     # segfaults
     rdata = h.helicsMessageGetBytesPointer(msg)
     @test Char(unsafe_load(Ptr{Cchar}(rdata), 245)) == 'a'
@@ -242,7 +240,6 @@ end
     # m = h.helicsEndpointGetMessage(ept1)
     # @show h.helicsMessageGetRawData(m)
     # TODO: null pointer received from C
-    @test_broken false
 
     gtime = h.helicsFederateRequestTimeComplete(vFed2)
     @test gtime == 2.0

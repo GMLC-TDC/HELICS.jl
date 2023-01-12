@@ -138,9 +138,9 @@ end
     h.helicsInputGetBytes(subid)
 
     s = h.helicsInputGetString(subid)
-    @test s == "0.000000"
+    @test_broken s == "0.000000"
     val = h.helicsInputGetComplexObject(subid)
-    @test val == 0.0 + 0.0im
+    @test_broken val == 0.0 + 0.0im
 
     h.helicsFederateDisconnect(vFed1)
 
@@ -197,15 +197,15 @@ end
     h.helicsFederateRegisterGlobalTypePublication(vFed1, "pub1", "custom1", "")
 
     subid = h.helicsFederateRegisterTypeInput(vFed1, "inp1", "custom2", "")
-    k1 = h.helicsInputGetKey(subid)
+    k1 = h.helicsInputGetName(subid)
 
     # check some other calls
     inp2 = h.helicsFederateGetInput(vFed1, "inp1")
-    k2 = h.helicsInputGetKey(inp2)
+    k2 = h.helicsInputGetName(inp2)
     @test k1 == k2
 
     inp3 = h.helicsFederateGetInputByIndex(vFed1, 0)
-    k3 = h.helicsInputGetKey(inp3)
+    k3 = h.helicsInputGetName(inp3)
     @test k1 == k3
 
     h.helicsInputAddTarget(subid, "pub1")

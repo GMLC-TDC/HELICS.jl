@@ -543,7 +543,7 @@ end
 
     f1 = h.helicsFederateRegisterGlobalCloningFilter(dcFed, "filt1")
     h.helicsFilterAddDeliveryEndpoint(f1, "cm")
-    cr = h.helicsFederateGetCoreObject(sFed)
+    cr = h.helicsFederateGetCore(sFed)
 
     h.helicsCoreAddSourceFilterToEndpoint(cr, "filt1", "src")
     h.helicsCoreAddSourceFilterToEndpoint(cr, "", "src")
@@ -682,7 +682,7 @@ end
     f1 = h.helicsFederateRegisterGlobalCloningFilter(dcFed, "filt1")
     h.helicsFilterAddDeliveryEndpoint(f1, "cm")
 
-    cr = h.helicsFederateGetCoreObject(sFed)
+    cr = h.helicsFederateGetCore(sFed)
 
     h.helicsCoreAddDestinationFilterToEndpoint(cr, "filt1", "dest")
 

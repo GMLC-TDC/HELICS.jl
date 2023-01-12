@@ -116,9 +116,9 @@ end
 
     h.helicsEndpointSetDefaultDestination(epid1, "ep2");
 
-    h.helicsEndpointSendBytes(epid1, "a")
-    h.helicsEndpointSendBytes(epid1, "a")
-    h.helicsEndpointSendBytes(epid1, "a")
+    h.helicsEndpointSendBytesTo(epid1, "a", "ep2")
+    h.helicsEndpointSendBytesTo(epid1, "a", "ep2")
+    h.helicsEndpointSendBytesTo(epid1, "a", "ep2")
 
     h.helicsFederateRequestTimeAsync(mFed1, 1.0)
     granted_time = h.helicsFederateRequestTime(mFed2, 1.0)
@@ -185,9 +185,9 @@ end
     @test h.helicsFederateGetState(mFed1) == h.HELICS_STATE_FINALIZE
 
     h.helicsMessageSetFlagOption(msg, 7, true);
-    @test h.helicsMessageCheckFlag(msg, 7) == true
+    @test h.helicsMessageGetFlagOption(msg, 7) == true
     h.helicsMessageClearFlags(msg);
-    @test h.helicsMessageCheckFlag(msg, 7) == false
+    @test h.helicsMessageGetFlagOption(msg, 7) == false
 
     h.helicsEndpointSetDefaultDestination(epid1, "ep2")
 

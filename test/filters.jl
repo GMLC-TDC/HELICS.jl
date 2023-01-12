@@ -420,7 +420,7 @@ end
     @test state == h.HELICS_STATE_EXECUTION
 
     data = "hello world"
-    h.helicsEndpointSendBytesTo(p1, "port2", data)
+    h.helicsEndpointSendBytesTo(p1, data, "port2")
 
     h.helicsFederateRequestTimeAsync(mFed, 1.0)
     h.helicsFederateRequestTime(fFed, 1.0)

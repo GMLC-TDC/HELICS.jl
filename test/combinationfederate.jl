@@ -25,7 +25,7 @@ include("init.jl")
 
     ipt = h.helicsFederateGetInputByIndex(cfed, 4)
     @test h.helicsInputGetExtractionUnits(ipt) == ""
-    @test h.helicsSubscriptionGetKey(ipt) == "IEEE_123_feeder_0/charge_EV3"
+    @test h.helicsSubscriptionGetTarget(ipt) == "IEEE_123_feeder_0/charge_EV3"
 
     h.helicsEndpointClearMessages(ept)
 

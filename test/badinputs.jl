@@ -216,7 +216,7 @@ end
     @test_throws h.Utils.HELICS_ERROR_INVALID_ARGUMENT pub3 = h.helicsFederateGetPublication(vFed1, "unknown")
 
     # error in this call from the mismatch
-    @test_throws h.Utils.HELICS_ERROR_CONNECTION_FAILUURE h.helicsFederateEnterInitializingMode(vFed1)
+    @test_throws h.Utils.HELICS_ERROR_CONNECTION_FAILURE h.helicsFederateEnterInitializingMode(vFed1)
 
     @test_throws h.Utils.HELICS_ERROR_INVALID_FUNCTION_CALL h.helicsFederateRequestTimeAdvance(vFed1, 0.1)
 
@@ -346,7 +346,7 @@ end
 
     @test_throws h.Utils.HELICS_ERROR_INVALID_ARGUMENT h.helicsBrokerMakeConnections(br, "unknownfile.json")
 
-    @test_throws h.Utils.HELICS_ERROR_CONNECTION_FAILUURE h.helicsFederateEnterExecutingMode(vFed1)
+    @test_throws h.Utils.HELICS_ERROR_CONNECTION_FAILURE h.helicsFederateEnterExecutingMode(vFed1)
 
     h.helicsFederateDisconnect(vFed1)
 
@@ -396,7 +396,7 @@ end
 
     h.helicsFederateSetTimeProperty(vFed1, h.HELICS_PROPERTY_TIME_PERIOD, 1.0);
 
-    @test_throws h.Utils.HELICS_ERROR_CONNECTION_FAILUURE resIt = h.helicsFederateEnterExecutingModeIterative(vFed1, h.HELICS_ITERATION_REQUEST_NO_ITERATION);
+    @test_throws h.Utils.HELICS_ERROR_CONNECTION_FAILURE resIt = h.helicsFederateEnterExecutingModeIterative(vFed1, h.HELICS_ITERATION_REQUEST_NO_ITERATION);
 
     @test_throws h.Utils.HELICS_ERROR_INVALID_FUNCTION_CALL h.helicsFederateRequestTimeIterativeAsync(vFed1, 1.0, h.HELICS_ITERATION_REQUEST_NO_ITERATION);
 

@@ -9,7 +9,7 @@
 
     argv = ["--name=gcore2", "--log-level=what_logs?"]
 
-    @test_throws h.HELICSErrorInvalidArgument cr2 = h.helicsCreateCoreFromArgs("inproc", "", argv)
+    @test_throws h.Utils.HELICS_ERROR_INVALID_ARGUMENT cr2 = h.helicsCreateCoreFromArgs("inproc", "", argv)
 
     h.helicsBrokerDisconnect(brk)
     h.helicsCoreDisconnect(cr)
@@ -27,7 +27,7 @@ end
     argv[2] = "--name=gbrokerc2"
     argv[3] = "--log-level=what_logs?"
 
-    @test_throws h.HELICSErrorInvalidArgument brk2 = h.helicsCreateBrokerFromArgs("inproc", "", argv)
+    @test_throws h.Utils.HELICS_ERROR_INVALID_ARGUMENT brk2 = h.helicsCreateBrokerFromArgs("inproc", "", argv)
 
     h.helicsBrokerDisconnect(brk)
 
@@ -41,13 +41,13 @@ end
     h.helicsBrokerSetGlobal(brk, "testglobal", globalVal)
     q = h.helicsCreateQuery("global", "testglobal")
     res = h.helicsQueryBrokerExecute(q, brk)
-    @test res == globalVal
+    @test res == "{\n   \"name\" : \"testglobal\",\n   \"value\" : \"this is a string constant that functions as a global\"\n}"
 
     h.helicsBrokerSetGlobal(brk, "testglobal2", globalVal2)
     h.helicsQueryFree(q)
     q = h.helicsCreateQuery("global", "testglobal2")
     res = h.helicsQueryBrokerExecute(q, brk)
-    @test res == globalVal2
+    @test res == "{\n   \"name\" : \"testglobal2\",\n   \"value\" : \"this is a second string constant that functions as a global\"\n}"
 
     h.helicsBrokerDisconnect(brk)
     h.helicsQueryFree(q)
@@ -70,7 +70,7 @@ end
     # res = h.helicsQueryCoreExecute(q, cr)
     # @test res == globalVal
     # h.helicsQueryFree(q)
-    @test_broken false
+
 
     h.helicsCoreDisconnect(cr)
     h.helicsBrokerDisconnect(brk)
@@ -99,7 +99,7 @@ end
     argv[4] = "--period=frogs" #this is meant to generate an error in command line processing
 
     fi2 = h.helicsFederateInfoClone(fi)
-    @test_throws h.HELICSErrorInvalidArgument h.helicsFederateInfoLoadFromArgs(fi2, argv)
+    @test_throws h.Utils.HELICS_ERROR_INVALID_ARGUMENT h.helicsFederateInfoLoadFromArgs(fi2, argv)
 
     h.helicsFederateInfoFree(fi2)
     h.helicsFederateInfoFree(fi)
@@ -109,7 +109,7 @@ end
     h.helicsFederateSetGlobal(fed, "testglobal", globalVal)
     q = h.helicsCreateQuery("global", "testglobal")
     res = h.helicsQueryExecute(q, fed)
-    @test res == globalVal
+    @test res == "{\n   \"name\" : \"testglobal\",\n   \"value\" : \"this is a string constant that functions as a global\"\n}"
     h.helicsFederateSetGlobal(fed, "testglobal2", globalVal2)
     h.helicsQueryFree(q)
     q = h.helicsCreateQuery("global", "testglobal2")
@@ -118,7 +118,7 @@ end
         sleep(0.20)
     end
     res = h.helicsQueryExecuteComplete(q)
-    @test res == globalVal2
+    @test res == "{\n   \"name\" : \"testglobal2\",\n   \"value\" : \"this is a second string constant that functions as a global\"\n}"
 
     q2 = h.helicsCreateQuery("", "isinit")
     h.helicsQueryExecuteAsync(q2, fed)

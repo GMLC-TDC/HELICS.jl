@@ -11,6 +11,596 @@ const CFunction = Ptr{Cvoid}
 const HELICS_TIME_MAXTIME = typemax(Int)
 
 """
+Create an [`DataBuffer`](@ref)
+
+# Arguments
+
+- `initialCapaciy`: the initial capacity of the [`DataBuffer`](@ref)
+
+# Returns
+
+- [`DataBuffer`](@ref)
+"""
+function helicsCreateDataBuffer(initialCapacity::Int32)::DataBuffer
+    return Lib.helicsCreateDataBuffer(initialCapacity)
+end
+
+"""
+Check if [`DataBuffer`](@ref) is valid
+
+# Arguments
+
+- `data`: the [`DataBuffer`](@ref) to check
+
+# Returns
+
+- a boolean
+"""
+function helicsDataBufferIsValid(data::DataBuffer)::Bool
+    return Lib.helicsDataBufferIsValid(data) == 1 ? true : false
+end
+
+"""
+Wrap data in [`DataBuffer`](@ref)
+
+# Arguments
+
+- `data`: the data to place in a [`DataBuffer`](@ref)
+
+# Returns
+
+- [`DataBuffer`](@ref)
+"""
+function helicsWrapDataInBuffer(data::String)::DataBuffer
+	dataSize = length(data)
+	dataCapacity = dataSize + 1
+	dataPtr = pointer(data)
+    return Lib.helicsWrapDataInBuffer(data, dataSize, dataCapacity)
+end
+
+"""
+Free a [`DataBuffer`](@ref)
+
+# Arguments
+
+- `data`: the [`DataBuffer`](@ref)
+"""
+function helicsDataBufferFree(data::DataBuffer)
+    Lib.helicsDataBufferFree(data)
+end
+
+"""
+Get size of a[`DataBuffer`](@ref)
+
+# Arguments
+
+- `data`: the [`DataBuffer`](@ref)
+
+# Returns
+
+- Int32
+"""
+function helicsDataBufferSize(data::DataBuffer)::Int32
+	return Lib.helicsDataBufferSize(data)
+end
+
+"""
+Get capacity of a[`DataBuffer`](@ref)
+
+# Arguments
+
+- `data`: the [`DataBuffer`](@ref)
+
+# Returns
+
+- Int32
+"""
+function helicsDataBufferCapacity(data::DataBuffer)::Int32
+	return Lib.helicsDataBufferCapacity(data)
+end
+
+"""
+Get a pointer to the raw data in a [`DataBuffer`](@ref)
+
+# Arguments
+
+- `data`: the [`DataBuffer`](@ref)
+
+# Returns
+
+- Ptr{Cvoid} 
+"""
+function helicsDataBufferData(data::DataBuffer)::Ptr{Cvoid}
+	return Lib.helicsDataBufferData(data)
+end
+
+"""
+Increase [`DataBuffer`](@ref) capacity without reallocating memory
+
+# Arguments
+
+- `data`: the [`DataBuffer`](@ref)
+- `newCapacity`: the new capacity
+
+# Returns
+
+- true is successful else false
+"""
+function helicsDataBufferReserve(data::DataBuffer, newCapacity::Int32)::Bool
+	return Lib.helicsDataBufferReserve(data) == 1 ? true : false
+end
+
+"""
+copy and existing DataBuffer to and new one
+
+# Arguments
+
+- `data`: the [`DataBuffer`](@ref) to copy
+
+# Returns
+
+- [`DataBuffer`](@ref)
+"""
+function helicsDataBufferClone(data::DataBuffer)::DataBuffer
+	return Lib.helicsDataBufferClone(data)
+end
+
+"""
+convert an integer to serialized bytes
+
+# Arguments
+
+- `value`: the Int64 to convert
+- `data`: the DataBuffer to hold the serialized bytes
+
+# Returns
+
+- Int32 Bytes serialized.
+"""
+function helicsIntegerToBytes(value::Int64, data::DataBuffer)::Int32
+	return Lib.helicsIntegerToBytes(value, data)
+end
+
+"""
+convert a double to serialized bytes
+
+# Arguments
+
+- `value`: the Float64 to convert
+- `data`: the DataBuffer to hold the serialized bytes
+
+# Returns
+
+- Int32 Bytes serialized.
+"""
+function helicsDoubleToBytes(value::Float64, data::DataBuffer)::Int32
+	return Lib.helicsDoubleToBytes(value, data)
+end
+
+"""
+convert a string to serialized bytes
+
+# Arguments
+
+- `value`: the string to convert
+- `data`: the DataBuffer to hold the serialized bytes
+
+# Returns
+
+- Int32 Bytes serialized.
+"""
+function helicsStringToBytes(value::String, data::DataBuffer)::Int32
+	return Lib.helicsStringToBytes(value, data)
+end
+
+"""
+convert a raw string to serialized bytes
+
+# Arguments
+
+- `value`: the raw string to convert
+- `data`: the DataBuffer to hold the serialized bytes
+
+# Returns
+
+- Int32 Bytes serialized.
+"""
+function helicsRawStringToBytes(value::String, data::DataBuffer)::Int32
+	return Lib.helicsRawStringToBytes(value, data)
+end
+
+"""
+convert a boolean to serialized bytes
+
+# Arguments
+
+- `value`: the boolean to convert
+- `data`: the DataBuffer to hold the serialized bytes
+
+# Returns
+
+- Int32 Bytes serialized.
+"""
+function helicsBooleanToBytes(value::Bool, data::DataBuffer)::Int32
+	return Lib.helicsBooleanToBytes(value ? 1 : 0, data)
+end
+
+"""
+convert a char to serialized bytes
+
+# Arguments
+
+- `value`: the char to convert
+- `data`: the DataBuffer to hold the serialized bytes
+
+# Returns
+
+- Int32 Bytes serialized.
+"""
+function helicsCharToBytes(value::Char, data::DataBuffer)::Int32
+	return Lib.helicsCharToBytes(value, data)
+end
+
+"""
+convert a HelicsTime to serialized bytes
+
+# Arguments
+
+- `value`: the HelicsTime to convert
+- `data`: the DataBuffer to hold the serialized bytes
+
+# Returns
+
+- Int32 Bytes serialized.
+"""
+function helicsTimeToBytes(value::HELICS.HELICS_TIME, data::DataBuffer)::Int32
+	return Lib.helicsTimeToBytes(value, data)
+end
+
+"""
+convert a complex to serialized bytes
+
+# Arguments
+
+- `value`: the complex to convert
+- `data`: the DataBuffer to hold the serialized bytes
+
+# Returns
+
+- Int32 Bytes serialized.
+"""
+function helicsComplexToBytes(value::ComplexF64, data::DataBuffer)::Int32
+	return Lib.helicsComplexToBytes(value.re, value.im, data)
+end
+
+"""
+convert a vector of doubles to serialized bytes
+
+# Arguments
+
+- `value`: the vector of doubles to convert
+- `data`: the DataBuffer to hold the serialized bytes
+
+# Returns
+
+- Int32 Bytes serialized.
+"""
+function helicsVectorToBytes(value::Vector{Float64}, data::DataBuffer)::Int32
+	dataSize = length(value)
+	return Lib.helicsVectorToBytes(value, dataSize, data)
+end
+
+"""
+convert a named point to serialized bytes
+
+# Arguments
+
+- `name`: the name of the point of doubles to convert
+- `value`: the integer value of the point to convert
+- `data`: the DataBuffer to hold the serialized bytes
+
+# Returns
+
+- Int32 Bytes serialized.
+"""
+function helicsNamedPointToBytes(name::String, value::Int64, data::DataBuffer)::Int32
+	return Lib.helicsVectorToBytes(name, value, data)
+end
+
+"""
+convert a vector of complex values to serialized bytes
+
+# Arguments
+
+- `value`: the vector to convert
+- `data`: the DataBuffer to hold the serialized bytes
+
+# Returns
+
+- Int32 Bytes serialized.
+"""
+function helicsComplexVectorToBytes(value::Vector{ComplexF64}, data::DataBuffer)::Int32
+	complexDataSize = length(value)
+	doubleValue = Vector{Float64}(undef, 0)
+	for v in value
+		push!(doubleValue, v.re)
+		push!(doubleValue, v.im)
+	end
+	dataSize = length(doubleValue)
+	return Lib.helicsComplexVectorToBytes(doubleValue, dataSize, data)
+end
+
+"""
+return the an integer value of the data type of a DataBuffer.
+
+# Arguments
+
+- `data`: the DataBuffer
+
+# Returns
+
+- Int data type integer value.
+"""
+function helicsDataBufferType(data::DataBuffer)::Int
+	return Lib.helicsDataBufferType(data)
+end
+
+"""
+Get data from DataBuffer as an integer.
+
+# Arguments
+
+- `data`: the DataBuffer
+
+# Returns
+
+- Int64
+"""
+function helicsDataBufferToInteger(data::DataBuffer)::Int64
+	return Lib.helicsDataBufferToInteger(data)
+end
+
+"""
+Get data from DataBuffer as a double.
+
+# Arguments
+
+- `data`: the DataBuffer
+
+# Returns
+
+- Float64
+"""
+function helicsDataBufferToDouble(data::DataBuffer)::Float64
+	return Lib.helicsDataBufferToDouble(data)
+end
+
+"""
+Get data from DataBuffer as a boolean.
+
+# Arguments
+
+- `data`: the DataBuffer
+
+# Returns
+
+- Bool
+"""
+function helicsDataBufferToBoolean(data::DataBuffer)::Bool
+	return Lib.helicsDataBufferToBoolean(data) == 1 ? true : false
+end
+
+"""
+Get data from DataBuffer as a single char.
+
+# Arguments
+
+- `data`: the DataBuffer
+
+# Returns
+
+- Char
+"""
+function helicsDataBufferToChar(data::DataBuffer)::Char
+	return Lib.helicsDataBufferToChar(data)
+end
+
+"""
+Get size of string data size from DataBuffer.
+
+# Arguments
+
+- `data`: the DataBuffer
+
+# Returns
+
+- Int
+"""
+function helicsDataBufferStringSize(data::DataBuffer)::Int
+	return Lib.helicsDataBufferStringSize(data)
+end
+
+"""
+Get string data from DataBuffer.
+
+# Arguments
+
+- `data`: the DataBuffer
+
+# Returns
+
+- String
+"""
+function helicsDataBufferToString(data::DataBuffer)::String
+	maxStringLen = DataBufferStringSize(data)
+    outputString = repeat(" ", maxStringLen + 2)
+    actualLength = Ref{Int32}(maxStringLen)
+	Lib.helicsDataBufferToString(data, outputString, maxStringLen, actualLength)
+	return outputString[1:actualLength[]-1]
+end
+
+"""
+Get raw string data from DataBuffer.
+
+# Arguments
+
+- `data`: the DataBuffer
+
+# Returns
+
+- String
+"""
+function helicsDataBufferToRawString(data::DataBuffer)::String
+	maxStringLen = DataBufferStringSize(data)
+    outputString = repeat(" ", maxStringLen)
+    actualLength = Ref{Int32}(maxStringLen)
+	Lib.helicsDataBufferToRawString(data, outputString, maxStringLen, actualLength)
+	return outputString[1:actualLength[]]
+end
+
+"""
+Get data from DataBuffer as a HELICS.HelicsTime.
+
+# Arguments
+
+- `data`: the DataBuffer
+
+# Returns
+
+- Float64
+"""
+function helicsDataBufferToTime(data::DataBuffer)::Float64
+	return Lib.helicsDataBufferToTime(data)
+end
+
+"""
+Get data from DataBuffer as a complex.
+
+# Arguments
+
+- `data`: the DataBuffer
+
+# Returns
+
+- ComplexF64
+"""
+function helicsDataBufferToComplex(data::DataBuffer)::ComplexF64
+	real = Ref{Float64}(0)
+    imag = Ref{Float64}(0)
+    Lib.helicsDataBufferToComplex(data, real, imag)
+    return real[] + im * imag[]
+end
+
+"""
+Get HelicsComplex data from DataBuffer.
+
+# Arguments
+
+- `data`: the DataBuffer
+
+# Returns
+
+- ComplexF64
+"""
+function helicsDataBufferToComplexObject(data::DataBuffer)::ComplexF64
+    r = Lib.helicsDataBufferToComplexObject(data, real, imag)
+    return r.real + im * r.imag
+end
+
+"""
+Get size of vector data size from DataBuffer.
+
+# Arguments
+
+- `data`: the DataBuffer
+
+# Returns
+
+- Int
+"""
+function helicsDataBufferVectorSize(data::DataBuffer)::Int
+	return Lib.helicsDataBufferVectorSize(data)
+end
+
+"""
+Get vector of doubles from DataBuffer.
+
+# Arguments
+
+- `data`: the DataBuffer
+
+# Returns
+
+- Vector{Float64}
+"""
+function helicsDataBufferToVector(data::DataBuffer)::Vector{Float64}
+	maxlen = Cint(DataBufferVectorSize(data))
+	values = Vector{Float64}(undef, maxlen)
+	actualSize = Ref(maxlen)
+    Lib.helicsDataBufferToVector(data, values, maxlen, actualSize)
+    return values[1:actualSize[]]
+end
+
+"""
+Get vector of complex values from DataBuffer.
+
+# Arguments
+
+- `data`: the DataBuffer
+
+# Returns
+
+- Vector{ComplexF64}
+"""
+function helicsDataBufferToComplexVector(data::DataBuffer)::Vector{ComplexF64}
+	maxlen = Cint(DataBufferVectorSize(data))
+	doubleValues = Vector{Float64}(undef, maxlen)
+	actualSize = Ref(maxlen)
+    Lib.helicsDataBufferToComplexVector(data, doubleValues, maxlen, actualSize)
+	complexValues = Vector{ComplexF64}(undef, 0)
+	for i = 1:actualSize[]/2
+		push!(complexValues, doubleValues[2*i-1] + im * doubleValues[2*i])
+	end
+    return complexValues
+end
+
+"""
+Get a named point from DataBuffer.
+
+# Arguments
+
+- `data`: the DataBuffer
+
+# Returns
+
+- Tuple{String, Float64}
+"""
+function helicsDataBufferToNamedPoint(data::DataBuffer)::Tuple{String, Float64}
+	maxStringLength = DataBufferStringSize(data)
+	outputString = repeat(" ", maxStringLength + 2)
+	actualLength = Ref{Int32}(maxStringLength)
+	val = Ref{Float64}(0.0)
+    Lib.helicsDataBufferToNamedPoint(data, outputString, maxStringLength, actualLength, val)
+    return outputString[1:actualLength[]-1], val[]
+end
+
+"""
+change data type of DataBuffer.
+
+# Arguments
+
+- `data`: the DataBuffer
+-`newDataType`: integer of data type you want to change data to.
+
+# Returns
+
+- Bool, true if successful otherwise false
+"""
+function helicsDataBufferConvertToType(data::DataBuffer, newDataType::Int)::Bool
+    return Lib.helicsDataBufferConvertToType(data, newDataType) == 1 ? true : false
+end
+
+"""
 Create an [`Endpoint`](@ref)
 
 The [`Endpoint`](@ref) becomes part of the [`Federate`](@ref) and is destroyed when the [`Federate`](@ref) is freed so there are no separate free functions for endpoints.
@@ -45,8 +635,50 @@ federate is freed so there are no separate free functions for endpoints
 
 - [`Endpoint`](@ref)
 """
-function helicsFederateRegisterGlobalEndpoint(fed::Federate, name::String, kind::String)::Endpoint
-    return @invoke_and_check Lib.helicsFederateRegisterGlobalEndpoint(fed, name, kind)
+function helicsFederateRegisterGlobalEndpoint(fed::Federate, name::String, type::String)::Endpoint
+    return @invoke_and_check Lib.helicsFederateRegisterGlobalEndpoint(fed, name, type)
+end
+
+"""
+Create a targeted endpoint.  Targeted endpoints have specific destinations predefined and do not allow sending messages to other
+endpoints
+
+The endpoint becomes part of the federate and is destroyed when the federate is freed
+so there are no separate free functions for endpoints.
+
+# Arguments
+
+- `fed`: the [`Federate`](@ref) in which to create an [`Endpoint`](@ref) must have been create with [`helicsCreateMessageFederate`](@ref) or [`helicsCreateCombinationFederate`](@ref)
+- `name`: the identifier for the [`Endpoint`](@ref). This will be prepended with the federate name for the global identifier.
+- `type`: a string describing the expected type of the [`Publication`](@ref) may be NULL
+
+# Returns
+
+- [`Endpoint`](@ref)
+"""
+function helicsFederateRegisterTargetedEndpoint(fed::Federate, name::String, type::String)::Endpoint
+    return @invoke_and_check Lib.helicsFederateRegisterTargetedEndpoint(fed, name, type)
+end
+
+"""
+Create a global targeted endpoint, Targeted endpoints have specific destinations predefined and do not allow sending messages to other
+endpoints
+
+@details The endpoint becomes part of the federate and is destroyed when the federate is freed
+so there are no separate free functions for endpoints.
+
+# Arguments
+
+- `fed`: the [`Federate`](@ref) in which to create an [`Endpoint`](@ref) must have been create with [`helicsCreateMessageFederate`](@ref) or [`helicsCreateCombinationFederate`](@ref)
+- `name`: the identifier for the [`Endpoint`](@ref), the given name is the global identifier
+- `type`: a string describing the expected type of the [`Publication`](@ref) may be NULL
+
+# Returns
+
+- [`Endpoint`](@ref)
+"""
+function helicsFederateRegisterGlobalTargetedEndpoint(fed::Federate, name::String, type::String)::Endpoint
+    return @invoke_and_check Lib.helicsFederateRegisterGlobalTargetedEndpoint(fed, name, type)
 end
 
 """
@@ -109,46 +741,63 @@ function helicsEndpointGetDefaultDestination(endpoint::Endpoint)::String
 end
 
 """
+Send a message to the targeted destination
+
+# Arguments
+
+- `endpoint`: The [`Endpoint`](@ref) to send the data from
+- `data`: The data to send
+"""
+function helicsEndpointSendBytes(endpoint::Endpoint, data::String)
+    inputDataLength = length(data)
+    data = pointer(data)
+    @invoke_and_check Lib.helicsEndpointSendBytes(endpoint, data, inputDataLength)
+end
+
+"""
 Send a message to the specified destination
 
 # Arguments
 
 - `endpoint`: The [`Endpoint`](@ref) to send the data from
-- `dest`: The target destination (empty string to use the default destination)
 - `data`: The data to send
+- `dest`: The target destination (empty string to use the default destination)
 """
-function helicsEndpointSendMessageRaw(endpoint::Endpoint, dest::String, data::String)
+function helicsEndpointSendBytesTo(endpoint::Endpoint, data::String, dest::String)
     inputDataLength = length(data)
     data = pointer(data)
-    @invoke_and_check Lib.helicsEndpointSendMessageRaw(endpoint, dest, data, inputDataLength)
+    @invoke_and_check Lib.helicsEndpointSendBytesTo(endpoint, data, inputDataLength, dest)
 end
 
 """
-Send a message at a specific time to the specified destination
+Send a message to the specified destination at a specific time.
 
 # Arguments
 
 - `endpoint`: The [`Endpoint`](@ref) to send the data from
-- `dest`: The target destination (empty string to use the default destination)
 - `data`: The data to send
-- `time`: The time the message should be sent
+- `dest`: The target destination (empty string to use the default destination)
+- `time`: The time the message should be sent.
 """
-function helicsEndpointSendEventRaw(endpoint::Endpoint, dest::String, data::String, time::HELICS.HELICS_TIME)
+function helicsEndpointSendBytesToAt(endpoint::Endpoint, data::String, dest::String, time::HELICS.HELICS_TIME)
     inputDataLength = length(data)
     data = pointer(data)
-    @invoke_and_check Lib.helicsEndpointSendEventRaw(endpoint, dest, data, inputDataLength, time)
+    @invoke_and_check Lib.helicsEndpointSendBytesToAt(endpoint, data, inputDataLength, dest, time)
 end
 
 """
-Send a message object from a specific endpoint
+Send a message at a specific time to the targeted destinations
 
 # Arguments
 
 - `endpoint`: The [`Endpoint`](@ref) to send the data from
-- `message`: The [`Lib.helics_message`](@ref) to send
+- `data`: The data to send
+- `time`: The time the message should be sent.
 """
-function helicsEndpointSendMessage(endpoint::Endpoint, message::Lib.helics_message)
-    @invoke_and_check Lib.helicsEndpointSendMessage(endpoint, Ref(message))
+function helicsEndpointSendBytesAt(endpoint::Endpoint, data::String, time::HELICS.HELICS_TIME)
+    inputDataLength = length(data)
+    data = pointer(data)
+    @invoke_and_check Lib.helicsEndpointSendBytesAt(endpoint, data, inputDataLength, time)
 end
 
 """
@@ -159,8 +808,21 @@ Send a message object from a specific endpoint
 - `endpoint`: The [`Endpoint`](@ref) to send the data from
 - `message`: The [`Message`](@ref) to send
 """
-function helicsEndpointSendMessageObject(endpoint::Endpoint, message::Message)
-    @invoke_and_check Lib.helicsEndpointSendMessageObject(endpoint, message)
+function helicsEndpointSendMessage(endpoint::Endpoint, message::Message)
+    @invoke_and_check Lib.helicsEndpointSendMessage(endpoint, message)
+end
+
+"""
+Send a message object from a specific endpoint, the message will not be copied and the message object will no longer be valid
+after the call.
+
+# Arguments
+
+- `endpoint`: The [`Endpoint`](@ref) to send the data from
+- `message`: The [`Message`](@ref) to send
+"""
+function helicsEndpointSendMessageZeroCopy(endpoint::Endpoint, message::Message)
+    @invoke_and_check Lib.helicsEndpointSendMessageZeroCopy(endpoint, message)
 end
 
 """
@@ -206,27 +868,25 @@ function helicsEndpointHasMessage(endpoint::Endpoint)::Bool
 end
 
 """
-Returns the number of pending receives for the specified destination
-endpoint.
+Returns the number of pending receives for a federate
 
 # Arguments
 
 - `fed`: The [`Federate`](@ref) to get the number of waiting messages
 """
-function helicsFederatePendingMessages(fed::Federate)::Int
-    return Lib.helicsFederatePendingMessages(fed)
+function helicsFederatePendingMessageCount(fed::Federate)::Int
+    return Lib.helicsFederatePendingMessageCount(fed)
 end
 
 """
-Returns the number of pending receives for all endpoints of particular
-federate.
+Returns the number of pending receives for an endpoint
 
 # Arguments
 
 - `endpoint`: The [`Endpoint`](@ref) to query
 """
-function helicsEndpointPendingMessages(endpoint::Endpoint)::Int
-    return Lib.helicsEndpointPendingMessages(endpoint)
+function helicsEndpointPendingMessageCount(endpoint::Endpoint)::Int
+    return Lib.helicsEndpointPendingMessageCount(endpoint)
 end
 
 """
@@ -240,12 +900,14 @@ Receive a packet from a particular endpoint
 
 - [`Message`](@ref) object
 """
-function helicsEndpointGetMessage(endpoint::Endpoint)::Lib.helics_message
+function helicsEndpointGetMessage(endpoint::Endpoint)::Message
     return Lib.helicsEndpointGetMessage(endpoint)
 end
 
 """
-Receive a packet from a particular endpoint
+Create a new empty message object.
+
+The message is empty and isValid will return false since there is no data associated with the message yet.
 
 # Arguments
 
@@ -255,8 +917,8 @@ Receive a packet from a particular endpoint
 
 - [`Message`](@ref) object
 """
-function helicsEndpointGetMessageObject(endpoint::Endpoint)::Message
-    return Lib.helicsEndpointGetMessageObject(endpoint)
+function helicsEndpointCreateMessage(endpoint::Endpoint)::Message
+    return @invoke_and_check Lib.helicsEndpointCreateMessage(endpoint)
 end
 
 """
@@ -267,25 +929,26 @@ So all messages that are available for the first endpoint, then all for the seco
 
 # Returns
 
-- a `unique_ptr` to a [`HELICS.Lib.helics_message`](@ref) object containing the message data
+- a [`Message`](@ref) object containing the message data
 """
-function helicsFederateGetMessage(fed::Federate)::Lib.helics_message
+function helicsFederateGetMessage(fed::Federate)::Message
     return Lib.helicsFederateGetMessage(fed)
 end
 
 """
-Receive a communication message for any endpoint in the [`Federate`](@ref)
+Create a new empty message object.
 
-The return order will be in order of endpoint creation.
-So all messages that are available for the first endpoint, then all for the second, and so on within a single endpoint the messages are ordered by time, then `source_id`, then order of arrival
+The message is empty and isValid will return false since there is no data associated with the message yet.
+
+#Arguments
+- `fed`: a federate object to associate the message with
 
 # Returns
 
-- a [`Message`](@ref) which references the
-data in the message
+- a [`Message`](@ref) object containing the message data
 """
-function helicsFederateGetMessageObject(fed::Federate)::Message
-    return Lib.helicsFederateGetMessageObject(fed)
+function helicsFederateCreateMessage(fed::Federate)::Message
+    return @invoke_and_check Lib.helicsFederateCreateMessage(fed)
 end
 
 """
@@ -338,14 +1001,14 @@ Get the data in the info field of an filter
 
 # Arguments
 
-- `end`: The [`Filter`](@ref) to query
+- `endpoint`: The [`Filter`](@ref) to query
 
 # Returns
 
 - a string with the info field string
 """
-function helicsEndpointGetInfo(_end::Endpoint)::String
-    return unsafe_string(Lib.helicsEndpointGetInfo(_end))
+function helicsEndpointGetInfo(endpoint::Endpoint)::String
+    return unsafe_string(Lib.helicsEndpointGetInfo(endpoint))
 end
 
 """
@@ -353,32 +1016,110 @@ Set the data in the info field for an filter
 
 # Arguments
 
-- `end`: The [`Endpoint`](@ref) to query
+- `endpoint`: The [`Endpoint`](@ref) to query
 - `info`: The string to set
 """
-function helicsEndpointSetInfo(_end::Endpoint, info::String)
-    @invoke_and_check Lib.helicsEndpointSetInfo(_end, info)
+function helicsEndpointSetInfo(endpoint::Endpoint, info::String)
+    @invoke_and_check Lib.helicsEndpointSetInfo(endpoint, info)
+end
+
+"""
+Get the data in a specified tag of an endpoint
+
+# Arguments
+
+- `endpoint`: The [`Endpoint`](@ref) to query
+- `tagName`: The name of the tag
+
+# Returns
+- a string with the tag data
+"""
+function helicsEndpointGetTag(endpoint::Endpoint, tagName::String)::String
+    return unsafe_string(Lib.helicsEndpointGetTag(endpoint, tagName))
+end
+
+"""
+Set the data in a specific tag for an endpoint.
+
+# Arguments
+
+- `endpoint`: The [`Endpoint`](@ref) to query
+- `tagName`: The name of the tag
+- `tagValue`: The string value to associate with the tag
+"""
+function helicsEndpointSetTag(endpoint::Endpoint, tagName::String, tagValue::String)
+    @invoke_and_check Lib.helicsEndpointSetTag(endpoint, tagName, tagValue)
 end
 
 """
 Set a handle option on an [`Endpoint`](@ref)
 
-- `end`: The [`Endpoint`](@ref) to modify
-- `option`: Integer code for the option to set [`HELICS_HANDLE_OPTIONS`](@ref)
+- `endpoint`: The [`Endpoint`](@ref) to modify
+- `option`: Integer code for the option to set [`HelicsHandleOptions`](@ref)
 - `value`: The value to set the option
 """
-function helicsEndpointSetOption(_end::Endpoint, option::Union{Int, HELICS.HELICS_HANDLE_OPTIONS}, value::Bool)
-    @invoke_and_check Lib.helicsEndpointSetOption(_end, option, value ? 1 : 0)
+function helicsEndpointSetOption(endpoint::Endpoint, option::Union{Int, HELICS.HelicsHandleOptions}, value::Bool)
+    @invoke_and_check Lib.helicsEndpointSetOption(endpoint, option, value ? 1 : 0)
 end
 
 """
 Get a handle option on an [`Endpoint`](@ref)
 
-- `end`: The [`Endpoint`](@ref) to modify
-- `option`: Integer code for the option to set [`HELICS_HANDLE_OPTIONS`](@ref)
+- `endpoint`: The [`Endpoint`](@ref) to modify
+- `option`: Integer code for the option to set [`HelicsHandleOptions`](@ref)
 """
-function helicsEndpointGetOption(_end::Endpoint, option::Union{Int, HELICS.HELICS_HANDLE_OPTIONS})::Bool
-    return Lib.helicsEndpointGetOption(_end, option)
+function helicsEndpointGetOption(endpoint::Endpoint, option::Union{Int, HELICS.HelicsHandleOptions})::Bool
+    return Lib.helicsEndpointGetOption(endpoint, option) == 1 ? true : false
+end
+
+"""
+add a source target to an endpoint,  Specifying an endpoint to receive undirected messages from
+
+- `endpoint`: The [`Endpoint`](@ref) to modify
+- `targetEndpoint`: the endpoint name to get messages from
+"""
+function helicsEndpointAddSourceTarget(endpoint::Endpoint, targetEndpoint::String)
+    @invoke_and_check Lib.helicsEndpointAddSourceTarget(endpoint, targetEndpoint)
+end
+
+"""
+add a destination target to an endpoint,  Specifying an endpoint to send undirected messages to
+
+- `endpoint`: The [`Endpoint`](@ref) to modify
+- `targetEndpoint`: the name of the endpoint to send messages to
+"""
+function helicsEndpointAddDestinationTarget(endpoint::Endpoint, targetEndpoint::String)
+    @invoke_and_check Lib.helicsEndpointAddDestinationTarget(endpoint, targetEndpoint)
+end
+
+"""
+remove an endpoint from being targeted
+
+- `endpoint`: The [`Endpoint`](@ref) to modify
+- `targetEndpoint`: the name of the target enpoint to remove
+"""
+function helicsEndpointRemoveTarget(endpoint::Endpoint, targetEndpoint::String)
+    @invoke_and_check Lib.helicsEndpointRemoveTarget(endpoint, targetEndpoint)
+end
+
+"""
+add a source Filter to an endpoint
+
+- `endpoint`: The [`Endpoint`](@ref) to modify
+- `filterName`: the name of the filter to add
+"""
+function helicsEndpointAddSourceFilter(endpoint::Endpoint, filterName::String)
+    @invoke_and_check Lib.helicsEndpointAddSourceFilter(endpoint, filterName)
+end
+
+"""
+add a destination filter to an endpoint
+
+- `endpoint`: The [`Endpoint`](@ref) to modify
+- `filterName`: the name of the filter to add
+"""
+function helicsEndpointAddDestinationFilter(endpoint::Endpoint, filterName::String)
+    @invoke_and_check Lib.helicsEndpointAddDestinationFilter(endpoint, filterName)
 end
 
 """
@@ -390,14 +1131,14 @@ a few extra features of name matching to function on the [`Federate`](@ref) inte
 # Arguments
 
 - `fed`: the fed to register through
-- `type`: the type of filter to create [`HELICS_FILTER_TYPE`](@ref)
+- `type`: the type of filter to create [`HelicsFilterTypes`](@ref)
 - `name`: the name of the [`Filter`](@ref) (can be NULL)
 
 # Returns
 
 - a [`Filter`](@ref) object
 """
-function helicsFederateRegisterFilter(fed::Federate, kind::Union{Int, HELICS.HELICS_FILTER_TYPE}, name::String)::Filter
+function helicsFederateRegisterFilter(fed::Federate, kind::Union{Int, HELICS.HelicsFilterTypes}, name::String)::Filter
     return @invoke_and_check Lib.helicsFederateRegisterFilter(fed, kind, name)
 end
 
@@ -410,14 +1151,14 @@ a few extra features of name matching to function on the [`Federate`](@ref) inte
 # Arguments
 
 - `fed`: the fed to register through
-- `type`: the type of filter to create [`HELICS_FILTER_TYPE`](@ref)
+- `type`: the type of filter to create [`HelicsFilterTypes`](@ref)
 - `name`: the name of the [`Filter`](@ref) (can be NULL)
 
 # Returns
 
 - a [`Filter`](@ref) object
 """
-function helicsFederateRegisterGlobalFilter(fed::Federate, kind::Union{Int, HELICS.HELICS_FILTER_TYPE}, name::String)::Filter
+function helicsFederateRegisterGlobalFilter(fed::Federate, kind::Union{Int, HELICS.HelicsFilterTypes}, name::String)::Filter
     return @invoke_and_check Lib.helicsFederateRegisterGlobalFilter(fed, kind, name)
 end
 
@@ -468,14 +1209,14 @@ a few extra features of name matching to function on the [`Federate`](@ref) inte
 # Arguments
 
 - `core` the core to register through
-- `type` the type of filter to create [`HELICS_FILTER_TYPE`](@ref)
+- `type` the type of filter to create [`HelicsFilterTypes`](@ref)
 - `name` the name of the [`Filter`](@ref) (can be NULL)
 
 # Returns
 
 - a [`Filter`](@ref) object
 """
-function helicsCoreRegisterFilter(core::Core, kind::Union{Int, HELICS.HELICS_FILTER_TYPE}, name::String)::Filter
+function helicsCoreRegisterFilter(core::Core, kind::Union{Int, HELICS.HelicsFilterTypes}, name::String)::Filter
     return @invoke_and_check Lib.helicsCoreRegisterFilter(core, kind, name)
 end
 
@@ -674,15 +1415,43 @@ function helicsFilterSetInfo(filt::Filter, info::String)
 end
 
 """
+Get the data in a specified tag of a filter.
+
+# Arguments
+
+- `filt`: the given [`Filter`](@ref)
+- `tagName`: The name of the tag to query.
+
+# Returns
+- A string withthe tag data
+"""
+function helicsFilterGetTag(filt::Filter, tagName::String)::String
+    return unsafe_string(Lib.helicsFilterGetTag(filt, tagName))
+end
+
+"""
+Get the data in a specified tag of a filter.
+
+# Arguments
+
+- `filt`: the given [`Filter`](@ref)
+- `tagName`: The name of the tag to query.
+- `tagValue`: A string with the tag data
+"""
+function helicsFilterSetTag(filt::Filter, tagName::String, tagValue::String)
+    @invoke_and_check Lib.helicsFilterSetTag(filt, tagName, tagValue)
+end
+
+"""
 Set the data in the info field for an filter
 
 # Arguments
 
 - `filt`: the given [`Filter`](@ref)
-- `option`: the option to set [`HELICS_HANDLE_OPTIONS`](@ref)
+- `option`: the option to set [`HelicsHandleOptions`](@ref)
 - `value`: the value of the option (helics_true or helics_false)
 """
-function helicsFilterSetOption(filt::Filter, option::Union{Int,HELICS.HELICS_HANDLE_OPTIONS}, value::Bool)
+function helicsFilterSetOption(filt::Filter, option::Union{Int,HELICS.HelicsHandleOptions}, value::Bool)
     @invoke_and_check Lib.helicsFilterSetOption(filt, option, value ? 1 : 0)
 end
 
@@ -692,10 +1461,318 @@ Get a handle option for the [`Filter`](@ref)
 # Arguments
 
 - `filt`: the given [`Filter`](@ref) to query
-- `option`: the option to query [`HELICS_HANDLE_OPTIONS`](@ref)
+- `option`: the option to query [`HelicsHandleOptions`](@ref)
 """
-function helicsFilterGetOption(filt::Filter, option::Union{Int,HELICS.HELICS_HANDLE_OPTIONS})::Bool
+function helicsFilterGetOption(filt::Filter, option::Union{Int,HELICS.HelicsHandleOptions})::Bool
     return Lib.helicsFilterGetOption(filt, option) == 1 ? true : false
+end
+
+"""
+Create a Translator on the specified federate.
+
+Translators can be created through a federate or a core. Linking through a federate allows
+a few extra features of name matching to function on the federate interface but otherwise have equivalent behavior.
+
+# Arguments
+
+- `fed`: the [`Federate`](@ref) to register through.
+- `type`: The type of translator to create /ref HelicsTranslatorTypes
+- `name`: The name of the translator, it can be null
+
+# Returns
+- A [`Translator`](@ref)
+"""
+function helicsFederateRegisterTranslator(fed::Federate, type::Int, name::String)::Translator
+    return @invoke_and_check Lib.helicsFederateRegisterTranslator(fed, type, name)
+end
+
+"""
+Create a global translator through a federate.
+
+Translators can be created through a federate or a core. Linking through a federate allows
+a few extra features of name matching to function on the federate interface but otherwise have equivalent behavior.
+
+# Arguments
+
+- `fed`: the [`Federate`](@ref) to register through.
+- `type`: The type of translator to create /ref HelicsTranslatorTypes
+- `name`: The name of the translator, it can be null
+
+# Returns
+- A [`Translator`](@ref)
+"""
+function helicsFederateRegisterGlobalTranslator(fed::Federate, type::Int, name::String)::Translator
+    return @invoke_and_check Lib.helicsFederateRegisterGlobalTranslator(fed, type, name)
+end
+
+"""
+Create a Translator on the specified core.
+
+Translators can be created through a federate or a core. Linking through a federate allows
+a few extra features of name matching to function on the federate interface but otherwise have equivalent behavior.
+
+# Arguments
+
+- `core`: the [`Core`](@ref) to register through.
+- `type`: The type of translator to create /ref HelicsTranslatorTypes
+- `name`: The name of the translator, it can be null
+
+# Returns
+- A [`Translator`](@ref)
+"""
+function helicsCoreRegisterTranslator(core::Core, type::Int, name::String)::Translator
+    return @invoke_and_check Lib.helicsCoreRegisterTranslator(core, type, name)
+end
+
+"""
+Get the number of translators registered through a federate.
+
+# Arguments
+
+- `fed`: the [`Federate`](@ref) to register through.
+
+# Returns
+- a count of the number of translators registered through a federate.
+"""
+function helicsFederateGetTranslatorCount(fed::Federate)::Int
+    return Lib.helicsFederateGetTranslatorCount(fed)
+end
+
+"""
+Get a translator by its name, typically already created via registerInterfaces file or something of that nature.
+
+# Arguments
+
+- `fed`: the [`Federate`](@ref) to get the translator from
+- `name`: The name of the translator to get
+
+# Returns
+- A [`Translator`](@ref)
+"""
+function helicsFederateGetTranslator(fed::Federate, name::String)::Translator
+    return @invoke_and_check Lib.helicsFederateGetTranslator(fed, name)
+end
+
+"""
+Get a translator by its index, typically already created via registerInterfaces file or something of that nature.
+
+# Arguments
+
+- `fed`: the [`Federate`](@ref) to get the translator from
+- `index`: The index of the translator to get
+
+# Returns
+- A [`Translator`](@ref)
+"""
+function helicsFederateGetTranslatorByIndex(fed::Federate, index::Int)::Translator
+    return @invoke_and_check Lib.helicsFederateGetTranslatorByIndex(fed, index)
+end
+
+"""
+Check if a translator is valid.
+
+# Arguments
+
+- `trans`: the [`Translator`](@ref) to check
+
+# Returns
+- true if valid, false otherwise
+"""
+function helicsTranslatorIsValid(trans::Translator)::Bool
+    return Lib.helicsTranslatorIsValid(trans) == 1 ? true : false
+end
+
+"""
+Get the name of the translator and store in the given string.
+
+# Arguments
+
+- `trans`: the [`Translator`](@ref) to check
+
+# Returns
+- a string with the name of the translator
+"""
+function helicsTranslatorGetName(trans::Translator)::String
+    return unsafe_string(Lib.helicsTranslatorGetName(trans))
+end
+
+"""
+Set a double property on a translator.
+
+# Arguments
+
+- `trans`: the [`Translator`](@ref) to modify
+- `prop`: A string containing the property to set.
+- `val`: A numerical value for the property.
+"""
+function helicsTranslatorSet(trans::Translator, prop::String, val::Float64)
+    @invoke_and_check Lib.helicsTranslatorSet(trans, prop, val)
+end
+
+"""
+Set a string property on a translator.
+
+# Arguments
+
+- `trans`: the [`Translator`](@ref) to modify
+- `prop`: A string containing the property to set.
+- `val`: A string value for the property.
+"""
+function helicsTranslatorSetString(trans::Translator, prop::String, val::String)
+    @invoke_and_check Lib.helicsTranslatorSetString(trans, prop, val)
+end
+
+"""
+Add an input to send a translator output.
+
+All messages sent to a translator endpoint get translated and published to the translators target inputs.
+This method adds an input to a translators which will receive translated messages.
+
+# Arguments
+
+- `trans`: the [`Translator`](@ref) to add a destination target to.
+- `input`: The name of the input which will be receiving translated messages
+"""
+function helicsTranslatorAddInputTarget(trans::Translator, input::String)
+    @invoke_and_check Lib.helicsTranslatorAddInputTarget(trans, input)
+end
+
+"""
+Add a source publication target to a translator.
+
+When a publication publishes data the translator will receive it and convert it to a message sent to a translators destination
+endpoints.
+This method adds a publication which publishes data the translator receives and sends to its destination endpoints.
+
+# Arguments
+
+- `trans`: the [`Translator`](@ref) to modify
+- `pub`: The name of the publication to subscribe.
+"""
+function helicsTranslatorAddPublicationTarget(trans::Translator, pub::String)
+    @invoke_and_check Lib.helicsTranslatorAddPublicationTarget(trans, pub)
+end
+
+"""
+Add a source endpoint target to a translator.
+
+The translator will "translate" all message sent to it.  This method adds an endpoint which can send the translator data.
+
+# Arguments
+
+- `trans`: the [`Translator`](@ref) to modify
+- `ept`: The name of the endpoint which will send the endpoint data
+"""
+function helicsTranslatorAddSourceEndpoint(trans::Translator, ept::String)
+    @invoke_and_check Lib.helicsTranslatorAddSourceEndpoint(trans, ept)
+end
+
+"""
+Add a destination target endpoint to a translator.
+
+The translator will "translate" all message sent to it.  This method adds an endpoint which will receive data published to the
+translator.
+ 
+# Arguments
+
+- `trans`: the [`Translator`](@ref) to modify
+- `ept`: The name of the endpoint the translator sends data to.
+"""
+function helicsTranslatorAddDestinationEndpoint(trans::Translator, ept::String)
+    @invoke_and_check Lib.helicsTranslatorAddDestinationEndpoint(trans, ept)
+end
+
+"""
+Remove a target from a translator.
+ 
+# Arguments
+
+- `trans`: the [`Translator`](@ref) to modify
+- `target`: The name of the interface to remove as a target.
+"""
+function helicsTranslatorRemoveTarget(trans::Translator, target::String)
+    @invoke_and_check Lib.helicsTranslatorRemoveTarget(trans, target)
+end
+
+"""
+Get the data in the info field of a translator.
+ 
+# Arguments
+
+- `trans`: the [`Translator`](@ref) to get the info from.
+
+# Returns
+
+- the info field string.
+"""
+function helicsTranslatorGetInfo(trans::Translator)::String
+    return unsafe_string(Lib.helicsTranslatorGetInfo(trans))
+end
+
+"""
+Set the data in the info field for a translator.
+ 
+# Arguments
+
+- `trans`: the [`Translator`](@ref) to set the info field for.
+- `info`: the string to set.
+"""
+function helicsTranslatorSetInfo(trans::Translator, info::String)
+    @invoke_and_check Lib.helicsTranslatorSetInfo(trans, info)
+end
+
+"""
+Get the data in a specified tag of a translator.
+ 
+# Arguments
+
+- `trans`: the [`Translator`](@ref) to get the tag from.
+-`tagName`: The name of the tag to query.
+
+# Returns
+
+- the string with the tag data.
+"""
+function helicsTranslatorGetTag(trans::Translator, tagName::String)::String
+    return unsafe_string(Lib.helicsTranslatorGetTag(trans, tagName))
+end
+
+"""
+Set the data in a specific tag for a translator.
+ 
+# Arguments
+
+- `trans`: the [`Translator`](@ref) to set the tag for.
+- `tagName`: the tag to set.
+- `tagValue`: the string value to assocate with the tag.
+"""
+function helicsTranslatorSetTag(trans::Translator, tagName::String, tagValue::String)
+    @invoke_and_check Lib.helicsTranslatorSetTag(trans, tagName, tagValue)
+end
+
+"""
+Set an option value for a translator.
+ 
+# Arguments
+
+- `trans`: the [`Translator`](@ref) to set the option for
+- `option`: The option to set /ref HelicsHandleOptions.
+- `value`: The value of the option, commonly 0 for false or 1 for true.
+"""
+function helicsTranslatorSetOption(trans::Translator, option::Int, value::Int)
+    @invoke_and_check Lib.helicsTranslatorSetOption(trans, option, value)
+end
+
+"""
+Get a handle option for the translator.
+ 
+# Arguments
+
+- `trans`: the [`Translator`](@ref) to set the info field for.
+- `option`: The option to query /ref HelicsHandleOptions.
+"""
+function helicsTranslatorGetOption(trans::Translator, option::Int)::Int
+    return Lib.helicsTranslatorGetOption(trans, option)
 end
 
 """
@@ -728,14 +1805,14 @@ functions for subscriptions and publications
 
 - `fed`: the [`Federate`](@ref) in which to create a [`Publication`](@ref)
 - `key`: the identifier for the [`Publication`](@ref) the global publication key will be prepended with the [`Federate`](@ref) name
-- `type`: a code identifying the type of the [`Input`](@ref) see [`HELICS_DATA_TYPE`](@ref) for available options
+- `type`: a code identifying the type of the [`Input`](@ref) see [`HelicsDataTypes`](@ref) for available options
 - `units`: a string listing the units of the [`Subscription`](@ref) maybe NULL
 
 # Returns
 
 - the [`Publication`](@ref)
 """
-function helicsFederateRegisterPublication(fed::Federate, key::String, kind::Union{Int, HELICS.HELICS_DATA_TYPE}, units::String="")::Publication
+function helicsFederateRegisterPublication(fed::Federate, key::String, kind::Union{Int, HELICS.HelicsDataTypes}, units::String="")::Publication
     return @invoke_and_check Lib.helicsFederateRegisterPublication(fed, key, kind, units)
 end
 
@@ -772,14 +1849,14 @@ functions for subscriptions and publications
 
 - `fed`: the [`Federate`](@ref) in which to create a [`Publication`](@ref)
 - `key`: the identifier for the [`Publication`](@ref)
-- `type`: a code identifying the type of the [`Input`](@ref) see [`HELICS_DATA_TYPE`](@ref) for available options
+- `type`: a code identifying the type of the [`Input`](@ref) see [`HelicsDataTypes`](@ref) for available options
 - `units`: a string listing the units of the [`Subscription`](@ref) maybe NULL
 
 # Returns
 
 - the [`Publication`](@ref)
 """
-function helicsFederateRegisterGlobalPublication(fed::Federate, key::String, kind::Union{Int, HELICS.HELICS_DATA_TYPE}, units::String="")::Publication
+function helicsFederateRegisterGlobalPublication(fed::Federate, key::String, kind::Union{Int, HELICS.HelicsDataTypes}, units::String="")::Publication
     return @invoke_and_check Lib.helicsFederateRegisterGlobalPublication(fed, key, kind, units)
 end
 
@@ -814,14 +1891,14 @@ functions for subscriptions, inputs, and publications
 
 - `fed`: the [`Federate`](@ref) in which to create an [`Input`](@ref)
 - `key`: the identifier for the [`Publication`](@ref) the global input key will be prepended with the [`Federate`](@ref) name
-- `type`: a code identifying the type of the [`Input`](@ref) see [`HELICS_DATA_TYPE`](@ref) for available options
+- `type`: a code identifying the type of the [`Input`](@ref) see [`HelicsDataTypes`](@ref) for available options
 - `units`: a string listing the units of the [`Input`](@ref) maybe NULL
 
 # Returns
 
 - the [`Input`](@ref)
 """
-function helicsFederateRegisterInput(fed::Federate, key::String, kind::Union{Int, HELICS.HELICS_DATA_TYPE}, units::String="")::Input
+function helicsFederateRegisterInput(fed::Federate, key::String, kind::Union{Int, HELICS.HelicsDataTypes}, units::String="")::Input
     return @invoke_and_check Lib.helicsFederateRegisterInput(fed, key, kind, units)
 end
 
@@ -856,14 +1933,14 @@ functions for subscriptions and publications
 
 - `fed`: the [`Federate`](@ref) in which to create a [`Publication`](@ref)
 - `key`: the identifier for the [`Publication`](@ref)
-- `type`: a code identifying the type of the [`Input`](@ref) see [`HELICS_DATA_TYPE`](@ref) for available options
+- `type`: a code identifying the type of the [`Input`](@ref) see [`HelicsDataTypes`](@ref) for available options
 - `units`: a string listing the units of the [`Subscription`](@ref) maybe NULL
 
 # Returns
 
 - the [`Publication`](@ref)
 """
-function helicsFederateRegisterGlobalInput(fed::Federate, key::String, kind::Union{Int, HELICS.HELICS_DATA_TYPE}, units::String="")::Input
+function helicsFederateRegisterGlobalInput(fed::Federate, key::String, kind::Union{Int, HELICS.HelicsDataTypes}, units::String="")::Input
     return @invoke_and_check Lib.helicsFederateRegisterGlobalInput(fed, key, kind, units)
 end
 
@@ -971,17 +2048,17 @@ function helicsFederateGetSubscription(fed::Federate, key::String)::Subscription
 end
 
 """
-Publish raw data from bytes
+Publish raw bytes from string
 
 # Arguments
 
 - `pub`: the [`Publication`](@ref) to publish for
 - `data`: the raw data
 """
-function helicsPublicationPublishRaw(pub::Publication, data::String)
+function helicsPublicationPublishBytes(pub::Publication, data::String)
     inputDataLength = length(data)
     data = pointer(data)
-    @invoke_and_check Lib.helicsPublicationPublishRaw(pub, data, inputDataLength)
+    @invoke_and_check Lib.helicsPublicationPublishBytes(pub, data, inputDataLength)
 end
 
 """
@@ -1082,6 +2159,24 @@ function helicsPublicationPublishVector(pub::Publication, vectorInput::Vector{Fl
 end
 
 """
+Publish a vector of complex doubles
+
+# Arguments
+
+- `pub`: the [`Publication`](@ref) to publish for
+- `vectorInput`: Vector of ComplexF64 data
+"""
+function helicsPublicationPublishComplexVector(pub::Publication, vectorInput::Vector{ComplexF64})
+    vectorLength = length(vectorInput)
+	doubleVectorInput = Vector{Float64}(undef,0)
+	for cVal in vectorInput
+		push!(doubleVectorInput, cVal.re)
+		push!(doubleVectorInput, cVal.im)
+	end
+    @invoke_and_check Lib.helicsPublicationPublishComplexVector(pub, doubleVectorInput, length(doubleVectorInput))
+end
+
+"""
 Publish a named point
 
 # Arguments
@@ -1125,18 +2220,18 @@ Get the size of the raw value for subscription
 
 - the size of the raw data/string in bytes
 """
-function helicsInputGetRawValueSize(ipt::Input)::Int
-    return Lib.helicsInputGetRawValueSize(ipt)
+function helicsInputGetByteCount(ipt::Input)::Int
+    return Lib.helicsInputGetByteCount(ipt)
 end
 
 """
 Get the raw data for the latest value of a [`Subscription`](@ref)
 """
-function helicsInputGetRawValue(ipt::Input)::String
-    maxlen = Lib.helicsInputGetRawValueSize(ipt)
+function helicsInputGetBytes(ipt::Input)::String
+    maxlen = Lib.helicsInputGetByteCount(ipt)
     actualSize = Ref(maxlen)
     data = Ref(repeat(" ", maxlen))
-    @invoke_and_check Lib.helicsInputGetRawValue(ipt, data, maxlen, actualSize)
+    @invoke_and_check Lib.helicsInputGetBytes(ipt, data, maxlen, actualSize)
     return data[]
 end
 
@@ -1303,6 +2398,25 @@ function helicsInputGetVector(ipt::Input)::Vector{Float64}
 end
 
 """
+Get a complex vector from a [`Subscription`](@ref)
+
+# Arguments
+
+- `ipt`: the [`Input`](@ref) to get the result for
+"""
+function helicsInputGetComplexVector(ipt::Input)::Vector{Float64}
+    maxlen = Cint(helicsInputGetVectorSize(ipt))
+    data = Vector{Float64}(undef, maxlen)
+    actualSize = Ref(maxlen)
+    @invoke_and_check Lib.helicsInputGetComplexVector(ipt, data, maxlen, actualSize)
+	complexVector = Vector{ComplexF64}(undef,0)
+	for i in 1:actualSize[]/2
+		push!(complexVector, data[2*i - 1] + im * data[2*i])
+	end
+    return compelxVector
+end
+
+"""
 Get a named point from a [`Subscription`](@ref)
 
 # Arguments
@@ -1331,9 +2445,9 @@ Set the default as a raw data array
 - `ipt`: the [`Input`](@ref) to set the default for
 - `data`: a pointer to the raw data to use for the default
 """
-function helicsInputSetDefaultRaw(ipt::Input, data)
+function helicsInputSetDefaultBytes(ipt::Input, data::String)
     inputDataLength = length(data)
-    @invoke_and_check Lib.helicsInputSetDefaultRaw(ipt, pointer(data), inputDataLength)
+    @invoke_and_check Lib.helicsInputSetDefaultBytes(ipt, pointer(data), inputDataLength)
 end
 
 """
@@ -1434,6 +2548,24 @@ function helicsInputSetDefaultVector(ipt::Input, vectorInput::Vector{Float64})
 end
 
 """
+Set the default as a vector of complex doubles
+
+# Arguments
+
+- `ipt`: the [`Input`](@ref) to set the default for
+- `vectorInput`: an array of complex double data
+"""
+function helicsInputSetDefaultComplexVector(ipt::Input, vectorInput::Vector{ComplexF64})
+    vectorLength = length(vectorInput)
+	doublesVector = Vector{Float64}(undef,0)
+	for cVal in vectorInput
+		push!(doublesVector, cVal.re)
+		push!(doublesVector, cVal.im)
+	end
+    @invoke_and_check Lib.helicsInputSetDefaultComplexVector(ipt, doublesVector, length(doublesVector))
+end
+
+"""
 Set the default as a NamedPoint
 
 # Arguments
@@ -1478,6 +2610,21 @@ function helicsInputGetPublicationType(ipt::Input)::String
 end
 
 """
+Get the type of the publisher to an [`Input`](@ref) is sending
+
+# Arguments
+
+- `ipt`: the [`Input`](@ref) to query
+
+# Returns
+
+- An int containing the enumeration value of the publication type.
+"""
+function helicsInputGetPublicationDataType(ipt::Input)::Int
+    return Lib.helicsInputGetPublicationDataType(ipt)
+end
+
+"""
 Get the type of a [`Publication`](@ref)
 
 # Arguments
@@ -1493,7 +2640,7 @@ function helicsPublicationGetType(pub::Publication)::String
 end
 
 """
-Get the key of an [`Input`](@ref)
+Get the name of an [`Input`](@ref)
 
 # Arguments
 
@@ -1501,27 +2648,31 @@ Get the key of an [`Input`](@ref)
 
 # Returns
 
-- A string with the type name
+- A string of the input name
 """
-function helicsInputGetKey(ipt::Input)::String
-    return unsafe_string(Lib.helicsInputGetKey(ipt))
+function helicsInputGetName(ipt::Input)::String
+    return unsafe_string(Lib.helicsInputGetName(ipt))
 end
 
 """
-Get the key of a [`Subscription`](@ref)
+Get the target of an [`Input`](@ref)
+
+# Arguments
+
+- `ipt`: the [`Input`](@ref) to query
 
 # Returns
 
-- a string with the [`Subscription`](@ref) key
+- A string of the input target
 """
-function helicsSubscriptionGetKey(ipt::Input)::String
-    return unsafe_string(Lib.helicsSubscriptionGetKey(ipt))
+function helicsSubscriptionGetTarget(ipt::Input)::String
+    return unsafe_string(Lib.helicsSubscriptionGetTarget(ipt))
 end
 
 """
-Get the key of a [`Publication`](@ref)
+Get the name of a [`Publication`](@ref)
 
-this will be the global key used to identify the [`Publication`](@ref) to the federation
+this will be the global name used to identify the [`Publication`](@ref) to the federation
 
 # Arguments
 
@@ -1529,10 +2680,10 @@ this will be the global key used to identify the [`Publication`](@ref) to the fe
 
 # Returns
 
-- a void enumeration, helics_ok if everything worked
+- a string of the publication name
 """
-function helicsPublicationGetKey(pub::Publication)::String
-    return unsafe_string(Lib.helicsPublicationGetKey(pub))
+function helicsPublicationGetName(pub::Publication)::String
+    return unsafe_string(Lib.helicsPublicationGetName(pub))
 end
 
 """
@@ -1593,6 +2744,35 @@ function helicsInputSetInfo(inp::Input, info::String)
 end
 
 """
+Get the data in the tag field of an [`Input`](@ref)
+
+# Arguments
+
+- `inp`: the [`Input`](@ref) to query
+- `tagName`: the name of the tage to the get the value for
+
+# Returns
+
+- a string with the tag data
+"""
+function helicsInputGetTag(inp::Input, tagName::String)::String
+    return unsafe_string(Lib.helicsInputGetTag(inp, tagName))
+end
+
+"""
+Set the data in the tag field for an [`Input`](@ref)
+
+# Arguments
+
+- `inp`: the [`Input`](@ref) to query
+- `tagName`: the name of the tag to set
+- `tagValue`: the string value to associate with a tag
+"""
+function helicsInputSetTag(inp::Input, tagName::String, tagValue::String)
+    @invoke_and_check Lib.helicsInputSetTag(inp, tagName, tagValue)
+end
+
+"""
 Get the data in the info field of an publication
 
 # Arguments
@@ -1620,18 +2800,47 @@ function helicsPublicationSetInfo(pub::Publication, info::String)
 end
 
 """
+Get the data in the tag field of a [`Publication`](@ref)
+
+# Arguments
+
+- `pub`: the [`Publication`](@ref) to query
+- `tagName`: the name of the tage to the get the value for
+
+# Returns
+
+- a string with the tag data
+"""
+function helicsPublicationGetTag(pub::Publication, tagName::String)::String
+    return unsafe_string(Lib.helicsPublicationGetTag(pub, tagName))
+end
+
+"""
+Set the data in the tag field for an [`Publication`](@ref)
+
+# Arguments
+
+- `pub`: the [`Publication`](@ref) to query
+- `tagName`: the name of the tag to set
+- `tagValue`: the string value to associate with a tag
+"""
+function helicsPublicationSetTag(pub::Publication, tagName::String, tagValue::String)
+    @invoke_and_check Lib.helicsPublicationSetTag(pub, tagName, tagValue)
+end
+
+"""
 Get the data in the info field of an [`Input`](@ref)
 
 # Arguments
 
 - `inp`: the [`Input`](@ref) to query
-- `option`: integer representation of the option in question see [`HELICS_HANDLE_OPTIONS`](@ref)
+- `option`: integer representation of the option in question see [`HelicsHandleOptions`](@ref)
 
 # Returns
 
 - a string with the info field string
 """
-function helicsInputGetOption(inp::Input, option::Union{Int,HELICS.HELICS_HANDLE_OPTIONS})::Bool
+function helicsInputGetOption(inp::Input, option::Union{Int,HELICS.HelicsHandleOptions})::Bool
     return Lib.helicsInputGetOption(inp, option) == 1 ? true : false
 end
 
@@ -1641,10 +2850,10 @@ Set the data in the info field for an [`Input`](@ref)
 # Arguments
 
 - `inp`: the [`Input`](@ref) to query
-- `option`: the option to set for the [`Input`](@ref) [`HELICS_HANDLE_OPTIONS`](@ref)
+- `option`: the option to set for the [`Input`](@ref) [`HelicsHandleOptions`](@ref)
 - `value`: the value to set the option to
 """
-function helicsInputSetOption(inp::Input, option::Union{Int,HELICS.HELICS_HANDLE_OPTIONS}, value::Bool)
+function helicsInputSetOption(inp::Input, option::Union{Int,HELICS.HelicsHandleOptions}, value::Bool)
     @invoke_and_check Lib.helicsInputSetOption(inp, option, value ? 1 : 0)
 end
 
@@ -1654,13 +2863,13 @@ Get the data in the info field of an publication
 # Arguments
 
 - `pub`: the [`Publication`](@ref) to query
-- `option`: the value to query see [`HELICS_HANDLE_OPTIONS`](@ref)
+- `option`: the value to query see [`HelicsHandleOptions`](@ref)
 
 # Arguments
 
 - a string with the info field string
 """
-function helicsPublicationGetOption(pub::Publication, option::Union{Int,HELICS.HELICS_HANDLE_OPTIONS})::Bool
+function helicsPublicationGetOption(pub::Publication, option::Union{Int,HELICS.HelicsHandleOptions})::Bool
     return Lib.helicsPublicationGetOption(pub, option) == 1 ? true : false
 end
 
@@ -1670,10 +2879,10 @@ Set the data in the info field for an publication
 # Arguments
 
 - `pub`: the [`Publication`](@ref) to query
-- `option`: integer code for the option to set [`HELICS_HANDLE_OPTIONS`](@ref)
+- `option`: integer code for the option to set [`HelicsHandleOptions`](@ref)
 - `val`: the value to set the option to
 """
-function helicsPublicationSetOption(pub::Publication, option::Union{Int,HELICS.HELICS_HANDLE_OPTIONS}, val::Bool)
+function helicsPublicationSetOption(pub::Publication, option::Union{Int,HELICS.HelicsHandleOptions}, val::Bool)
     @invoke_and_check Lib.helicsPublicationSetOption(pub, option, val ? 1 : 0)
 end
 
@@ -1748,15 +2957,75 @@ end
 """
 Return an initialized error object
 """
-function helicsErrorInitialize()::Lib.helics_error
+function helicsErrorInitialize()::Lib.HelicsError
     return Lib.helicsErrorInitialize()
 end
 
 """
 Clear an error object
 """
-function helicsErrorClear(err::Ref{Lib.helics_error})
+function helicsErrorClear(err::Ref{Lib.HelicsError})
     Lib.helicsErrorClear(err)
+end
+
+"""
+Load a signal handler that handles Ctrl-C and shuts down all HELICS brokers, cores,
+and federates then exits the process
+"""
+function helicsLoadSignalHandler()
+    Lib.helicsLoadSignalHandler()
+end
+
+"""
+Load a signal handler that handles Ctrl-C and shuts down all HELICS brokers, cores,
+and federates then exits the process. This operation will execute in a newly created and detached thread returning control back to the
+calling program before completing operations.
+"""
+function helicsLoadThreadedSignalHandler()
+    Lib.helicsLoadThreadedSignalHandler()
+end
+
+"""
+Clear HELICS based signal handlers.
+"""
+function helicsClearSignalHandler()
+    Lib.helicsClearSignalHandler()
+end
+
+"""
+Load a custom signal handler to execute prior to the abort signal handler.
+@details  This function is not 100% reliable it will most likely work but uses some functions and
+techniques that are not 100% guaranteed to work in a signal handler
+and in worst case it could deadlock.  That is somewhat unlikely given usage patterns
+but it is possible.  The callback has signature HelicsBool(*handler)(int) and it will take the SIG_INT as an argument
+and return a boolean.  If the boolean return value is HELICS_TRUE (or the callback is null) the default signal handler is run after the
+callback finishes; if it is HELICS_FALSE the default callback is not run and the default signal handler is executed. If the second
+argument is set to HELICS_TRUE the default signal handler will execute in a separate thread(this may be a bad idea). 
+"""
+function helicsLoadSignalHandlerCallback(handler::CFunction, useSeparateThread::Bool)
+    Lib.helicsLoadSignalHandlerCallback(handler, useSeparateThread ? 1 : 0)
+end
+
+"""
+Load a custom signal handler to execute prior to the abort signal handler. The signal handler does not call exit.
+@details  This function is not 100% reliable. It will most likely work but uses some functions and
+techniques that are not 100% guaranteed to work in a signal handler
+and in worst case it could deadlock.  That is somewhat unlikely given usage patterns
+but it is possible.  The callback has signature HelicsBool(*handler)(int) and it will take the SIG_INT as an argument
+and return a boolean.  If the boolean return value is HELICS_TRUE (or the callback is null) the no exit signal handler is run after the
+callback finishes; if it is HELICS_FALSE the default callback is not run and the default signal handler is executed. If the second
+argument is set to HELICS_TRUE the default signal handler will execute in a separate thread (this may be a bad idea).
+"""
+function helicsLoadSignalHandlerCallbackNoExit(handler::CFunction, useSeparateThread::Bool)
+    Lib.helicsLoadSignalHandlerCallbackNoExit(handler, useSeparateThread ? 1 : 0)
+end
+
+"""
+Execute a global abort by sending an error code to all cores, brokers,
+and federates that were created through the current library instance.
+"""
+function helicsAbort(errorCode::Int, errorString::String)
+    Lib.helicsAbort(errorCode, errorString)
 end
 
 """
@@ -2043,6 +3312,17 @@ function helicsCoreSetReadyToInit(core::Core)
 end
 
 """
+Connect a core to the federate based on current configuration
+
+# Arguments
+
+- `core`: the core object to enable init values for
+"""
+function helicsCoreConnect(core::Core)::Bool
+    return @invoke_and_check Lib.helicsCoreConnect(core) == 1 ? true : false
+end
+
+"""
 Get an identifier for the core
 
 # Arguments
@@ -2227,6 +3507,37 @@ function helicsCreateCombinationFederateFromConfig(configFile::String)::Combinat
 end
 
 """
+Create a callback federate from a federate info object.
+
+# Arguments
+
+- `fedName`:  A string with the name of the federate, can be NULL or an empty string to pull the default name from fi.
+- `fi`: fi The federate info object that contains details on the federate.
+
+# Returns
+
+- [`CallbackFederate`](@ref)
+"""
+function helicsCreateCallbackFederate(fedName::String, fi::FederateInfo)::CallbackFederate
+    return @invoke_and_check Lib.helicsCreateCallbackFederate(fedName, fi)
+end
+
+"""
+Create a callback federate from a JSON file or JSON string or TOML file.
+
+# Arguments
+
+- `configFile`:  A JSON file or a JSON string or TOML file that contains setup and configuration information.
+
+# Returns
+
+- [`CallbackFederate`](@ref)
+"""
+function helicsCreateCallbackFederateFromConfig(configFile::String)::CallbackFederate
+    return @invoke_and_check Lib.helicsCreateCallbackFederateFromConfig(configFile)
+end
+
+"""
 Create a new reference to an existing federate
 
 this will create a new [`Federate`](@ref) object that references the existing federate it must be freed as well
@@ -2241,6 +3552,46 @@ this will create a new [`Federate`](@ref) object that references the existing fe
 """
 function helicsFederateClone(fed::T)::T where T <: Federate
     return @invoke_and_check Lib.helicsFederateClone(fed)
+end
+
+"""
+Protect a federate from finalizing and closing if all references go out of scope
+
+this function allows a federate to be retrieved on demand, it must be explicitly close later otherwise it will be destroyed
+when the library is closed
+
+# Arguments
+
+- `fedName`: The name of an existing HelicsFederate.
+"""
+function helicsFederateProtect(fedName::String)
+    @invoke_and_check Lib.helicsFederateProtect(fedName)
+end
+
+"""
+remove the protection of an existing federate
+
+this function allows a federate to be retrieved on demand, it must be explicitly close
+later otherwise it will be destroyed
+when the library is closed
+
+# Arguments
+
+- `fedName`: The name of an existing HelicsFederate that should not be protected.
+"""
+function helicsFederateUnProtect(fedName::String)
+    @invoke_and_check Lib.helicsFederateUnProtect(fedName)
+end
+
+"""
+checks if an existing federate is protected
+
+# Arguments
+
+- `fedName`: The name of an existing HelicsFederate.
+"""
+function helicsFederateIsProtected(fedName::String)::Bool
+    return @invoke_and_check Lib.helicsFederateIsProtected(fedName) == 1 ? true : false
 end
 
 """
@@ -2280,6 +3631,18 @@ Load a [`FederateInfo`](@ref) from command line arguments
 """
 function helicsFederateInfoLoadFromArgs(fi::FederateInfo, argv::Vector{<:AbstractString})
     @invoke_and_check Lib.helicsFederateInfoLoadFromArgs(fi, length(argv), argv)
+end
+
+"""
+Load a [`FederateInfo`](@ref) from command line arguments contained in a string.
+
+# Arguments
+
+- `fi`: a [`FederateInfo`](@ref) object
+- `args`: Command line arguments specified in a string
+"""
+function helicsFederateInfoLoadFromString(fi::FederateInfo, args::String)
+    @invoke_and_check Lib.helicsFederateInfoLoadFromString(fi, args)
 end
 
 """
@@ -2332,9 +3695,9 @@ valid values available by definitions in api-data.h
 # Arguments
 
 - `fi`: the [`FederateInfo`](@ref) object to alter
-- `coretype`: an numerical code for a core type see /ref helics_core_type
+- `coretype`: an numerical code for a core type see /ref HelicsCoreTypes
 """
-function helicsFederateInfoSetCoreType(fi::FederateInfo, coretype::Union{Int, HELICS.HELICS_CORE_TYPE})
+function helicsFederateInfoSetCoreType(fi::FederateInfo, coretype::Union{Int, HELICS.HelicsCoreTypes})
     @invoke_and_check Lib.helicsFederateInfoSetCoreType(fi, coretype)
 end
 
@@ -2425,7 +3788,7 @@ end
 """
 Set a flag in the info structure
 
-valid flags are available [`HELICS_FEDERATE_FLAGS`](@ref)
+valid flags are available [`HelicsFederateFlags`](@ref)
 
 # Arguments
 
@@ -2433,7 +3796,7 @@ valid flags are available [`HELICS_FEDERATE_FLAGS`](@ref)
 - `flag`: a numerical index for a flag
 - `value`: the desired value of the flag `true` or `false`
 """
-function helicsFederateInfoSetFlagOption(fi::FederateInfo, flag::Union{Int, HELICS.HELICS_FEDERATE_FLAGS}, value::Bool)
+function helicsFederateInfoSetFlagOption(fi::FederateInfo, flag::Union{Int, HELICS.HelicsFederateFlags}, value::Bool)
     @invoke_and_check Lib.helicsFederateInfoSetFlagOption(fi, flag, value ? 1 : 0)
 end
 
@@ -2453,13 +3816,13 @@ end
 
 """
 """
-function helicsFederateInfoSetTimeProperty(fi::FederateInfo, timeProperty::Union{Int, HELICS.HELICS_PROPERTIES}, propertyValue::HELICS.HELICS_TIME)
+function helicsFederateInfoSetTimeProperty(fi::FederateInfo, timeProperty::Union{Int, HELICS.HelicsProperties}, propertyValue::HELICS.HELICS_TIME)
     @invoke_and_check Lib.helicsFederateInfoSetTimeProperty(fi, timeProperty, propertyValue)
 end
 
 """
 """
-function helicsFederateInfoSetIntegerProperty(fi::FederateInfo, intProperty::Union{Int, HELICS.HELICS_PROPERTIES}, propertyValue::Int)
+function helicsFederateInfoSetIntegerProperty(fi::FederateInfo, intProperty::Union{Int, HELICS.HelicsProperties}, propertyValue::Int)
     @invoke_and_check Lib.helicsFederateInfoSetIntegerProperty(fi, intProperty, propertyValue)
 end
 
@@ -2494,6 +3857,28 @@ Complete the asynchronous finalize call
 """
 function helicsFederateFinalizeComplete(fed::Federate)
     @invoke_and_check Lib.helicsFederateFinalizeComplete(fed)
+end
+
+"""
+Disconnect/finalize the federate. This function halts all communication in the federate and disconnects it
+from the core.  This call is identical to helicsFederateFinalize.
+"""
+function helicsFederateDisconnect(fed::Federate)
+    @invoke_and_check Lib.helicsFederateDisconnect(fed)
+end
+
+"""
+Disconnect/finalize the federate in an async call.  This call is identical to helicsFederateFinalizeAsync.
+"""
+function helicsFederateDisconnectAsync(fed::Federate)
+    @invoke_and_check Lib.helicsFederateDisconnectAsync(fed)
+end
+
+"""
+Complete the asynchronous disconnect/finalize call.  This call is identical to helicsFederateFinalizeComplete
+"""
+function helicsFederateDisconnectComplete(fed::Federate)
+    @invoke_and_check Lib.helicsFederateDisconnectComplete(fed)
 end
 
 """
@@ -2564,6 +3949,45 @@ function helicsFederateEnterInitializingModeComplete(fed::Federate)
 end
 
 """
+Trigger a blocking call and return to created state after all federates have either triggered an iteration or are waiting to enter
+initializing mode.
+
+This call will return the federate to the created state to allow additional setup to occur with federates either iterating in
+the mode or waiting.
+
+# Arguments
+
+- `fed`: the [`Federate`](@ref) to operate on.
+"""
+function helicsFederateEnterInitializingModeIterative(fed::Federate)
+    @invoke_and_check Lib.helicsFederateEnterInitializingModeIterative(fed)
+end
+
+"""
+Non blocking alternative to \ref helicsFederateEnterInitializingModeIterative.
+The function helicsFederateEnterInitializationModeIterativeComplete must be called to finish the operation.
+
+# Arguments
+
+- `fed`: the [`Federate`](@ref) to operate on.
+"""
+function helicsFederateEnterInitializingModeIterativeAsync(fed::Federate)
+    @invoke_and_check Lib.helicsFederateEnterInitializingModeIterativeAsync(fed)
+end
+
+"""
+Complete the call to enter initializing mode Iterative that was initiated with /ref heliceEnterInitializingModeIterativeAsync.  The
+federate will be in created or error mode on return
+
+# Arguments
+
+- `fed`: the [`Federate`](@ref) to operate on.
+"""
+function helicsFederateEnterInitializingModeIterativeComplete(fed::Federate)
+    @invoke_and_check Lib.helicsFederateEnterInitializingModeIterativeComplete(fed)
+end
+
+"""
 Request that the [`Federate`](@ref) enter the Execution mode
 
 this call is blocking until granted entry by the core object for an asynchronous alternative call [`helicsFederateEnterExecutingModeAsync`](@ref) on return from this call the [`Federate`](@ref) will be at time 0.
@@ -2615,7 +4039,7 @@ this call allows for finer grain control of the iterative process then [`helicsF
 
 - an iteration structure with field containing the time and iteration status
 """
-function helicsFederateEnterExecutingModeIterative(fed::Federate, iterate::Union{Int, HELICS.HELICS_ITERATION_REQUEST})::HELICS.HELICS_ITERATION_RESULT
+function helicsFederateEnterExecutingModeIterative(fed::Federate, iterate::Union{Int, HELICS.HelicsIterationRequest})::HELICS.HelicsIterationResult
     return @invoke_and_check Lib.helicsFederateEnterExecutingModeIterative(fed, iterate)
 end
 
@@ -2629,7 +4053,7 @@ This call allows for finer grain control of the iterative process then [`helicsF
 - `fed`: the [`Federate`](@ref) to make the request of
 - `iterate`: the requested iteration mode
 """
-function helicsFederateEnterExecutingModeIterativeAsync(fed::Federate, iterate::Union{Int, HELICS.HELICS_ITERATION_REQUEST})
+function helicsFederateEnterExecutingModeIterativeAsync(fed::Federate, iterate::Union{Int, HELICS.HelicsIterationRequest})
     return @invoke_and_check Lib.helicsFederateEnterExecutingModeIterativeAsync(fed, iterate)
 end
 
@@ -2644,7 +4068,7 @@ Complete the asynchronous iterative call into ExecutionModel
 
 - an iteration object containing the iteration time and iteration_status
 """
-function helicsFederateEnterExecutingModeIterativeComplete(fed::Federate)::HELICS.HELICS_ITERATION_RESULT
+function helicsFederateEnterExecutingModeIterativeComplete(fed::Federate)::HELICS.HelicsIterationResult
     return @invoke_and_check Lib.helicsFederateEnterExecutingModeIterativeComplete(fed)
 end
 
@@ -2659,7 +4083,7 @@ Get the current state of a [`Federate`](@ref)
 
 - state the resulting state if void return helics_ok
 """
-function helicsFederateGetState(fed::Federate)::HELICS.HELICS_FEDERATE_STATE
+function helicsFederateGetState(fed::Federate)::HELICS.HelicsFederateState
     return @invoke_and_check Lib.helicsFederateGetState(fed)
 end
 
@@ -2674,8 +4098,8 @@ Get the core object associated with a [`Federate`](@ref)
 
 - a [`Core`](@ref) object
 """
-function helicsFederateGetCoreObject(fed::Federate)::Core
-    return @invoke_and_check Lib.helicsFederateGetCoreObject(fed)
+function helicsFederateGetCore(fed::Federate)::Core
+    return @invoke_and_check Lib.helicsFederateGetCore(fed)
 end
 
 """
@@ -2728,8 +4152,8 @@ this call allows for finer grain control of the iterative process then [`helicsF
 - the granted time
 - the iteration specification of the result
 """
-function helicsFederateRequestTimeIterative(fed::Federate, requestTime::HELICS.HELICS_TIME, iterate::Union{Int, HELICS.HELICS_ITERATION_REQUEST})::Tuple{Float64, HELICS.HELICS_ITERATION_RESULT}
-    outIteration = Ref(HELICS.HELICS_ITERATION_RESULT(0))
+function helicsFederateRequestTimeIterative(fed::Federate, requestTime::HELICS.HELICS_TIME, iterate::Union{Int, HELICS.HelicsIterationRequest})::Tuple{Float64, HELICS.HelicsIterationResult}
+    outIteration = Ref(HELICS.HelicsIterationResult(0))
     t = @invoke_and_check Lib.helicsFederateRequestTimeIterative(fed, requestTime, iterate, outIteration)
     return t, outIteration[]
 end
@@ -2777,7 +4201,7 @@ this call allows for finer grain control of the iterative process then [`helicsF
 
 - a void object with a return code of the result
 """
-function helicsFederateRequestTimeIterativeAsync(fed::Federate, requestTime::HELICS.HELICS_TIME, iterate::Union{Int, HELICS.HELICS_ITERATION_REQUEST})
+function helicsFederateRequestTimeIterativeAsync(fed::Federate, requestTime::HELICS.HELICS_TIME, iterate::Union{Int, HELICS.HelicsIterationRequest})
     @invoke_and_check Lib.helicsFederateRequestTimeIterativeAsync(fed, requestTime, iterate)
 end
 
@@ -2793,10 +4217,22 @@ Complete an iterative time request asynchronous call
 - the granted time
 - `outIterate`  the iteration specification of the result
 """
-function helicsFederateRequestTimeIterativeComplete(fed::Federate)::Tuple{Float64, HELICS.HELICS_ITERATION_RESULT}
-    outIterate = Ref(HELICS.HELICS_ITERATION_RESULT(0))
+function helicsFederateRequestTimeIterativeComplete(fed::Federate)::Tuple{Float64, HELICS.HelicsIterationResult}
+    outIterate = Ref(HELICS.HelicsIterationResult(0))
     t = @invoke_and_check Lib.helicsFederateRequestTimeIterativeComplete(fed, outIterate)
     return t, outIterate[]
+end
+
+"""
+Tell helics to process internal communications for a period of time.
+
+# Arguments
+
+- `fed`: the [`Federate`](@ref) to tell to process
+- `period1: The length of time to process communications and then return control.
+"""
+function helicsFederateProcessCommunications(fed::Federate, period::HELICS.HELICS_TIME)
+    @invoke_and_check Lib.helicsFederateProcessCommunications(fed, period)
 end
 
 """
@@ -2823,7 +4259,7 @@ Set a time based property for a [`Federate`](@ref)
 - `timeProperty`: a integer code for a time property
 - `time`: the requested value of the property
 """
-function helicsFederateSetTimeProperty(fed::Federate, timeProperty::Union{Int, HELICS.HELICS_PROPERTIES}, time::HELICS.HELICS_TIME)
+function helicsFederateSetTimeProperty(fed::Federate, timeProperty::Union{Int, HELICS.HelicsProperties}, time::HELICS.HELICS_TIME)
     @invoke_and_check Lib.helicsFederateSetTimeProperty(fed, timeProperty, time)
 end
 
@@ -2836,7 +4272,7 @@ Set a flag for the [`Federate`](@ref)
 - `flag`: the flag to change
 - `flagValue`: the new value of the flag 0 for false !=0 for true
 """
-function helicsFederateSetFlagOption(fed::Federate, flag::Union{Int, HELICS.HELICS_FEDERATE_FLAGS, HELICS.HELICS_HANDLE_OPTIONS}, flagValue::Bool)
+function helicsFederateSetFlagOption(fed::Federate, flag::Union{Int, HELICS.HelicsFederateFlags, HELICS.HelicsHandleOptions}, flagValue::Bool)
     @invoke_and_check Lib.helicsFederateSetFlagOption(fed, flag, flagValue ? 1 : 0)
 end
 
@@ -2863,7 +4299,7 @@ Set an integer based property of a [`Federate`](@ref)
 - `intProperty`: the property to set
 - `propertyVal`: the value of the property
 """
-function helicsFederateSetIntegerProperty(fed::Federate, intProperty::Union{Int, HELICS.HELICS_PROPERTIES}, propertyVal::Int)
+function helicsFederateSetIntegerProperty(fed::Federate, intProperty::Union{Int, HELICS.HelicsProperties}, propertyVal::Int)
     @invoke_and_check Lib.helicsFederateSetIntegerProperty(fed, intProperty, propertyVal)
 end
 
@@ -2875,7 +4311,7 @@ Get the current value of a time based property in a [`Federate`](@ref)
 - `fed`: the [`Federate`](@ref) query
 - `timeProperty`: the property to query
 """
-function helicsFederateGetTimeProperty(fed::Federate, timeProperty::Union{Int, HELICS.HELICS_PROPERTIES})::Float64
+function helicsFederateGetTimeProperty(fed::Federate, timeProperty::Union{Int, HELICS.HelicsProperties})::Float64
     return @invoke_and_check Lib.helicsFederateGetTimeProperty(fed, timeProperty)
 end
 
@@ -2891,7 +4327,7 @@ Get a flag value for a [`Federate`](@ref)
 
 - the value of the flag
 """
-function helicsFederateGetFlagOption(fed::Federate, flag::Union{Int, HELICS.HELICS_FEDERATE_FLAGS, HELICS.HELICS_HANDLE_OPTIONS})::Bool
+function helicsFederateGetFlagOption(fed::Federate, flag::Union{Int, HELICS.HelicsFederateFlags, HELICS.HelicsHandleOptions})::Bool
     r = @invoke_and_check Lib.helicsFederateGetFlagOption(fed, flag)
     return r == 1 ? true : false
 end
@@ -2904,13 +4340,13 @@ debug and trace only do anything if they were enabled in the compilation
 # Arguments
 
 - `fed`: the [`Federate`](@ref) to get the flag for
-- `intProperty`: a code for the property to set [`HELICS_HANDLE_OPTIONS`](@ref)
+- `intProperty`: a code for the property to set [`HelicsHandleOptions`](@ref)
 
 # Returns
 
 - the value of the property
 """
-function helicsFederateGetIntegerProperty(fed::Federate, intProperty::Union{Int, HELICS.HELICS_PROPERTIES, HELICS.HELICS_HANDLE_OPTIONS})::Int
+function helicsFederateGetIntegerProperty(fed::Federate, intProperty::Union{Int, HELICS.HelicsProperties, HELICS.HelicsHandleOptions})::Int
     return @invoke_and_check Lib.helicsFederateGetIntegerProperty(fed, intProperty)
 end
 
@@ -2930,6 +4366,19 @@ function helicsFederateGetCurrentTime(fed::Federate)::Float64
 end
 
 """
+create an alias for an interface
+
+# Arguments
+
+- `fed`: the [`Federate`](@ref) to query
+- `interfaceName`: The current name of an interface
+- `alias`: the additional name to use for the given interface
+"""
+function helicsFederateAddAlias(fed::Federate, interfaceName::String, alias::String)
+    @invoke_and_check Lib.helicsFederateAddAlias(fed)
+end
+
+"""
 Set a federation global value through a [`Federate`](@ref)
 
 this overwrites any previous value for this name
@@ -2942,6 +4391,32 @@ this overwrites any previous value for this name
 """
 function helicsFederateSetGlobal(fed::Federate, valueName::String, value::String)
     @invoke_and_check Lib.helicsFederateSetGlobal(fed, valueName, value)
+end
+
+"""
+Set a federate tag value.
+This overwrites any previous value for this tag.
+
+# Arguments
+
+- `fed`: the [`Federate`](@ref) to set the tag for
+- `tagName`: the name of the tag to set
+- `value`: the value of the tag
+"""
+function helicsFederateSetTag(fed::Federate, tagName::String, value::String)
+    @invoke_and_check Lib.helicsFederateSetTag(fed, tagName, value)
+end
+
+"""
+Get a federate tag value.
+
+# Arguments
+
+- `fed`: the [`Federate`](@ref) to get the tag for
+- `tagName`: the name of the tag to get
+"""
+function helicsFederateGetTag(fed::Federate, tagName::String)
+    return unsafe_string(@invoke_and_check Lib.helicsFederateGetTag(fed, tagName))
 end
 
 """
@@ -2972,6 +4447,84 @@ this overwrites any previous value for this name
 """
 function helicsBrokerSetGlobal(broker::Broker, valueName::String, value::String)
     @invoke_and_check Lib.helicsBrokerSetGlobal(broker, valueName, value)
+end
+
+"""
+create an alias for an interface
+
+# Arguments
+
+- `core`: the [`Core`](@ref) to us to set the alias
+- `interfaceName`: the current name of an interface
+- `alias`: the additional name to use for a given interface
+"""
+function helicsCoreAddAlias(core::Core, interfaceName::String, alias::String)
+    @invoke_and_check Lib.helicsCoreAddAlias(core, interfaceName, alias)
+end
+
+"""
+create an alias for an interface
+
+# Arguments
+
+- `broker`: the [`Broker`](@ref) to us to set the alias
+- `interfaceName`: the current name of an interface
+- `alias`: the additional name to use for a given interface
+"""
+function helicsBrokerAddAlias(broker::Broker, interfaceName::String, alias::String)
+    @invoke_and_check Lib.helicsBrokerAddAlias(broker, interfaceName, alias)
+end
+
+"""
+Send a command to another helics object though a core using asynchronous(fast) operations.
+
+# Arguments
+
+- `core`: The [`Core`](@ref) to set the command through
+- `target`: The name of the object to send the command to
+- `command`: the command to send
+"""
+function helicsCoreSendCommand(core::Core, target::String, command::String)
+    @invoke_and_check Lib.helicsCoreSendCommand(core, target, command)
+end
+
+"""
+Send a command to another helics object though a core using ordered operations.
+
+# Arguments
+
+- `core`: The [`Core`](@ref) to set the command through
+- `target`: The name of the object to send the command to
+- `command`: the command to send
+"""
+function helicsCoreSendOrderedCommand(core::Core, target::String, command::String)
+    @invoke_and_check Lib.helicsCoreSendOrderedCommand(core, target, command)
+end
+
+"""
+Send a command to another helics object though a broker using asynchronous(fast) operations.
+
+# Arguments
+
+- `broker`: The [`Broker`](@ref) to set the command through
+- `target`: The name of the object to send the command to
+- `command`: the command to send
+"""
+function helicsBrokerSendCommand(broker::Broker, target::String, command::String)
+    @invoke_and_check Lib.helicsBrokerSendCommand(broker, target, command)
+end
+
+"""
+Send a command to another helics object through a broker using ordered sequencing.
+
+# Arguments
+
+- `broker`: The [`Broker`](@ref) to set the command through
+- `target`: The name of the object to send the command to
+- `command`: the command to send
+"""
+function helicsBrokerSendOrderedCommand(broker::Broker, target::String, command::String)
+    @invoke_and_check Lib.helicsBrokerSendOrderedCommand(broker, target, command)
 end
 
 """
@@ -3113,19 +4666,6 @@ function helicsCleanupLibrary()
 end
 
 """
-Create a new empty message object
-
-The message is empty and isValid will return false since there is no data associated with the message yet.
-
-# Returns
-
-- a [`Message`](@ref) containing the message data
-"""
-function helicsFederateCreateMessageObject(fed::Federate)::Message
-    @invoke_and_check Lib.helicsFederateCreateMessageObject(fed)
-end
-
-"""
 Get the source endpoint of a message
 
      message operation functions
@@ -3237,7 +4777,7 @@ function helicsMessageGetMessageID(message::Message)::Int
 end
 
 """
-Check if a flag is set on a message
+Check if a flag is set on a message.
 
 # Arguments
 
@@ -3246,10 +4786,10 @@ Check if a flag is set on a message
 
 # Returns
 
-- the flags associated with a message
+- true if set otherwise false
 """
-function helicsMessageCheckFlag(message::Message, flag::Union{Int, HELICS.HELICS_FEDERATE_FLAGS})::Bool
-    return Lib.helicsMessageCheckFlag(message, flag) == 1 ? true : false
+function helicsMessageGetFlagOption(message::Message, flag::Int)::Bool
+    return Lib.helicsMessageGetFlagOption(message, flag) == 1 ? true : false
 end
 
 """
@@ -3263,8 +4803,8 @@ Get the size of the data payload in bytes
 
 - the size of the data payload
 """
-function helicsMessageGetRawDataSize(message::Message)::Int
-    return Lib.helicsMessageGetRawDataSize(message)
+function helicsMessageGetByteCount(message::Message)::Int
+    return Lib.helicsMessageGetByteCount(message)
 end
 
 """
@@ -3275,11 +4815,11 @@ Get the raw data for a message object
 - `maxMessagelen`: The maximum size of information that data can hold
 - `actualSize`: The actual length of data copied to data
 """
-function helicsMessageGetRawData(message::Message)::String
-    maxlen = Cint(helicsMessageGetRawDataSize(message))
+function helicsMessageGetBytes(message::Message)::String
+    maxlen = Cint(helicsMessageGetByteCount(message))
     data = Vector{Cchar}(undef, maxlen)
     actualSize = Ref(maxlen)
-    @invoke_and_check Lib.helicsMessageGetRawData(message, Ref(data), maxlen, actualSize)
+    @invoke_and_check Lib.helicsMessageGetBytes(message, Ref(data), maxlen, actualSize)
     return String(Vector{UInt8}(data))
 end
 
@@ -3295,8 +4835,8 @@ Get a pointer to the raw data of a message
 - a pointer to the raw data in memory, the
 pointer may be NULL if the message is not a valid message
 """
-function helicsMessageGetRawDataPointer(message::Message)::Ptr{Cvoid}
-    return Lib.helicsMessageGetRawDataPointer(message)
+function helicsMessageGetBytesPointer(message::Message)::Ptr{Cvoid}
+    return Lib.helicsMessageGetBytesPointer(message)
 end
 
 """
@@ -3438,7 +4978,7 @@ Set a flag on a message
 - `flag`: An index of a flag to set on the message
 - `flagValue`: The desired value of the flag
 """
-function helicsMessageSetFlagOption(message::Message, flag::Union{Int, HELICS_FEDERATE_FLAGS}, flagValue::Bool)
+function helicsMessageSetFlagOption(message::Message, flag::Union{Int, HelicsFederateFlags}, flagValue::Bool)
     @invoke_and_check Lib.helicsMessageSetFlagOption(message, flag, flagValue)
 end
 
@@ -3482,6 +5022,18 @@ function helicsMessageAppendData(message::Message, data::String)
     inputDataLength = length(data)
     data = pointer(data)
     @invoke_and_check Lib.helicsMessageAppendData(message, data, inputDataLength)
+end
+
+"""
+ Clopy a message object.
+
+# Arguments
+
+- `srcMessage`: The message object to copy from
+- `dstMessage`: The message object to copy to.
+"""
+function helicsMessageCopy(srcMessage::Message, dstMessage::Message)
+    @invoke_and_check Lib.helicsMessageCopy(srcMessage, dstMessage)
 end
 
 """
@@ -3534,7 +5086,56 @@ Set a the log file on a broker
 - `logFileName`: The name of the file to log to
 """
 function helicsBrokerSetLogFile(broker::Broker, logFileName::String)
-    @invoke_and_check Lib.helicsBrokerSetLogFile(broker::Broker, logFileName::String)
+    @invoke_and_check Lib.helicsBrokerSetLogFile(broker, logFileName)
+end
+
+"""
+Set a broker time barrier.
+
+# Arguments
+
+- `broker`: the [`Broker`](@ref) to set the time barrier for
+- `barrierTime`: The time to se the barrier at
+"""
+function helicsBrokerSetTimeBarrier(broker::Broker, barrierTime::HELICS.HELICS_TIME)
+    @invoke_and_check Lib.helicsBrokerSetTimeBarrier(broker, barrierTime)
+end
+
+"""
+Clear any time barrier on a broker.
+
+# Arguments
+
+- `broker`: the [`Broker`](@ref) to clear the time barrier for
+"""
+function helicsBrokerClearTimeBarrier(broker::Broker)
+	Lib.helicsBrokerClearTimeBarrier(broker)
+end
+
+"""
+Generate a global error through a broker. This will terminate the federation.
+
+# Arguments
+
+- `broker`: the [`Broker`](@ref) to generate the global error on.
+- `errorCode`: the integer error code to associate with the global error.
+- `errorString`: an error message to associate withthe global error.
+"""
+function helicsBrokerGlobalError(broker::Broker, errorCode::Int, errorString::String)
+    @invoke_and_check Lib.helicsBrokerGlobalError(broker, errorCode, errorString)
+end
+
+"""
+Generate a global error through a core. This will terminate the federation.
+
+# Arguments
+
+- `core`: the [`Core`](@ref) to generate the global error on.
+- `errorCode`: the integer error code to associate with the global error.
+- `errorString`: an error message to associate withthe global error.
+"""
+function helicsCoreGlobalError(core::Core, errorCode::Int, errorString::String)
+    @invoke_and_check Lib.helicsCoreGlobalError(core, errorCode, errorString)
 end
 
 """
@@ -3605,11 +5206,69 @@ Log a message through a [`Federate`](@ref)
 # Arguments
 
 - `fed`: The [`Federate`](@ref) to set the global through
-- `loglevel`: The level of the message to log. See [`HELICS_LOG_LEVELS`](@ref)
+- `loglevel`: The level of the message to log. See [`HelicsLogLevels`](@ref)
 - `logmessage`: The message to put in the log
 """
-function helicsFederateLogLevelMessage(fed::Federate, loglevel::Union{Int, HELICS_LOG_LEVELS}, logmessage::String)
+function helicsFederateLogLevelMessage(fed::Federate, loglevel::Union{Int, HelicsLogLevels}, logmessage::String)
     @invoke_and_check Lib.helicsFederateLogLevelMessage(fed, loglevel, logmessage)
+end
+
+"""
+Send a command to another helics object through a federate.
+
+# Arguments
+
+- `fed`: The [`Federate`](@ref) to set the command through
+- `target`: The name of the object to send the command to
+- `command`: the command to send
+"""
+function helicsFederateSendCommand(fed::Federate, target::String, command::String)
+    @invoke_and_check Lib.helicsFederateSendCommand(fed, target, command)
+end
+
+"""
+Get a command sent to the federate
+
+# Arguments
+
+- `fed`: The [`Federate`](@ref) to get the command for
+
+# Returns
+
+- A string with the command for the federate, if the string is empty no command is available.
+"""
+function helicsFederateGetCommand(fed::Federate)::String
+    return unsafe_string(@invoke_and_check Lib.helicsFederateGetCommand(fed))
+end
+
+"""
+Get the source of the most recently retrieved command sent to the federate.
+
+# Arguments
+
+- `fed`: The [`Federate`](@ref) to get the command for
+
+# Returns
+
+- A string with name of the source who sent the command
+"""
+function helicsFederateGetCommandSource(fed::Federate)::String
+    return unsafe_string(@invoke_and_check Lib.helicsFederateGetCommandSource(fed))
+end
+
+"""
+Get a command sent to the federate. Blocks until a command is received.
+
+# Arguments
+
+- `fed`: The [`Federate`](@ref) to get the command for
+
+# Returns
+
+- A string with the command.
+"""
+function helicsFederateWaitCommand(fed::Federate)::String
+    return unsafe_string(@invoke_and_check Lib.helicsFederateWaitCommand(fed))
 end
 
 """
@@ -3648,6 +5307,257 @@ a message flows into a [`Federate`](@ref) from the core or from a federate
 """
 function helicsFederateSetLoggingCallback(fed::Federate, logger::CFunction, userdata)
     @invoke_and_check Lib.helicsFederateSetLoggingCallback(fed, logger, userdata)
+end
+
+"""
+Set a general callback for a custom filter.
+
+Add a custom filter callback for creating a custom filter operation in the C shared library.
+
+# Arguments
+
+- `filter`: the [`Filter`](@ref) to set a callback for.
+- `filtCall`: A callback with signature [`Message`](@ref)([`Message`](@ref), void *);
+              The function arguments are the message to filter and a pointer to user data.
+              The filter should return a new message.
+- `userdata`: a point to user data that is passed to the function when executing
+"""
+function helicsFilterSetCustomCallback(filter::Filter, filtCall::CFunction, userdata::Ptr{Cvoid})
+    @invoke_and_check Lib.helicsFilterSetCustomCallback(filter, filtCall, userdata)
+end
+
+"""
+Set a general callback for a custom translator.
+
+Add a pair of custom callbacks for running a translator operation in the C shared library.
+
+# Arguments
+
+- `translator`: the [`Translator`](@ref) to set a callback for.
+- `toMessageCall`: A callback with signature void(DataBuffer, HelicsMessage, void *);
+                   The function arguments are raw Value data, the messageObject to fill out and a pointer to user data.
+- `toValueCall`: A callback with signature void(HelicsMessage, DataBuffer, void *);
+ *                 The function arguments are a message object, the data buffer to fill out and a pointer to user data.
+- `userdata`: a point to user data that is passed to the function when executing
+"""
+function helicsTranslatorSetCustomCallback(translator::Translator, toMessageCall::CFunction, toValueCall::CFunction, userdata::Ptr{Cvoid})
+    @invoke_and_check Lib.helicsTranslatorSetCustomCallback(translator, toMessageCall, toValueCall, userdata)
+end
+
+"""
+Set callback for queries executed against a federate.
+
+There are many queries that HELICS understands directly, but it is occasionally useful to have a federate be able to respond
+to specific queries with answers specific to a federate.
+
+# Arguments
+
+- `fed`: the [`Federate`](@ref) to set a callback for.
+- `queryAnswer`: A callback with signature void(const char *query, int querySize, HelicsQueryBuffer buffer, void *userdata);
+                 The function arguments include the query string requesting an answer along with its size; the string is not guaranteed to
+				 be null terminated. HelicsQueryBuffer is the buffer intended to filled out by the userCallback. The buffer can be empty if the query is not
+				 recognized and HELICS will generate the appropriate response.  The buffer is used to ensure memory ownership separation between user code
+				 and HELICS code.
+				 The HelicsQueryBufferFill method can be used to load a string into the buffer.
+- `userdata`: a point to user data that is passed to the function when executing
+"""
+function helicsFederateSetQueryCallback(fed::Federate, queryAnswer::CFunction, userdata::Ptr{Cvoid})
+    @invoke_and_check Lib.helicsFederateSetQueryCallback(fed, queryAnswer, userdata)
+end
+
+"""
+Set callback for the time request.
+
+This callback will be executed when a valid time request is made. It is intended for the possibility of embedded data grabbers
+in a callback to simplify user code.
+
+# Arguments
+
+- `fed`: the [`Federate`](@ref) to set a callback for.
+- `requestTime`: A callback with signature void(HelicsTime currentTime, HelicsTime requestTime, bool iterating, void *userdata);
+                 The function arguments are the current time value, the requested time value, a bool indicating that the time is
+				 iterating, and pointer to the userdata.
+- `userdata`: a point to user data that is passed to the function when executing
+"""
+function helicsFederateSetTimeRequestEntryCallback(fed::Federate, requestTime::CFunction, userdata::Ptr{Cvoid})
+    @invoke_and_check Lib.helicsFederateSetTimeRequestEntryCallback(fed, requestTime, userdata)
+end
+
+"""
+Set callback for the federate mode change.
+
+This callback will be executed every time the operating mode of the federate changes.
+
+# Arguments
+
+- `fed`: the [`Federate`](@ref) to set a callback for.
+- `stateChange`: A callback with signature void(HelicsFederateState newState, HelicsFederateState oldState, void *userdata);
+                 The function arguments are the new state, the old state, and pointer to the userdata.
+- `userdata`: a point to user data that is passed to the function when executing
+"""
+function helicsFederateSetStateChangeCallback(fed::Federate, stateChange::CFunction, userdata::Ptr{Cvoid})
+    @invoke_and_check Lib.helicsFederateSetStateChangeCallback(fed, stateChange, userdata)
+end
+
+"""
+Set callback for the time update.
+
+This callback will be executed every time the simulation time is updated starting on entry to executing mode.
+
+# Arguments
+
+- `fed`: the [`Federate`](@ref) to set a callback for.
+- `timeUpdate`: A callback with signature void(HelicsTime newTime, bool iterating, void *userdata);
+                The function arguments are the new time value, a bool indicating that the time is iterating, and pointer to the userdata.
+- `userdata`: a point to user data that is passed to the function when executing
+"""
+function helicsFederateSetTimeUpdateCallback(fed::Federate, timeUpdate::CFunction, userdata::Ptr{Cvoid})
+    @invoke_and_check Lib.helicsFederateSetTimeUpdateCallback(fed, timeUpdate, userdata)
+end
+
+"""
+Set callback for the time request return.
+
+This callback will be executed after all other callbacks for a time request return.  This callback will be the last thing
+executed before returning control to the user program.
+The difference between this and the TimeUpdate callback is the order of execution.  The timeUpdate callback is executed prior to
+individual interface callbacks, this callback is executed after all others.
+
+# Arguments
+
+- `fed`: the [`Federate`](@ref) to set a callback for.
+- `requestTimeReturn`: A callback with signature void(HelicsTime newTime, bool iterating, void *userdata);
+					   The function arguments are the new time value, a bool indicating that the time is iterating, and pointer to the userdata.
+- `userdata`: a point to user data that is passed to the function when executing
+"""
+function helicsFederateSetTimeRequestReturnCallback(fed::Federate, requestTimeReturn::CFunction, userdata::Ptr{Cvoid})
+    @invoke_and_check Lib.helicsFederateSetTimeRequestReturnCallback(fed, requestTimeReturn, userdata)
+end
+
+"""
+Set callback for the entry to initializingMode.
+
+This callback will be executed when the initializingMode is entered
+
+# Arguments
+
+- `fed`: the [`Federate`](@ref) to set a callback for.
+- `initializingEntry`: A callback with signature void(HelicsBool iterating, void *userdata);
+					   the bool parameter is set to true if the entry is iterative, therefore the first time this is called the bool is false
+					   and all subsequent times it is true.
+- `userdata`: a point to user data that is passed to the function when executing
+"""
+function helicsFederateInitializingEntryCallback(fed::Federate, initializingEntry::CFunction, userdata::Ptr{Cvoid})
+    @invoke_and_check Lib.helicsFederateInitializingEntryCallback(fed, initializingEntry, userdata)
+end
+
+"""
+Set callback for the entry to ExecutingMode.
+
+This callback will be executed once on first entry to executingMode
+
+# Arguments
+
+- `fed`: the [`Federate`](@ref) to set a callback for.
+- `executingEntry`: A callback with signature void(void *userdata)
+- `userdata`: a point to user data that is passed to the function when executing
+"""
+function helicsFederateExecutingEntryCallback(fed::Federate, executingEntry::CFunction, userdata::Ptr{Cvoid})
+    @invoke_and_check Lib.helicsFederateExecutingEntryCallback(fed, executingEntry, userdata)
+end
+
+"""
+Set callback for cosimulation termination.
+
+This callback will be executed once when the time advancement of the federate/co-simulation has terminated.
+This may be called as part of the finalize operation, or when a maxTime signal is returned from requestTime or when an error is
+encountered.
+
+# Arguments
+
+- `fed`: the [`Federate`](@ref) to set a callback for.
+- `cosimTermination`: A callback with signature void(void *userdata)
+- `userdata`: a point to user data that is passed to the function when executing
+"""
+function helicsFederateCosimulationTerminationCallback(fed::Federate, cosimTermination::CFunction, userdata::Ptr{Cvoid})
+    @invoke_and_check Lib.helicsFederateCosimulationTerminationCallback(fed, cosimTermination, userdata)
+end
+
+"""
+Set callback for error handling.
+
+This callback will be called when a federate error is encountered.
+
+# Arguments
+
+- `fed`: the [`Federate`](@ref) to set a callback for.
+- `errorHandler`: A callback with signature void(int errorCode, const char *errorString, void *userdata)
+- `userdata`: a point to user data that is passed to the function when executing
+"""
+function helicsFederateErrorHandlerCallback(fed::Federate, errorHandler::CFunction, userdata::Ptr{Cvoid})
+    @invoke_and_check Lib.helicsFederateErrorHandlerCallback(fed, errorHandler, userdata)
+end
+
+"""
+Set callback for the next time update.
+
+This callback will be triggered to compute the next time update for a callback federate.
+
+# Arguments
+
+- `fed`: the [`Federate`](@ref) to set a callback for.
+- `timeUpdate`: A callback with signature HelicsTime(HelicsTime time, void *userdata)
+- `userdata`: a point to user data that is passed to the function when executing
+"""
+function helicsCallbackFederateNextTimeCallback(fed::Federate, timeUpdate::CFunction, userdata::Ptr{Cvoid})
+    @invoke_and_check Lib.helicsCallbackFederateNextTimeCallback(fed, timeUpdate, userdata)
+end
+
+"""
+Set callback for the next time update with iteration capability.
+
+This callback will be triggered to compute the next time update for a callback federate.
+
+# Arguments
+
+- `fed`: the [`Federate`](@ref) to set a callback for.
+- `timeUpdate`: A callback with signature HelicsTime(HelicsTime time, HelicsIterationResult result, HelicsIterationRequest* iteration,
+                void *userdata)
+- `userdata`: a point to user data that is passed to the function when executing
+"""
+function helicsCallbackFederateNextTimeIterativeCallback(fed::Federate, timeUpdate::CFunction, userdata::Ptr{Cvoid})
+    @invoke_and_check Lib.helicsCallbackFederateNextTimeIterativeCallback(fed, timeUpdate, userdata)
+end
+
+"""
+Set callback for initialization.
+
+This callback will be executed when computing whether to iterate in initialization mode.
+
+# Arguments
+
+- `fed`: the [`Federate`](@ref) to set a callback for.
+- `initialize`: A callback with signature HelicsIterationRequest(void *userdata)
+- `userdata`: a point to user data that is passed to the function when executing
+"""
+function helicsCallbackFederateInitializeCallback(fed::Federate, initialize::CFunction, userdata::Ptr{Cvoid})
+    @invoke_and_check Lib.helicsCallbackFederateInitializeCallback(fed, initialize, userdata)
+end
+
+"""
+Set the data for a query callback.
+
+There are many queries that HELICS understands directly, but it is occasionally useful to have a federate be able to respond
+to specific queries with answers specific to a federate.
+
+# Arguments
+
+- `buffer`: the [`QueryBuffer`](@ref) to set a callback for.
+- `queryResult`: A callback with signature HelicsIterationRequest(void *userdata)
+"""
+function helicsQueryBufferFill(buffer::QueryBuffer, queryResult::String)
+	strSize = CInt(length(queryResult))
+    @invoke_and_check Lib.helicsQueryBufferFill(buffer, queryResult, strSize)
 end
 
 """
@@ -3908,18 +5818,6 @@ function helicsEndpointIsValid(endpoint::Endpoint)::Bool
 end
 
 """
-Send a [`Message`](@ref) object from a specific endpoint, the message will not be copied and the message object will no longer be valid after the call.
-
-# Arguments
-
-- `endpoint`: The [`Endpoint`](@ref) to send the data from.
-- `message`: The actual [`Message`](@ref) to send which will be copied.
-"""
-function helicsEndpointSendMessageObjectZeroCopy(endpoint::Endpoint, message::Message)
-    @invoke_and_check Lib.helicsEndpointSendMessageObjectZeroCopy(endpoint, message)
-end
-
-"""
 Check if a [`Filter`](@ref) is valid.
 
 # Arguments
@@ -3964,10 +5862,6 @@ function helicsInputIsValid(ipt)::Bool
     Lib.helicsInputIsValid(ipt)
 end
 
-function helicsEndpointCreateMessageObject(endpoint::Endpoint)
-    @invoke_and_check Lib.helicsEndpointCreateMessageObject(endpoint)
-end
-
 function helicsMessageClone(message)
     @invoke_and_check Lib.helicsMessageClone(message)
 end
@@ -3976,20 +5870,32 @@ function helicsMessageFree(message)
     Lib.helicsMessageFree(message)
 end
 
-function helicsGetBuildFlags()
-    unsafe_string(Lib.helicsGetBuildFlags())
+function helicsMessageClear(message::Message)
+    @invoke_and_check Lib.helicsMessageClear(message)
 end
 
-function helicsGetCompilerVersion()
-    unsafe_string(Lib.helicsGetCompilerVersion())
+function helicsGetBuildFlags()::String
+    return unsafe_string(Lib.helicsGetBuildFlags())
 end
 
-function helicsGetFlagIndex(val::String)
-    Lib.helicsGetFlagIndex(val)
+function helicsGetCompilerVersion()::String
+    return unsafe_string(Lib.helicsGetCompilerVersion())
 end
 
-function helicsGetOptionValue(val::String)
-    Lib.helicsGetOptionValue(val)
+function helicsGetSystemInfo()::String
+    return unsafe_string(Lib.helicsGetSystemInfo())
+end
+
+function helicsGetFlagIndex(val::String)::Int
+    return Lib.helicsGetFlagIndex(val)
+end
+
+function helicsGetOptionValue(val::String)::Int
+    return Lib.helicsGetOptionValue(val)
+end
+
+function helicsGetDataType(val::String)::Int
+    return Lib.helicsGetDataType(val)
 end
 
 function helicsQuerySetTarget(query::Query, target::String)
@@ -3998,4 +5904,15 @@ end
 
 function helicsQuerySetQueryString(query::Query, queryString::String)
     @invoke_and_check Lib.helicsQuerySetQueryString(query, queryString)
+end
+
+"""
+Update the ordering mode of the query, fast runs on priority channels, ordered goes on normal channels but goes in sequence
+
+# Arguments
+- `query`: the query object to change the order for.
+- `mode`: 0 for fast, 1 for ordered.
+"""
+function helicsQuerySetOrdering(query::Query, mode::Int32)
+    @invoke_and_check Lib.helicsQuerySetOrdering(query, mode)
 end

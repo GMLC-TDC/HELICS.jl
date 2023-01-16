@@ -4,7 +4,7 @@ import ..Lib
 export invoke_and_check
 export @invoke_and_check
 
-const MAPPING = Lib.CEnum.namemap(Lib.helics_error_types)
+const MAPPING = Lib.CEnum.namemap(Lib.HelicsErrorTypes)
 
 function snakecase_to_camelcase(s::String)
     s = replace(s, r"['`]"=>"")
@@ -14,14 +14,13 @@ end
 
 function snakecase_to_camelcase(s::Symbol)
     s = String(s)
-    s = snakecase_to_camelcase(s)
-    s = replace(s, "Helics" => "HELICS")
+#    s = replace(s, "Helics" => "HELICS")
     s = Symbol(s)
 end
 
 abstract type HELICSException <: Exception end
 
-for (sym, ans) in Lib.CEnum.name_value_pairs(Lib.helics_error_types)
+for (sym, ans) in Lib.CEnum.name_value_pairs(Lib.HelicsErrorTypes)
     sym = snakecase_to_camelcase(sym)
     eval(:(struct $sym <: HELICSException
                msg::String
@@ -38,7 +37,7 @@ function invoke_and_check(f::Function, args...)
         return r
     elseif err.error_code == -8
         func = String(nameof(f))
-        c = Lib.helics_error_types(err.error_code)
+        c = Lib.HelicsErrorTypes(err.error_code)
         @warn "`$func` returned warning `$(unsafe_string(err.message))`"
         return r
     else

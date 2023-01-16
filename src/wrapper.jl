@@ -52,13 +52,16 @@ end
 @define ValueFederate Federate
 @define MessageFederate Federate
 @define CombinationFederate Federate
+@define CallbackFederate Federate
 @define Publication CWrapper
-@define Subscription CWrapper
+@define Input CWrapper
 @define Endpoint CWrapper
 @define Filter CWrapper
 @define Query CWrapper
-
+@define Translator CWrapper
 @define Message CWrapper
+@define DataBuffer CWrapper
+@define QueryBuffer CWrapper
 
-const Input = Subscription
+const Subscription = Input
 

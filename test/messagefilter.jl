@@ -138,7 +138,7 @@ end
     filt_key = h.helicsFilterGetName(f2)
     @test filt_key == "filter2"
 
-    h.helicsEndpointSendMessageRaw(p1, "port2", data)
+    h.helicsEndpointSendBytesTo(p1, data, "port2")
     h.helicsFederateRequestTimeAsync(mFed, 1.0)
     grantedtime = h.helicsFederateRequestTime(fFed, 1.0)
     @test grantedtime == 1.0

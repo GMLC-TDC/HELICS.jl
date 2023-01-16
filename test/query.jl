@@ -13,11 +13,11 @@ include("init.jl")
     h.helicsFederateEnterInitializingMode(vFed2)
     h.helicsFederateEnterInitializingModeComplete(vFed1)
 
-    core = h.helicsFederateGetCoreObject(vFed1)
+    core = h.helicsFederateGetCore(vFed1)
 
     q1 = h.helicsCreateQuery("Testfed0", "publications")
     res = h.helicsQueryCoreExecute(q1, core)
-    @test res == "[pub1;Testfed0/pub2]"
+    @test res == "[\"pub1\",\"Testfed0/pub2\"]"
     # res = h.helicsQueryExecute(q1, vFed2)
     # @test res == "[pub1;Testfed0/pub2]"
     h.helicsQueryFree(q1)
@@ -33,9 +33,9 @@ include("init.jl")
     # h.helicsQueryFree(q1)
 
     h.helicsCoreFree(core)
-    h.helicsFederateFinalizeAsync(vFed1)
-    h.helicsFederateFinalize(vFed2)
-    h.helicsFederateFinalizeComplete(vFed1)
+    h.helicsFederateDisconnectAsync(vFed1)
+    h.helicsFederateDisconnect(vFed2)
+    h.helicsFederateDisconnectComplete(vFed1)
 
     destroyFederate(vFed1, fedinfo1)
     destroyFederate(vFed2, fedinfo2)
@@ -48,26 +48,26 @@ end
     broker = createBroker(2)
     vFed1, fedinfo1 = createValueFederate(1, "fed0")
     vFed2, fedinfo2 = createValueFederate(1, "fed1")
-    core = h.helicsFederateGetCoreObject(vFed1)
+    core = h.helicsFederateGetCore(vFed1)
 
     q1 = h.helicsCreateQuery("root", "federates")
     res = h.helicsQueryCoreExecute(q1, core)
     name1 = h.helicsFederateGetName(vFed1)
     name2 = h.helicsFederateGetName(vFed2)
 
-    @test "[$name1;$name2]" == res
+    @test "[\"$name1\",\"$name2\"]" == res
 
     res = h.helicsQueryExecute(q1, vFed1)
-    @test "[$name1;$name2]" == res
+    @test "[\"$name1\",\"$name2\"]" == res
 
     h.helicsFederateEnterInitializingModeAsync(vFed1)
     h.helicsFederateEnterInitializingMode(vFed2)
     h.helicsFederateEnterInitializingModeComplete(vFed1)
     h.helicsQueryFree(q1)
     h.helicsCoreFree(core)
-    h.helicsFederateFinalizeAsync(vFed1)
-    h.helicsFederateFinalize(vFed2)
-    h.helicsFederateFinalizeComplete(vFed1)
+    h.helicsFederateDisconnectAsync(vFed1)
+    h.helicsFederateDisconnect(vFed2)
+    h.helicsFederateDisconnectComplete(vFed1)
 
     destroyFederate(vFed1, fedinfo1)
     destroyFederate(vFed2, fedinfo2)

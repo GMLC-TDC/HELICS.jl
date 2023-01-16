@@ -34,10 +34,10 @@ end
 
     h.helicsFederateEnterExecutingMode(vFed)
 
-    @test h.helicsPublicationGetKey(pubid1) == "TestA Federate/pub1"
-    @test h.helicsPublicationGetKey(pubid2) == "pub2"
+    @test h.helicsPublicationGetName(pubid1) == "TestA Federate/pub1"
+    @test h.helicsPublicationGetName(pubid2) == "pub2"
 
-    @test h.helicsPublicationGetKey(pubid3) == "TestA Federate/pub3"
+    @test h.helicsPublicationGetName(pubid3) == "TestA Federate/pub3"
     @test h.helicsPublicationGetType(pubid3) == "double"
     @test h.helicsPublicationGetUnits(pubid3) == "V"
 
@@ -153,13 +153,13 @@ end
     pubid3 = h.helicsFederateRegisterPublication(vFed, "pub3", h.HELICS_DATA_TYPE_DOUBLE, "V")
     h.helicsFederateEnterExecutingMode(vFed)
 
-    publication_key = h.helicsPublicationGetKey(pubid1)
+    publication_key = h.helicsPublicationGetName(pubid1)
     @test publication_key == "TestA Federate/pub1"
     publication_type = h.helicsPublicationGetType(pubid1)
     @test publication_type == "string"
-    publication_key = h.helicsPublicationGetKey(pubid2)
+    publication_key = h.helicsPublicationGetName(pubid2)
     @test publication_key == "pub2"
-    publication_key = h.helicsPublicationGetKey(pubid3)
+    publication_key = h.helicsPublicationGetName(pubid3)
     @test publication_key == "TestA Federate/pub3"
     publication_type = h.helicsPublicationGetType(pubid3)
     @test publication_type == "double"
@@ -190,13 +190,13 @@ end
     publication_type = h.helicsPublicationGetType(pubid3)
     @test publication_type == "double"
 
-    sub_key = h.helicsSubscriptionGetKey(subid1)
+    sub_key = h.helicsSubscriptionGetTarget(subid1)
     @test sub_key == "sub1"
     sub_type = h.helicsInputGetType(subid1)
     @test sub_type == ""
-    sub_key = h.helicsSubscriptionGetKey(subid2)
+    sub_key = h.helicsSubscriptionGetTarget(subid2)
     @test sub_key == "sub2"
-    sub_key = h.helicsSubscriptionGetKey(subid3)
+    sub_key = h.helicsSubscriptionGetTarget(subid3)
     @test sub_key == "sub3"
     sub_type = h.helicsInputGetType(subid3)
     @test sub_type == ""
@@ -206,7 +206,7 @@ end
     @test sub_type == ""
 
     subid_b = h.helicsFederateGetSubscription(vFed, "sub1")
-    tmp = h.helicsSubscriptionGetKey(subid_b)
+    tmp = h.helicsSubscriptionGetTarget(subid_b)
     @test tmp == "sub1"
     # check the getSubscriptionByIndex function
     subid_c = h.helicsFederateGetInputByIndex(vFed, 2)
@@ -214,11 +214,11 @@ end
     @test tmp == "V"
     # check publications
 
-    sv = h.helicsPublicationGetKey(pubid)
-    sv2 = h.helicsPublicationGetKey(pubid2)
+    sv = h.helicsPublicationGetName(pubid)
+    sv2 = h.helicsPublicationGetName(pubid2)
     @test sv == "Testfed0/pub1"
     @test sv2 == "pub2"
-    pub3name = h.helicsPublicationGetKey(pubid3)
+    pub3name = h.helicsPublicationGetName(pubid3)
     @test pub3name == "Testfed0/pub3"
 
     type = h.helicsPublicationGetType(pubid3)
@@ -237,7 +237,7 @@ end
     @test tmp == "volts"
 
     #this one should be invalid
-    @test_throws h.HELICSErrorInvalidArgument pubid_d = h.helicsFederateGetPublicationByIndex(vFed, 5)
+    @test_throws h.Utils.HELICS_ERROR_INVALID_ARGUMENT pubid_d = h.helicsFederateGetPublicationByIndex(vFed, 5)
 
     h.helicsFederateFinalize(vFed)
 
@@ -487,9 +487,9 @@ end
     h.helicsPublicationAddTarget(pub, "Testfed0/key7")
     h.helicsPublicationAddTarget(pub, "Testfed0/key8")
 
-    h.helicsInputSetDefaultRaw(inp_raw1, "")
+    h.helicsInputSetDefaultBytes(inp_raw1, "")
     data = "this is a string"
-    h.helicsInputSetDefaultRaw(inp_raw2, data)
+    h.helicsInputSetDefaultBytes(inp_raw2, data)
 
     h.helicsInputSetDefaultBoolean(inp_bool, true)
 
@@ -577,7 +577,7 @@ end
     @test h.helicsPublicationGetInfo(pubid1) == "pub1_test"
     @test h.helicsPublicationGetInfo(pubid2) == "pub2_test"
 
-    cr = h.helicsFederateGetCoreObject(vFed)
+    cr = h.helicsFederateGetCore(vFed)
     h.helicsFederateFinalize(vFed)
 
     wait = h.helicsCoreWaitForDisconnect(cr, 70)
@@ -593,6 +593,7 @@ end
 
 @testset "ValueFederate test file load" begin
 
+	broker = createBroker()
     filename = joinpath(@__DIR__, "valuefederate.json")
     vFed = h.helicsCreateValueFederateFromConfig(filename)
 
@@ -604,5 +605,6 @@ end
 
     h.helicsFederateFinalize(vFed)
     h.helicsFederateFree(vFed)
+	destroyBroker(broker)
 
 end

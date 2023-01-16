@@ -1,6 +1,6 @@
 {
 	"name": "EV_Controller",
-	"loglevel": 5,
+	"loglevel": "data",
 	"coreType": "zmq",
 	"timeDelta": 1.0,
 
@@ -41,7 +41,7 @@
 	[
 	{
 	"name":"filterEV6",  //filters can have names (optional)
-	"target":"EV_Controller/EV6",  //this is a key field specifying the target endpoint
+	"target":"EV_Controller/EV6",  //this is a target field specifying the target endpoint
 	//"inputType":"genmessage",  //can trigger some warnings if there is mismatches for custom filters only used if operation is "custom"
 	//"outputType":"genmessage",  //this could be useful if the filter actually translates the data and can be used to automatically order filters
 	"mode":"source",  //source is the default but can be "source","destination","clone","cloning"
@@ -54,7 +54,7 @@
 	},
 	{
 	"name":"filterEV5",  //filters can have names (optional)
-	"target":"EV_Controller/EV5",  //this is a key field specifying the target endpoint
+	"target":"EV_Controller/EV5",  //this is a target field specifying the target endpoint
 	//"inputType":"genmessage",  //can trigger some warnings if there is mismatches for custom filters only used if operation is "custom"
 	//"outputType":"genmessage",  //this could be useful if the filter actually translates the data and can be used to automatically order filters
 	"mode":"source",  //source is the default but can be "source","destination","clone","cloning"
@@ -67,7 +67,7 @@
 	},
 	{
 	"name":"filterEV4",  //filters can have names (optional)
-	"target":"EV_Controller/EV4",  //this is a key field specifying the target endpoint
+	"target":"EV_Controller/EV4",  //this is a target field specifying the target endpoint
 	//"inputType":"genmessage",  //can trigger some warnings if there is mismatches for custom filters only used if operation is "custom"
 	//"outputType":"genmessage",  //this could be useful if the filter actually translates the data and can be used to automatically order filters
 	"mode":"source",  //source is the default but can be "source","destination","clone","cloning"
@@ -80,7 +80,7 @@
 	},
 	{
 	"name":"filterEV3",  //filters can have names (optional)
-	"target":"EV_Controller/EV3",  //this is a key field specifying the target endpoint
+	"target":"EV_Controller/EV3",  //this is a target field specifying the target endpoint
 	//"inputType":"genmessage",  //can trigger some warnings if there is mismatches for custom filters only used if operation is "custom"
 	//"outputType":"genmessage",  //this could be useful if the filter actually translates the data and can be used to automatically order filters
 	"mode":"source",  //source is the default but can be "source","destination","clone","cloning"
@@ -93,7 +93,7 @@
 	},
 	{
 	"name":"filterEV2",  //filters can have names (optional)
-	"target":"EV_Controller/EV2",  //this is a key field specifying the target endpoint
+	"target":"EV_Controller/EV2",  //this is a target field specifying the target endpoint
 	//"inputType":"genmessage",  //can trigger some warnings if there is mismatches for custom filters only used if operation is "custom"
 	//"outputType":"genmessage",  //this could be useful if the filter actually translates the data and can be used to automatically order filters
 	"mode":"source",  //source is the default but can be "source","destination","clone","cloning"
@@ -106,7 +106,7 @@
 	},
 	{
 	"name":"filterEV1",  //filters can have names (optional)
-	"target":"EV_Controller/EV1",  //this is a key field specifying the target endpoint
+	"target":"EV_Controller/EV1",  //this is a target field specifying the target endpoint
 	//"inputType":"genmessage",  //can trigger some warnings if there is mismatches for custom filters only used if operation is "custom"
 	//"outputType":"genmessage",  //this could be useful if the filter actually translates the data and can be used to automatically order filters
 	"mode":"source",  //source is the default but can be "source","destination","clone","cloning"
@@ -120,31 +120,31 @@
 	],
 	"subscriptions":[
 	{
-		"key": "IEEE_123_feeder_0/totalLoad",
+		"target": "IEEE_123_feeder_0/totalLoad",
 		"type": "complex",
 		"required": true
 	},  {
-		"key": "IEEE_123_feeder_0/charge_EV6",
+		"target": "IEEE_123_feeder_0/charge_EV6",
 		"type": "complex",
 		"required": true
 	},	{
-		"key": "IEEE_123_feeder_0/charge_EV5",
+		"target": "IEEE_123_feeder_0/charge_EV5",
 		"type": "complex",
 		"required": true
 	},	{
-		"key": "IEEE_123_feeder_0/charge_EV4",
+		"target": "IEEE_123_feeder_0/charge_EV4",
 		"type": "complex",
 		"required": true
 	},  {
-		"key": "IEEE_123_feeder_0/charge_EV3",
+		"target": "IEEE_123_feeder_0/charge_EV3",
 		"type": "complex",
 		"required": true
 	},  {
-		"key": "IEEE_123_feeder_0/charge_EV2",
+		"target": "IEEE_123_feeder_0/charge_EV2",
 		"type": "complex",
 		"required": true
 	},  {
-		"key": "IEEE_123_feeder_0/charge_EV1",
+		"target": "IEEE_123_feeder_0/charge_EV1",
 		"type": "complex",
 		"required": true
 	}]

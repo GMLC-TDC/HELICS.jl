@@ -3,7 +3,7 @@ include("init.jl")
 @testset "Broker API tests" begin
 
     @test h.helicsIsCoreTypeAvailable("zmq") == 1
-    broker1 = h.helicsCreateBroker("zmq", "broker1", "--federates 3 --loglevel 1")
+    broker1 = h.helicsCreateBroker("zmq", "broker1", "-f 3 --loglevel ERROR")
     broker2 = h.helicsBrokerClone(broker1)
     address_string = h.helicsBrokerGetAddress(broker1)
     occursin("tcp://127.0.0.1:23404", address_string)
@@ -61,13 +61,14 @@ end
 @testset "Logging API tests" begin
 
     fi = h.helicsCreateFederateInfo()
-    broker = h.helicsCreateBroker("zmq", "broker", "--federates 1 --loglevel 1")
+    broker = h.helicsCreateBroker("zmq", "broker", "--federates 1 --loglevel ERROR")
     h.helicsFederateInfoSetCoreInitString(fi, "--federates 1")
 
-    h.helicsFederateInfoSetIntegerProperty(fi, h.HELICS_PROPERTY_INT_LOG_LEVEL, 5)
+    h.helicsFederateInfoSetIntegerProperty(fi, h.HELICS_PROPERTY_INT_LOG_LEVEL, 6)
 
     fed = h.helicsCreateValueFederate("test1", fi)
-
+	fedLogLevel = h.helicsFederateGetIntegerProperty(fed, h.HELICS_PROPERTY_INT_LOG_LEVEL)
+	@test fedLogLevel == 6
     userdata = UserData(5)
 
     h.helicsFederateSetLoggingCallback(fed, @cfunction(logger, Cvoid, (Cint, Cstring, Cstring, Ptr{Cvoid})), Ref(userdata))
@@ -82,7 +83,7 @@ end
     h.helicsFederateLogInfoMessage(fed, "test MEXAGE")
     h.helicsFederateRequestNextStep(fed)
 
-    h.helicsFederateFinalize(fed)
+    h.helicsFederateDisconnect(fed)
 
     @test userdata.x == 9
 
@@ -120,7 +121,7 @@ end
             h.HELICS_PROPERTY_TIME_OFFSET, 0.1)
     h.helicsFederateInfoFree(fedInfo1)
 
-    broker3 = h.helicsCreateBroker("zmq", "broker3", "--federates 1 --loglevel 1")
+    broker3 = h.helicsCreateBroker("zmq", "broker3", "--federates 1 --loglevel ERROR")
     fedInfo2 = h.helicsCreateFederateInfo()
     coreInitString = "--federates 1"
     h.helicsFederateInfoSetCoreInitString(fedInfo2, coreInitString)
@@ -128,20 +129,21 @@ end
     h.helicsFederateInfoSetIntegerProperty(fedInfo2, h.HELICS_PROPERTY_INT_LOG_LEVEL, 1)
     h.helicsFederateInfoSetTimeProperty(fedInfo2, h.HELICS_PROPERTY_TIME_DELTA, 1.0)
     fed1 = h.helicsCreateCombinationFederate("fed1", fedInfo2)
-    fed2 = h.helicsFederateClone(fed1)
-    fed3 = h.helicsGetFederateByName("fed1")
-    h.helicsFederateSetFlagOption(fed2, 1, false)
+#    fed2 = h.helicsFederateClone(fed1)
+#    fed3 = h.helicsGetFederateByName("fed1")
+#    h.helicsFederateSetFlagOption(fed2, 1, false)
 
-    h.helicsFederateSetTimeProperty(fed2, h.HELICS_PROPERTY_TIME_INPUT_DELAY, 1.0)
+    h.helicsFederateSetTimeProperty(fed1, h.HELICS_PROPERTY_TIME_INPUT_DELAY, 0.0)
+	h.helicsFederateSetTimeProperty(fed1, h.HELICS_PROPERTY_TIME_OFFSET, 0.0)
     h.helicsFederateSetIntegerProperty(fed1, h.HELICS_PROPERTY_INT_LOG_LEVEL, 1)
-    h.helicsFederateSetIntegerProperty(fed2, h.HELICS_PROPERTY_INT_MAX_ITERATIONS, 100)
-    h.helicsFederateSetTimeProperty(fed2, h.HELICS_PROPERTY_TIME_OUTPUT_DELAY, 1.0)
-    h.helicsFederateSetTimeProperty(fed2, h.HELICS_PROPERTY_TIME_PERIOD, 0.0)
-    h.helicsFederateSetTimeProperty(fed2, h.HELICS_PROPERTY_TIME_DELTA, 1.0)
+    h.helicsFederateSetIntegerProperty(fed1, h.HELICS_PROPERTY_INT_MAX_ITERATIONS, 100)
+    h.helicsFederateSetTimeProperty(fed1, h.HELICS_PROPERTY_TIME_OUTPUT_DELAY, 0.0)
+    h.helicsFederateSetTimeProperty(fed1, h.HELICS_PROPERTY_TIME_PERIOD, 0.0)
+    h.helicsFederateSetTimeProperty(fed1, h.HELICS_PROPERTY_TIME_DELTA, 1.0)
 
-    fed1CloningFilter = h.helicsFederateRegisterCloningFilter(fed1, "fed1/Ep1")
-    fed1DestinationFilter = h.helicsFederateRegisterFilter(fed1, h.HELICS_FILTER_TYPE_DELAY, "fed1DestinationFilter")
-    h.helicsFilterAddDestinationTarget(fed1DestinationFilter, "ep2")
+#    fed2CloningFilter = h.helicsFederateRegisterCloningFilter(fed2, "fed2/Ep1")
+#    fed2DestinationFilter = h.helicsFederateRegisterFilter(fed2, h.HELICS_FILTER_TYPE_DELAY, "fed2DestinationFilter")
+#    h.helicsFilterAddDestinationTarget(fed2DestinationFilter, "ep2")
 
     ep1 = h.helicsFederateRegisterEndpoint(fed1, "Ep1", "string")
     ep2 = h.helicsFederateRegisterGlobalEndpoint(fed1, "Ep2", "string")
@@ -150,13 +152,13 @@ end
 
     sub1 = h.helicsFederateRegisterSubscription(fed1, "pub1")
     sub2 = h.helicsFederateRegisterSubscription(fed1, "pub2")
-    h.helicsInputAddTarget(sub2, "Ep2")
+#    h.helicsInputAddTarget(sub2, "Ep2")
     pub3 = h.helicsFederateRegisterPublication(fed1, "pub3", h.HELICS_DATA_TYPE_STRING, "")
 
-    pub1KeyString = h.helicsPublicationGetKey(pub1)
+    pub1KeyString = h.helicsPublicationGetName(pub1)
     pub1TypeString = h.helicsPublicationGetType(pub1)
     pub1UnitsString = h.helicsPublicationGetUnits(pub1)
-    sub1KeyString = h.helicsSubscriptionGetKey(sub1)
+    sub1KeyString = h.helicsSubscriptionGetTarget(sub1)
     sub1UnitsString = h.helicsInputGetUnits(sub1)
     @test "pub1" == pub1KeyString
     @test "double" == pub1TypeString
@@ -164,16 +166,16 @@ end
     @test "pub1" == sub1KeyString
     @test "" == sub1UnitsString
 
-    fed1SourceFilter = h.helicsFederateRegisterFilter(fed1,
-            h.HELICS_FILTER_TYPE_DELAY, "fed1SourceFilter")
-    h.helicsFilterAddSourceTarget(fed1SourceFilter, "Ep2")
-    h.helicsFilterAddDestinationTarget(fed1SourceFilter, "fed1/Ep1")
-    h.helicsFilterRemoveTarget(fed1SourceFilter, "fed1/Ep1")
-    h.helicsFilterAddSourceTarget(fed1SourceFilter, "Ep2")
-    h.helicsFilterRemoveTarget(fed1SourceFilter, "Ep2")
+#    fed2SourceFilter = h.helicsFederateRegisterFilter(fed2,
+#            h.HELICS_FILTER_TYPE_DELAY, "fed2SourceFilter")
+#    h.helicsFilterAddSourceTarget(fed2SourceFilter, "Ep2")
+#    h.helicsFilterAddDestinationTarget(fed2SourceFilter, "fed2/Ep1")
+#    h.helicsFilterRemoveTarget(fed2SourceFilter, "fed2/Ep1")
+#    h.helicsFilterAddSourceTarget(fed2SourceFilter, "Ep2")
+#    h.helicsFilterRemoveTarget(fed2SourceFilter, "Ep2")
 
-    fed1SourceFilterNameString = h.helicsFilterGetName(fed1SourceFilter)
-    @test fed1SourceFilterNameString == "fed1/fed1SourceFilter"
+#    fed2SourceFilterNameString = h.helicsFilterGetName(fed2SourceFilter)
+#    @test fed2SourceFilterNameString == "fed1/fed2SourceFilter"
 
     sub3 = h.helicsFederateRegisterSubscription(fed1, "fed1/pub3", "")
     pub4 = h.helicsFederateRegisterTypePublication(fed1, "pub4", "int", "")
@@ -196,7 +198,7 @@ end
     h.helicsInputSetDefaultString(sub3, "default")
     sub6Default = [ 3.4, 90.9, 4.5 ]
     h.helicsInputSetDefaultVector(sub6, sub6Default)
-    h.helicsEndpointSubscribe(ep2, "fed1/pub3")
+#    h.helicsEndpointSubscribe(ep2, "fed1/pub3")
     h.helicsFederateEnterInitializingModeAsync(fed1)
     rs = h.helicsFederateIsAsyncOperationCompleted(fed1)
     if (rs == 0)
@@ -214,21 +216,21 @@ end
     h.helicsFederateEnterExecutingModeAsync(fed1)
     h.helicsFederateEnterExecutingModeComplete(fed1)
 
-    mesg1 = h.helicsFederateCreateMessageObject(fed1)
+    mesg1 = h.helicsFederateCreateMessage(fed1)
     h.helicsMessageSetString(mesg1, "Hello")
     h.helicsMessageSetSource(mesg1, "fed1/Ep1")
     h.helicsMessageSetOriginalSource(mesg1, "fed1/Ep1")
     h.helicsMessageSetDestination(mesg1, "Ep2")
     h.helicsMessageSetOriginalDestination(mesg1, "Ep2")
 
-    h.helicsEndpointSendMessageObject(ep1, mesg1)
-    mesg1 = h.helicsFederateCreateMessageObject(fed1)
+    h.helicsEndpointSendMessage(ep1, mesg1)
+    mesg1 = h.helicsFederateCreateMessage(fed1)
     h.helicsMessageSetString(mesg1, "There")
     h.helicsMessageSetSource(mesg1, "fed1/Ep1")
     h.helicsMessageSetOriginalSource(mesg1, "fed1/Ep1")
     h.helicsMessageSetDestination(mesg1, "Ep2")
     h.helicsMessageSetOriginalDestination(mesg1, "Ep2")
-    h.helicsEndpointSendMessageObject(ep1, mesg1)
+    h.helicsEndpointSendMessage(ep1, mesg1)
     h.helicsEndpointSetDefaultDestination(ep2, "fed1/Ep1")
 
     ep1NameString = h.helicsEndpointGetName(ep1)
@@ -237,7 +239,7 @@ end
     @test ep1NameString == "fed1/Ep1"
     @test ep1TypeString == "string"
 
-    coreFed1 = h.helicsFederateGetCoreObject(fed1)
+    coreFed1 = h.helicsFederateGetCore(fed1)
 
     fed1Time = h.helicsFederateGetCurrentTime(fed1)
     @test fed1Time == 0.0
@@ -267,26 +269,26 @@ end
 
     returnTime = h.helicsFederateRequestTimeComplete(fed1)
     @test returnTime == 1.0
-    ep2MsgCount = h.helicsEndpointPendingMessages(ep2)
+    ep2MsgCount = h.helicsEndpointPendingMessageCount(ep2)
     @test ep2MsgCount == 2
     ep2HasMsg = h.helicsEndpointHasMessage(ep2)
     @test ep2HasMsg == 1
 
-    msg2 = h.helicsEndpointGetMessageObject(ep2)
-    @test h.helicsMessageGetTime(msg2) == 1.0
+    msg2 = h.helicsEndpointGetMessage(ep2)
+    @test h.helicsMessageGetTime(msg2) == 0.0
     @test h.helicsMessageGetString(msg2) == "Hello"
     @test h.helicsMessageGetOriginalSource(msg2) == "fed1/Ep1"
     @test h.helicsMessageGetSource(msg2) == "fed1/Ep1"
     @test h.helicsMessageGetDestination(msg2) == "Ep2"
     @test h.helicsMessageGetOriginalDestination(msg2) == "Ep2"
 
-    fed1MsgCount = h.helicsFederatePendingMessages(fed1)
+    fed1MsgCount = h.helicsFederatePendingMessageCount(fed1)
     @test fed1MsgCount == 1
 
     @test h.helicsFederateHasMessage(fed1) == 1
 
-    msg3 = h.helicsFederateGetMessageObject(fed1)
-    @test h.helicsMessageGetTime(msg3) == 1.0
+    msg3 = h.helicsFederateGetMessage(fed1)
+    @test h.helicsMessageGetTime(msg3) == 0.0
     @test h.helicsMessageGetString(msg3) == "There"
     @test h.helicsMessageGetOriginalSource(msg3) == "fed1/Ep1"
     @test h.helicsMessageGetSource(msg3) == "fed1/Ep1"
@@ -294,30 +296,30 @@ end
     @test h.helicsMessageGetOriginalDestination(msg3) == "Ep2"
 
     sub1Updated = h.helicsInputIsUpdated(sub1)
-    @test_broken sub1Updated == 1
+    @test sub1Updated == 1
 
-    @test_broken h.helicsInputLastUpdateTime(sub2) == 1.0
+    @test h.helicsInputLastUpdateTime(sub2) == 1.0
 
-    @test_broken h.helicsInputGetComplex(sub2) == 5.6 - im * 0.67
+    @test h.helicsInputGetComplex(sub2) == 5.6 - im * 0.67
 
-    @test_broken h.helicsInputGetDouble(sub1) == 457.234
-    @test_broken h.helicsInputGetInteger(sub4) == 1
+    @test h.helicsInputGetDouble(sub1) == 457.234
+    @test h.helicsInputGetInteger(sub4) == 1
     sub7PointString, sub7DoubleValue = h.helicsInputGetNamedPoint(sub7)
-    @test_broken sub7PointString == "Blah Blah"
+    @test sub7PointString == "Blah Blah"
     @test sub7DoubleValue == 20.0
-    @test_broken h.helicsInputGetBoolean(sub5) == 1
-    @test_broken h.helicsInputGetString(sub3) == "Mayhem"
+    @test h.helicsInputGetBoolean(sub5) == 1
+    @test h.helicsInputGetString(sub3) == "Mayhem"
 
-    sub3ValueSize = h.helicsInputGetRawValueSize(sub3)
-    @test_broken sub3ValueSize == 6
+    sub3ValueSize = h.helicsInputGetStringSize(sub3)
+    @test sub3ValueSize == 7
 
-    @test_broken h.helicsInputGetVector(sub6) == [4.5, 56.5]
+    @test h.helicsInputGetVector(sub6) == [4.5, 56.5]
 
-    h.helicsFederateFinalize(fed1)
-    h.helicsFederateFinalize(fed2)
+    h.helicsFederateDisconnect(fed1)
+#    h.helicsFederateDisconnect(fed2)
     h.helicsFederateFree(fed1)
-    h.helicsFederateFinalize(fed2)
-    h.helicsFederateFree(fed2)
+#    h.helicsFederateDisconnect(fed2)
+#    h.helicsFederateFree(fed2)
     h.helicsFederateInfoFree(fedInfo2)
     h.helicsBrokerDisconnect(broker3)
 

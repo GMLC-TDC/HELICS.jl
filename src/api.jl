@@ -2048,6 +2048,23 @@ function helicsFederateGetSubscription(fed::Federate, key::String)::Subscription
 end
 
 """
+Get an [`Input`](@ref) object from an [`Input`](@ref) target
+
+# Arguments
+
+- `fed`: the value federate object to use to get the [`Publication`](@ref)
+- `target`: the name of the [`Publication`](@ref) that an [`Input`](@ref) is targeting
+
+# Returns
+
+- a [`Input`](@ref) object, the object will not be valid and err will contain an error code if no input with the specified
+key exists
+"""
+function helicsFederateGetInputByTarget(fed::Federate, target::String)::Input
+    return @invoke_and_check Lib.helicsFederateGetInputByTarget(fed, key)
+end
+
+"""
 Publish raw bytes from string
 
 # Arguments
@@ -2667,6 +2684,21 @@ Get the target of an [`Input`](@ref)
 """
 function helicsSubscriptionGetTarget(ipt::Input)::String
     return unsafe_string(Lib.helicsSubscriptionGetTarget(ipt))
+end
+
+"""
+Get the target of an [`Input`](@ref)
+
+# Arguments
+
+- `ipt`: the [`Input`](@ref) to query
+
+# Returns
+
+- A string of the input target
+"""
+function helicsInputGetTarget(ipt::Input)::String
+    return unsafe_string(Lib.helicsInputGetTarget(ipt))
 end
 
 """

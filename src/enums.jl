@@ -375,6 +375,10 @@ HELICS_HANDLE_OPTION_MULTIPLE_CONNECTIONS_ALLOWED
 HELICS_HANDLE_OPTION_BUFFER_DATA
 """specify that the types should be checked strictly for pub/sub and filters"""
 HELICS_HANDLE_OPTION_STRICT_TYPE_CHECKING
+"""specify that the handle is receive only"""
+HELICS_HANDLE_OPTION_RECEIVE_ONLY
+"""specify that the handle is source only"""
+HELICS_HANDLE_OPTION_SOURCE_ONLY
 """specify that the mismatching units should be ignored"""
 HELICS_HANDLE_OPTION_IGNORE_UNIT_MISMATCH
 """specify that an interface will only transmit on change (only applicable to publications)"""

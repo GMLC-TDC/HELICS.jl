@@ -878,6 +878,10 @@ function helicsFederateGetSubscription(fed, key, err)
     ccall((:helicsFederateGetSubscription, libhelics), HelicsInput, (HelicsFederate, Cstring, Ptr{HelicsError}), fed, key, err)
 end
 
+function helicsFederateGetInputByTarget(fed, target, err)
+    ccall((:helicsFederateGetInputByTarget, libhelics), HelicsInput, (HelicsFederate, Cstring, Ptr{HelicsError}), fed, target, err)
+end
+
 function helicsFederateClearUpdates(fed)
     ccall((:helicsFederateClearUpdates, libhelics), Cvoid, (HelicsFederate,), fed)
 end
@@ -1076,6 +1080,10 @@ end
 
 function helicsSubscriptionGetTarget(ipt)
     ccall((:helicsSubscriptionGetTarget, libhelics), Cstring, (HelicsInput,), ipt)
+end
+
+function helicsInputGetTarget(ipt)
+    ccall((:helicsInputGetTarget, libhelics), Cstring, (HelicsInput,), ipt)
 end
 
 function helicsPublicationGetName(pub)

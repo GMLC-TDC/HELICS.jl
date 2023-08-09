@@ -1058,8 +1058,8 @@ Set a handle option on an [`Endpoint`](@ref)
 - `option`: Integer code for the option to set [`HelicsHandleOptions`](@ref)
 - `value`: The value to set the option
 """
-function helicsEndpointSetOption(endpoint::Endpoint, option::Union{Int, HELICS.HelicsHandleOptions}, value::Bool)
-    @invoke_and_check Lib.helicsEndpointSetOption(endpoint, option, value ? 1 : 0)
+function helicsEndpointSetOption(endpoint::Endpoint, option::Union{Int, HELICS.HelicsHandleOptions}, value::Int)
+    @invoke_and_check Lib.helicsEndpointSetOption(endpoint, option, value)
 end
 
 """
@@ -1451,8 +1451,8 @@ Set the data in the info field for an filter
 - `option`: the option to set [`HelicsHandleOptions`](@ref)
 - `value`: the value of the option (helics_true or helics_false)
 """
-function helicsFilterSetOption(filt::Filter, option::Union{Int,HELICS.HelicsHandleOptions}, value::Bool)
-    @invoke_and_check Lib.helicsFilterSetOption(filt, option, value ? 1 : 0)
+function helicsFilterSetOption(filt::Filter, option::Union{Int,HELICS.HelicsHandleOptions}, value::Int)
+    @invoke_and_check Lib.helicsFilterSetOption(filt, option, value)
 end
 
 """
@@ -2885,8 +2885,8 @@ Set the data in the info field for an [`Input`](@ref)
 - `option`: the option to set for the [`Input`](@ref) [`HelicsHandleOptions`](@ref)
 - `value`: the value to set the option to
 """
-function helicsInputSetOption(inp::Input, option::Union{Int,HELICS.HelicsHandleOptions}, value::Bool)
-    @invoke_and_check Lib.helicsInputSetOption(inp, option, value ? 1 : 0)
+function helicsInputSetOption(inp::Input, option::Union{Int,HELICS.HelicsHandleOptions}, value::Int)
+    @invoke_and_check Lib.helicsInputSetOption(inp, option, value)
 end
 
 """
@@ -2914,8 +2914,8 @@ Set the data in the info field for an publication
 - `option`: integer code for the option to set [`HelicsHandleOptions`](@ref)
 - `val`: the value to set the option to
 """
-function helicsPublicationSetOption(pub::Publication, option::Union{Int,HELICS.HelicsHandleOptions}, val::Bool)
-    @invoke_and_check Lib.helicsPublicationSetOption(pub, option, val ? 1 : 0)
+function helicsPublicationSetOption(pub::Publication, option::Union{Int,HELICS.HelicsHandleOptions}, val::Int)
+    @invoke_and_check Lib.helicsPublicationSetOption(pub, option, val)
 end
 
 """

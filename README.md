@@ -60,6 +60,10 @@ There are plenty of useful resources located [here](https://helics.readthedocs.i
 
 If you are having issues using this Julia interface, feel free to open an issue on GitHub [here](https://github.com/GMLC-TDC/HELICS.jl/issues/new).
 
+## Citation
+General citation for HELICS:
+T. Hardy, B. Palmintier, P. Top, D. Krishnamurthy and J. Fuller, "HELICS: A Co-Simulation Framework for Scalable Multi-Domain Modeling and Analysis," in IEEE Access, doi: 10.1109/ACCESS.2024.3363615, available at [https://ieeexplore.ieee.org/document/10424422](https://ieeexplore.ieee.org/document/10424422/)
+
 ## Acknowledgements
 
 This work was initially developed as an extension to work done as part of the Scalable Integrated Infrastructure Planning (SIIP) initiative at the U.S. Department of Energy's National Renewable Energy Laboratory ([NREL](https://www.nrel.gov/)).

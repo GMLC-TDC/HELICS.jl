@@ -257,9 +257,9 @@ end
     fed1State = h.helicsFederateGetState(fed1)
     @test fed1State == 2
     fed1PubCount = h.helicsFederateGetPublicationCount(fed1)
-    @test fed1PubCount == 7
+    @test fed1PubCount == 8
     fed1SubCount = h.helicsFederateGetInputCount(fed1)
-    @test fed1SubCount == 7
+    @test fed1SubCount == 8
 
     h.helicsPublicationPublishBoolean(pub5, true)
     h.helicsPublicationPublishComplex(pub2, 5.6 + im * -0.67)
@@ -270,7 +270,7 @@ end
     pub6Vector = [4.5, 56.5]
     h.helicsPublicationPublishVector(pub6, pub6Vector)
     pub8Vector = [4.5 + im * -0.67, 56.5 + im * 0.0]
-    h.helicsPublicationPublishVector(pub8, pub8Vector)
+    h.helicsPublicationPublishComplexVector(pub8, pub8Vector)
     sleep(0.500)
     h.helicsFederateRequestTimeAsync(fed1, 1.0)
 
@@ -322,7 +322,7 @@ end
 
     @test h.helicsInputGetVector(sub6) == pub6Vector
 
-    @test h.helicsInputGetVector(sub8) == pub8Vector
+    @test h.helicsInputGetComplexVector(sub8) == pub8Vector
 
     h.helicsFederateDisconnect(fed1)
     #    h.helicsFederateDisconnect(fed2)

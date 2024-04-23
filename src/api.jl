@@ -2421,7 +2421,7 @@ Get a complex vector from a [`Subscription`](@ref)
 
 - `ipt`: the [`Input`](@ref) to get the result for
 """
-function helicsInputGetComplexVector(ipt::Input)::Vector{Float64}
+function helicsInputGetComplexVector(ipt::Input)::Vector{ComplexF64}
     maxlen = Cint(helicsInputGetVectorSize(ipt))
     data = Vector{Float64}(undef, maxlen)
     actualSize = Ref(maxlen)

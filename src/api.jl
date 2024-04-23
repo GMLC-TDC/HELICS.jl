@@ -2427,7 +2427,7 @@ function helicsInputGetComplexVector(ipt::Input)::Vector{Float64}
     actualSize = Ref(maxlen)
     @invoke_and_check Lib.helicsInputGetComplexVector(ipt, data, maxlen, actualSize)
     complexVector = Vector{ComplexF64}(undef, 0)
-    for i in 1:actualSize[]/2
+    for i in 1:Int(actualSize[] / 2)
         push!(complexVector, data[2*i-1] + im * data[2*i])
     end
     return complexVector

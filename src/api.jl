@@ -52,9 +52,9 @@ Wrap data in [`DataBuffer`](@ref)
 - [`DataBuffer`](@ref)
 """
 function helicsWrapDataInBuffer(data::String)::DataBuffer
-	dataSize = length(data)
-	dataCapacity = dataSize + 1
-	dataPtr = pointer(data)
+    dataSize = length(data)
+    dataCapacity = dataSize + 1
+    dataPtr = pointer(data)
     return Lib.helicsWrapDataInBuffer(data, dataSize, dataCapacity)
 end
 
@@ -81,7 +81,7 @@ Get size of a[`DataBuffer`](@ref)
 - Int32
 """
 function helicsDataBufferSize(data::DataBuffer)::Int32
-	return Lib.helicsDataBufferSize(data)
+    return Lib.helicsDataBufferSize(data)
 end
 
 """
@@ -96,7 +96,7 @@ Get capacity of a[`DataBuffer`](@ref)
 - Int32
 """
 function helicsDataBufferCapacity(data::DataBuffer)::Int32
-	return Lib.helicsDataBufferCapacity(data)
+    return Lib.helicsDataBufferCapacity(data)
 end
 
 """
@@ -111,7 +111,7 @@ Get a pointer to the raw data in a [`DataBuffer`](@ref)
 - Ptr{Cvoid} 
 """
 function helicsDataBufferData(data::DataBuffer)::Ptr{Cvoid}
-	return Lib.helicsDataBufferData(data)
+    return Lib.helicsDataBufferData(data)
 end
 
 """
@@ -127,7 +127,7 @@ Increase [`DataBuffer`](@ref) capacity without reallocating memory
 - true is successful else false
 """
 function helicsDataBufferReserve(data::DataBuffer, newCapacity::Int32)::Bool
-	return Lib.helicsDataBufferReserve(data) == 1 ? true : false
+    return Lib.helicsDataBufferReserve(data) == 1 ? true : false
 end
 
 """
@@ -142,7 +142,7 @@ copy and existing DataBuffer to and new one
 - [`DataBuffer`](@ref)
 """
 function helicsDataBufferClone(data::DataBuffer)::DataBuffer
-	return Lib.helicsDataBufferClone(data)
+    return Lib.helicsDataBufferClone(data)
 end
 
 """
@@ -158,7 +158,7 @@ convert an integer to serialized bytes
 - Int32 Bytes serialized.
 """
 function helicsIntegerToBytes(value::Int64, data::DataBuffer)::Int32
-	return Lib.helicsIntegerToBytes(value, data)
+    return Lib.helicsIntegerToBytes(value, data)
 end
 
 """
@@ -174,7 +174,7 @@ convert a double to serialized bytes
 - Int32 Bytes serialized.
 """
 function helicsDoubleToBytes(value::Float64, data::DataBuffer)::Int32
-	return Lib.helicsDoubleToBytes(value, data)
+    return Lib.helicsDoubleToBytes(value, data)
 end
 
 """
@@ -190,7 +190,7 @@ convert a string to serialized bytes
 - Int32 Bytes serialized.
 """
 function helicsStringToBytes(value::String, data::DataBuffer)::Int32
-	return Lib.helicsStringToBytes(value, data)
+    return Lib.helicsStringToBytes(value, data)
 end
 
 """
@@ -206,7 +206,7 @@ convert a raw string to serialized bytes
 - Int32 Bytes serialized.
 """
 function helicsRawStringToBytes(value::String, data::DataBuffer)::Int32
-	return Lib.helicsRawStringToBytes(value, data)
+    return Lib.helicsRawStringToBytes(value, data)
 end
 
 """
@@ -222,7 +222,7 @@ convert a boolean to serialized bytes
 - Int32 Bytes serialized.
 """
 function helicsBooleanToBytes(value::Bool, data::DataBuffer)::Int32
-	return Lib.helicsBooleanToBytes(value ? 1 : 0, data)
+    return Lib.helicsBooleanToBytes(value ? 1 : 0, data)
 end
 
 """
@@ -238,7 +238,7 @@ convert a char to serialized bytes
 - Int32 Bytes serialized.
 """
 function helicsCharToBytes(value::Char, data::DataBuffer)::Int32
-	return Lib.helicsCharToBytes(value, data)
+    return Lib.helicsCharToBytes(value, data)
 end
 
 """
@@ -254,7 +254,7 @@ convert a HelicsTime to serialized bytes
 - Int32 Bytes serialized.
 """
 function helicsTimeToBytes(value::HELICS.HELICS_TIME, data::DataBuffer)::Int32
-	return Lib.helicsTimeToBytes(value, data)
+    return Lib.helicsTimeToBytes(value, data)
 end
 
 """
@@ -270,7 +270,7 @@ convert a complex to serialized bytes
 - Int32 Bytes serialized.
 """
 function helicsComplexToBytes(value::ComplexF64, data::DataBuffer)::Int32
-	return Lib.helicsComplexToBytes(value.re, value.im, data)
+    return Lib.helicsComplexToBytes(value.re, value.im, data)
 end
 
 """
@@ -286,8 +286,8 @@ convert a vector of doubles to serialized bytes
 - Int32 Bytes serialized.
 """
 function helicsVectorToBytes(value::Vector{Float64}, data::DataBuffer)::Int32
-	dataSize = length(value)
-	return Lib.helicsVectorToBytes(value, dataSize, data)
+    dataSize = length(value)
+    return Lib.helicsVectorToBytes(value, dataSize, data)
 end
 
 """
@@ -304,7 +304,7 @@ convert a named point to serialized bytes
 - Int32 Bytes serialized.
 """
 function helicsNamedPointToBytes(name::String, value::Int64, data::DataBuffer)::Int32
-	return Lib.helicsVectorToBytes(name, value, data)
+    return Lib.helicsVectorToBytes(name, value, data)
 end
 
 """
@@ -320,14 +320,14 @@ convert a vector of complex values to serialized bytes
 - Int32 Bytes serialized.
 """
 function helicsComplexVectorToBytes(value::Vector{ComplexF64}, data::DataBuffer)::Int32
-	complexDataSize = length(value)
-	doubleValue = Vector{Float64}(undef, 0)
-	for v in value
-		push!(doubleValue, v.re)
-		push!(doubleValue, v.im)
-	end
-	dataSize = length(doubleValue)
-	return Lib.helicsComplexVectorToBytes(doubleValue, dataSize, data)
+    complexDataSize = length(value)
+    doubleValue = Vector{Float64}(undef, 0)
+    for v in value
+        push!(doubleValue, v.re)
+        push!(doubleValue, v.im)
+    end
+    dataSize = length(doubleValue)
+    return Lib.helicsComplexVectorToBytes(doubleValue, dataSize, data)
 end
 
 """
@@ -342,7 +342,7 @@ return the an integer value of the data type of a DataBuffer.
 - Int data type integer value.
 """
 function helicsDataBufferType(data::DataBuffer)::Int
-	return Lib.helicsDataBufferType(data)
+    return Lib.helicsDataBufferType(data)
 end
 
 """
@@ -357,7 +357,7 @@ Get data from DataBuffer as an integer.
 - Int64
 """
 function helicsDataBufferToInteger(data::DataBuffer)::Int64
-	return Lib.helicsDataBufferToInteger(data)
+    return Lib.helicsDataBufferToInteger(data)
 end
 
 """
@@ -372,7 +372,7 @@ Get data from DataBuffer as a double.
 - Float64
 """
 function helicsDataBufferToDouble(data::DataBuffer)::Float64
-	return Lib.helicsDataBufferToDouble(data)
+    return Lib.helicsDataBufferToDouble(data)
 end
 
 """
@@ -387,7 +387,7 @@ Get data from DataBuffer as a boolean.
 - Bool
 """
 function helicsDataBufferToBoolean(data::DataBuffer)::Bool
-	return Lib.helicsDataBufferToBoolean(data) == 1 ? true : false
+    return Lib.helicsDataBufferToBoolean(data) == 1 ? true : false
 end
 
 """
@@ -402,7 +402,7 @@ Get data from DataBuffer as a single char.
 - Char
 """
 function helicsDataBufferToChar(data::DataBuffer)::Char
-	return Lib.helicsDataBufferToChar(data)
+    return Lib.helicsDataBufferToChar(data)
 end
 
 """
@@ -417,7 +417,7 @@ Get size of string data size from DataBuffer.
 - Int
 """
 function helicsDataBufferStringSize(data::DataBuffer)::Int
-	return Lib.helicsDataBufferStringSize(data)
+    return Lib.helicsDataBufferStringSize(data)
 end
 
 """
@@ -432,11 +432,11 @@ Get string data from DataBuffer.
 - String
 """
 function helicsDataBufferToString(data::DataBuffer)::String
-	maxStringLen = DataBufferStringSize(data)
+    maxStringLen = DataBufferStringSize(data)
     outputString = repeat(" ", maxStringLen + 2)
     actualLength = Ref{Int32}(maxStringLen)
-	Lib.helicsDataBufferToString(data, outputString, maxStringLen, actualLength)
-	return outputString[1:actualLength[]-1]
+    Lib.helicsDataBufferToString(data, outputString, maxStringLen, actualLength)
+    return outputString[1:actualLength[]-1]
 end
 
 """
@@ -451,11 +451,11 @@ Get raw string data from DataBuffer.
 - String
 """
 function helicsDataBufferToRawString(data::DataBuffer)::String
-	maxStringLen = DataBufferStringSize(data)
+    maxStringLen = DataBufferStringSize(data)
     outputString = repeat(" ", maxStringLen)
     actualLength = Ref{Int32}(maxStringLen)
-	Lib.helicsDataBufferToRawString(data, outputString, maxStringLen, actualLength)
-	return outputString[1:actualLength[]]
+    Lib.helicsDataBufferToRawString(data, outputString, maxStringLen, actualLength)
+    return outputString[1:actualLength[]]
 end
 
 """
@@ -470,7 +470,7 @@ Get data from DataBuffer as a HELICS.HelicsTime.
 - Float64
 """
 function helicsDataBufferToTime(data::DataBuffer)::Float64
-	return Lib.helicsDataBufferToTime(data)
+    return Lib.helicsDataBufferToTime(data)
 end
 
 """
@@ -485,7 +485,7 @@ Get data from DataBuffer as a complex.
 - ComplexF64
 """
 function helicsDataBufferToComplex(data::DataBuffer)::ComplexF64
-	real = Ref{Float64}(0)
+    real = Ref{Float64}(0)
     imag = Ref{Float64}(0)
     Lib.helicsDataBufferToComplex(data, real, imag)
     return real[] + im * imag[]
@@ -519,7 +519,7 @@ Get size of vector data size from DataBuffer.
 - Int
 """
 function helicsDataBufferVectorSize(data::DataBuffer)::Int
-	return Lib.helicsDataBufferVectorSize(data)
+    return Lib.helicsDataBufferVectorSize(data)
 end
 
 """
@@ -534,9 +534,9 @@ Get vector of doubles from DataBuffer.
 - Vector{Float64}
 """
 function helicsDataBufferToVector(data::DataBuffer)::Vector{Float64}
-	maxlen = Cint(DataBufferVectorSize(data))
-	values = Vector{Float64}(undef, maxlen)
-	actualSize = Ref(maxlen)
+    maxlen = Cint(DataBufferVectorSize(data))
+    values = Vector{Float64}(undef, maxlen)
+    actualSize = Ref(maxlen)
     Lib.helicsDataBufferToVector(data, values, maxlen, actualSize)
     return values[1:actualSize[]]
 end
@@ -553,14 +553,14 @@ Get vector of complex values from DataBuffer.
 - Vector{ComplexF64}
 """
 function helicsDataBufferToComplexVector(data::DataBuffer)::Vector{ComplexF64}
-	maxlen = Cint(DataBufferVectorSize(data))
-	doubleValues = Vector{Float64}(undef, maxlen)
-	actualSize = Ref(maxlen)
+    maxlen = Cint(DataBufferVectorSize(data))
+    doubleValues = Vector{Float64}(undef, maxlen)
+    actualSize = Ref(maxlen)
     Lib.helicsDataBufferToComplexVector(data, doubleValues, maxlen, actualSize)
-	complexValues = Vector{ComplexF64}(undef, 0)
-	for i = 1:actualSize[]/2
-		push!(complexValues, doubleValues[2*i-1] + im * doubleValues[2*i])
-	end
+    complexValues = Vector{ComplexF64}(undef, 0)
+    for i = 1:actualSize[]/2
+        push!(complexValues, doubleValues[2*i-1] + im * doubleValues[2*i])
+    end
     return complexValues
 end
 
@@ -575,11 +575,11 @@ Get a named point from DataBuffer.
 
 - Tuple{String, Float64}
 """
-function helicsDataBufferToNamedPoint(data::DataBuffer)::Tuple{String, Float64}
-	maxStringLength = DataBufferStringSize(data)
-	outputString = repeat(" ", maxStringLength + 2)
-	actualLength = Ref{Int32}(maxStringLength)
-	val = Ref{Float64}(0.0)
+function helicsDataBufferToNamedPoint(data::DataBuffer)::Tuple{String,Float64}
+    maxStringLength = DataBufferStringSize(data)
+    outputString = repeat(" ", maxStringLength + 2)
+    actualLength = Ref{Int32}(maxStringLength)
+    val = Ref{Float64}(0.0)
     Lib.helicsDataBufferToNamedPoint(data, outputString, maxStringLength, actualLength, val)
     return outputString[1:actualLength[]-1], val[]
 end
@@ -1058,7 +1058,7 @@ Set a handle option on an [`Endpoint`](@ref)
 - `option`: Integer code for the option to set [`HelicsHandleOptions`](@ref)
 - `value`: The value to set the option
 """
-function helicsEndpointSetOption(endpoint::Endpoint, option::Union{Int, HELICS.HelicsHandleOptions}, value::Bool)
+function helicsEndpointSetOption(endpoint::Endpoint, option::Union{Int,HELICS.HelicsHandleOptions}, value::Bool)
     @invoke_and_check Lib.helicsEndpointSetOption(endpoint, option, value ? 1 : 0)
 end
 
@@ -1068,7 +1068,7 @@ Get a handle option on an [`Endpoint`](@ref)
 - `endpoint`: The [`Endpoint`](@ref) to modify
 - `option`: Integer code for the option to set [`HelicsHandleOptions`](@ref)
 """
-function helicsEndpointGetOption(endpoint::Endpoint, option::Union{Int, HELICS.HelicsHandleOptions})::Bool
+function helicsEndpointGetOption(endpoint::Endpoint, option::Union{Int,HELICS.HelicsHandleOptions})::Bool
     return Lib.helicsEndpointGetOption(endpoint, option) == 1 ? true : false
 end
 
@@ -1138,7 +1138,7 @@ a few extra features of name matching to function on the [`Federate`](@ref) inte
 
 - a [`Filter`](@ref) object
 """
-function helicsFederateRegisterFilter(fed::Federate, kind::Union{Int, HELICS.HelicsFilterTypes}, name::String)::Filter
+function helicsFederateRegisterFilter(fed::Federate, kind::Union{Int,HELICS.HelicsFilterTypes}, name::String)::Filter
     return @invoke_and_check Lib.helicsFederateRegisterFilter(fed, kind, name)
 end
 
@@ -1158,7 +1158,7 @@ a few extra features of name matching to function on the [`Federate`](@ref) inte
 
 - a [`Filter`](@ref) object
 """
-function helicsFederateRegisterGlobalFilter(fed::Federate, kind::Union{Int, HELICS.HelicsFilterTypes}, name::String)::Filter
+function helicsFederateRegisterGlobalFilter(fed::Federate, kind::Union{Int,HELICS.HelicsFilterTypes}, name::String)::Filter
     return @invoke_and_check Lib.helicsFederateRegisterGlobalFilter(fed, kind, name)
 end
 
@@ -1216,7 +1216,7 @@ a few extra features of name matching to function on the [`Federate`](@ref) inte
 
 - a [`Filter`](@ref) object
 """
-function helicsCoreRegisterFilter(core::Core, kind::Union{Int, HELICS.HelicsFilterTypes}, name::String)::Filter
+function helicsCoreRegisterFilter(core::Core, kind::Union{Int,HELICS.HelicsFilterTypes}, name::String)::Filter
     return @invoke_and_check Lib.helicsCoreRegisterFilter(core, kind, name)
 end
 
@@ -1812,7 +1812,7 @@ functions for subscriptions and publications
 
 - the [`Publication`](@ref)
 """
-function helicsFederateRegisterPublication(fed::Federate, key::String, kind::Union{Int, HELICS.HelicsDataTypes}, units::String="")::Publication
+function helicsFederateRegisterPublication(fed::Federate, key::String, kind::Union{Int,HELICS.HelicsDataTypes}, units::String="")::Publication
     return @invoke_and_check Lib.helicsFederateRegisterPublication(fed, key, kind, units)
 end
 
@@ -1856,7 +1856,7 @@ functions for subscriptions and publications
 
 - the [`Publication`](@ref)
 """
-function helicsFederateRegisterGlobalPublication(fed::Federate, key::String, kind::Union{Int, HELICS.HelicsDataTypes}, units::String="")::Publication
+function helicsFederateRegisterGlobalPublication(fed::Federate, key::String, kind::Union{Int,HELICS.HelicsDataTypes}, units::String="")::Publication
     return @invoke_and_check Lib.helicsFederateRegisterGlobalPublication(fed, key, kind, units)
 end
 
@@ -1898,7 +1898,7 @@ functions for subscriptions, inputs, and publications
 
 - the [`Input`](@ref)
 """
-function helicsFederateRegisterInput(fed::Federate, key::String, kind::Union{Int, HELICS.HelicsDataTypes}, units::String="")::Input
+function helicsFederateRegisterInput(fed::Federate, key::String, kind::Union{Int,HELICS.HelicsDataTypes}, units::String="")::Input
     return @invoke_and_check Lib.helicsFederateRegisterInput(fed, key, kind, units)
 end
 
@@ -1940,7 +1940,7 @@ functions for subscriptions and publications
 
 - the [`Publication`](@ref)
 """
-function helicsFederateRegisterGlobalInput(fed::Federate, key::String, kind::Union{Int, HELICS.HelicsDataTypes}, units::String="")::Input
+function helicsFederateRegisterGlobalInput(fed::Federate, key::String, kind::Union{Int,HELICS.HelicsDataTypes}, units::String="")::Input
     return @invoke_and_check Lib.helicsFederateRegisterGlobalInput(fed, key, kind, units)
 end
 
@@ -2185,11 +2185,11 @@ Publish a vector of complex doubles
 """
 function helicsPublicationPublishComplexVector(pub::Publication, vectorInput::Vector{ComplexF64})
     vectorLength = length(vectorInput)
-	doubleVectorInput = Vector{Float64}(undef,0)
-	for cVal in vectorInput
-		push!(doubleVectorInput, cVal.re)
-		push!(doubleVectorInput, cVal.im)
-	end
+    doubleVectorInput = Vector{Float64}(undef, 0)
+    for cVal in vectorInput
+        push!(doubleVectorInput, cVal.re)
+        push!(doubleVectorInput, cVal.im)
+    end
     @invoke_and_check Lib.helicsPublicationPublishComplexVector(pub, doubleVectorInput, length(doubleVectorInput))
 end
 
@@ -2421,16 +2421,16 @@ Get a complex vector from a [`Subscription`](@ref)
 
 - `ipt`: the [`Input`](@ref) to get the result for
 """
-function helicsInputGetComplexVector(ipt::Input)::Vector{Float64}
+function helicsInputGetComplexVector(ipt::Input)::Vector{ComplexF64}
     maxlen = Cint(helicsInputGetVectorSize(ipt))
     data = Vector{Float64}(undef, maxlen)
     actualSize = Ref(maxlen)
     @invoke_and_check Lib.helicsInputGetComplexVector(ipt, data, maxlen, actualSize)
-	complexVector = Vector{ComplexF64}(undef,0)
-	for i in 1:actualSize[]/2
-		push!(complexVector, data[2*i - 1] + im * data[2*i])
-	end
-    return compelxVector
+    complexVector = Vector{ComplexF64}(undef, 0)
+    for i in 1:Int(actualSize[] / 2)
+        push!(complexVector, data[2*i-1] + im * data[2*i])
+    end
+    return complexVector
 end
 
 """
@@ -2445,7 +2445,7 @@ Get a named point from a [`Subscription`](@ref)
 - outputString storage for copying a null terminated string
 - val the double value for the named point
 """
-function helicsInputGetNamedPoint(ipt::Input)::Tuple{String, Float64}
+function helicsInputGetNamedPoint(ipt::Input)::Tuple{String,Float64}
     maxStringLen = helicsInputGetStringSize(ipt)
     outputString = repeat(" ", maxStringLen + 2)
     actualLength = Ref{Int32}(maxStringLen)
@@ -2574,11 +2574,11 @@ Set the default as a vector of complex doubles
 """
 function helicsInputSetDefaultComplexVector(ipt::Input, vectorInput::Vector{ComplexF64})
     vectorLength = length(vectorInput)
-	doublesVector = Vector{Float64}(undef,0)
-	for cVal in vectorInput
-		push!(doublesVector, cVal.re)
-		push!(doublesVector, cVal.im)
-	end
+    doublesVector = Vector{Float64}(undef, 0)
+    for cVal in vectorInput
+        push!(doublesVector, cVal.re)
+        push!(doublesVector, cVal.im)
+    end
     @invoke_and_check Lib.helicsInputSetDefaultComplexVector(ipt, doublesVector, length(doublesVector))
 end
 
@@ -3582,7 +3582,7 @@ this will create a new [`Federate`](@ref) object that references the existing fe
 
 - a new reference to the same federate
 """
-function helicsFederateClone(fed::T)::T where T <: Federate
+function helicsFederateClone(fed::T)::T where {T<:Federate}
     return @invoke_and_check Lib.helicsFederateClone(fed)
 end
 
@@ -3729,7 +3729,7 @@ valid values available by definitions in api-data.h
 - `fi`: the [`FederateInfo`](@ref) object to alter
 - `coretype`: an numerical code for a core type see /ref HelicsCoreTypes
 """
-function helicsFederateInfoSetCoreType(fi::FederateInfo, coretype::Union{Int, HELICS.HelicsCoreTypes})
+function helicsFederateInfoSetCoreType(fi::FederateInfo, coretype::Union{Int,HELICS.HelicsCoreTypes})
     @invoke_and_check Lib.helicsFederateInfoSetCoreType(fi, coretype)
 end
 
@@ -3828,7 +3828,7 @@ valid flags are available [`HelicsFederateFlags`](@ref)
 - `flag`: a numerical index for a flag
 - `value`: the desired value of the flag `true` or `false`
 """
-function helicsFederateInfoSetFlagOption(fi::FederateInfo, flag::Union{Int, HELICS.HelicsFederateFlags}, value::Bool)
+function helicsFederateInfoSetFlagOption(fi::FederateInfo, flag::Union{Int,HELICS.HelicsFederateFlags}, value::Bool)
     @invoke_and_check Lib.helicsFederateInfoSetFlagOption(fi, flag, value ? 1 : 0)
 end
 
@@ -3848,13 +3848,13 @@ end
 
 """
 """
-function helicsFederateInfoSetTimeProperty(fi::FederateInfo, timeProperty::Union{Int, HELICS.HelicsProperties}, propertyValue::HELICS.HELICS_TIME)
+function helicsFederateInfoSetTimeProperty(fi::FederateInfo, timeProperty::Union{Int,HELICS.HelicsProperties}, propertyValue::HELICS.HELICS_TIME)
     @invoke_and_check Lib.helicsFederateInfoSetTimeProperty(fi, timeProperty, propertyValue)
 end
 
 """
 """
-function helicsFederateInfoSetIntegerProperty(fi::FederateInfo, intProperty::Union{Int, HELICS.HelicsProperties}, propertyValue::Int)
+function helicsFederateInfoSetIntegerProperty(fi::FederateInfo, intProperty::Union{Int,HELICS.HelicsProperties}, propertyValue::Int)
     @invoke_and_check Lib.helicsFederateInfoSetIntegerProperty(fi, intProperty, propertyValue)
 end
 
@@ -4071,7 +4071,7 @@ this call allows for finer grain control of the iterative process then [`helicsF
 
 - an iteration structure with field containing the time and iteration status
 """
-function helicsFederateEnterExecutingModeIterative(fed::Federate, iterate::Union{Int, HELICS.HelicsIterationRequest})::HELICS.HelicsIterationResult
+function helicsFederateEnterExecutingModeIterative(fed::Federate, iterate::Union{Int,HELICS.HelicsIterationRequest})::HELICS.HelicsIterationResult
     return @invoke_and_check Lib.helicsFederateEnterExecutingModeIterative(fed, iterate)
 end
 
@@ -4085,7 +4085,7 @@ This call allows for finer grain control of the iterative process then [`helicsF
 - `fed`: the [`Federate`](@ref) to make the request of
 - `iterate`: the requested iteration mode
 """
-function helicsFederateEnterExecutingModeIterativeAsync(fed::Federate, iterate::Union{Int, HELICS.HelicsIterationRequest})
+function helicsFederateEnterExecutingModeIterativeAsync(fed::Federate, iterate::Union{Int,HELICS.HelicsIterationRequest})
     return @invoke_and_check Lib.helicsFederateEnterExecutingModeIterativeAsync(fed, iterate)
 end
 
@@ -4184,7 +4184,7 @@ this call allows for finer grain control of the iterative process then [`helicsF
 - the granted time
 - the iteration specification of the result
 """
-function helicsFederateRequestTimeIterative(fed::Federate, requestTime::HELICS.HELICS_TIME, iterate::Union{Int, HELICS.HelicsIterationRequest})::Tuple{Float64, HELICS.HelicsIterationResult}
+function helicsFederateRequestTimeIterative(fed::Federate, requestTime::HELICS.HELICS_TIME, iterate::Union{Int,HELICS.HelicsIterationRequest})::Tuple{Float64,HELICS.HelicsIterationResult}
     outIteration = Ref(HELICS.HelicsIterationResult(0))
     t = @invoke_and_check Lib.helicsFederateRequestTimeIterative(fed, requestTime, iterate, outIteration)
     return t, outIteration[]
@@ -4233,7 +4233,7 @@ this call allows for finer grain control of the iterative process then [`helicsF
 
 - a void object with a return code of the result
 """
-function helicsFederateRequestTimeIterativeAsync(fed::Federate, requestTime::HELICS.HELICS_TIME, iterate::Union{Int, HELICS.HelicsIterationRequest})
+function helicsFederateRequestTimeIterativeAsync(fed::Federate, requestTime::HELICS.HELICS_TIME, iterate::Union{Int,HELICS.HelicsIterationRequest})
     @invoke_and_check Lib.helicsFederateRequestTimeIterativeAsync(fed, requestTime, iterate)
 end
 
@@ -4249,7 +4249,7 @@ Complete an iterative time request asynchronous call
 - the granted time
 - `outIterate`  the iteration specification of the result
 """
-function helicsFederateRequestTimeIterativeComplete(fed::Federate)::Tuple{Float64, HELICS.HelicsIterationResult}
+function helicsFederateRequestTimeIterativeComplete(fed::Federate)::Tuple{Float64,HELICS.HelicsIterationResult}
     outIterate = Ref(HELICS.HelicsIterationResult(0))
     t = @invoke_and_check Lib.helicsFederateRequestTimeIterativeComplete(fed, outIterate)
     return t, outIterate[]
@@ -4291,7 +4291,7 @@ Set a time based property for a [`Federate`](@ref)
 - `timeProperty`: a integer code for a time property
 - `time`: the requested value of the property
 """
-function helicsFederateSetTimeProperty(fed::Federate, timeProperty::Union{Int, HELICS.HelicsProperties}, time::HELICS.HELICS_TIME)
+function helicsFederateSetTimeProperty(fed::Federate, timeProperty::Union{Int,HELICS.HelicsProperties}, time::HELICS.HELICS_TIME)
     @invoke_and_check Lib.helicsFederateSetTimeProperty(fed, timeProperty, time)
 end
 
@@ -4304,7 +4304,7 @@ Set a flag for the [`Federate`](@ref)
 - `flag`: the flag to change
 - `flagValue`: the new value of the flag 0 for false !=0 for true
 """
-function helicsFederateSetFlagOption(fed::Federate, flag::Union{Int, HELICS.HelicsFederateFlags, HELICS.HelicsHandleOptions}, flagValue::Bool)
+function helicsFederateSetFlagOption(fed::Federate, flag::Union{Int,HELICS.HelicsFederateFlags,HELICS.HelicsHandleOptions}, flagValue::Bool)
     @invoke_and_check Lib.helicsFederateSetFlagOption(fed, flag, flagValue ? 1 : 0)
 end
 
@@ -4331,7 +4331,7 @@ Set an integer based property of a [`Federate`](@ref)
 - `intProperty`: the property to set
 - `propertyVal`: the value of the property
 """
-function helicsFederateSetIntegerProperty(fed::Federate, intProperty::Union{Int, HELICS.HelicsProperties}, propertyVal::Int)
+function helicsFederateSetIntegerProperty(fed::Federate, intProperty::Union{Int,HELICS.HelicsProperties}, propertyVal::Int)
     @invoke_and_check Lib.helicsFederateSetIntegerProperty(fed, intProperty, propertyVal)
 end
 
@@ -4343,7 +4343,7 @@ Get the current value of a time based property in a [`Federate`](@ref)
 - `fed`: the [`Federate`](@ref) query
 - `timeProperty`: the property to query
 """
-function helicsFederateGetTimeProperty(fed::Federate, timeProperty::Union{Int, HELICS.HelicsProperties})::Float64
+function helicsFederateGetTimeProperty(fed::Federate, timeProperty::Union{Int,HELICS.HelicsProperties})::Float64
     return @invoke_and_check Lib.helicsFederateGetTimeProperty(fed, timeProperty)
 end
 
@@ -4359,7 +4359,7 @@ Get a flag value for a [`Federate`](@ref)
 
 - the value of the flag
 """
-function helicsFederateGetFlagOption(fed::Federate, flag::Union{Int, HELICS.HelicsFederateFlags, HELICS.HelicsHandleOptions})::Bool
+function helicsFederateGetFlagOption(fed::Federate, flag::Union{Int,HELICS.HelicsFederateFlags,HELICS.HelicsHandleOptions})::Bool
     r = @invoke_and_check Lib.helicsFederateGetFlagOption(fed, flag)
     return r == 1 ? true : false
 end
@@ -4378,7 +4378,7 @@ debug and trace only do anything if they were enabled in the compilation
 
 - the value of the property
 """
-function helicsFederateGetIntegerProperty(fed::Federate, intProperty::Union{Int, HELICS.HelicsProperties, HELICS.HelicsHandleOptions})::Int
+function helicsFederateGetIntegerProperty(fed::Federate, intProperty::Union{Int,HELICS.HelicsProperties,HELICS.HelicsHandleOptions})::Int
     return @invoke_and_check Lib.helicsFederateGetIntegerProperty(fed, intProperty)
 end
 
@@ -5010,7 +5010,7 @@ Set a flag on a message
 - `flag`: An index of a flag to set on the message
 - `flagValue`: The desired value of the flag
 """
-function helicsMessageSetFlagOption(message::Message, flag::Union{Int, HelicsFederateFlags}, flagValue::Bool)
+function helicsMessageSetFlagOption(message::Message, flag::Union{Int,HelicsFederateFlags}, flagValue::Bool)
     @invoke_and_check Lib.helicsMessageSetFlagOption(message, flag, flagValue)
 end
 
@@ -5141,7 +5141,7 @@ Clear any time barrier on a broker.
 - `broker`: the [`Broker`](@ref) to clear the time barrier for
 """
 function helicsBrokerClearTimeBarrier(broker::Broker)
-	Lib.helicsBrokerClearTimeBarrier(broker)
+    Lib.helicsBrokerClearTimeBarrier(broker)
 end
 
 """
@@ -5241,7 +5241,7 @@ Log a message through a [`Federate`](@ref)
 - `loglevel`: The level of the message to log. See [`HelicsLogLevels`](@ref)
 - `logmessage`: The message to put in the log
 """
-function helicsFederateLogLevelMessage(fed::Federate, loglevel::Union{Int, HelicsLogLevels}, logmessage::String)
+function helicsFederateLogLevelMessage(fed::Federate, loglevel::Union{Int,HelicsLogLevels}, logmessage::String)
     @invoke_and_check Lib.helicsFederateLogLevelMessage(fed, loglevel, logmessage)
 end
 
@@ -5588,7 +5588,7 @@ to specific queries with answers specific to a federate.
 - `queryResult`: A callback with signature HelicsIterationRequest(void *userdata)
 """
 function helicsQueryBufferFill(buffer::QueryBuffer, queryResult::String)
-	strSize = CInt(length(queryResult))
+    strSize = CInt(length(queryResult))
     @invoke_and_check Lib.helicsQueryBufferFill(buffer, queryResult, strSize)
 end
 

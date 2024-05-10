@@ -13,7 +13,7 @@ include("init.jl")
     @test_throws ErrorException h.helicsEndpointGetMessage(ept1)
 
     @test_throws ErrorException h.helicsFederateGetMessage(mFed1)
-	mess0 = h.helicsEndpointCreateMessage(ept1)
+    mess0 = h.helicsEndpointCreateMessage(ept1)
     h.helicsFederateDisconnect(mFed1)
     @test_throws h.Utils.HELICS_ERROR_INVALID_FUNCTION_CALL h.helicsEndpointSendMessage(ept1, mess0)
 
@@ -75,7 +75,7 @@ end
 
     @test_throws h.Utils.HELICS_ERROR_INVALID_ARGUMENT h.helicsFederateRegisterFromPublicationJSON(vFed1, "unknownfile.json")
 
-    @test_throws h.Utils.HELICS_ERROR_EXTERNAL_TYPE h.helicsFederateRegisterInterfaces(vFed1, "unknownfile.json")
+    @test_throws h.Utils.HELICS_ERROR_INVALID_ARGUMENT h.helicsFederateRegisterInterfaces(vFed1, "unknownfile.json")
 
     subid = h.helicsFederateRegisterTypeInput(vFed1, "inp1", "string", "")
     @test_throws h.Utils.HELICS_ERROR_REGISTRATION_FAILURE subid2 = h.helicsFederateRegisterTypeInput(vFed1, "inp1", "string", "")
@@ -385,21 +385,21 @@ end
     h.helicsFederateInfoSetSeparator(fedinfo, '-')
     h.helicsFederateSetSeparator(vFed1, '-')
 
-    h.helicsFederateRegisterGlobalTypePublication(vFed1, "pub1", "custom1", "");
+    h.helicsFederateRegisterGlobalTypePublication(vFed1, "pub1", "custom1", "")
 
-    subid = h.helicsFederateRegisterTypeInput(vFed1, "inp1", "custom2", "");
+    subid = h.helicsFederateRegisterTypeInput(vFed1, "inp1", "custom2", "")
 
-    h.helicsInputAddTarget(subid, "pub1");
+    h.helicsInputAddTarget(subid, "pub1")
 
-    h.helicsFederateSetTimeProperty(vFed1, h.HELICS_PROPERTY_TIME_PERIOD, 1.0);
+    h.helicsFederateSetTimeProperty(vFed1, h.HELICS_PROPERTY_TIME_PERIOD, 1.0)
 
-    @test_throws h.Utils.HELICS_ERROR_CONNECTION_FAILURE resIt = h.helicsFederateEnterExecutingModeIterative(vFed1, h.HELICS_ITERATION_REQUEST_NO_ITERATION);
+    @test_throws h.Utils.HELICS_ERROR_CONNECTION_FAILURE resIt = h.helicsFederateEnterExecutingModeIterative(vFed1, h.HELICS_ITERATION_REQUEST_NO_ITERATION)
 
-    @test_throws h.Utils.HELICS_ERROR_INVALID_FUNCTION_CALL h.helicsFederateRequestTimeIterativeAsync(vFed1, 1.0, h.HELICS_ITERATION_REQUEST_NO_ITERATION);
+    @test_throws h.Utils.HELICS_ERROR_INVALID_FUNCTION_CALL h.helicsFederateRequestTimeIterativeAsync(vFed1, 1.0, h.HELICS_ITERATION_REQUEST_NO_ITERATION)
 
     @test_throws h.Utils.HELICS_ERROR_INVALID_FUNCTION_CALL res = h.helicsFederateRequestTimeIterativeComplete(vFed1)
 
-    h.helicsFederateDisconnect(vFed1);
+    h.helicsFederateDisconnect(vFed1)
 
     destroyFederate(vFed1, fedinfo)
 

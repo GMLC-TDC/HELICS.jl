@@ -41,13 +41,13 @@ end
     h.helicsBrokerSetGlobal(brk, "testglobal", globalVal)
     q = h.helicsCreateQuery("global", "testglobal")
     res = h.helicsQueryBrokerExecute(q, brk)
-    @test res == "{\n   \"name\" : \"testglobal\",\n   \"value\" : \"this is a string constant that functions as a global\"\n}"
+    @test res == "{\n   \"name\": \"testglobal\",\n   \"value\": \"this is a string constant that functions as a global\"\n}"
 
     h.helicsBrokerSetGlobal(brk, "testglobal2", globalVal2)
     h.helicsQueryFree(q)
     q = h.helicsCreateQuery("global", "testglobal2")
     res = h.helicsQueryBrokerExecute(q, brk)
-    @test res == "{\n   \"name\" : \"testglobal2\",\n   \"value\" : \"this is a second string constant that functions as a global\"\n}"
+    @test res == "{\n   \"name\": \"testglobal2\",\n   \"value\": \"this is a second string constant that functions as a global\"\n}"
 
     h.helicsBrokerDisconnect(brk)
     h.helicsQueryFree(q)
@@ -109,7 +109,7 @@ end
     h.helicsFederateSetGlobal(fed, "testglobal", globalVal)
     q = h.helicsCreateQuery("global", "testglobal")
     res = h.helicsQueryExecute(q, fed)
-    @test res == "{\n   \"name\" : \"testglobal\",\n   \"value\" : \"this is a string constant that functions as a global\"\n}"
+    @test res == "{\n   \"name\": \"testglobal\",\n   \"value\": \"this is a string constant that functions as a global\"\n}"
     h.helicsFederateSetGlobal(fed, "testglobal2", globalVal2)
     h.helicsQueryFree(q)
     q = h.helicsCreateQuery("global", "testglobal2")
@@ -118,7 +118,7 @@ end
         sleep(0.20)
     end
     res = h.helicsQueryExecuteComplete(q)
-    @test res == "{\n   \"name\" : \"testglobal2\",\n   \"value\" : \"this is a second string constant that functions as a global\"\n}"
+    @test res == "{\n   \"name\": \"testglobal2\",\n   \"value\": \"this is a second string constant that functions as a global\"\n}"
 
     q2 = h.helicsCreateQuery("", "isinit")
     h.helicsQueryExecuteAsync(q2, fed)

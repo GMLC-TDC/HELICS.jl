@@ -55,12 +55,12 @@ function _enum_doc_string(enum_type)
     final = String[]
 
     for (name, value) in CEnum.name_value_pairs(enum_type)
-
-        n = String(name)
-        d = strip(string(Docs.doc(Base.Docs.Binding(HELICS, Symbol(n)))))
+        # macroexpanded @doc and dug into that. We shouldn't be doing this.
+        doc_string_svec = Docs.meta(HELICS)[Docs.Binding(HELICS, name)].docs[Union{}].text
+        d = join(doc_string_svec, "\n    ")
         v = string(value)
 
-        push!(final, "- `$n`: $d ($v)")
+        push!(final, "- `$name`: $d ($v)")
 
     end
     join(final, "\n")

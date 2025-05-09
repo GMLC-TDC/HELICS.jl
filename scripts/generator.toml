@@ -1,0 +1,7 @@
+[general]
+library_name = "libhelics"
+output_api_file_path = "../src/lib.jl"
+output_common_file_path = "../src/common.jl"
+module_name = "HELICS"
+jll_pkg_name = "HELICS_jll"
+export_symbol_prefixes = ["CX", "clang_"]

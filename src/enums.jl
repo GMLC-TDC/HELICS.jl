@@ -197,6 +197,8 @@ HELICS_CORE_TYPE_INPROC
 HELICS_CORE_TYPE_NULL
 """an explicit core type exists but does nothing but return empty values or sink calls"""
 HELICS_CORE_TYPE_EMPTY
+"""FIXFIXFIX"""
+HELICS_CORE_TYPE_EXTRACT
 """
 **Pick a core type depending on compile configuration**
 $(_enum_doc_string(HELICS.HelicsCoreTypes))
@@ -245,6 +247,8 @@ HELICS_FLAG_LOCAL_PROFILING_CAPTURE
 HELICS_FLAG_CALLBACK_FEDERATE
 """specify that a federate should automatically call timeRequest on completion of current request"""
 HELICS_FLAG_AUTOMATED_TIME_REQUEST
+"""FIXFIXFIX"""
+HELICS_FLAG_REENTRANT
 """
 **Enumeration of possible federate flags**
 $(_enum_doc_string(HELICS.HelicsFederateFlags))
@@ -397,6 +401,8 @@ HELICS_HANDLE_OPTION_CLEAR_PRIORITY_LIST
 HELICS_HANDLE_OPTION_CONNECTIONS
 """specify that the interface only sends or receives data at specified intervals"""
 HELICS_HANDLE_OPTION_TIME_RESTRICTED
+"""FIXFIXFIX"""
+HELICS_HANDLE_OPTION_RECONNECTABLE
 @doc """
 **Enumeration of options that apply to handles**
 $(_enum_doc_string(HELICS.HelicsHandleOptions))

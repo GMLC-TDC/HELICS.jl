@@ -1,40 +1,35 @@
-using Clang
+using Clang.Generators
 
 using HELICS
 const HELICS_jll = HELICS.Lib.HELICS_jll
 
-# LIBCLANG_HEADERS are those headers to be wrapped.
-#const LIBHELICS_INCLUDE = [
-#                           normpath(joinpath(HELICS_jll.artifact_dir, "include", "helics", "shared_api_library")),
-#                           normpath(joinpath(HELICS_jll.artifact_dir, "include", "helics")),
-#                          ]
-const LIBHELICS_INCLUDE = [normpath(joinpath(HELICS_jll.artifact_dir, "include", "helics"))]
+cd(@__DIR__)
 
-const LIBHELICS_HEADERS = String[joinpath(HELICS_jll.artifact_dir,"include","helics","helics.h")]
+include_dir = normpath(HELICS_jll.artifact_dir, "include", "helics")
 
-#for folder in LIBHELICS_INCLUDE
-#    for header in readdir(folder)
-#        if endswith(header, ".h")
-#            push!(LIBHELICS_HEADERS, joinpath(folder, header))
-#        end
-#    end
-#end
+clang_dir = joinpath(include_dir, "clang-c")
 
-LIBHELICS_ARGS = String[]
-for path in LIBHELICS_INCLUDE
-    push!(LIBHELICS_ARGS, "-I")
-    push!(LIBHELICS_ARGS, path)
-end
+options = load_options(joinpath(@__DIR__, "generator.toml"))
 
+# add compiler flags, e.g. "-DXXXXXXXXX"
+args = get_default_args()  # Note you must call this function firstly and then append your own flags
+push!(args, "-I$include_dir")
 
-wc = init(; headers = LIBHELICS_HEADERS,
-            output_file = joinpath(@__DIR__, "..", "src", "lib.jl"),
-            common_file = joinpath(@__DIR__, "..", "src", "common.jl"),
-            clang_includes = vcat(LIBHELICS_INCLUDE..., CLANG_INCLUDE),
-            clang_args = LIBHELICS_ARGS,
-            header_wrapped = (root, current)->root == current,
-            header_library = x->"libhelics",
-            clang_diagnostics = true,
-            )
+headers = [normpath(HELICS_jll.artifact_dir, "include", "helics", "helics.h")]
 
-run(wc)
+# there is also an experimental `detect_headers` function for auto-detecting top-level headers in the directory
+# headers = detect_headers(clang_dir, args)
+
+# create context
+ctx = create_context(headers, args, options)
+
+# run generator
+build!(ctx)
+
+#=
+output_file=joinpath(@__DIR__, "..", "src", "lib.jl"),
+common_file=joinpath(@__DIR__, "..", "src", "common.jl"),
+header_wrapped=(root, current) -> root == current,
+header_library=x -> "libhelics",
+clang_diagnostics=true,
+=#

@@ -1,10 +1,3 @@
-# Automatically generated using Clang.jl
-
-
-# Skipping MacroDefinition: HELICS_DEPRECATED __attribute__ ( ( deprecated ) )
-
-const HELICS_BIG_NUMBER = 9.223372036854774e9
-
 @cenum HelicsCoreTypes::UInt32 begin
     HELICS_CORE_TYPE_DEFAULT = 0
     HELICS_CORE_TYPE_ZMQ = 1
@@ -22,6 +15,7 @@ const HELICS_BIG_NUMBER = 9.223372036854774e9
     HELICS_CORE_TYPE_INPROC = 18
     HELICS_CORE_TYPE_NULL = 66
     HELICS_CORE_TYPE_EMPTY = 77
+    HELICS_CORE_TYPE_EXTRACT = 101
 end
 
 @cenum HelicsDataTypes::Int32 begin
@@ -57,6 +51,7 @@ end
     HELICS_FLAG_SINGLE_THREAD_FEDERATE = 27
     HELICS_FLAG_MULTI_THREAD_CORE = 28
     HELICS_FLAG_SINGLE_THREAD_CORE = 29
+    HELICS_FLAG_REENTRANT = 38
     HELICS_FLAG_IGNORE_TIME_MISMATCH_WARNINGS = 67
     HELICS_FLAG_STRICT_CONFIG_CHECKING = 75
     HELICS_FLAG_USE_JSON_SERIALIZATION = 79
@@ -158,6 +153,7 @@ end
     HELICS_HANDLE_OPTION_SINGLE_CONNECTION_ONLY = 407
     HELICS_HANDLE_OPTION_MULTIPLE_CONNECTIONS_ALLOWED = 409
     HELICS_HANDLE_OPTION_BUFFER_DATA = 411
+    HELICS_HANDLE_OPTION_RECONNECTABLE = 412
     HELICS_HANDLE_OPTION_STRICT_TYPE_CHECKING = 414
     HELICS_HANDLE_OPTION_RECEIVE_ONLY = 422
     HELICS_HANDLE_OPTION_SOURCE_ONLY = 423
@@ -194,21 +190,36 @@ end
     HELICS_SEQUENCING_MODE_DEFAULT = 2
 end
 
-
 const HelicsInput = Ptr{Cvoid}
+
 const HelicsPublication = Ptr{Cvoid}
+
 const HelicsEndpoint = Ptr{Cvoid}
+
 const HelicsFilter = Ptr{Cvoid}
+
 const HelicsTranslator = Ptr{Cvoid}
+
 const HelicsCore = Ptr{Cvoid}
+
 const HelicsBroker = Ptr{Cvoid}
+
 const HelicsFederate = Ptr{Cvoid}
+
+const HelicsApp = Ptr{Cvoid}
+
 const HelicsFederateInfo = Ptr{Cvoid}
+
 const HelicsQuery = Ptr{Cvoid}
+
 const HelicsDataBuffer = Ptr{Cvoid}
+
 const HelicsQueryBuffer = Ptr{Cvoid}
+
 const HelicsMessage = Ptr{Cvoid}
+
 const HelicsTime = Cdouble
+
 const HelicsBool = Cint
 
 @cenum HelicsIterationRequest::UInt32 begin
@@ -241,7 +252,6 @@ end
     HELICS_STATE_FINISHED = 10
 end
 
-
 struct HelicsComplex
     real::Cdouble
     imag::Cdouble
@@ -249,5 +259,12 @@ end
 
 struct HelicsError
     error_code::Int32
-    message::Cstring
+    message::Ptr{Cchar}
 end
+
+# Skipping MacroDefinition: HELICS_DEPRECATED __attribute__ ( ( deprecated ) )
+
+const HELICS_BIG_NUMBER = 9.223372036854774e9
+
+const HELICS_INVALID_DOUBLE = -1.0e49
+
